@@ -1,9 +1,5 @@
 ﻿@page "/counter"
 
-@using AdsPortal.ManagementUI.Components.Authentication
-
-@inject PublicationEvaluationService PublicationEvaluation
-
 @if (isEditing)
 {
     <h1 @onclick="Edit">Counter</h1>
@@ -16,11 +12,6 @@ else
 <p>Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-
-<Button Clicked="@(async () => await HandleRedraw())">Redraw</Button>
-
-<BarChart @ref="barChart" TItem="double"/>
 
 @code {
     private bool isEditing = false;
@@ -35,37 +26,4 @@ else
     {
         isEditing = !isEditing;
     }
-
-
-    BarChart<double> barChart;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await HandleRedraw();
-        }
-    }
-
-    async Task HandleRedraw()
-    {
-        await barChart.Clear();
-
-        var data = await PublicationEvaluation.GetEvaluationReportForDepartments(true);
-        string[] labels = data.Report.Select(x => string.IsNullOrWhiteSpace(x.Name) ? "[unnamed]" : x.Name).ToArray();
-
-        var barChartDataset = new BarChartDataset<double>
-        {
-            Label = "Points to evaluation",
-            Data = data.Report.Select(x => x.PointsToEvaluation).ToList(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
-        };
-
-        await barChart.AddLabelsDatasetsAndUpdate(labels, barChartDataset);
-    }
-
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.4f), ChartColor.FromRgba(54, 162, 235, 0.4f), ChartColor.FromRgba(255, 206, 86, 0.4f), ChartColor.FromRgba(75, 192, 192, 0.4f), ChartColor.FromRgba(153, 102, 255, 0.4f), ChartColor.FromRgba(255, 159, 64, 0.4f), ChartColor.FromRgba(120, 120, 120, 0.4f) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f), ChartColor.FromRgba(120, 120, 120, 1f) };
 }

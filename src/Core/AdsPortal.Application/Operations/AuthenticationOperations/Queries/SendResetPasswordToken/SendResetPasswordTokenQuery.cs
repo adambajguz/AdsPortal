@@ -40,7 +40,7 @@
                 User user = await _uow.Users.SingleAsync(x => x.Email.Equals(query.Email), noTracking: true, cancellationToken);
 
                 string token = _jwt.GenerateJwtToken(user, Roles.ResetPassword).Token;
-                Uri uri = _context.HttpContext.GetAbsoluteUri();
+                Uri uri = _context.HttpContext?.GetAbsoluteUri() ?? throw new NullReferenceException("HttpContext is null");
                 await _email.SendEmail(user.Email, "Reset Password", uri.AbsoluteUri + "/" + token);
 
                 //#pragma warning disable CS0162 // Unreachable code detected

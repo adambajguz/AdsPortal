@@ -7,14 +7,11 @@
     {
         public CreateAdvertisementValidator()
         {
-            RuleFor(x => x.Name).NotEmpty()
+            RuleFor(x => x.Title).NotEmpty()
                                 .WithMessage(ValidationMessages.General.IsNullOrEmpty);
 
-            RuleFor(x => x.Surname).NotEmpty()
+            RuleFor(x => x.Description).NotEmpty()
                                    .WithMessage(ValidationMessages.General.IsNullOrEmpty);
-
-            RuleFor(x => x.ORCID).NotNull()
-                                 .WithMessage(ValidationMessages.General.IsNull);
         }
     }
 }

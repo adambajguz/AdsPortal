@@ -42,6 +42,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
             protected override Task OnMapped(MediaItem entity, GetMediaItemChecksumResponse response, CancellationToken cancellationToken)
             {
+                //TODO: remove setter; add init
                 response.FileName += ".sha512";
                 response.ContentType = MediaTypeNames.Text.Plain;
                 response.FileContent = FileUtils.GetChecksumFileContent(entity.Hash, entity.FileName);

@@ -2,9 +2,6 @@
 {
     using System;
     using System.Net.Http;
-    using AdsPortal.ManagementUI.Data;
-    using AdsPortal.ManagementUI.Services;
-    using AdsPortal.ManagementUI.Services.Data;
     using Blazored.LocalStorage;
     using Blazorise;
     using Blazorise.Bootstrap;
@@ -45,12 +42,6 @@
             });
 
             services.AddBlazoredLocalStorage();
-            services.AddSingleton<WeatherForecastService>();
-            services.AddScoped<AppStateService>();
-
-            services.AddScoped<AuthenticationService>();
-            services.AddScoped<PublicationEvaluationService>();
-            services.AddScoped<UserService>();
 
             return services;
         }

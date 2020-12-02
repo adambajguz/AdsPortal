@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AdsPortal.Persistence.Migrations
+﻿namespace AdsPortal.Persistence.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -11,7 +11,7 @@ namespace AdsPortal.Persistence.Migrations
                 name: "Job_JobNo_Sequence");
 
             migrationBuilder.CreateTable(
-                name: "Degrees",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -19,27 +19,12 @@ namespace AdsPortal.Persistence.Migrations
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Degrees", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,27 +67,6 @@ namespace AdsPortal.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Journals",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NameAlt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ISSN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EISSN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Points = table.Column<double>(type: "float", nullable: false),
-                    Disciplines = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Journals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MediaItems",
                 columns: table => new
                 {
@@ -141,8 +105,7 @@ namespace AdsPortal.Persistence.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -152,39 +115,7 @@ namespace AdsPortal.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Authors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ORCID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DegreeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Authors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Authors_Degrees_DegreeId",
-                        column: x => x.DegreeId,
-                        principalTable: "Degrees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Authors_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Publications",
+                name: "Advertisements",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -193,59 +124,50 @@ namespace AdsPortal.Persistence.Migrations
                     LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    ExternalAuthors = table.Column<int>(type: "int", nullable: false),
-                    JournalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
+                    VisibleTo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Publications", x => x.Id);
+                    table.PrimaryKey("PK_Advertisements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Publications_Journals_JournalId",
-                        column: x => x.JournalId,
-                        principalTable: "Journals",
+                        name: "FK_Advertisements_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PublicationAuthors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastSavedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PublicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PublicationAuthors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PublicationAuthors_Authors_AuthorId",
+                        name: "FK_Advertisements_MediaItems_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "MediaItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Advertisements_Users_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PublicationAuthors_Publications_PublicationId",
-                        column: x => x.PublicationId,
-                        principalTable: "Publications",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_DegreeId",
-                table: "Authors",
-                column: "DegreeId");
+                name: "IX_Advertisements_AuthorId",
+                table: "Advertisements",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_DepartmentId",
-                table: "Authors",
-                column: "DepartmentId");
+                name: "IX_Advertisements_CategoryId",
+                table: "Advertisements",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisements_CoverImageId",
+                table: "Advertisements",
+                column: "CoverImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EntityAuditLogs_Key",
@@ -256,25 +178,13 @@ namespace AdsPortal.Persistence.Migrations
                 name: "IX_MediaItems_PathHashCode",
                 table: "MediaItems",
                 column: "PathHashCode");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PublicationAuthors_AuthorId",
-                table: "PublicationAuthors",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PublicationAuthors_PublicationId",
-                table: "PublicationAuthors",
-                column: "PublicationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Publications_JournalId",
-                table: "Publications",
-                column: "JournalId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Advertisements");
+
             migrationBuilder.DropTable(
                 name: "EntityAuditLogs");
 
@@ -282,28 +192,13 @@ namespace AdsPortal.Persistence.Migrations
                 name: "Jobs");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "MediaItems");
 
             migrationBuilder.DropTable(
-                name: "PublicationAuthors");
-
-            migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Authors");
-
-            migrationBuilder.DropTable(
-                name: "Publications");
-
-            migrationBuilder.DropTable(
-                name: "Degrees");
-
-            migrationBuilder.DropTable(
-                name: "Departments");
-
-            migrationBuilder.DropTable(
-                name: "Journals");
 
             migrationBuilder.DropSequence(
                 name: "Job_JobNo_Sequence");

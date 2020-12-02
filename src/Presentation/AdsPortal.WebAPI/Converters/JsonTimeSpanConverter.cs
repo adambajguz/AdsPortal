@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Converterts
+﻿namespace AdsPortal.WebAPI.Converters
 {
     using System;
     using System.Diagnostics;
@@ -12,9 +12,9 @@
         {
             try
             {
-                string str = reader.GetString();
+                string? str = reader.GetString();
 
-                return TimeSpan.Parse(str);
+                return TimeSpan.Parse(str!);
             }
             catch (Exception ex)
             {
