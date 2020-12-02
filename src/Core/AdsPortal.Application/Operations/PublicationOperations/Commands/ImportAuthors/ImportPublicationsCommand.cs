@@ -5,7 +5,6 @@ namespace AdsPortal.Application.Operations.AuthorOperations.Commands.ImportAutho
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Media;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
@@ -13,6 +12,7 @@ namespace AdsPortal.Application.Operations.AuthorOperations.Commands.ImportAutho
     using AdsPortal.Application.OperationsModels.Importer;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Models.AuthorImporter;
+    using AutoMapper;
     using FluentValidation;
     using MediatR;
     using Microsoft.AspNetCore.Http;

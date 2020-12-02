@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
@@ -14,6 +13,7 @@
     using AdsPortal.Infrastructure.Extensions;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Persistence.Repository.Generic;
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class GenericRelationalUnitOfWork : IGenericRelationalUnitOfWork, IDisposable

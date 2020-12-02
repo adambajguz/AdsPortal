@@ -5,13 +5,14 @@
     using AdsPortal.Application.Operations.UserOperations.Commands.CreateUser;
     using AdsPortal.CLI.Interfaces;
     using AdsPortal.Domain.Jwt;
-    using CliFx;
-    using CliFx.Attributes;
     using MediatR;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
 
     [Command("user create-superuser")]
     public class CreateSuperUserCommand : ICommand

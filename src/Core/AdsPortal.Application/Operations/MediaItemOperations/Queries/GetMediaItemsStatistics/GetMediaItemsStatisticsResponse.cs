@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
 {
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Mapping;
     using AdsPortal.Domain.Models;
+    using AutoMapper;
 
     public class GetMediaItemsStatisticsResponse : IOperationResult, ICustomMapping
     {

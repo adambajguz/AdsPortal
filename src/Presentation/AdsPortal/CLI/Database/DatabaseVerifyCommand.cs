@@ -1,21 +1,21 @@
-﻿namespace AdsPortal.Commands.Database
+﻿namespace AdsPortal.CLI.Database
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using AdsPortal.Commands;
     using AdsPortal.Common;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.RuntimeArguments;
-    using CliFx;
-    using CliFx.Attributes;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
 
     [Command("database verify", Description = "Verify Entity Framework migrations.")]
     public class DatabaseVerifyCommand : ICommand
@@ -28,7 +28,7 @@
                 {
                     string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
 
-                    Log.ForContext(typeof(RunWebHostCommand)).Warning("Server START: {Mode} mode enabled.", mode);
+                    Log.ForContext(typeof(DatabaseVerifyCommand)).Warning("Server START: {Mode} mode enabled.", mode);
                 }
 
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -38,11 +38,11 @@
                 }
                 catch (Exception ex)
                 {
-                    Log.ForContext(typeof(RunWebHostCommand)).Fatal(ex, "Host terminated unexpectedly!");
+                    Log.ForContext(typeof(DatabaseVerifyCommand)).Fatal(ex, "Host terminated unexpectedly!");
                 }
                 finally
                 {
-                    Log.ForContext(typeof(RunWebHostCommand)).Information("Closing web host...");
+                    Log.ForContext(typeof(DatabaseVerifyCommand)).Information("Closing web host...");
 
                     Log.CloseAndFlush();
                 }
@@ -54,7 +54,7 @@
         {
             console.Output.WriteLine($"Validating status of Entity Framework migrations for {typeof(TDbContext).Name}");
 
-            IServiceScopeFactory serviceScopeFactory = webHost.Services.GetService<IServiceScopeFactory>();
+            IServiceScopeFactory serviceScopeFactory = webHost.Services.GetRequiredService<IServiceScopeFactory>();
 
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {

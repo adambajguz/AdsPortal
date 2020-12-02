@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.Application.Operations.DegreeOperations.Queries.GetDegreeDetails
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
     using Domain.Entities;
 
     public class GetDegreeDetailsResponse : IIdentifiableOperationResult, ICustomMapping

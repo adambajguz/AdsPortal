@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken
 {
-    using Application.Constants;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Common;
     using AdsPortal.Domain.Entities;
+    using Application.Constants;
     using FluentValidation;
 
     public class GetAuthenticationTokenValidator : AbstractValidator<GetAuthenticationTokenValidator.Model>

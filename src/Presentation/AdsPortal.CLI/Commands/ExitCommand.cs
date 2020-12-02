@@ -1,25 +1,25 @@
 ﻿namespace AdsPortal.CLI.Commands
 {
     using System.Threading.Tasks;
-    using AdsPortal.CLI.Interfaces;
-    using CliFx;
-    using CliFx.Attributes;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
 
-    [Command("exit", Description = "Exits from interactive mode.")]
+    [Command("exit", Description = "Exits.")]
     public class ExitCommand : ICommand
     {
-        private readonly ICliRuntimeService _cliRuntimeService;
+        private readonly ICliApplicationLifetime _cliApplicationLifetime;
 
-        public ExitCommand(ICliRuntimeService cliRuntimeService)
+        public ExitCommand(ICliApplicationLifetime cliApplicationLifetime)
         {
-            _cliRuntimeService = cliRuntimeService;
+            _cliApplicationLifetime = cliApplicationLifetime;
         }
 
-        public async ValueTask ExecuteAsync(IConsole console)
+        public ValueTask ExecuteAsync(IConsole console)
         {
-            _cliRuntimeService.ValidateInteractiveAndThrow();
+            _cliApplicationLifetime.RequestStop();
 
-            await _cliRuntimeService.ExitAsync();
+            return default;
         }
     }
 }

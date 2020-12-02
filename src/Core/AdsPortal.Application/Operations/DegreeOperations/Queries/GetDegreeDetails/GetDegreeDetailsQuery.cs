@@ -3,10 +3,10 @@ namespace AdsPortal.Application.Operations.DegreeOperations.Queries.GetDegreeDet
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using AutoMapper;
 
     public class GetDegreeDetailsQuery : IGetDetailsByIdQuery<GetDegreeDetailsResponse>
     {

@@ -10,16 +10,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdsPortal.Persistence.Migrations
 {
     [DbContext(typeof(RelationalDbContext))]
-    [Migration("20200801113740_UpdatedJournalEntity")]
-    partial class UpdatedJournalEntity
+    [Migration("20201202185223_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.HasSequence("Job_JobNo_Sequence");
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.Author", b =>
                 {
@@ -33,8 +35,11 @@ namespace AdsPortal.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("Degree")
-                        .HasColumnType("tinyint");
+                    b.Property<Guid>("DegreeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("LastSavedBy")
                         .HasColumnType("uniqueidentifier");
@@ -56,7 +61,65 @@ namespace AdsPortal.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DegreeId");
+
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Degree", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastSavedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Degrees");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastSavedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.EntityAuditLog", b =>
@@ -89,6 +152,53 @@ namespace AdsPortal.Persistence.Migrations
                     b.HasIndex("Key");
 
                     b.ToTable("EntityAuditLogs");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Job", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FinishedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("JobNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValueSql("NEXT VALUE FOR Job_JobNo_Sequence");
+
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OperationArguments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OperationResult")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PostponeTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.Journal", b =>
@@ -125,6 +235,10 @@ namespace AdsPortal.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NameAlt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Points")
                         .HasColumnType("float");
 
@@ -145,6 +259,10 @@ namespace AdsPortal.Persistence.Migrations
 
                     b.Property<long>("ByteSize")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -176,14 +294,19 @@ namespace AdsPortal.Persistence.Migrations
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("PathHashCode")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("Role")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("VirtualPath")
+                    b.Property<string>("VirtualDirectory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PathHashCode");
 
                     b.ToTable("MediaItems");
                 });
@@ -199,6 +322,9 @@ namespace AdsPortal.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ExternalAuthors")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("JournalId")
                         .HasColumnType("uniqueidentifier");
@@ -309,13 +435,34 @@ namespace AdsPortal.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Author", b =>
+                {
+                    b.HasOne("AdsPortal.Domain.Entities.Degree", "Degree")
+                        .WithMany("Authors")
+                        .HasForeignKey("DegreeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdsPortal.Domain.Entities.Department", "Department")
+                        .WithMany("Authors")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Degree");
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("AdsPortal.Domain.Entities.Publication", b =>
                 {
                     b.HasOne("AdsPortal.Domain.Entities.Journal", "Journal")
                         .WithMany("Publications")
                         .HasForeignKey("JournalId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Journal");
                 });
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.PublicationAuthor", b =>
@@ -331,6 +478,35 @@ namespace AdsPortal.Persistence.Migrations
                         .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("PublicationAuthors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Degree", b =>
+                {
+                    b.Navigation("Authors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Department", b =>
+                {
+                    b.Navigation("Authors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Journal", b =>
+                {
+                    b.Navigation("Publications");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Publication", b =>
+                {
+                    b.Navigation("PublicationAuthors");
                 });
 #pragma warning restore 612, 618
         }

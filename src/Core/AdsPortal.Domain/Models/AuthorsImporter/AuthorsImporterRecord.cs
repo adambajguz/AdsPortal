@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Domain.Models.AuthorImporter
 {
-    using AutoMapper;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class AuthorsImporterRecord : ICustomMapping
     {

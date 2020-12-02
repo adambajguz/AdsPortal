@@ -2,25 +2,25 @@
 {
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;
-    using CliFx;
-    using CliFx.Attributes;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
+    using Typin.Modes;
 
-    [Command("webhost stop", Description = "Stops the webhost background worker in the interactive mode.")]
+    [Command("webhost stop",
+             Description = "Stops the webhost background worker in the interactive mode.",
+             SupportedModes = new[] { typeof(InteractiveMode) })]
     public class WebHostStopCommand : ICommand
     {
-        private readonly ICliRuntimeService _cliRuntimeService;
         private readonly IBackgroundWebHostProviderService _webHostProviderService;
 
-        public WebHostStopCommand(ICliRuntimeService cliRuntimeService, IBackgroundWebHostProviderService webHostProviderService)
+        public WebHostStopCommand(IBackgroundWebHostProviderService webHostProviderService)
         {
-            _cliRuntimeService = cliRuntimeService;
             _webHostProviderService = webHostProviderService;
         }
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
-            _cliRuntimeService.ValidateInteractiveAndThrow();
-
             await _webHostProviderService.StopAsync(console.GetCancellationToken());
         }
     }

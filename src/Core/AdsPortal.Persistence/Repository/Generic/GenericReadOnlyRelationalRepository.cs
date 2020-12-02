@@ -6,12 +6,12 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     //TODO: use project to instead of map

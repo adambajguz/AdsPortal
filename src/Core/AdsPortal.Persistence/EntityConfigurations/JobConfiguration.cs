@@ -12,9 +12,6 @@
         {
             builder.Property(e => e.JobNo)
                    .HasDefaultValueSql($"NEXT VALUE FOR {JobNoSequenceName}");
-
-            builder.Property(x => x.Status)
-                   .HasConversion<uint>();
         }
     }
 }

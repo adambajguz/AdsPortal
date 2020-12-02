@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using AutoMapper;
     using AdsPortal.Application.Operations.PublicationEvaluationOperations.Queries.GetEvaluationReportForAuthors;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class GetEvaluationReportForDepartmentsResponse : IOperationResult
     {

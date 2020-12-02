@@ -3,13 +3,13 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
     using FluentValidation;
 
     public class PatchUserCommand : IUpdateCommand

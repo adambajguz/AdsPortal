@@ -2,10 +2,10 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Models;
+    using AutoMapper;
     using MediatR;
 
     public class GetMediaItemsStatisticsQuery : IOperation<GetMediaItemsStatisticsResponse>

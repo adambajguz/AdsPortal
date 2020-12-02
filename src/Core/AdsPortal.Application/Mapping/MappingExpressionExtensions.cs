@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Application.Mapping
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
+    using AutoMapper;
 
     public static class MappingExpressionExtensions
     {

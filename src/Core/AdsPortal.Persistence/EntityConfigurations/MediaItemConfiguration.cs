@@ -8,9 +8,6 @@
     {
         public void Configure(EntityTypeBuilder<MediaItem> builder)
         {
-            builder.Property(x => x.Role)
-                   .HasConversion<uint>();
-
             builder.HasIndex(x => x.PathHashCode);
         }
     }

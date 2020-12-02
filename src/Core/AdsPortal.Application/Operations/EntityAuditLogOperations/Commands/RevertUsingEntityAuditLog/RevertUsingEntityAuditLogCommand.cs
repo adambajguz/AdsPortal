@@ -3,9 +3,9 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cre
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.OperationsModels.Core;
+    using AutoMapper;
     using MediatR;
 
     public class RevertUsingEntityAuditLogCommand : IRequest<IdResult>

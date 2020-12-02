@@ -1,9 +1,10 @@
-﻿namespace AdsPortal.Commands
+﻿namespace AdsPortal.CLI
 {
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;
-    using CliFx;
-    using CliFx.Attributes;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
 
     [Command(Description = "Runs webhost in normal mode.")]
     public class RunWebHostCommand : ICommand

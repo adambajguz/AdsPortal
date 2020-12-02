@@ -2,11 +2,11 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class CreateDepartmentCommand : ICreateCommand
     {

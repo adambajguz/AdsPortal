@@ -2,7 +2,6 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Constants;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
@@ -12,6 +11,7 @@
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class CreateUserCommand : ICreateCommand
     {

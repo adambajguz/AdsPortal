@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
     using Domain.Entities;
 
     public class GetPublicationDetailsResponse : IIdentifiableOperationResult, ICustomMapping

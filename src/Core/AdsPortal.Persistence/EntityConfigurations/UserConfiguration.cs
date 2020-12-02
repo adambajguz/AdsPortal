@@ -8,8 +8,7 @@
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(x => x.Role)
-                   .HasConversion<uint>();
+
         }
     }
 }

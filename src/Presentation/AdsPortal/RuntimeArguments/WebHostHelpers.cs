@@ -21,6 +21,7 @@
             //ValidatorOptions.Global.PropertyNameResolver = (type, member, expression) => member?.Name;
             ValidatorOptions.Global.LanguageManager.Enabled = false;
             //ValidatorOptions.LanguageManager.Culture = new CultureInfo("en");
+
             Log.ForContext(typeof(WebHostHelpers)).Information("FluentValidation's support for localization disabled. Default English messages are forced to be used, regardless of the thread's CurrentUICulture.");
 
             return CreateWebHostBuilder().Build();

@@ -1,10 +1,10 @@
 ﻿namespace AdsPortal.Application
 {
     using System.Reflection;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Jobs;
     using AdsPortal.Application.Mapping;
+    using AutoMapper;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
 

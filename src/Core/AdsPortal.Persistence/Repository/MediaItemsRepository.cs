@@ -5,13 +5,13 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Models;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Repository.Generic;
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     public class MediaItemsRepository : GenericRelationalRepository<MediaItem>, IMediaItemsRepository

@@ -1,10 +1,10 @@
 ﻿namespace AdsPortal.Application.Operations.PublicationOperations.Queries.GetPublicationsList
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class GetPublicationsListResponse : IIdentifiableOperationResult, ICustomMapping
     {

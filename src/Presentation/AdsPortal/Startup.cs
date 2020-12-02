@@ -2,7 +2,6 @@ namespace AdsPortal
 {
     using System.Net.Mime;
     using System.Threading.Tasks;
-    using Application;
     using AdsPortal.Analytics;
     using AdsPortal.Common;
     using AdsPortal.Domain;
@@ -15,6 +14,7 @@ namespace AdsPortal
     using AdsPortal.WebAPI;
     using AdsPortal.WebAPI.Configuration;
     using AdsPortal.WebAPI.Exceptions.Handler;
+    using Application;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
@@ -129,18 +129,18 @@ namespace AdsPortal
 
             app.ConfigureWebApi(env);
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var x = scope.ServiceProvider.GetService<Application.Interfaces.JobScheduler.IJobSchedulingService>();
+            //using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            //{
+            //    IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                for (int i = 0; i < 500; ++i)
-                {
-                    if(i % 100 == 0)
-                        System.Console.WriteLine($"Added {i}");
+            //    for (int i = 0; i < 500; ++i)
+            //    {
+            //        if(i % 100 == 0)
+            //            System.Console.WriteLine($"Added {i}");
 
-                    x.Schedule<Application.Jobs.TestJob>().Wait();
-                }
-            }
+            //        x.Schedule<Application.Jobs.TestJob>().Wait();
+            //    }
+            //}
         }
 
         private static async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)

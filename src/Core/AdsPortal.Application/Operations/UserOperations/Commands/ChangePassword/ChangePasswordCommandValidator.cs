@@ -1,8 +1,8 @@
 namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangePassword
 {
-    using Application.Constants;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Domain.Entities;
+    using Application.Constants;
     using FluentValidation;
 
     public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommandValidator.Model>

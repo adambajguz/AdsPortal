@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class GetEvaluationReportForAuthorsResponse : IOperationResult
     {

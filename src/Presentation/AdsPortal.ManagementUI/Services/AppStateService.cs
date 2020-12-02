@@ -3,8 +3,8 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using Blazored.LocalStorage;
     using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
+    using Blazored.LocalStorage;
     using MediatR;
 
     //https://chrissainty.com/building-a-blogging-app-with-blazor-adding-authentication/

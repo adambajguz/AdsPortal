@@ -5,12 +5,12 @@ namespace AdsPortal.Application.Operations.JournalOperations.Commands.ImportJour
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Media;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Models.JournalsImporter;
+    using AutoMapper;
     using FluentValidation;
     using MediatR;
     using Microsoft.AspNetCore.Http;

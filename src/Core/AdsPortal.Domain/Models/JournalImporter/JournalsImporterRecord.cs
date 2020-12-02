@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.Domain.Models.JournalsImporter
 {
     using System.Collections.Generic;
-    using AutoMapper;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class JournalsImporterRecord : ICustomMapping
     {

@@ -1,10 +1,10 @@
 ﻿namespace AdsPortal.Application.Operations.DegreeOperations.Queries.GetDegreesList
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class GetDegreesListResponse : IIdentifiableOperationResult, ICustomMapping
     {

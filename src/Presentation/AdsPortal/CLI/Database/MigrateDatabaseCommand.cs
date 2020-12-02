@@ -1,18 +1,18 @@
-﻿namespace AdsPortal.Commands.Database
+﻿namespace AdsPortal.CLI.Database
 {
     using System;
     using System.Threading.Tasks;
-    using AdsPortal.Commands;
     using AdsPortal.Common;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.RuntimeArguments;
-    using CliFx;
-    using CliFx.Attributes;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
+    using Typin;
+    using Typin.Attributes;
+    using Typin.Console;
 
     [Command("database migrate", Description = "Apply Entity Framework migrations.")]
     public class MigrateDatabaseCommand : ICommand
@@ -25,7 +25,7 @@
                 {
                     string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
 
-                    Log.ForContext(typeof(RunWebHostCommand)).Warning("Server START: {Mode} mode enabled.", mode);
+                    Log.ForContext(typeof(MigrateDatabaseCommand)).Warning("Server START: {Mode} mode enabled.", mode);
                 }
 
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -35,11 +35,11 @@
                 }
                 catch (Exception ex)
                 {
-                    Log.ForContext(typeof(RunWebHostCommand)).Fatal(ex, "Host terminated unexpectedly!");
+                    Log.ForContext(typeof(MigrateDatabaseCommand)).Fatal(ex, "Host terminated unexpectedly!");
                 }
                 finally
                 {
-                    Log.ForContext(typeof(RunWebHostCommand)).Information("Closing web host...");
+                    Log.ForContext(typeof(MigrateDatabaseCommand)).Information("Closing web host...");
 
                     Log.CloseAndFlush();
                 }
@@ -51,7 +51,7 @@
         {
             console.Output.WriteLine($"Applying Entity Framework migrations for {typeof(TDbContext).Name}");
 
-            IServiceScopeFactory serviceScopeFactory = webHost.Services.GetService<IServiceScopeFactory>();
+            IServiceScopeFactory serviceScopeFactory = webHost.Services.GetRequiredService<IServiceScopeFactory>();
 
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {

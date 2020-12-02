@@ -4,11 +4,11 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AutoMapper;
     using MongoDB.Driver;
 
     public class GenericMongoRepository<TEntity> : GenericMongoReadOnlyRepository<TEntity>, IGenericMongoRepository<TEntity>

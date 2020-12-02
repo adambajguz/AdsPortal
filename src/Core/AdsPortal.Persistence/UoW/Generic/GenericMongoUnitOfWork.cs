@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Persistence.Repository.Generic;
+    using AutoMapper;
 
     public abstract class GenericMongoUnitOfWork : IGenericMongoUnitOfWork, IDisposable
     {

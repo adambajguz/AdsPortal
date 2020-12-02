@@ -3,13 +3,13 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
     using FluentValidation;
     using MediatR;
 

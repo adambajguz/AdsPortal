@@ -3,7 +3,6 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Extensions;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
@@ -12,6 +11,7 @@
     using AdsPortal.Domain.Jwt;
     using AdsPortal.Domain.Mapping;
     using AdsPortal.Domain.Utils;
+    using AutoMapper;
     using Microsoft.AspNetCore.Http;
 
     public class CreateMediaItemCommand : ICreateCommand

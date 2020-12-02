@@ -25,6 +25,7 @@
         Task RestartAsync(CancellationToken cancellationToken = default);
         Task StopAsync(CancellationToken cancellationToken = default);
 
-        T GetService<T>();
+        T GetService<T>()
+            where T : notnull;
     }
 }

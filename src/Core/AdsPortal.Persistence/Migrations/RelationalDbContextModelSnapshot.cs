@@ -15,10 +15,11 @@ namespace AdsPortal.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("Relational:Sequence:.Job_JobNo_Sequence", "'Job_JobNo_Sequence', '', '1', '1', '', '', 'Int64', 'False'")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.HasSequence("Job_JobNo_Sequence");
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.Author", b =>
                 {
@@ -190,8 +191,8 @@ namespace AdsPortal.Persistence.Migrations
                     b.Property<DateTime?>("StartedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("Status")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -445,6 +446,10 @@ namespace AdsPortal.Persistence.Migrations
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Degree");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.Publication", b =>
@@ -454,6 +459,8 @@ namespace AdsPortal.Persistence.Migrations
                         .HasForeignKey("JournalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Journal");
                 });
 
             modelBuilder.Entity("AdsPortal.Domain.Entities.PublicationAuthor", b =>
@@ -469,6 +476,35 @@ namespace AdsPortal.Persistence.Migrations
                         .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("PublicationAuthors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Degree", b =>
+                {
+                    b.Navigation("Authors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Department", b =>
+                {
+                    b.Navigation("Authors");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Journal", b =>
+                {
+                    b.Navigation("Publications");
+                });
+
+            modelBuilder.Entity("AdsPortal.Domain.Entities.Publication", b =>
+                {
+                    b.Navigation("PublicationAuthors");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Application.Exceptions;
+    using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Common.Extensions;

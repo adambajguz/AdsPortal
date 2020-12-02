@@ -4,11 +4,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;
-    using CliFx;
-    using CliFx.Exceptions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
+    using Typin.Console;
+    using Typin.Exceptions;
 
     public class BackgroundWebHostProviderService : IBackgroundWebHostProviderService
     {
@@ -39,7 +39,7 @@
             StartupTime = DateTime.UtcNow;
 
             _webHost = await _webHostRunnerService.StartAsync();
-            IServiceScopeFactory serviceScopeFactory = WebHost.Services.GetService<IServiceScopeFactory>();
+            IServiceScopeFactory serviceScopeFactory = WebHost.Services.GetRequiredService<IServiceScopeFactory>();
             _serviceScope = serviceScopeFactory.CreateScope();
         }
 
@@ -73,6 +73,7 @@
         }
 
         public T GetService<T>()
+            where T : notnull
         {
             return ServiceScope.ServiceProvider.GetRequiredService<T>();
         }

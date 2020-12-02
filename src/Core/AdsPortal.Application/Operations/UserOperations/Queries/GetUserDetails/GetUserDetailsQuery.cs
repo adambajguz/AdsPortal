@@ -3,11 +3,11 @@ namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using AutoMapper;
 
     public class GetUserDetailsQuery : IGetDetailsByIdQuery<GetUserDetailsResponse>
     {

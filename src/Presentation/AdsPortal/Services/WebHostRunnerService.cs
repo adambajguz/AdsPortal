@@ -7,10 +7,10 @@
     using AdsPortal.Common;
     using AdsPortal.Infrastructure.Logging.Configuration;
     using AdsPortal.RuntimeArguments;
-    using CliFx;
     using Microsoft.AspNetCore.Hosting;
     using Serilog;
     using Serilog.Events;
+    using Typin.Console;
 
     public class WebHostRunnerService : IWebHostRunnerService
     {

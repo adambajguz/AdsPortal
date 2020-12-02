@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.Application.Operations.AuthorOperations.Queries.GetAuthorDetails
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
     using Domain.Entities;
 
     public class GetAuthorDetailsResponse : IIdentifiableOperationResult, ICustomMapping

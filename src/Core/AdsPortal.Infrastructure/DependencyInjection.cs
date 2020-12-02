@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Infrastructure
 {
-    using Application.Interfaces;
     using AdsPortal.Common.Extensions;
     using AdsPortal.Infrastructure.Email;
+    using Application.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
     using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 

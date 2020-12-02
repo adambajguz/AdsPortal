@@ -1,11 +1,11 @@
 ﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList
 {
     using System;
-    using AutoMapper;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.Domain.Mapping;
+    using AutoMapper;
 
     public class GetMediaItemsListResponse : IIdentifiableOperationResult, ICustomMapping
     {

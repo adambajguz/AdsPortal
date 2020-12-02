@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using AutoMapper.Configuration;
-    using AdsPortal.Domain.Mapping;
     using Serilog;
 
     public class CustomAutoMapperProfile : Profile

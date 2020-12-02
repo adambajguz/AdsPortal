@@ -2,13 +2,13 @@
 {
     using System;
     using System.Net.Http;
+    using AdsPortal.ManagementUI.Data;
+    using AdsPortal.ManagementUI.Services;
+    using AdsPortal.ManagementUI.Services.Data;
     using Blazored.LocalStorage;
     using Blazorise;
     using Blazorise.Bootstrap;
     using Blazorise.Icons.FontAwesome;
-    using AdsPortal.ManagementUI.Data;
-    using AdsPortal.ManagementUI.Services;
-    using AdsPortal.ManagementUI.Services.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;

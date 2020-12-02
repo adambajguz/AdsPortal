@@ -4,13 +4,13 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Extensions;
     using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails;
     using AdsPortal.Domain.Entities;
+    using AutoMapper;
 
     public class GetMediaItemChecksumFileByIdCommand : IGetDetailsByIdQuery<GetMediaItemChecksumResponse>
     {

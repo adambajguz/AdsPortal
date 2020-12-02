@@ -5,12 +5,12 @@ namespace AdsPortal.Application.Operations.PublicationEvaluationOperations.Queri
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.PublicationEvaluationOperations.Queries.GetEvaluationReportForAuthors;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Domain.Entities;
+    using AutoMapper;
     using MediatR;
 
     public class GetEvaluationReportForDepartmentsQuery : IOperation<GetEvaluationReportForDepartmentsResponse>
