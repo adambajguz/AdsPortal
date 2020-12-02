@@ -1,0 +1,50 @@
+﻿@page "/"
+
+<h3>Index</h3>
+
+<Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
+    <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, world!</JumbotronTitle>
+    <JumbotronSubtitle>
+        This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+    </JumbotronSubtitle>
+    <Divider></Divider>
+    <Paragraph>
+        It uses utility classes for typography and spacing to space content out within the larger container.
+    </Paragraph>
+</Jumbotron>
+
+<CardDeck>
+    <Card Background="Background.Dark" WhiteText="true">
+        <CardBody>
+            <CardTitle Size="5">Card title 1</CardTitle>
+            <CardText>
+                This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+            <CardLink Source="#">Card link</CardLink>
+            <CardLink Source="#">Another link</CardLink>
+        </CardBody>
+    </Card>
+    <Card Background="Background.Dark" WhiteText="true">
+        <CardBody>
+            <CardTitle Size="5">Card title 2</CardTitle>
+            <CardText>
+                This card has supporting text below as a natural lead-in to additional content.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+    <Card Background="Background.Dark" WhiteText="true">
+        <CardBody>
+            <CardTitle Size="5">Card title 3</CardTitle>
+            <CardText>
+                This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+</CardDeck>
+
+@code {
+
+}

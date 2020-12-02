@@ -1,0 +1,45 @@
+﻿@using AdsPortal.ManagementUI.Components.Shared
+
+<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="@typeof(DependencyInjection).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <NotFoundMessage />
+            </LayoutView>
+        </NotFound>
+    </Router>
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        IsRounded = true
+        //ColorOptions = new ThemeColorOptions
+        //{
+        //    Primary = "#0275d8",
+        //    Secondary = "#5bc0de",
+        //    Success = "#5cb85c",
+        //    Info = "#aa66cc",
+        //    Warning = "#f0ad4e",
+        //    Danger = "#d9534f",
+        //    Light = "#f7f7f7",
+        //    Dark = "#292b2c"
+        //},
+        //BackgroundOptions = new ThemeBackgroundOptions
+        //{
+        //    Primary = "#0275d8",
+        //    Secondary = "#5bc0de",
+        //    Success = "#5cb85c",
+        //    Info = "#aa66cc",
+        //    Warning = "#f0ad4e",
+        //    Danger = "#d9534f",
+        //    Light = "#f7f7f7",
+        //    Dark = "#292b2c",
+        //    Body = "#292b2c",
+        //    Muted = "#292b2c"
+        //}
+    };
+}

@@ -1,0 +1,24 @@
+﻿@page "/auth/login"
+@layout BlankLayout
+
+@implements IDisposable
+
+@using AdsPortal.ManagementUI.Components.Authentication
+
+@inject AppStateService AppState
+
+<LoginForm>
+
+</LoginForm>
+
+@code {
+    protected override void OnInitialized()
+    {
+        //AppState.IsAuthenticated = true;
+    }
+
+    void IDisposable.Dispose()
+    {
+        //AppState.IsAuthenticated = false;
+    }
+}

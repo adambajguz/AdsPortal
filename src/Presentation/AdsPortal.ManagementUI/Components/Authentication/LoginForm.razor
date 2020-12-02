@@ -1,0 +1,43 @@
+﻿@inject AuthenticationService AuthenticationService
+
+<Card>
+    <CardImage Source="@MediaHelper.AsAsset("logo.jpg", AssetTypes.Image)" Alt="Placeholder image">
+    </CardImage>
+    <CardBody>
+        <CardTitle Size="5">Card title</CardTitle>
+        <CardSubtitle>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+        </CardSubtitle>
+
+        <Field>
+            <FieldLabel>Email address</FieldLabel>
+            <TextEdit Role="TextRole.Email" Placeholder="Enter email" @bind-Text="@Email">
+                <FieldHelp>Please enter a valid email address</FieldHelp>
+            </TextEdit>
+        </Field>
+        <Field>
+            <FieldLabel>Password</FieldLabel>
+            <TextEdit Role="TextRole.Password" Placeholder="Enter password" @bind-Text="@Password">
+                <FieldHelp>Please enter a valid password address</FieldHelp>
+            </TextEdit>
+        </Field>
+
+        <Button Color="Color.Primary" Clicked="@OnButtonClicked">Button</Button>
+    </CardBody>
+</Card>
+
+
+@code {
+    private string Email { get; set; } = string.Empty;
+    private string Password { get; set; } = string.Empty;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+
+    //}
+
+    private async Task OnButtonClicked()
+    {
+        var token = await AuthenticationService.LoginUser(Email, Password);
+    }
+}

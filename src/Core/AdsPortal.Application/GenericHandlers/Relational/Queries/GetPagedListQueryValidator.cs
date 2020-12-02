@@ -1,0 +1,20 @@
+﻿namespace AdsPortal.Application.GenericHandlers.Relational.Queries
+{
+    using AdsPortal.Application.Constants;
+    using AdsPortal.Application.OperationsAbstractions;
+    using AdsPortal.Domain.Mapping;
+    using FluentValidation;
+
+    public class GetPagedListQueryValidator<TResultEntry> : AbstractValidator<IGetPagedListQuery<TResultEntry>>
+        where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
+    {
+        public GetPagedListQueryValidator()
+        {
+            RuleFor(x => x.Page).GreaterThanOrEqualTo(0)
+                                .WithMessage(ValidationMessages.General.GreaterOrEqualZero);
+
+            RuleFor(x => x.EntiresPerPage).GreaterThan(2)
+                                          .WithMessage(string.Format(ValidationMessages.General.GreaterThenN, 2));
+        }
+    }
+}

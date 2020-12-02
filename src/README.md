@@ -8,7 +8,7 @@ Use these instructions to get the project up and running.
 You will need the following tools:
 
 * [Visual Studio Code or Visual Studio 2019](https://visualstudio.microsoft.com/vs/) (version 16.8 or later)
-* [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
+* [.NET Core SDK 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
 
 ### Setup
 Follow these steps to get your development environment set up:
@@ -24,10 +24,16 @@ Follow these steps to get your development environment set up:
      ```
   4. Next, launch the backend by running:
      ```
-     dotnet run
-     ```
+	 dotnet run
+	 ```
   5. Launch [https://localhost:2137/api](http://localhost:2137/api) in your browser to view the API using Swagger
 
 ## License
 
 This project is licensed under the MIT License
+
+## JWT Key Generation
+
+```
+node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
+```

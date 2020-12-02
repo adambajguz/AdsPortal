@@ -1,0 +1,45 @@
+﻿<Bar Breakpoint="Breakpoint.Desktop"
+     Background="Background.Dark"
+     ThemeContrast="ThemeContrast.Dark">
+    <BarBrand>
+        @AdsPortal.Common.GlobalAppConfig.AppInfo.AppName
+    </BarBrand>
+    <BarToggler></BarToggler>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""><BarIcon IconName="IconName.Dashboard" /> Home</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To="counter">counter</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To="fetchdata">fetchdata</BarLink>
+            </BarItem>
+
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>DevTools</BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="api/index.html">Swagger</BarDropdownItem>
+                        <BarDropdownItem To="api/redoc/index.html">ReDoc</BarDropdownItem>
+                        <BarDropdownItem To="services">Services</BarDropdownItem>
+                        <BarDropdownItem To="health">Health</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+        <BarEnd>
+            <BarItem>
+                <BarLink To="auth/login">Login</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To="auth/register">Sign Up</BarLink>
+            </BarItem>
+        </BarEnd>
+    </BarMenu>
+</Bar>
+
+@code {
+
+}

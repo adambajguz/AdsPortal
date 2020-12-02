@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>%(DocumentTitle)</title>
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        /*SwaggerUILoginExtension - Start*/
+        .swagger-ui.swagger-container .topbar.login-ex {
+            background: #1b1b1b;
+            text-align: center;
+        }
+
+            .swagger-ui.swagger-container .topbar.login-ex button {
+                margin: 0px 0 0px 15px;
+                background: white;
+            }
+
+                .swagger-ui.swagger-container .topbar.login-ex button:hover {
+                    box-shadow: 0 1px 2px rgba(255,255,255,.1);
+                }
+
+            .swagger-ui.swagger-container .topbar.login-ex #login-ex-logged-email {
+                color: white;
+                font-weight: 700;
+                vertical-align: super;
+            }
+
+            .swagger-ui.swagger-container .topbar.login-ex #login-ex-logged-roles {
+                color: white;
+                vertical-align: super;
+            }
+
+            .swagger-ui.swagger-container .topbar.login-ex #login-ex-logged-exp {
+                color: white;
+                vertical-align: super;
+                font-size: 8pt;
+            }
+        /*SwaggerUILoginExtension - End*/
+    </style>
+    %(HeadContent)
+</head>
+
+<body>
+    <!--SwaggerUILoginExtension - Start-->
+    <div class="swagger-ui swagger-container">
+        <div class="topbar login-ex">
+            <div class="wrapper">
+                <form id="login-ex-signin" hidden>
+                    <input id="login-ex-email" type="email" placeholder="someone@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" required>
+                    <input id="login-ex-password" type="password" placeholder="*********" pattern=".{8,}" required>
+                    <button class="btn authorize" type="submit" value="signin"><span>Login</span><svg width="20" height="20"><use href="#unlocked" xlink:href="#unlocked"></use></svg></button>
+                </form>
+                <form id="login-ex-signout" hidden>
+                    <span id="login-ex-logged-email"></span>
+                    <span id="login-ex-logged-roles"></span>
+                    <span id="login-ex-logged-exp"></span>
+                    <button class="btn authorize" type="submit" value="signout"><span>Logout</span> <svg width="20" height="20"><use href="#locked" xlink:href="#locked"></use></svg></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--SwaggerUILoginExtension - End-->
+
+    <div id="swagger-ui"></div>
+
+    <!-- Workaround for https://github.com/swagger-api/swagger-editor/issues/1371 -->
+    <script>
+        if (window.navigator.userAgent.indexOf("Edge") > -1) {
+            console.log("Removing native Edge fetch in favor of swagger-ui's polyfill")
+            window.fetch = undefined;
+        }
+    </script>
+
+    <script src="./swagger-ui-bundle.js"></script>
+    <script src="./swagger-ui-standalone-preset.js"></script>
+    <script>
+        function isString(x) {
+            return Object.prototype.toString.call(x) === "[object String]"
+        }
+
+        window.onload = function () {
+            var configObject = JSON.parse('%(ConfigObject)');
+
+            //SwaggerUILoginExtension - Start
+            configObject.requestInterceptor = req => {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    req.headers.authorization = `Bearer ${token}`;
+                }
+                return req;
+            };
+
+            configObject.onComplete = () => {
+                const signin = document.getElementById("login-ex-signin");
+                const signout = document.getElementById("login-ex-signout");
+                const loggedEmail = document.getElementById("login-ex-logged-email");
+                const loggedRoles = document.getElementById("login-ex-logged-roles");
+                const loggedExp = document.getElementById("login-ex-logged-exp");
+
+                const update = () => {
+                    const token = localStorage.getItem("token");
+
+                    if (token && token != null && token != undefined && isString(token) && token != "undefined" && token != "null") {
+                        const { email, role, exp } = JSON.parse(
+                            window.atob(
+                                token.split(".")
+                                    .splice(1, 1)
+                                    .shift()
+                                    .replace("-", "+")
+                                    .replace("_", "/")
+                            )
+                        );
+
+                        var theDate = new Date(exp * 1000);
+                        dateString = theDate.toISOString();
+
+                        if (theDate <= new Date()) {
+                            localStorage.removeItem("token");
+                            signin.hidden = false;
+                            signout.hidden = true;
+                        }
+                        else {
+                            loggedEmail.innerText = `${email}`;
+
+                            if (isString(role)) {
+                                loggedRoles.innerText = `[${role}]`;
+                            } else {
+                                var rolesStr = role.join("] [");
+                                loggedRoles.innerText = `[${rolesStr}]`;
+                            }
+
+                            loggedExp.innerText = `Logged till ${dateString}`;
+                            signin.hidden = true;
+                            signout.hidden = false;
+                        }
+                    } else {
+                        signin.hidden = false;
+                        signout.hidden = true;
+                    }
+                };
+
+                signin.addEventListener("submit", event => {
+                    event.preventDefault();
+                    const options = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: document.getElementById("login-ex-email").value,
+                            password: document.getElementById("login-ex-password").value
+                        })
+                    };
+
+                    fetch("/api/user/login", options)
+                        .then(res => res.json())
+                        .then(data => localStorage.setItem("token", data.token))
+                        .then(update);
+                });
+
+                signout.addEventListener("submit", event => {
+                    event.preventDefault();
+                    localStorage.removeItem("token");
+                    update();
+                });
+
+                update();
+            };
+            //SwaggerUILoginExtension - End
+
+            var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
+
+            // Workaround for https://github.com/swagger-api/swagger-ui/issues/5945
+            configObject.urls.forEach(function (item) {
+                if (item.url.startsWith("http") || item.url.startsWith("/")) return;
+                item.url = window.location.href.replace("index.html", item.url).split('#')[0];
+            });
+
+            // If validatorUrl is not explicitly provided, disable the feature by setting to null
+            if (!configObject.hasOwnProperty("validatorUrl"))
+                configObject.validatorUrl = null
+
+            // If oauth2RedirectUrl isn't specified, use the built-in default
+            if (!configObject.hasOwnProperty("oauth2RedirectUrl"))
+                configObject.oauth2RedirectUrl = window.location.href.replace("index.html", "oauth2-redirect.html").split('#')[0];
+
+            // Apply mandatory parameters
+            configObject.dom_id = "#swagger-ui";
+            configObject.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
+            configObject.layout = "StandaloneLayout";
+
+            // Begin Swagger UI call region
+
+            const ui = SwaggerUIBundle(configObject);
+
+            ui.initOAuth(oauthConfigObject);
+
+            // End Swagger UI call region
+
+            window.ui = ui
+        }
+    </script>
+</body>
+</html>
