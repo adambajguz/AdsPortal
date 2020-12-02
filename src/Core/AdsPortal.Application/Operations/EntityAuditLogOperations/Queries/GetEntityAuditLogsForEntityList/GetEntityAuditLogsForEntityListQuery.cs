@@ -10,12 +10,7 @@
 
     public class GetEntityAuditLogsForEntityListQuery : IGetListQuery<GetEntityAuditLogsForEntityListResponse>
     {
-        public Guid Id { get; }
-
-        public GetEntityAuditLogsForEntityListQuery(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetListQueryHandler<GetEntityAuditLogsForEntityListQuery, EntityAuditLog, GetEntityAuditLogsForEntityListResponse>
         {

@@ -15,7 +15,7 @@
 
         protected BaseController()
         {
-            _mediator = new Lazy<IMediator>(() => HttpContext.RequestServices.GetService<IMediator>());
+            _mediator = new Lazy<IMediator>(() => HttpContext.RequestServices.GetRequiredService<IMediator>());
         }
     }
 }

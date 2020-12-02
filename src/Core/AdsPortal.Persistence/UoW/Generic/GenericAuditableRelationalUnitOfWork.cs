@@ -23,6 +23,7 @@
 
     public abstract class GenericAuditableRelationalUnitOfWork : GenericRelationalUnitOfWork, IGenericAuditableRelationalUnitOfWork
     {
+        //Audit
         private readonly Lazy<IEntityAuditLogsRepository> _entityAuditLogs;
         public IEntityAuditLogsRepository EntityAuditLogs => _entityAuditLogs.Value;
 

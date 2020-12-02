@@ -12,12 +12,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemFileByIdCommand : IGetDetailsByIdQuery<GetMediaItemFileResponse>
     {
-        public Guid Id { get; }
-
-        public GetMediaItemFileByIdCommand(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetDetailsByIdQueryHandler<GetMediaItemFileByIdCommand, MediaItem, GetMediaItemFileResponse>
         {

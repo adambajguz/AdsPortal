@@ -11,12 +11,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
 
     public class GetUserDetailsQuery : IGetDetailsByIdQuery<GetUserDetailsResponse>
     {
-        public Guid Id { get; }
-
-        public GetUserDetailsQuery(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetDetailsByIdQueryHandler<GetUserDetailsQuery, User, GetUserDetailsResponse>
         {

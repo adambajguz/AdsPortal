@@ -9,20 +9,19 @@
 
     public class GetUserDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public Guid? CreatedBy { get; set; }
-        public DateTime LastSavedOn { get; set; }
-        public Guid? LastSavedBy { get; set; }
+        public Guid Id { get; init; }
+        public DateTime CreatedOn { get; init; }
+        public Guid? CreatedBy { get; init; }
+        public DateTime LastSavedOn { get; init; }
+        public Guid? LastSavedBy { get; init; }
 
-        public string Email { get; set; } = default!;
+        public string Email { get; init; } = default!;
 
-        public string Name { get; set; } = default!;
-        public string Surname { get; set; } = default!;
-        public string PhoneNumber { get; set; } = default!;
-        public string Address { get; set; } = default!;
+        public string Name { get; init; } = default!;
+        public string Surname { get; init; } = default!;
+        public string Description { get; init; } = default!;
 
-        public Roles Role { get; set; }
+        public Roles Role { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

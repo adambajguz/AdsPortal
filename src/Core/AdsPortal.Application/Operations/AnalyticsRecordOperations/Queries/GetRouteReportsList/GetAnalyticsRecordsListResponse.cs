@@ -9,15 +9,15 @@
 
     public class GetAnalyticsRecordsListResponse : IOperationResult
     {
-        public IList<AnalyticsRecordLookupModel> AnalyticsRecords { get; set; } = default!;
+        public IList<AnalyticsRecordLookupModel> AnalyticsRecords { get; init; } = new List<AnalyticsRecordLookupModel>();
 
         public class AnalyticsRecordLookupModel : IIdentifiableOperationResult, ICustomMapping
         {
-            public Guid Id { get; set; }
+            public Guid Id { get; init; }
 
-            public DateTime Timestamp { get; set; }
-            public string Uri { get; set; } = default!;
-            public ulong Visits { get; set; }
+            public DateTime Timestamp { get; init; }
+            public string Uri { get; init; } = default!;
+            public ulong Visits { get; init; }
 
             void ICustomMapping.CreateMappings(Profile configuration)
             {

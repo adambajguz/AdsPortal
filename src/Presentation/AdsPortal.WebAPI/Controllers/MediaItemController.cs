@@ -56,7 +56,7 @@
         public async Task<IActionResult> GetMediaFileByPath([FromRoute] string mediaPath)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
-            GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByPathCommand(decodedMediaPath));
+            GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByPathCommand { Path = decodedMediaPath });
 
             return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
         }
@@ -70,7 +70,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaFileById([FromRoute] Guid id)
         {
-            GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByIdCommand(id));
+            GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByIdCommand { Id = id });
 
             return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
         }
@@ -85,9 +85,9 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaDetailsByPath([FromRoute] string mediaPath)
         {
-            string path = HttpUtility.UrlDecode(mediaPath);
+            string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
 
-            return Ok(await Mediator.Send(new GetMediaItemDetailsByPathQuery(path)));
+            return Ok(await Mediator.Send(new GetMediaItemDetailsByPathQuery { Path = decodedMediaPath }));
         }
 
         [HttpGet("get-by-id/{id:guid}")]
@@ -99,7 +99,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaDetailsById([FromRoute] Guid id)
         {
-            return Ok(await Mediator.Send(new GetMediaItemDetailsByIdQuery(id)));
+            return Ok(await Mediator.Send(new GetMediaItemDetailsByIdQuery { Id = id }));
         }
 
         [HttpGet("get-checksum-file/{**mediaPath}")]
@@ -112,7 +112,7 @@
         public async Task<IActionResult> GetMediaChecksumByPath([FromRoute] string mediaPath)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
-            GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByPathCommand(decodedMediaPath));
+            GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByPathCommand { Path = decodedMediaPath });
 
             return File(response.FileByteContent, response.ContentType, response.FileName);
         }
@@ -126,7 +126,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaChecksumById([FromRoute] Guid id)
         {
-            GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByIdCommand(id));
+            GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByIdCommand { Id = id });
 
             return File(response.FileByteContent, response.ContentType, response.FileName);
         }
@@ -141,7 +141,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteMedia([FromRoute] Guid id)
         {
-            return Ok(await Mediator.Send(new DeleteMediaItemCommand(id)));
+            return Ok(await Mediator.Send(new DeleteMediaItemCommand { Id = id }));
         }
 
         [CustomAuthorize(Roles.Admin)]

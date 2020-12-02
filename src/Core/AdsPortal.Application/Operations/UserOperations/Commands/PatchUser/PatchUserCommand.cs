@@ -12,16 +12,16 @@
     using AutoMapper;
     using FluentValidation;
 
+    //TODO: add/test patch user
     public class PatchUserCommand : IUpdateCommand
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public PatchProperty<string?>? Email { get; set; }
+        public PatchProperty<string?>? Email { get; init; }
 
-        public PatchProperty<string?>? Name { get; set; }
-        public PatchProperty<string?>? Surname { get; set; }
-        public PatchProperty<string?>? PhoneNumber { get; set; }
-        public PatchProperty<string?>? Address { get; set; }
+        public PatchProperty<string?>? Name { get; init; }
+        public PatchProperty<string?>? Surname { get; init; }
+        public PatchProperty<string?>? Description { get; init; }
 
         //public PatchProperty<Roles>? Role { get; set; }
 
@@ -43,15 +43,10 @@
                                  opt.Condition((src, dest) => src.Email?.Include ?? false);
                                  opt.MapFrom(src => src.Surname!.Value.Value);
                              })
-                         .ForMember(dest => dest.PhoneNumber, opt =>
+                         .ForMember(dest => dest.Description, opt =>
                              {
                                  opt.Condition((src, dest) => src.Email?.Include ?? false);
-                                 opt.MapFrom(src => src.PhoneNumber!.Value.Value);
-                             })
-                         .ForMember(dest => dest.Address, opt =>
-                             {
-                                 opt.Condition((src, dest) => src.Email?.Include ?? false);
-                                 opt.MapFrom(src => src.Address!.Value.Value);
+                                 opt.MapFrom(src => src.Description!.Value.Value);
                              });
             //  .ForAllMembersTryPatchProperty();
         }

@@ -11,14 +11,12 @@
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;
-        //private readonly ICurrentUserService _currentUserService;
 
-        public RequestPerformanceBehaviour(ILogger<TRequest> logger)//, ICurrentUserService currentUserService)
+        public RequestPerformanceBehaviour(ILogger<TRequest> logger)
         {
             _timer = new Stopwatch();
 
             _logger = logger;
-            //_currentUserService = currentUserService;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

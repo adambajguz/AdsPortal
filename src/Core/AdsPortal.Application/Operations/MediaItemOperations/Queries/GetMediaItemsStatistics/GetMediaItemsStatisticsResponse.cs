@@ -7,12 +7,12 @@
 
     public class GetMediaItemsStatisticsResponse : IOperationResult, ICustomMapping
     {
-        public int Count { get; set; }
-        public long TotalByteSize { get; set; }
+        public int Count { get; init; }
+        public long TotalByteSize { get; init; }
 
-        public long MinByteSize { get; set; }
-        public double AverageByteSize { get; set; }
-        public long MaxByteSize { get; set; }
+        public long MinByteSize { get; init; }
+        public double AverageByteSize { get; init; }
+        public long MaxByteSize { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

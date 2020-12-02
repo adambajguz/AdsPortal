@@ -14,20 +14,21 @@
 
         }
 
-        public virtual DbSet<EntityAuditLog> EntityAuditLogs { get; set; } = default!;
+        //Data
+        public virtual DbSet<Advertisement> Advertisements { get; set; } = default!;
+        public virtual DbSet<Category> Categories { get; set; } = default!;
 
-        public virtual DbSet<Author> Authors { get; set; } = default!;
-        public virtual DbSet<Degree> Degrees { get; set; } = default!;
-        public virtual DbSet<Department> Departments { get; set; } = default!;
-        public virtual DbSet<Journal> Journals { get; set; } = default!;
-        public virtual DbSet<Publication> Publications { get; set; } = default!;
-        public virtual DbSet<PublicationAuthor> PublicationAuthors { get; set; } = default!;
-
+        //Media
         public virtual DbSet<MediaItem> MediaItems { get; set; } = default!;
 
+        //Identity
         public virtual DbSet<User> Users { get; set; } = default!;
 
+        //Jobs
         public virtual DbSet<Job> Jobs { get; set; } = default!;
+
+        //Audit
+        public virtual DbSet<EntityAuditLog> EntityAuditLogs { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

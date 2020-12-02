@@ -14,12 +14,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemChecksumFileByPathCommand : IGetDetailsQuery<GetMediaItemChecksumResponse>
     {
-        public string Path { get; }
-
-        public GetMediaItemChecksumFileByPathCommand(string path)
-        {
-            Path = path;
-        }
+        public string Path { get; init; } = string.Empty;
 
         private class Handler : GetDetailsQueryHandler<GetMediaItemChecksumFileByPathCommand, MediaItem, GetMediaItemChecksumResponse>
         {

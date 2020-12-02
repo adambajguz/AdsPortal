@@ -6,6 +6,7 @@
 
     public interface IGenericAuditableRelationalUnitOfWork : IGenericRelationalUnitOfWork
     {
+        //Audit
         IEntityAuditLogsRepository EntityAuditLogs { get; }
 
         int SaveChangesWithoutAudit();

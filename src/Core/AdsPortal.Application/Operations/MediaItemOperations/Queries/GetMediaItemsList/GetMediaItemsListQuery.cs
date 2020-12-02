@@ -8,11 +8,6 @@
 
     public class GetMediaItemsListQuery : IGetListQuery<GetMediaItemsListResponse>
     {
-        public GetMediaItemsListQuery()
-        {
-
-        }
-
         private class Handler : GetListQueryHandler<GetMediaItemsListQuery, MediaItem, GetMediaItemsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)

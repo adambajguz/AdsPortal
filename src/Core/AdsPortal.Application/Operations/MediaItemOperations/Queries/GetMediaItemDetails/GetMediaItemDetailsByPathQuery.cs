@@ -11,12 +11,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemDetailsByPathQuery : IGetDetailsQuery<GetMediaItemDetailsResponse>
     {
-        public string Path { get; }
-
-        public GetMediaItemDetailsByPathQuery(string path)
-        {
-            Path = path;
-        }
+        public string Path { get; init; } = string.Empty;
 
         private class Handler : GetDetailsQueryHandler<GetMediaItemDetailsByPathQuery, MediaItem, GetMediaItemDetailsResponse>
         {

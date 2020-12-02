@@ -5,8 +5,8 @@
 
     public class JwtTokenModel : IOperationResult
     {
-        public string Token { get; set; } = default!;
-        public TimeSpan Lease { get; set; }
-        public DateTime ValidTo { get; set; }
+        public string Token { get; init; } = default!;
+        public TimeSpan Lease { get; init; }
+        public DateTime ValidTo { get; init; }
     }
 }

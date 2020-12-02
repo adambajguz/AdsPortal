@@ -8,12 +8,12 @@
 
     public class GetMediaItemFileResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public string FileName { get; set; } = string.Empty;
-        public byte[]? Data { get; set; }
-        public string ContentType { get; set; } = string.Empty;
-        public string Hash { get; set; } = string.Empty;
+        public string FileName { get; init; } = string.Empty;
+        public byte[]? Data { get; init; }
+        public string ContentType { get; init; } = string.Empty;
+        public string Hash { get; init; } = string.Empty;
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

@@ -7,7 +7,7 @@
     using Typin.Console;
     using Typin.Modes;
 
-    [Command("logging get-level", 
+    [Command("logging get-level",
              Description = "Get console logging level in the interactive mode.",
              SupportedModes = new[] { typeof(InteractiveMode) })]
     public class GetLogLevelCommand : ICommand

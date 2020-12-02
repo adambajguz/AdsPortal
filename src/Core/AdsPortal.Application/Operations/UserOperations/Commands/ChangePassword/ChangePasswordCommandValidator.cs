@@ -5,6 +5,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangePasswor
     using Application.Constants;
     using FluentValidation;
 
+    //TODO: remove (this should not be in validator as is complex)
     public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommandValidator.Model>
     {
         public ChangePasswordCommandValidator(IUserManagerService _userManager)
@@ -15,8 +16,8 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangePasswor
 
         public class Model
         {
-            public ChangePasswordCommand Data { get; set; }
-            public User User { get; set; }
+            public ChangePasswordCommand Data { get; init; }
+            public User User { get; init; }
 
             public Model(ChangePasswordCommand data, User user)
             {

@@ -1,7 +1,6 @@
 ﻿namespace AdsPortal.ManagementUI.Services.Data
 {
     using System.Threading.Tasks;
-    using AdsPortal.Application.Operations.PublicationEvaluationOperations.Queries.GetEvaluationReportForDepartments;
     using MediatR;
 
     public class PublicationEvaluationService

@@ -8,11 +8,6 @@
 
     public class GetAnalyticsRecordsListQuery : IOperation<GetAnalyticsRecordsListResponse>
     {
-        public GetAnalyticsRecordsListQuery()
-        {
-
-        }
-
         public class Handler : IRequestHandler<GetAnalyticsRecordsListQuery, GetAnalyticsRecordsListResponse>
         {
             private readonly IMongoUnitOfWork _uow;

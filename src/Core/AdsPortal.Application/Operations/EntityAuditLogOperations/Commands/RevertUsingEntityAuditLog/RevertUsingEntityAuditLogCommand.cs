@@ -10,12 +10,8 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cre
 
     public class RevertUsingEntityAuditLogCommand : IRequest<IdResult>
     {
-        public RevertUsingEntityAuditLogRequest Data { get; }
-
-        public RevertUsingEntityAuditLogCommand(RevertUsingEntityAuditLogRequest data)
-        {
-            Data = data;
-        }
+        public Guid EntityId { get; init; }
+        public Guid ToId { get; init; }
 
         private class Handler : IRequestHandler<RevertUsingEntityAuditLogCommand, IdResult>
         {

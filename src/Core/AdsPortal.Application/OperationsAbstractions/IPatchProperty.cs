@@ -4,7 +4,7 @@
 
     public interface IPatchProperty
     {
-        bool Include { get; }
+        bool Include { get; init; }
         public object? Value { get; }
         public Type HoldingType { get; }
 

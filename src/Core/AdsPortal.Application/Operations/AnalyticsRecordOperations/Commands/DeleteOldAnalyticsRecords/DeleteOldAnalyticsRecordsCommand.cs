@@ -9,7 +9,7 @@ namespace AdsPortal.Application.Operations.AnalyticsRecordOperations.Commands.De
 
     public class DeleteOldAnalyticsRecordsCommand : IOperation
     {
-        public DateTime? OlderThanOrEqualToDate { get; set; }
+        public DateTime? OlderThanOrEqualToDate { get; init; }
 
         private class Handler : IRequestHandler<DeleteOldAnalyticsRecordsCommand>
         {

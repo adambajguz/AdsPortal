@@ -9,18 +9,18 @@
 
     public class GetMediaItemsListResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public string FileName { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Alt { get; set; } = string.Empty;
+        public string FileName { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public string Alt { get; init; } = string.Empty;
 
-        public string VirtualDirectory { get; set; } = string.Empty;
-        public string ContentType { get; set; } = string.Empty;
-        public long ByteSize { get; set; }
+        public string VirtualDirectory { get; init; } = string.Empty;
+        public string ContentType { get; init; } = string.Empty;
+        public long ByteSize { get; init; }
 
-        public Guid? OwnerId { get; set; }
-        public Roles Role { get; set; }
+        public Guid? OwnerId { get; init; }
+        public Roles Role { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

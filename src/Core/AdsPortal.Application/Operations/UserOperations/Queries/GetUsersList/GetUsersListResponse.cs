@@ -9,9 +9,10 @@
 
     public class GetUsersListResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public string Email { get; set; } = default!;
+        public string Name { get; init; } = default!;
+        public string Surname { get; init; } = default!;
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

@@ -57,7 +57,7 @@
         {
             Guid userId = currentUser.UserId ?? throw new ForbiddenException();
 
-            return Ok(await Mediator.Send(new GetUserDetailsQuery(userId)));
+            return Ok(await Mediator.Send(new GetUserDetailsQuery { Id = userId }));
         }
 
         [CustomAuthorize(Roles.User)]
@@ -70,7 +70,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetUserDetails([FromRoute] Guid id)
         {
-            return Ok(await Mediator.Send(new GetUserDetailsQuery(id)));
+            return Ok(await Mediator.Send(new GetUserDetailsQuery { Id = id }));
         }
 
         [CustomAuthorize(Roles.User)]
@@ -111,7 +111,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
-            return Ok(await Mediator.Send(new DeleteUserCommand(id)));
+            return Ok(await Mediator.Send(new DeleteUserCommand { Id = id }));
         }
 
         [CustomAuthorize(Roles.User)]

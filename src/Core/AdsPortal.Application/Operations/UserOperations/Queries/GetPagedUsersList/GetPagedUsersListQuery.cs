@@ -9,10 +9,10 @@
 
     public class GetPagedUsersListQuery : IGetPagedListQuery<GetUsersListResponse>
     {
-        public int Page { get; set; }
-        public int EntiresPerPage { get; set; }
+        public int Page { get; init; }
+        public int EntiresPerPage { get; init; }
 
-        private class Handler : GetPagedListQueryHandler<GetPagedUsersListQuery, Journal, GetUsersListResponse>
+        private class Handler : GetPagedListQueryHandler<GetPagedUsersListQuery, User, GetUsersListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

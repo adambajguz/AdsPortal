@@ -12,23 +12,11 @@
     public class RelationalUnitOfWork : GenericAuditableRelationalUnitOfWork, IAppRelationalUnitOfWork
     {
         //Data
-        private readonly Lazy<IAuthorsRepository> _authors;
-        public IAuthorsRepository Authors => _authors.Value;
+        private readonly Lazy<IAdvertisementsRepository> _authors;
+        public IAdvertisementsRepository Advertisements => _authors.Value;
 
-        private readonly Lazy<IDegreesRepository> _degrees;
-        public IDegreesRepository Degrees => _degrees.Value;
-
-        private readonly Lazy<IDepartmentsRepository> _departments;
-        public IDepartmentsRepository Departments => _departments.Value;
-
-        private readonly Lazy<IJournalsRepository> _journals;
-        public IJournalsRepository Journals => _journals.Value;
-
-        private readonly Lazy<IPublicationsRepository> _publications;
-        public IPublicationsRepository Publications => _publications.Value;
-
-        private readonly Lazy<IPublicationAuthorsRepository> _publicationAuthors;
-        public IPublicationAuthorsRepository PublicationAuthors => _publicationAuthors.Value;
+        private readonly Lazy<ICategoriesRepository> _journals;
+        public ICategoriesRepository Categories => _journals.Value;
 
         //Media
         private readonly Lazy<IMediaItemsRepository> _mediaItems;
@@ -46,12 +34,8 @@
             base(currentUserService, context, mapper)
         {
             //Data
-            _authors = new Lazy<IAuthorsRepository>(() => GetSpecificRepository<IAuthorsRepository, AuthorsRepository>());
-            _degrees = new Lazy<IDegreesRepository>(() => GetSpecificRepository<IDegreesRepository, DegreesRepository>());
-            _departments = new Lazy<IDepartmentsRepository>(() => GetSpecificRepository<IDepartmentsRepository, DepartmentsRepository>());
-            _journals = new Lazy<IJournalsRepository>(() => GetSpecificRepository<IJournalsRepository, JournalsRepository>());
-            _publications = new Lazy<IPublicationsRepository>(() => GetSpecificRepository<IPublicationsRepository, PublicationsRepository>());
-            _publicationAuthors = new Lazy<IPublicationAuthorsRepository>(() => GetSpecificRepository<IPublicationAuthorsRepository, PublicationAuthorsRepository>());
+            _authors = new Lazy<IAdvertisementsRepository>(() => GetSpecificRepository<IAdvertisementsRepository, AdvertisementsRepository>());
+            _journals = new Lazy<ICategoriesRepository>(() => GetSpecificRepository<ICategoriesRepository, CategoriesRepository>());
 
             //Media
             _mediaItems = new Lazy<IMediaItemsRepository>(() => GetSpecificRepository<IMediaItemsRepository, MediaItemsRepository>());

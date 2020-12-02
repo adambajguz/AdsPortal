@@ -1,5 +1,6 @@
 namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CleanupEntityAuditLog
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
@@ -9,12 +10,9 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
 
     public class CleanupEntityAuditLogCommand : IOperation
     {
-        public CleanupEntityAuditLogRequest Data { get; }
-
-        public CleanupEntityAuditLogCommand(CleanupEntityAuditLogRequest data)
-        {
-            Data = data;
-        }
+        public DateTime CreatedOn { get; init; }
+        public string? TableName { get; init; }
+        public Guid? Key { get; init; }
 
         private class Handler : IRequestHandler<CleanupEntityAuditLogCommand>
         {
@@ -27,11 +25,9 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
 
             public async Task<Unit> Handle(CleanupEntityAuditLogCommand request, CancellationToken cancellationToken)
             {
-                CleanupEntityAuditLogRequest data = request.Data;
-
                 //EntityAuditLog routeLog = await _uow.EntityAuditLogsRepository.GetByIdAsync(data.Id);
 
-                await new CleanupEntityAuditLogValidator().ValidateAndThrowAsync(data, cancellationToken: cancellationToken);
+                await new CleanupEntityAuditLogValidator().ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
                 //_uow.EntityAuditLogsRepository.Remove(routeLog);
                 //await _uow.SaveChangesAsync();

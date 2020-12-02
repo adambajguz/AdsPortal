@@ -14,8 +14,8 @@
 
     public class ResetPasswordCommand : IOperation
     {
-        public string? Token { get; set; }
-        public string? Password { get; set; }
+        public string? Token { get; init; }
+        public string? Password { get; init; }
 
         private class Handler : IRequestHandler<ResetPasswordCommand>
         {

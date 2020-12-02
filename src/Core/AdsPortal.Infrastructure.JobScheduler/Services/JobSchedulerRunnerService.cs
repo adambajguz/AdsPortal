@@ -30,7 +30,7 @@
             ServiceScopeFactory = serviceProvider;
 
             Scope = ServiceScopeFactory.CreateScope();
-            Uow = Scope.ServiceProvider.GetService<IAppRelationalUnitOfWork>();
+            Uow = Scope.ServiceProvider.GetRequiredService<IAppRelationalUnitOfWork>();
         }
 
         private async void TickTimer(object state)
@@ -82,7 +82,7 @@
 
             using (var jobScope = ServiceScopeFactory.CreateScope())
             {
-                IAppRelationalUnitOfWork jobUow = jobScope.ServiceProvider.GetService<IAppRelationalUnitOfWork>();
+                IAppRelationalUnitOfWork jobUow = jobScope.ServiceProvider.GetRequiredService<IAppRelationalUnitOfWork>();
                 IJob? jobInstance = (IJob?)jobScope.ServiceProvider.GetService(type);
 
                 if (jobInstance is null)
@@ -99,7 +99,6 @@
                 jobUow.Jobs.Update(job);
                 await jobUow.SaveChangesAsync();
 
-#pragma warning disable CA1031 // Do not catch general exception types
                 using (CancellationTokenSource jobCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
                 {
                     TimeSpan timeout = TimeSpan.FromSeconds(500);
@@ -137,7 +136,6 @@
                         await jobUow.SaveChangesAsync();
                     }
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 

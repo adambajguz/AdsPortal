@@ -2,11 +2,11 @@
 {
     using FluentValidation;
 
-    public class RevertUsingEntityAuditLogValidator : AbstractValidator<RevertUsingEntityAuditLogRequest>
+    public class RevertUsingEntityAuditLogValidator : AbstractValidator<RevertUsingEntityAuditLogCommand>
     {
         public RevertUsingEntityAuditLogValidator()
         {
-
+            //TODO
         }
     }
 }

@@ -9,13 +9,13 @@
 
     public class GetMediaItemChecksumResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public string FileName { get; set; } = string.Empty;
-        public string ContentType { get; set; } = string.Empty;
-        public string Hash { get; set; } = string.Empty;
+        public string FileName { get; init; } = string.Empty;
+        public string ContentType { get; init; } = string.Empty;
+        public string Hash { get; init; } = string.Empty;
 
-        public string FileContent { get; set; } = string.Empty;
+        public string FileContent { get; init; } = string.Empty;
         public byte[] FileByteContent => Encoding.UTF8.GetBytes(FileContent);
 
         void ICustomMapping.CreateMappings(Profile configuration)

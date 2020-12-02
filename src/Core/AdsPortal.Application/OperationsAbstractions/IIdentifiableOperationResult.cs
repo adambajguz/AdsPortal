@@ -4,6 +4,6 @@
 
     public interface IIdentifiableOperationResult : IOperationResult
     {
-        Guid Id { get; }
+        Guid Id { get; init; }
     }
 }

@@ -6,19 +6,20 @@
 
     public interface IRelationalDbContext : IGenericRelationalDbContext
     {
-        DbSet<EntityAuditLog> EntityAuditLogs { get; }
+        //Data
+        DbSet<Advertisement> Advertisements { get; }
+        DbSet<Category> Categories { get; }
 
-        DbSet<Author> Authors { get; }
-        DbSet<Degree> Degrees { get; }
-        DbSet<Department> Departments { get; }
-        DbSet<Journal> Journals { get; }
-        DbSet<Publication> Publications { get; }
-        DbSet<PublicationAuthor> PublicationAuthors { get; }
-
+        //Media
         DbSet<MediaItem> MediaItems { get; set; }
 
+        //Identity
         DbSet<User> Users { get; }
 
+        //Jobs
         DbSet<Job> Jobs { get; }
+
+        //Audit
+        DbSet<EntityAuditLog> EntityAuditLogs { get; }
     }
 }

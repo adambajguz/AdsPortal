@@ -8,11 +8,6 @@
 
     public class GetUsersListQuery : IGetListQuery<GetUsersListResponse>
     {
-        public GetUsersListQuery()
-        {
-
-        }
-
         private class Handler : GetListQueryHandler<GetUsersListQuery, User, GetUsersListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)

@@ -6,12 +6,8 @@
     public interface IAppRelationalUnitOfWork : IGenericAuditableRelationalUnitOfWork
     {
         //Data
-        IAuthorsRepository Authors { get; }
-        IDegreesRepository Degrees { get; }
-        IDepartmentsRepository Departments { get; }
-        IJournalsRepository Journals { get; }
-        IPublicationsRepository Publications { get; }
-        IPublicationAuthorsRepository PublicationAuthors { get; }
+        IAdvertisementsRepository Advertisements { get; }
+        ICategoriesRepository Categories { get; }
 
         //Media
         IMediaItemsRepository MediaItems { get; }

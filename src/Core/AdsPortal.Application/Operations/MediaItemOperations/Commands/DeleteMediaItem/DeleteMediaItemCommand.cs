@@ -10,12 +10,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.DeleteUs
 
     public class DeleteMediaItemCommand : IDeleteByIdCommand
     {
-        public Guid Id { get; }
-
-        public DeleteMediaItemCommand(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : DeleteByIdHandler<DeleteMediaItemCommand, MediaItem>
         {

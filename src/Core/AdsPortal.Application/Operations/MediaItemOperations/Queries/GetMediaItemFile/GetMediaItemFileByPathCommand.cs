@@ -12,12 +12,8 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemFileByPathCommand : IGetDetailsQuery<GetMediaItemFileResponse>
     {
-        public string Path { get; }
+        public string Path { get; init; } = string.Empty;
 
-        public GetMediaItemFileByPathCommand(string path)
-        {
-            Path = path;
-        }
 
         private class Handler : GetDetailsQueryHandler<GetMediaItemFileByPathCommand, MediaItem, GetMediaItemFileResponse>
         {

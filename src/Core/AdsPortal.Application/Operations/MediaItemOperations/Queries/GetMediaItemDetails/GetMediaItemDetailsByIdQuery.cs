@@ -11,12 +11,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemDetailsByIdQuery : IGetDetailsByIdQuery<GetMediaItemDetailsResponse>
     {
-        public Guid Id { get; }
-
-        public GetMediaItemDetailsByIdQuery(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetDetailsByIdQueryHandler<GetMediaItemDetailsByIdQuery, MediaItem, GetMediaItemDetailsResponse>
         {

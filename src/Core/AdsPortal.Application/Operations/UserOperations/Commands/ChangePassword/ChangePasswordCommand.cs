@@ -12,9 +12,9 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangePasswor
 
     public class ChangePasswordCommand : IOperation
     {
-        public Guid UserId { get; set; }
-        public string? OldPassword { get; set; }
-        public string? NewPassword { get; set; }
+        public Guid UserId { get; init; }
+        public string? OldPassword { get; init; }
+        public string? NewPassword { get; init; }
 
         private class Handler : IRequestHandler<ChangePasswordCommand>
         {

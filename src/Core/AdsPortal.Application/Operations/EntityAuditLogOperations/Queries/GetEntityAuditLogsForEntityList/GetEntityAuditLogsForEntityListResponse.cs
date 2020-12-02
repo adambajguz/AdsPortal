@@ -9,13 +9,13 @@
 
     public class GetEntityAuditLogsForEntityListResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public Guid? CreatedBy { get; set; }
+        public Guid Id { get; init; }
+        public DateTime CreatedOn { get; init; }
+        public Guid? CreatedBy { get; init; }
 
-        public string TableName { get; set; } = default!;
-        public AuditActions Action { get; set; }
-        public string? Values { get; set; }
+        public string TableName { get; init; } = default!;
+        public AuditActions Action { get; init; }
+        public string? Values { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

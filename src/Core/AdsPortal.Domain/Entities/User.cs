@@ -1,6 +1,7 @@
 ﻿namespace AdsPortal.Domain.Entities
 {
     using System;
+    using System.Collections.Generic;
     using AdsPortal.Domain.Abstractions.Audit;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Domain.Jwt;
@@ -21,10 +22,11 @@
 
         public string Name { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         public Roles Role { get; set; }
         public bool IsActive { get; set; }
+
+        public virtual ICollection<Advertisement> Advertisements { get; set; } = new HashSet<Advertisement>();
     }
 }

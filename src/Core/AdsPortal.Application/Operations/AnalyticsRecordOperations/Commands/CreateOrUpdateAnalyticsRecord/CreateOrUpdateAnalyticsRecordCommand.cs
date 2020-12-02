@@ -15,9 +15,9 @@
 
     public class CreateOrUpdateAnalyticsRecordCommand : IOperation<IdResult>, ICustomMapping
     {
-        public string? Uri { get; set; }
-        public string? UserAgent { get; set; }
-        public string? Ip { get; set; }
+        public string? Uri { get; init; }
+        public string? UserAgent { get; init; }
+        public string? Ip { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {
@@ -59,13 +59,13 @@
 
                     await _uow.AnalyticsRecords.AddAsync(entity);
 
-                    return new IdResult(entity.Id);
+                    return new IdResult { Id = entity.Id };
                 }
 
                 ++prevEntity.Visits;
                 await _uow.AnalyticsRecords.UpdateAsync(prevEntity);
 
-                return new IdResult(prevEntity.Id);
+                return new IdResult { Id = prevEntity.Id };
             }
         }
     }

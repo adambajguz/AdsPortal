@@ -5,8 +5,8 @@
 
     public struct PatchProperty<T> : IPatchProperty
     {
-        public bool Include { readonly get; set; }
-        public T Value { readonly get; set; }
+        public bool Include { readonly get; init; }
+        public T Value { readonly get; init; }
         object? IPatchProperty.Value => Value;
         Type IPatchProperty.HoldingType => typeof(T);
 

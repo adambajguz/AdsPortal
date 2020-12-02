@@ -24,14 +24,10 @@
         {
             using (IWebHost webHost = WebHostHelpers.BuildWebHost())
             {
-#pragma warning disable CS0162 // Unreachable code detected
-                {
-                    string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
+                string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
 
-                    Log.ForContext(typeof(DatabaseVerifyCommand)).Warning("Server START: {Mode} mode enabled.", mode);
-                }
+                Log.ForContext(typeof(DatabaseVerifyCommand)).Warning("Server START: {Mode} mode enabled.", mode);
 
-#pragma warning disable CA1031 // Do not catch general exception types
                 try
                 {
                     bool result = await VerifyMigrations<IRelationalDbContext>(console, webHost);
@@ -46,7 +42,6 @@
 
                     Log.CloseAndFlush();
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 
@@ -69,7 +64,7 @@
                     return true;
                 }
 
-                console.Output.WriteLine("Pending migratons {0}", migrations.Count());
+                console.Output.WriteLine("Pending migratons {0}", migrations.Count);
                 foreach (string migration in migrations)
                     console.Output.WriteLine($"\t{migration}");
 

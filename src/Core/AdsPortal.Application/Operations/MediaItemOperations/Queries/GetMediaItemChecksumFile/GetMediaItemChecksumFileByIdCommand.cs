@@ -14,12 +14,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
 
     public class GetMediaItemChecksumFileByIdCommand : IGetDetailsByIdQuery<GetMediaItemChecksumResponse>
     {
-        public Guid Id { get; }
-
-        public GetMediaItemChecksumFileByIdCommand(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetDetailsByIdQueryHandler<GetMediaItemChecksumFileByIdCommand, MediaItem, GetMediaItemChecksumResponse>
         {

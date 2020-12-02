@@ -18,8 +18,8 @@
     public interface IGetPagedListQuery<TResultEntry> : IOperation<PagedListResult<TResultEntry>>
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
     {
-        public int Page { get; set; }
-        public int EntiresPerPage { get; set; }
+        public int Page { get; init; }
+        public int EntiresPerPage { get; init; }
     }
 
     public abstract class GetPagedListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, PagedListResult<TResultEntry>>

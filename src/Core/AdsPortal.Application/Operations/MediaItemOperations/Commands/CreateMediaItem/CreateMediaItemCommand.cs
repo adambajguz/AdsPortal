@@ -16,18 +16,18 @@
 
     public class CreateMediaItemCommand : ICreateCommand
     {
-        public IFormFile? File { get; set; }
+        public IFormFile? File { get; init; }
 
-        public string? NewFileName { get; set; } = string.Empty;
-        public bool GenerateFileName { get; set; }
+        public string? NewFileName { get; init; } = string.Empty;
+        public bool GenerateFileName { get; init; }
 
-        public string Description { get; set; } = string.Empty;
-        public string Alt { get; set; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public string Alt { get; init; } = string.Empty;
 
-        public string VirtualDirectory { get; set; } = string.Empty;
+        public string VirtualDirectory { get; init; } = string.Empty;
 
-        public Guid? OwnerId { get; set; }
-        public Roles Role { get; set; }
+        public Guid? OwnerId { get; init; }
+        public Roles Role { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

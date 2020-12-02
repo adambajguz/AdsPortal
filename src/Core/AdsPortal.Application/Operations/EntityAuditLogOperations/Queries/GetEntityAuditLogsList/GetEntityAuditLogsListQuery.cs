@@ -9,11 +9,6 @@
 
     public class GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>
     {
-        public GetEntityAuditLogsListQuery()
-        {
-
-        }
-
         private class Handler : GetListQueryHandler<GetEntityAuditLogsListQuery, EntityAuditLog, GetEntityAuditLogsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)

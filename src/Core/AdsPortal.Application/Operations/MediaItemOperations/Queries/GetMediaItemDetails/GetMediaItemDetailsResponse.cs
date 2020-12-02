@@ -9,25 +9,25 @@
 
     public class GetMediaItemDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public DateTime CreatedOn { get; set; }
-        public Guid? CreatedBy { get; set; }
-        public DateTime LastSavedOn { get; set; }
-        public Guid? LastSavedBy { get; set; }
+        public DateTime CreatedOn { get; init; }
+        public Guid? CreatedBy { get; init; }
+        public DateTime LastSavedOn { get; init; }
+        public Guid? LastSavedBy { get; init; }
 
-        public string FileName { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Alt { get; set; } = string.Empty;
+        public string FileName { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public string Alt { get; init; } = string.Empty;
 
-        public string VirtualDirectory { get; set; } = string.Empty;
+        public string VirtualDirectory { get; init; } = string.Empty;
 
-        public byte[]? Data { get; set; }
-        public string Hash { get; set; } = string.Empty;
-        public long ByteSize { get; set; }
+        public byte[]? Data { get; init; }
+        public string Hash { get; init; } = string.Empty;
+        public long ByteSize { get; init; }
 
-        public Guid? OwnerId { get; set; }
-        public Roles Role { get; set; }
+        public Guid? OwnerId { get; init; }
+        public Roles Role { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

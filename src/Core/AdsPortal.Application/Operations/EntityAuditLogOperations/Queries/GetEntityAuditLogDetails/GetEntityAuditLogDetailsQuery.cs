@@ -10,12 +10,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetR
 
     public class GetEntityAuditLogDetailsQuery : IGetDetailsByIdQuery<GetEntityAuditLogDetailsResponse>
     {
-        public Guid Id { get; }
-
-        public GetEntityAuditLogDetailsQuery(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : GetDetailsByIdQueryHandler<GetEntityAuditLogDetailsQuery, EntityAuditLog, GetEntityAuditLogDetailsResponse>
         {

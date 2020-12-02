@@ -10,12 +10,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
 
     public class DeleteUserCommand : IDeleteByIdCommand
     {
-        public Guid Id { get; }
-
-        public DeleteUserCommand(Guid id)
-        {
-            Id = id;
-        }
+        public Guid Id { get; init; }
 
         private class Handler : DeleteByIdHandler<DeleteUserCommand, User>
         {

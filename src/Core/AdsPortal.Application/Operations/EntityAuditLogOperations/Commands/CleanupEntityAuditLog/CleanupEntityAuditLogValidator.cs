@@ -2,11 +2,11 @@
 {
     using FluentValidation;
 
-    public class CleanupEntityAuditLogValidator : AbstractValidator<CleanupEntityAuditLogRequest>
+    public class CleanupEntityAuditLogValidator : AbstractValidator<CleanupEntityAuditLogCommand>
     {
         public CleanupEntityAuditLogValidator()
         {
-
+            //TODO
         }
     }
 }

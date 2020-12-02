@@ -22,6 +22,7 @@
             RuleFor(x => x.Data.Password).MaximumLength(GlobalAppConfig.MAX_PASSWORD_LENGTH)
                                          .WithMessage(string.Format(ValidationMessages.Password.IsTooLong, GlobalAppConfig.MAX_PASSWORD_LENGTH));
 
+            //TODO: this should be removed and checked in handler as it is a comples operation
             RuleFor(x => x.User).MustAsync(async (request, val, token) =>
             {
                 if (val == null)
@@ -33,8 +34,8 @@
 
         public class Model
         {
-            public GetAuthenticationTokenQuery Data { get; set; }
-            public User User { get; set; }
+            public GetAuthenticationTokenQuery Data { get; init; }
+            public User User { get; init; }
 
             public Model(GetAuthenticationTokenQuery data, User user)
             {

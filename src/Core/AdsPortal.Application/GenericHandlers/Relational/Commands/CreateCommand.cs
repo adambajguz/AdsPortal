@@ -52,7 +52,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             await Uow.SaveChangesAsync(cancellationToken);
             await OnAdded(entity, cancellationToken);
 
-            return new IdResult(entity.Id);
+            return new IdResult { Id = entity.Id };
         }
 
         protected abstract Task OnInit(CancellationToken cancellationToken);
@@ -105,7 +105,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             await Uow.SaveChangesAsync(cancellationToken);
             await OnAdded(entity, cancellationToken);
 
-            return new IdResult(entity.Id);
+            return new IdResult { Id = entity.Id };
         }
 
         protected abstract Task OnInit(CancellationToken cancellationToken);
