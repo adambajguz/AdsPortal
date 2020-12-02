@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Custom
+src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/frameworks/*/*
+	
+!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/frameworks/chota/about.txt

@@ -1,0 +1,28 @@
+﻿<footer class="page-footer footer-bg">
+    <div class="footer-links">
+        <p>
+            @foreach (var link in FooterSettings.Links)
+            {
+                bool isLast = link == FooterSettings.Links.Last();
+
+                <Link href="@link.Href" Title="@link.Title" IsExternal="@link.IsExternal" />
+
+                @if (!isLast)
+                {
+                    <span> • </span>
+                }
+            }
+        </p>
+    </div>
+    <div class="footer-authors">
+        @Markdown.ToHtml(FooterSettings.Authors ?? string.Empty)
+    </div>
+</footer>
+
+@code
+{
+    [Inject] protected IMarkdownService Markdown { get; init; } = default!;
+
+    [Inject] private IOptions<FooterSettings> _FooterSettings { get; init; } = default!;
+    protected FooterSettings FooterSettings => _FooterSettings.Value;
+}

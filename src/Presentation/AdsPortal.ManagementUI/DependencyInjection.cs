@@ -2,10 +2,7 @@
 {
     using System;
     using System.Net.Http;
-    using Blazored.LocalStorage;
-    using Blazorise;
-    using Blazorise.Bootstrap;
-    using Blazorise.Icons.FontAwesome;
+    using AdsPortal.ManagementUI.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;
@@ -21,15 +18,6 @@
                 c.DetailedErrors = true;
             });
 
-            services.AddBlazorise(options =>
-            {
-                options.ChangeTextOnKeyPress = true; // optional
-            });
-            services.AddBootstrapProviders()
-                    .AddFontAwesomeIcons();
-
-            services.AddBlazorContextMenu();
-
             // Setup HttpClient for server side in a client side compatible fashion
             services.AddScoped<HttpClient>(s =>
             {
@@ -41,16 +29,14 @@
                 };
             });
 
-            services.AddBlazoredLocalStorage();
+            services.AddScoped<IMarkdownService, MarkdownService>();
 
             return services;
         }
 
         public static void ConfigureManagementUI(this IApplicationBuilder app)
         {
-            app.ApplicationServices
-               .UseBootstrapProviders()
-               .UseFontAwesomeIcons();
+
         }
 
         public static void MapManagementUI(this IEndpointRouteBuilder endpoints)
