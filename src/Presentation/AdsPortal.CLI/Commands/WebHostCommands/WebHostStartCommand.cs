@@ -21,7 +21,7 @@
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
-            await _webHostProviderService.StartAsync();
+            await _webHostProviderService.StartAsync(console.GetCancellationToken());
         }
     }
 }

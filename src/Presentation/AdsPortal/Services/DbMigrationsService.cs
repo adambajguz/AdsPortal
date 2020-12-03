@@ -1,26 +1,65 @@
-﻿namespace AdsPortal.CLI.Database
+﻿namespace AdsPortal.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AdsPortal.CLI.Commands.Database;
+    using AdsPortal.CLI.Interfaces;
     using AdsPortal.Common;
+    using AdsPortal.Helpers;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
-    using AdsPortal.RuntimeArguments;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
-    using Typin;
-    using Typin.Attributes;
     using Typin.Console;
 
-    [Command("database verify", Description = "Verify Entity Framework migrations.")]
-    public class DatabaseVerifyCommand : ICommand
+    public class DbMigrationsService : IDbMigrationsService
     {
-        public async ValueTask ExecuteAsync(IConsole console)
+        public async ValueTask Migrate(IConsole console)
+        {
+            using (IWebHost webHost = WebHostHelpers.BuildWebHost())
+            {
+                string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
+
+                Log.ForContext(typeof(MigrateDatabaseCommand)).Warning("Server START: {Mode} mode enabled.", mode);
+
+                try
+                {
+                    await MigrateDatabase<IRelationalDbContext>(console, webHost);
+                }
+                catch (Exception ex)
+                {
+                    Log.ForContext(typeof(MigrateDatabaseCommand)).Fatal(ex, "Host terminated unexpectedly!");
+                }
+                finally
+                {
+                    Log.ForContext(typeof(MigrateDatabaseCommand)).Information("Closing web host...");
+
+                    Log.CloseAndFlush();
+                }
+            }
+        }
+
+        private async Task MigrateDatabase<TDbContext>(IConsole console, IWebHost webHost) where TDbContext : IGenericRelationalDbContext
+        {
+            console.Output.WriteLine($"Applying Entity Framework migrations for {typeof(TDbContext).Name}");
+
+            IServiceScopeFactory serviceScopeFactory = webHost.Services.GetRequiredService<IServiceScopeFactory>();
+
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            {
+                TDbContext dbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
+
+                await dbContext.Provider.Database.MigrateAsync();
+                console.Output.WriteLine("All done, closing app");
+            }
+        }
+
+        public async ValueTask Verify(IConsole console)
         {
             using (IWebHost webHost = WebHostHelpers.BuildWebHost())
             {

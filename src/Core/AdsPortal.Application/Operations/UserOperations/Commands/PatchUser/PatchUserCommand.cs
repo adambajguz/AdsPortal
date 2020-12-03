@@ -73,9 +73,6 @@
                 //if (data.Role.HasFlag(Roles.Admin))
                 //    _drs.ValidateIsAdmin();
 
-                //if (data.Role.HasFlag(Roles.Editor))
-                //    _drs.HasRole(Roles.Editor);
-
                 //if (data.Role.HasFlag(Roles.User))
                 //    _drs.HasRole(Roles.User);
 

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.CLI
+﻿namespace AdsPortal.CLI.Commands
 {
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;

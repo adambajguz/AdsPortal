@@ -10,7 +10,7 @@
         {
             //Register services
             services.AddSingleton<IWebHostRunnerService, WebHostRunnerService>();
-            services.AddScoped<IBackgroundWebHostProviderService, BackgroundWebHostProviderService>();
+            services.AddSingleton<IBackgroundWebHostProviderService, BackgroundWebHostProviderService>();
 
             return services;
         }

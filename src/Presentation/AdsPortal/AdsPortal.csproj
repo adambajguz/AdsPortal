@@ -12,6 +12,7 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
+    <UserSecretsId>58cc327b-a823-42be-aa49-fc7c5322631f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

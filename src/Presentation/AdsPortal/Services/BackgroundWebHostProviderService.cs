@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.DependencyInjection;
     using Serilog;
     using Typin.Console;
     using Typin.Exceptions;
@@ -20,9 +19,6 @@
         private IWebHost? _webHost;
         public IWebHost WebHost => _webHost ?? throw new CommandException("WebHost has not been started.");
 
-        private IServiceScope? _serviceScope;
-        public IServiceScope ServiceScope => _serviceScope ?? throw new CommandException("WebHost has not been started.");
-
         public DateTime StartupTime { get; private set; }
         public TimeSpan Runtime => _webHost is null ? TimeSpan.Zero : DateTime.UtcNow - StartupTime;
         public WebHostStatuses Status => _webHost is null ? WebHostStatuses.Stopped : WebHostStatuses.Running;
@@ -33,18 +29,22 @@
             _console = console;
         }
 
-        public async Task StartAsync()
+        public async Task StartAsync(CancellationToken cancellationToken = default)
         {
+            if (Status == WebHostStatuses.Running)
+                return;
+
             await _console.Output.WriteLineAsync("Starting WebHost background worker...");
             StartupTime = DateTime.UtcNow;
 
-            _webHost = await _webHostRunnerService.StartAsync();
-            IServiceScopeFactory serviceScopeFactory = WebHost.Services.GetRequiredService<IServiceScopeFactory>();
-            _serviceScope = serviceScopeFactory.CreateScope();
+            _webHost = await _webHostRunnerService.StartAsync(cancellationToken);
         }
 
         public async Task RestartAsync(CancellationToken cancellationToken = default)
         {
+            if (Status == WebHostStatuses.Stopped)
+                return;
+
             await _console.Output.WriteLineAsync("Restarting WebHost background worker...");
 
             await StopAsync(cancellationToken);
@@ -55,6 +55,9 @@
 
         public async Task StopAsync(CancellationToken cancellationToken = default)
         {
+            if (Status == WebHostStatuses.Stopped)
+                return;
+
             await _console.Output.WriteLineAsync("Stopping WebHost background worker...");
             Log.CloseAndFlush();
 
@@ -66,16 +69,7 @@
                 _webHost = null;
             }
 
-            _serviceScope?.Dispose();
-            _serviceScope = null;
-
             StartupTime = DateTime.MinValue;
-        }
-
-        public T GetService<T>()
-            where T : notnull
-        {
-            return ServiceScope.ServiceProvider.GetRequiredService<T>();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -95,9 +89,6 @@
                         _webHost = null;
                     }
 
-                    _serviceScope?.Dispose();
-                    _serviceScope = null;
-
                     StartupTime = DateTime.MinValue;
                 }
 
@@ -107,12 +98,12 @@
             }
         }
 
-        // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~WebHostProviderService()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
+        //override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        //~WebHostProviderService()
+        //{
+        //    // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //    Dispose(disposing: false);
+        //}
 
         public void Dispose()
         {

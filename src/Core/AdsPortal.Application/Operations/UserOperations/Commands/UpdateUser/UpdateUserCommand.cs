@@ -54,9 +54,6 @@
                 if (Command.Role.HasFlag(Roles.Admin))
                     _drs.IsAdminElseThrow();
 
-                if (Command.Role.HasFlag(Roles.Editor))
-                    _drs.HasRole(Roles.Editor);
-
                 if (Command.Role.HasFlag(Roles.User))
                     _drs.HasRole(Roles.User);
 

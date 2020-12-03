@@ -8,7 +8,6 @@
         None = 0,
         ResetPassword = 1,
         User = 2,
-        Editor = 4,
-        Admin = 8
+        Admin = 4
     }
 }

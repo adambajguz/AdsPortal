@@ -13,12 +13,22 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     <PackageReference Include="Typin" Version="3.0.0-dev-00006" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.Application\AdsPortal.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Advertisement\" />
+    <Folder Include="Commands\Analystics\" />
+    <Folder Include="Commands\Authentication\" />
+    <Folder Include="Commands\Category\" />
+    <Folder Include="Commands\EntityAuditLog\" />
+    <Folder Include="Commands\MediaItem\" />
   </ItemGroup>
 
 </Project>

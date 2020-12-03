@@ -6,8 +6,6 @@
 
     public interface IWebHostRunnerService
     {
-        IWebHost GetWebHost();
-
         Task RunAsync(CancellationToken cancellationToken = default);
         Task<IWebHost> StartAsync(CancellationToken cancellationToken = default);
     }

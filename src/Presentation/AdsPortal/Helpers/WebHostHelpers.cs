@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.RuntimeArguments
+﻿namespace AdsPortal.Helpers
 {
     using AdsPortal;
     using AdsPortal.Common;

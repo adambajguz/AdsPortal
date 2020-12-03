@@ -1,5 +1,8 @@
 ﻿namespace AdsPortal.CLI
 {
+    using System;
+    using System.Net.Http.Headers;
+    using AdsPortal.CLI.Services;
     using AdsPortal.Common;
     using Microsoft.Extensions.DependencyInjection;
     using Typin;
@@ -27,7 +30,17 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<AuthTokenHolder>();
 
+            services.AddHttpClient("api", (services, cfg) =>
+            {
+                AuthTokenHolder tokenHolder = services.GetRequiredService<AuthTokenHolder>();
+
+                cfg.BaseAddress = new Uri("http://localhost:2137/api/");
+
+                if (tokenHolder.HasToken)
+                    cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenHolder.Token);
+            });
         }
     }
 }
