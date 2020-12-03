@@ -1,4 +1,4 @@
-namespace AdsPortal.Application.Operations.AuthenticationOperations.Commands.ResetPassword
+namespace AdsPortal.Application.Operations.UserOperations.Commands.ResetPassword
 {
     using Application.Constants;
     using FluentValidation;

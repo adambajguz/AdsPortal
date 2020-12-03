@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.CLI.Commands.User
+﻿namespace AdsPortal.CLI.Commands.Advertisement
 {
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -8,8 +8,8 @@
     using Typin.Attributes;
     using Typin.Console;
 
-    [Command("user paged")]
-    public class GetPagedUsersCommand : ICommand
+    [Command("ad paged")]
+    public class GetPagedAdvertisementsCommand : ICommand
     {
         [CommandOption("page", 'p', IsRequired = true)]
         public int Page { get; init; }
@@ -20,7 +20,7 @@
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IBackgroundWebHostProviderService _backgroundWebHostProvider;
 
-        public GetPagedUsersCommand(IHttpClientFactory httpClientFactory, IBackgroundWebHostProviderService backgroundWebHostProvider)
+        public GetPagedAdvertisementsCommand(IHttpClientFactory httpClientFactory, IBackgroundWebHostProviderService backgroundWebHostProvider)
         {
             _httpClientFactory = httpClientFactory;
             _backgroundWebHostProvider = backgroundWebHostProvider;
@@ -31,7 +31,7 @@
             await _backgroundWebHostProvider.StartAsync(console.GetCancellationToken());
 
             HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.GetAsync($"user/get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", console.GetCancellationToken());
+            var response = await client.GetAsync($"advertisement/get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", console.GetCancellationToken());
 
             await response.PrintResponse(console);
         }

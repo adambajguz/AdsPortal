@@ -4,14 +4,18 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Operations.UserOperations.Commands.ChangePassword;
+    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
+    using AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPassword;
     using AdsPortal.Application.Operations.UserOperations.Commands.CreateUser;
     using AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser;
     using AdsPortal.Application.Operations.UserOperations.Commands.PatchUser;
+    using AdsPortal.Application.Operations.UserOperations.Commands.ResetPassword;
     using AdsPortal.Application.Operations.UserOperations.Commands.UpdateUser;
+    using AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetPagedJournalsList;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList;
+    using AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken;
     using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
@@ -21,9 +25,12 @@
     using Swashbuckle.AspNetCore.Annotations;
 
     [Route("api/user")]
-    [SwaggerTag("Create, update, and get user")]
+    [SwaggerTag("Authenticate, create, update, and get user")]
     public class UserController : BaseController
     {
+        public const string Authenticate = nameof(AuthenticateUser);
+        public const string ResetPasswordStep1 = nameof(ResetUserPasswordStep1);
+        public const string ResetPasswordStep2 = nameof(ResetUserPasswordStep2);
         public const string Create = nameof(CreateUser);
         public const string GetCurrentDetails = nameof(GetCurrentUserDetails);
         public const string GetDetails = nameof(GetUserDetails);
@@ -33,6 +40,40 @@
         public const string ChangePassword = nameof(ChangeUserPassword);
         public const string GetAll = nameof(GetUsersList);
         public const string GetPaged = nameof(GetPagedUsersList);
+
+        [HttpPost("auth")]
+        [SwaggerOperation(
+            Summary = "Login a user",
+            Description = "Authenticates a user")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User authenticated", typeof(JwtTokenModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserQuery request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
+        [HttpPost("reset-password")]
+        [SwaggerOperation(
+            Summary = "Send password reset link (Reset password step 1)",
+            Description = "Sends e-mail with password reset link")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Password reset e-mail sent")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> ResetUserPasswordStep1([FromBody] SendResetPasswordTokenQuery request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
+        [HttpPost("reset-password/change")]
+        [SwaggerOperation(
+            Summary = "Reset user password (Reset password step 2)",
+            Description = "Resets user's password using password reset token")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User password was changed")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> ResetUserPasswordStep2([FromBody] ResetPasswordCommand request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
 
         [HttpPost("create")]
         [SwaggerOperation(
@@ -122,7 +163,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Password changed")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> ChangeUserPassword([FromBody] ChangePasswordCommand request)
+        public async Task<IActionResult> ChangeUserPassword([FromBody] ChangeUserPasswordCommand request)
         {
             return Ok(await Mediator.Send(request));
         }

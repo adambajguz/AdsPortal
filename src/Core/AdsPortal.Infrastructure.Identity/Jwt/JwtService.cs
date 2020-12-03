@@ -138,7 +138,7 @@
         public Guid GetUserIdFromToken(string token)
         {
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim claim = secToken.Claims.FirstOrDefault(x => x.Type.Equals("nameidentifier") || x.Type.Equals(ClaimTypes.NameIdentifier));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("nameidentifier") || x.Type.Equals(ClaimTypes.NameIdentifier));
             Guid userId = Guid.Parse(claim?.Value!);
 
             return userId;

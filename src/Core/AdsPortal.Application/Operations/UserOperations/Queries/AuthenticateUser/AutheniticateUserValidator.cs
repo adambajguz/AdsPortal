@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken
+﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Common;
@@ -6,9 +6,9 @@
     using Application.Constants;
     using FluentValidation;
 
-    public class GetAuthenticationTokenValidator : AbstractValidator<GetAuthenticationTokenValidator.Model>
+    public class AutheniticateUserValidator : AbstractValidator<AutheniticateUserValidator.Model>
     {
-        public GetAuthenticationTokenValidator(IUserManagerService _userManager)
+        public AutheniticateUserValidator(IUserManagerService _userManager)
         {
             RuleFor(x => x.Data.Email).NotEmpty()
                                       .WithMessage(ValidationMessages.Email.IsEmpty);
@@ -34,10 +34,10 @@
 
         public class Model
         {
-            public GetAuthenticationTokenQuery Data { get; init; }
+            public AuthenticateUserQuery Data { get; init; }
             public User User { get; init; }
 
-            public Model(GetAuthenticationTokenQuery data, User user)
+            public Model(AuthenticateUserQuery data, User user)
             {
                 Data = data;
                 User = user;

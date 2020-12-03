@@ -10,6 +10,7 @@
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemFile;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics;
+    using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetPagedMediaItemsList;
     using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
@@ -32,6 +33,7 @@
         public const string Delete = nameof(DeleteMedia);
         public const string GetAll = nameof(GetMediaList);
         public const string GetStatistics = nameof(GetMediaStatistics);
+        public const string GetPaged = nameof(GetPagedMediaList);
 
         [CustomAuthorize(Roles.User)]
         [HttpPost("create")]
@@ -149,11 +151,23 @@
         [SwaggerOperation(
             Summary = "Get all media items",
             Description = "Gets a list of media items")]
-        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetMediaItemsListResponse))]
+        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ListResult<GetMediaItemsListResponse>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaList()
         {
             return Ok(await Mediator.Send(new GetMediaItemsListQuery()));
+        }
+
+        [CustomAuthorize(Roles.Admin)]
+        [HttpGet("get-paged")]
+        [SwaggerOperation(
+            Summary = "Get all media items",
+            Description = "Gets a paged list of media items")]
+        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(PagedListResult<GetMediaItemsListResponse>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> GetPagedMediaList([FromQuery] GetPagedMediaItemsListQuery request)
+        {
+            return Ok(await Mediator.Send(request));
         }
 
         [CustomAuthorize(Roles.Admin)]

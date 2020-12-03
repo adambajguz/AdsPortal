@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetResetPasswordToken
+﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken
 {
     using Application.Constants;
     using FluentValidation;

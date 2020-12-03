@@ -25,7 +25,7 @@
         public const string GetAll = nameof(GetEntityAuditLogsList);
 
         [CustomAuthorize(Roles.Admin)]
-        [HttpPost("create")]
+        [HttpPost("revert")]
         [SwaggerOperation(
             Summary = "Revert entity using audit log",
             Description = "Revert entity using entity audit log")]
@@ -50,7 +50,7 @@
         }
 
         [CustomAuthorize(Roles.Admin)]
-        [HttpDelete("delete")]
+        [HttpDelete("cleanup")]
         [SwaggerOperation(
             Summary = "Delete audit log",
             Description = "Deletes route log")]

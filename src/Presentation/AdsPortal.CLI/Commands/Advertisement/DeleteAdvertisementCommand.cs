@@ -1,5 +1,6 @@
-﻿namespace AdsPortal.CLI.Commands.User
+﻿namespace AdsPortal.CLI.Commands.Advertisement
 {
+    using System;
     using System.Net.Http;
     using System.Threading.Tasks;
     using AdsPortal.CLI.Helpers;
@@ -8,19 +9,16 @@
     using Typin.Attributes;
     using Typin.Console;
 
-    [Command("user paged")]
-    public class GetPagedUsersCommand : ICommand
+    [Command("ad delete")]
+    public class DeleteAdvertisementCommand : ICommand
     {
-        [CommandOption("page", 'p', IsRequired = true)]
-        public int Page { get; init; }
-
-        [CommandOption("per-page", 'n', IsRequired = true)]
-        public int EntiresPerPage { get; init; }
+        [CommandOption("id")]
+        public Guid Id { get; init; }
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IBackgroundWebHostProviderService _backgroundWebHostProvider;
 
-        public GetPagedUsersCommand(IHttpClientFactory httpClientFactory, IBackgroundWebHostProviderService backgroundWebHostProvider)
+        public DeleteAdvertisementCommand(IHttpClientFactory httpClientFactory, IBackgroundWebHostProviderService backgroundWebHostProvider)
         {
             _httpClientFactory = httpClientFactory;
             _backgroundWebHostProvider = backgroundWebHostProvider;
@@ -31,7 +29,7 @@
             await _backgroundWebHostProvider.StartAsync(console.GetCancellationToken());
 
             HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.GetAsync($"user/get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", console.GetCancellationToken());
+            var response = await client.DeleteAsync($"advertisement/delete/{Id}", console.GetCancellationToken());
 
             await response.PrintResponse(console);
         }

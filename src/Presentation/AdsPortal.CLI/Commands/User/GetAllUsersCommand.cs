@@ -12,9 +12,6 @@
     [Command("user all")]
     public class GetAllUsersCommand : ICommand
     {
-        [CommandOption("id")]
-        public Guid Id { get; init; }
-
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IBackgroundWebHostProviderService _backgroundWebHostProvider;
 

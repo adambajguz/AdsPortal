@@ -4,7 +4,6 @@
     using System.Security.Cryptography;
     using AdsPortal.Common;
 
-    //TODO Use System.Security.SecureString
     internal class PasswordHasher
     {
         private const int SALT_BYTE_SIZE = 64;
@@ -34,7 +33,7 @@
             HashedPassword correctPassword = new HashedPassword(saltedPassword, SALT_BYTE_SIZE);
             byte[] testHash = PBKDF2(password, correctPassword.SaltToArray(), PBKDF2_ITERATIONS, HASH_BYTE_SIZE, HASH_ALGORITHM);
 
-            return ConstantTimeEquals(correctPassword.HashToArray(), testHash);
+            return CryptographicOperations.FixedTimeEquals(correctPassword.HashToArray(), testHash);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -42,16 +41,6 @@
         {
             using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, hashAlgorithm))
                 return pbkdf2.GetBytes(outputBytes);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private static bool ConstantTimeEquals(byte[] a, byte[] b)
-        {
-            uint diff = (uint)a.Length ^ (uint)b.Length;
-            for (int i = 0; i < a.Length && i < b.Length; i++)
-                diff |= (uint)(a[i] ^ b[i]);
-
-            return diff == 0;
         }
     }
 }

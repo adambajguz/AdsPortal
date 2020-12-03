@@ -27,7 +27,7 @@
         public const string GetAll = nameof(GetAdvertisementsList);
         public const string GetPaged = nameof(GetPagedAdvertisementsList);
 
-        [CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.User)]
         [HttpPost("create")]
         [SwaggerOperation(
             Summary = "Create new advertisement",
@@ -51,7 +51,7 @@
             return Ok(await Mediator.Send(new GetAdvertisementDetailsQuery { Id = id }));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.User)]
         [HttpPut("update")]
         [SwaggerOperation(
             Summary = "Updated advertisement details",
@@ -64,7 +64,7 @@
             return Ok(await Mediator.Send(request));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.User)]
         [HttpDelete("delete/{id:guid}")]
         [SwaggerOperation(
             Summary = "Delete advertisement",
@@ -77,7 +77,6 @@
             return Ok(await Mediator.Send(new DeleteAdvertisementCommand { Id = id }));
         }
 
-        [CustomAuthorize(Roles.Admin)]
         [HttpGet("get-all")]
         [SwaggerOperation(
             Summary = "Get all advertisements",
@@ -89,7 +88,6 @@
             return Ok(await Mediator.Send(new GetAdvertisementsListQuery()));
         }
 
-        [CustomAuthorize(Roles.Admin)]
         [HttpGet("get-paged")]
         [SwaggerOperation(
             Summary = "Get paged advertisements",

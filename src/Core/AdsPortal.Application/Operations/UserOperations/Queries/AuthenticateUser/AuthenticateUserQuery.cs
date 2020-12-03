@@ -1,20 +1,21 @@
-﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken
+﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
     using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using FluentValidation;
     using MediatR;
 
-    public class GetAuthenticationTokenQuery : IOperation<JwtTokenModel>
+    public class AuthenticateUserQuery : IOperation<JwtTokenModel>
     {
         public string? Email { get; init; }
         public string? Password { get; init; }
 
-        private class Handler : IRequestHandler<GetAuthenticationTokenQuery, JwtTokenModel>
+        private class Handler : IRequestHandler<AuthenticateUserQuery, JwtTokenModel>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IJwtService _jwt;
@@ -27,12 +28,12 @@
                 _userManager = userManager;
             }
 
-            public async Task<JwtTokenModel> Handle(GetAuthenticationTokenQuery query, CancellationToken cancellationToken)
+            public async Task<JwtTokenModel> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
             {
                 User user = await _uow.Users.SingleAsync(x => x.Email.Equals(query.Email), noTracking: true, cancellationToken);
-                GetAuthenticationTokenValidator.Model validationModel = new GetAuthenticationTokenValidator.Model(query, user);
+                AutheniticateUserValidator.Model validationModel = new AutheniticateUserValidator.Model(query, user);
 
-                await new GetAuthenticationTokenValidator(_userManager).ValidateAndThrowAsync(validationModel, cancellationToken: cancellationToken);
+                await new AutheniticateUserValidator(_userManager).ValidateAndThrowAsync(validationModel, cancellationToken: cancellationToken);
 
                 return _jwt.GenerateJwtToken(user);
             }

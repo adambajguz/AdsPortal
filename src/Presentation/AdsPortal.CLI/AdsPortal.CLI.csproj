@@ -22,13 +22,4 @@
     <ProjectReference Include="..\..\Core\AdsPortal.Application\AdsPortal.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Advertisement\" />
-    <Folder Include="Commands\Analystics\" />
-    <Folder Include="Commands\Authentication\" />
-    <Folder Include="Commands\Category\" />
-    <Folder Include="Commands\EntityAuditLog\" />
-    <Folder Include="Commands\MediaItem\" />
-  </ItemGroup>
-
 </Project>

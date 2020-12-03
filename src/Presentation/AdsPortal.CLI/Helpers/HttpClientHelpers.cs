@@ -9,19 +9,30 @@
     {
         public static async Task PrintResponse(this HttpResponseMessage response, IConsole console)
         {
+            console.Output.WriteLine();
+
+            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("REQUEST URL:"));
+            console.Output.Write(' ');
+            await console.Output.WriteLineAsync(response.RequestMessage?.RequestUri?.ToString() ?? string.Empty);
+
+            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("REQUEST HEADERS:"));
+            console.Output.Write(' ');
+            console.Output.WriteLine();
+            await console.Output.WriteLineAsync(response.RequestMessage?.Headers?.ToString() ?? string.Empty);
+
             console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("RESPONSE:"));
             console.Output.Write(' ');
             console.Output.WriteLine();
             await console.Output.WriteLineAsync(response.ToString());
 
             console.Output.WriteLine();
-            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("HEADERS:"));
+            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("RESPONSE HEADERS:"));
             console.Output.Write(' ');
             console.Output.WriteLine();
             await console.Output.WriteLineAsync(response.Headers.ToString());
 
             console.Output.WriteLine();
-            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("PAYLOAD:"));
+            console.WithColors(ConsoleColor.Black, ConsoleColor.White, () => console.Output.Write("RESPONSE PAYLOAD:"));
             console.Output.Write(' ');
             console.Output.WriteLine();
 

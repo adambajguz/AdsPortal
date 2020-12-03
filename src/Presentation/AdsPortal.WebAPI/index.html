@@ -173,7 +173,7 @@
                         })
                     };
 
-                    fetch("/api/user/login", options)
+                    fetch("/api/user/auth", options)
                         .then(res => res.json())
                         .then(data => localStorage.setItem("token", data.token))
                         .then(update);
