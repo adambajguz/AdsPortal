@@ -3,6 +3,7 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
     using System;
     using System.Linq;
     using System.Security.Claims;
+    using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Common.Extensions;
     using AdsPortal.Domain.Jwt;
@@ -29,7 +30,7 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
         public bool IsAuthenticated => _context?.User?.Identity?.IsAuthenticated ?? false;
         public bool IsAdmin => IsAuthenticated && HasRole(Roles.Admin);
 
-        private readonly HttpContext _context;
+        private readonly HttpContext? _context;
 
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
@@ -45,14 +46,10 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
 
             if (_context is null)
             {
-#if DEBUG
-                return true; // This might be from CLI
-#else
                 throw new ForbiddenException();
-#endif
             }
 
-            ClaimsIdentity? identity = _context.User.Identity as ClaimsIdentity;
+            ClaimsIdentity? identity = _context?.User?.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)
                                      .Where(x => x.Value == roleName)
                                      .FirstOrDefault();
@@ -63,7 +60,7 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
         //TODO change to return Roles enum
         public string[] GetRoles()
         {
-            ClaimsIdentity? identity = _context.User.Identity as ClaimsIdentity;
+            ClaimsIdentity? identity = _context?.User?.Identity as ClaimsIdentity;
             string[]? roles = identity?.FindAll(ClaimTypes.Role)
                                        .Select(x => x.Value)
                                        .ToArray();
@@ -76,9 +73,9 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
             return GetUserIdFromContext(context.HttpContext);
         }
 
-        public static Guid? GetUserIdFromContext(HttpContext context)
+        public static Guid? GetUserIdFromContext(HttpContext? context)
         {
-            ClaimsIdentity? identity = context.User.Identity as ClaimsIdentity;
+            ClaimsIdentity? identity = context?.User?.Identity as ClaimsIdentity;
             Claim? claim = identity?.FindFirst(ClaimTypes.NameIdentifier);
 
             return claim == null ? null : (Guid?)Guid.Parse(claim.Value);

@@ -35,8 +35,7 @@
                           .UseKestrel()
                           .UseStaticWebAssets()
                           .UseStartup<Startup>()
-                          .UseSerilog()
-                          .UseUrls("http://*:2137", "http://*:2138");
+                          .UseSerilog();
         }
     }
 }

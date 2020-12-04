@@ -30,14 +30,18 @@
                 HttpRequest request = context.Request;
 
                 PathString path = context.Request.Path;
-                IPAddress ip = context.Connection.RemoteIpAddress;
-                StringValues userAgent = request.Headers[HeaderNames.UserAgent];
 
-                string sanitizedPath = path.Sanitize();
+                if (!(path.Value?.Contains("debug/ws-proxy") ?? false))
+                {
+                    IPAddress ip = context.Connection.RemoteIpAddress ?? IPAddress.None;
+                    StringValues userAgent = request.Headers[HeaderNames.UserAgent];
 
-                await CreateOrUpdateAnalyticsRecord(context, ip, userAgent, sanitizedPath);
+                    string sanitizedPath = path.Sanitize();
 
-                Log.ForContext(typeof(AnalyticsMiddleware)).Debug("Request to {Path} from {IP} and {UserAgent}", sanitizedPath, ip, userAgent);
+                    await CreateOrUpdateAnalyticsRecord(context, ip, userAgent, sanitizedPath);
+
+                    Log.ForContext(typeof(AnalyticsMiddleware)).Debug("Request to {Path} from {IP} and {UserAgent}", sanitizedPath, ip, userAgent);
+                }
             }
             catch (Exception ex)
             {
