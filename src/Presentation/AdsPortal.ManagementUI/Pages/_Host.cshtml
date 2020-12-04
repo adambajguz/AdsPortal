@@ -16,15 +16,14 @@
     <title>AdsPortal</title>
     <base href="~/" />
 
-    <link href="manifest.json" rel="manifest" />
+    <link href="@MediaHelper.AsRoot("manifest.json")" rel="manifest" />
 
-    <link rel="shortcut icon" href="/assets/images/typin-icon/typin-favicon-512px.png">
-    <link rel="icon" type="image/png" href="/assets/images/typin-icon/typin-favicon-512px.png" sizes="512x512">
-    <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/typin-icon/typin-favicon-512px.png">
+    <link rel="shortcut icon" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)">
+    <link rel="icon" type="image/png" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)" sizes="512x512">
+    <link rel="apple-touch-icon" sizes="512x512" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)">
 
-    <link href="@MediaHelper.AsAsset("site.css", AssetTypes.Stylesheet)" rel="stylesheet" />
-    <link href="/assets/css/c-blazor-error-ui.css" rel="stylesheet" />
-    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link href="@MediaHelper.AsAsset("c-blazor-error-ui.css", AssetTypes.Stylesheet)" rel="stylesheet" />
+    <link href="@MediaHelper.AsAsset("styles.css", AssetTypes.Stylesheet)" rel="stylesheet" />
 </head>
 
 <body id="body" class="dark">
@@ -43,7 +42,7 @@
 
                     <div class="row is-center">
                         <div class="col-3">
-                            <img class="img-zoom-in-out" src="./assets/images/typin-icon/typin-favicon-no-bg-256px.png" alt="Icon">
+                            <img class="img-zoom-in-out" src="@MediaHelper.AsAsset("typin-icon/typin-favicon-no-bg-256px.png", AssetTypes.Image)" alt="Icon">
                         </div>
                     </div>
 
@@ -64,11 +63,6 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
-    <script src="/assets/frameworks/xterm/xterm.min.js" defer></script>
-    <script src="/assets/frameworks/monaco-editor/min/vs/loader.js" defer></script>
-    <script src="/assets/js/js-extensions.js" defer></script>
-    <script src="/assets/js/monaco-editor-interop.js" defer></script>
-    <script src="/assets/js/xterm-interop.js" defer></script>
 
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>

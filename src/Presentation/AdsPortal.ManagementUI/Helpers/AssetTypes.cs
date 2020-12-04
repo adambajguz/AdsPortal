@@ -5,6 +5,7 @@
         Image,
         Video,
         Stylesheet,
+        Fonts,
         Script,
         Unspecified
     }

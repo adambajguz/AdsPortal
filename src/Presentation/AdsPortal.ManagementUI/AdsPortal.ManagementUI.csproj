@@ -10,10 +10,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <StaticWebAssetBasePath Condition="$(StaticWebAssetBasePath) == ''">/</StaticWebAssetBasePath>
-  </PropertyGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -29,6 +25,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.Application\AdsPortal.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\js\" />
   </ItemGroup>
 
 </Project>
