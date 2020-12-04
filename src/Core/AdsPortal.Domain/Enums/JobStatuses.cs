@@ -3,6 +3,7 @@
     public enum JobStatuses
     {
         Queued,
+        Taken,
         Running,
         Cancelled,
         TimedOut,

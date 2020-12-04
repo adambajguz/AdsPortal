@@ -12,13 +12,11 @@
 
         }
 
-        public async ValueTask<object?> Handle(string? args, CancellationToken cancellationToken)
+        public async ValueTask Handle(string? args, CancellationToken cancellationToken)
         {
-            int millisecondsDelay = 50 + new Random().Next(0, 1000);
-            Console.WriteLine($"TestJob {millisecondsDelay}");
-            //await Task.Delay(millisecondsDelay, cancellationToken);
-
-            return default;
+            int millisecondsDelay = 5 + new Random().Next(0, 2000);
+            //Console.WriteLine($"TestJob {millisecondsDelay}");
+            await Task.Delay(millisecondsDelay, cancellationToken);
         }
     }
 }

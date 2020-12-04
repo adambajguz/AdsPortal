@@ -5,6 +5,6 @@
 
     public interface IJob
     {
-        ValueTask<object?> Handle(string? args, CancellationToken cancellationToken);
+        ValueTask Handle(string? args, CancellationToken cancellationToken);
     }
 }

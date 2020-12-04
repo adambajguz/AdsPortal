@@ -9,7 +9,7 @@
     public class Job : IBaseRelationalEntity, IEntityCreation
     {
         public Guid Id { get; set; }
-        public long JobNo { get; set; }
+        public ulong JobNo { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public Guid? CreatedBy { get; set; }
@@ -18,11 +18,13 @@
         public DateTime? FinishedOn { get; set; }
         public JobStatuses Status { get; set; }
 
+        public Guid? Instance { get; set; }
+
         public string Operation { get; set; } = string.Empty;
         public ushort Priority { get; set; }
         public DateTime? PostponeTo { get; set; }
 
-        public string? OperationArguments { get; set; }
-        public string? OperationResult { get; set; }
+        public string? Arguments { get; set; }
+        public string? Exception { get; set; }
     }
 }

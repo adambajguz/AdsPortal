@@ -9,6 +9,7 @@
         public static IServiceCollection AddFoundationCLIServices(this IServiceCollection services)
         {
             //Register services
+            services.AddSingleton<IDbMigrationsService, DbMigrationsService>();
             services.AddSingleton<IWebHostRunnerService, WebHostRunnerService>();
             services.AddSingleton<IBackgroundWebHostProviderService, BackgroundWebHostProviderService>();
 

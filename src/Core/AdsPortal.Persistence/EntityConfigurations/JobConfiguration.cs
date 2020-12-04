@@ -10,6 +10,12 @@
 
         public void Configure(EntityTypeBuilder<Job> builder)
         {
+            builder.HasIndex(x => x.JobNo).IsUnique();
+
+            builder.HasIndex(x => x.Priority);
+
+            builder.HasIndex(x => x.Status);
+
             builder.Property(e => e.JobNo)
                    .HasDefaultValueSql($"NEXT VALUE FOR {JobNoSequenceName}");
         }

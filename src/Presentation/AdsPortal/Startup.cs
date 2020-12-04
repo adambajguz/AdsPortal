@@ -3,6 +3,7 @@ namespace AdsPortal
     using System.Net.Mime;
     using System.Threading.Tasks;
     using AdsPortal.Analytics;
+    using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Common;
     using AdsPortal.Domain;
     using AdsPortal.Infrastructure.Common;
@@ -129,18 +130,34 @@ namespace AdsPortal
 
             app.ConfigureWebApi(env);
 
-            //using (IServiceScope scope = app.ApplicationServices.CreateScope())
-            //{
-            //    IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            {
+                IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-            //    for (int i = 0; i < 500; ++i)
-            //    {
-            //        if(i % 100 == 0)
-            //            System.Console.WriteLine($"Added {i}");
+                for (int i = 0; i < 200; ++i)
+                {
+                    if (i % 100 == 0)
+                        System.Console.WriteLine($"Added {i}");
 
-            //        x.Schedule<Application.Jobs.TestJob>().Wait();
-            //    }
-            //}
+                    x.Schedule<Application.Jobs.TestJob>().Wait();
+                }
+
+                for (int i = 0; i < 200; ++i)
+                {
+                    if (i % 100 == 0)
+                        System.Console.WriteLine($"Added {i}");
+
+                    x.Schedule<Application.Jobs.TestJob>(1).Wait();
+                }
+
+                for (int i = 0; i < 200; ++i)
+                {
+                    if (i % 100 == 0)
+                        System.Console.WriteLine($"Added {i}");
+
+                    x.Schedule<Application.Jobs.TestJob>(2).Wait();
+                }
+            }
         }
 
         private static async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)

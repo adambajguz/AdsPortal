@@ -1,6 +1,5 @@
 ﻿namespace AdsPortal.CLI.Commands.Category
 {
-    using System;
     using System.Net.Http;
     using System.Threading.Tasks;
     using AdsPortal.CLI.Helpers;

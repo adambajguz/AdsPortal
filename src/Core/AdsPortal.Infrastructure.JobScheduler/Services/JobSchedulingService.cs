@@ -28,7 +28,7 @@
                 Operation = operationType.AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
                 Priority = priority,
                 PostponeTo = postponeTo,
-                OperationArguments = JsonConvert.SerializeObject(operationArguments)
+                Arguments = JsonConvert.SerializeObject(operationArguments)
             };
 
             Uow.Jobs.Add(entity);
@@ -46,7 +46,7 @@
                 Operation = typeof(T).AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
                 Priority = priority,
                 PostponeTo = postponeTo,
-                OperationArguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
+                Arguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
             };
 
             Uow.Jobs.Add(entity);
@@ -69,7 +69,7 @@
                 Operation = operation,
                 Priority = priority,
                 PostponeTo = postponeTo,
-                OperationArguments = JsonConvert.SerializeObject(operationArguments)
+                Arguments = JsonConvert.SerializeObject(operationArguments)
             };
 
             Uow.Jobs.Add(entity);
@@ -94,7 +94,7 @@
                 Operation = typeof(T).AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
                 Priority = priority,
                 PostponeTo = postponeTo,
-                OperationArguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
+                Arguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
             };
 
             Uow.Jobs.Add(entity);

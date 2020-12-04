@@ -4,14 +4,16 @@ using AdsPortal.Persistence.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdsPortal.Persistence.Migrations
 {
     [DbContext(typeof(RelationalDbContext))]
-    partial class RelationalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201204174301_JobsIndexes")]
+    partial class JobsIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,12 +159,9 @@ namespace AdsPortal.Persistence.Migrations
                     b.Property<DateTime?>("FinishedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("Instance")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("JobNo")
+                    b.Property<long>("JobNo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("bigint")
                         .HasDefaultValueSql("NEXT VALUE FOR Job_JobNo_Sequence");
 
                     b.Property<string>("Operation")
@@ -183,12 +182,9 @@ namespace AdsPortal.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobNo")
-                        .IsUnique();
+                    b.HasIndex("JobNo");
 
                     b.HasIndex("Priority");
-
-                    b.HasIndex("Status");
 
                     b.ToTable("Jobs");
                 });
