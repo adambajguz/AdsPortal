@@ -1,6 +1,7 @@
 ﻿namespace AdsPortal.Domain.Entities
 {
     using System;
+    using AdsPortal.Domain.Abstractions.Audit;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Domain.Jwt;
 
@@ -17,12 +18,19 @@
         public string Description { get; set; } = string.Empty;
         public string Alt { get; set; } = string.Empty;
 
-        public virtual string VirtualDirectory { get; set; } = string.Empty;
+        public string VirtualDirectory { get; set; } = string.Empty;
         public long PathHashCode { get; set; }
 
+        [AuditIgnore]
         public virtual byte[]? Data { get; set; }
+
+        [AuditIgnore]
         public string ContentType { get; set; } = string.Empty;
-        public virtual string Hash { get; set; } = string.Empty;
+
+        [AuditIgnore]
+        public string Hash { get; set; } = string.Empty;
+
+        [AuditIgnore]
         public long ByteSize { get; set; }
 
         public Guid? OwnerId { get; set; }
