@@ -143,9 +143,8 @@
             using (IServiceScope jobScope = ServiceScopeFactory.CreateScope())
             {
                 IAppRelationalUnitOfWork jobUow = jobScope.ServiceProvider.GetRequiredService<IAppRelationalUnitOfWork>();
-                IJob? jobInstance = jobScope.ServiceProvider.GetService(type) as IJob;
 
-                if (jobInstance is null)
+                if (jobScope.ServiceProvider.GetService(type) is not IJob jobInstance)
                 {
                     Log.ForContext<JobSchedulingService>().Error("Unknown job of type {Type}", job.Operation);
                     return;
