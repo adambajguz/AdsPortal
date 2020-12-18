@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Configuration
+﻿namespace AdsPortal.WebAPI.Configurations
 {
     public static class FeaturesSettings
     {

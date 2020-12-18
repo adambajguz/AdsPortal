@@ -3,6 +3,7 @@
   "profiles": {
     "AdsPortal (Development)": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -11,6 +12,7 @@
     },
     "AdsPortal (Development) [Interactive]": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "[interactive]",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -19,6 +21,7 @@
     },
     "AdsPortal (Development) --help": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "--help",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -26,6 +29,7 @@
     },
     "AdsPortal (Production)": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
@@ -34,6 +38,7 @@
     },
     "AdsPortal (Production) [Interactive]": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "[interactive]",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
@@ -42,6 +47,7 @@
     },
     "AdsPortal (Production) --help": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "--help",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"

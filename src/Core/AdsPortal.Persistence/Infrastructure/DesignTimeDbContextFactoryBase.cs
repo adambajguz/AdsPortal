@@ -16,13 +16,14 @@
         public TContext CreateDbContext(string[] args)
         {
             string basePath = Directory.GetCurrentDirectory() + string.Format("{0}..{0}../Presentation/AdsPortal", Path.DirectorySeparatorChar);
+            string currentPath = Directory.GetCurrentDirectory();
 
-            return Create(basePath, Environment.GetEnvironmentVariable(AspNetCoreEnvironment) ?? "Production");
+            return Create(basePath, currentPath, Environment.GetEnvironmentVariable(AspNetCoreEnvironment) ?? "Production");
         }
 
         protected abstract TContext CreateNewInstance(DbContextOptions<TContext> options);
 
-        private TContext Create(string basePath, string? environmentName)
+        private TContext Create(string basePath, string currentPath, string environmentName)
         {
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder().SetBasePath(basePath);
             configurationBuilder.AddJsonFile(GlobalAppConfig.AppSettingsFileName);
@@ -30,6 +31,8 @@
             IConfigurationRoot configurationRoot = configurationBuilder
                 .AddJsonFile($"appsettings.json", optional: true)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                .AddJsonFile($"{currentPath}{Path.DirectorySeparatorChar}appsettings.Persistence.json", optional: false)
+                .AddJsonFile($"{currentPath}{Path.DirectorySeparatorChar}appsettings.Persistence.{environmentName}.json", optional: true)
                 .AddEnvironmentVariables()
                 .Build();
 

@@ -10,6 +10,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.JobScheduler.json" />
+    <None Remove="appsettings.ManagementUI.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.JobScheduler.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <DependentUpon>appsettings.JobScheduler.json</DependentUpon>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.JobScheduler.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
     <ProjectReference Include="..\AdsPortal.Application\AdsPortal.Application.csproj" />
   </ItemGroup>

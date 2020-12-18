@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Configuration.SwaggerFilters
+﻿namespace AdsPortal.WebAPI.Configurations.SwaggerFilters
 {
     using System.Collections.Generic;
     using System.Linq;

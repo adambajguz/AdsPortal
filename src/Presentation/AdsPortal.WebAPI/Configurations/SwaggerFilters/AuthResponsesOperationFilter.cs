@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Configuration.SwaggerFilters
+﻿namespace AdsPortal.WebAPI.Configurations.SwaggerFilters
 {
     using System.Collections.Immutable;
     using System.Linq;
@@ -31,7 +31,7 @@
         private static string BuildString(ImmutableList<AuthorizeAttribute> authAttributes)
         {
             string[] roles = authAttributes.Select(x => string.Concat("[",
-                                                                      x.Roles.Replace(", ", "|"),
+                                                                      x.Roles?.Replace(", ", "|") ?? string.Empty,
                                                                       "]"))
                                            .ToArray();
 

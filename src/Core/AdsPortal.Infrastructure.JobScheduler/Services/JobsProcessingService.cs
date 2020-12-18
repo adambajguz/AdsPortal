@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AdsPortal.Application.Configurations;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
@@ -13,29 +14,31 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using TTimer = System.Threading.Timer;
 
-    public sealed class JobSchedulerRunnerService : IHostedService, IJobSchedulerRunnerService
+    public sealed class JobsProcessingService : IHostedService, IJobSchedulerRunnerService
     {
-        private const int MaxConcurent = 8;
-        private const int MaxConcurentBatch = 64;
-
         private int _processing = 0;
         private readonly SemaphoreSlim _sync = new SemaphoreSlim(1, 1);
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         private TTimer? Timer { get; set; }
 
-        private IServiceScopeFactory ServiceScopeFactory { get; }
-        private ILogger Logger { get; }
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly JobSchedulerConfiguration _configuration;
+        private readonly ILogger _logger;
 
         public Guid InstanceId { get; } = Guid.NewGuid();
 
-        public JobSchedulerRunnerService(IServiceScopeFactory serviceProvider, ILogger<JobSchedulerRunnerService> logger)
+        public JobsProcessingService(IServiceScopeFactory serviceProvider,
+                                     IOptions<JobSchedulerConfiguration> configuration,
+                                     ILogger<JobsProcessingService> logger)
         {
-            ServiceScopeFactory = serviceProvider;
-            Logger = logger;
+            _serviceScopeFactory = serviceProvider;
+            _configuration = configuration.Value;
+            _logger = logger;
         }
 
         private async void TickTimer(object state)
@@ -47,41 +50,44 @@
 
         private async Task CheckAndProcessJobs(CancellationToken cancellationToken)
         {
-            int toTake = Math.Min((MaxConcurent * MaxConcurentBatch) - _processing, MaxConcurentBatch);
+            int maxConcurent = _configuration.MaxConcurent;
+            int concurentBatchSize = _configuration.ConcurentBatchSize;
+
+            int toTake = Math.Min((maxConcurent * concurentBatchSize) - _processing, concurentBatchSize);
 
             if (toTake <= 0)
                 return;
 
-            using (IServiceScope jobScope = ServiceScopeFactory.CreateScope())
+            using (IServiceScope jobScope = _serviceScopeFactory.CreateScope())
             {
                 IAppRelationalUnitOfWork uow = jobScope.ServiceProvider.GetRequiredService<IAppRelationalUnitOfWork>();
 
                 DateTime now = DateTime.UtcNow;
 
-                if (await _sync.WaitAsync(40, cancellationToken))
+                if (await _sync.WaitAsync(_configuration.Tick / 2, cancellationToken))
                 {
                     List<Job>? queuedJobs = null;
 
                     //Only one task can access db
                     try
                     {
-                            queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued || x.Status == JobStatuses.Taken) &&
-                                                                              (x.PostponeTo == null || x.PostponeTo >= now) &&
-                                                                              x.Instance != InstanceId,
-                                                                 orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
-                                                                 take: toTake,
-                                                                 cancellationToken: cancellationToken);
+                        queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued || x.Status == JobStatuses.Taken) &&
+                                                                          (x.PostponeTo == null || x.PostponeTo >= now) &&
+                                                                          x.Instance != InstanceId,
+                                                             orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
+                                                             take: toTake,
+                                                             cancellationToken: cancellationToken);
 
-                            Interlocked.Add(ref _processing, toTake);
+                        Interlocked.Add(ref _processing, toTake);
 
-                            foreach (var job in queuedJobs)
-                            {
-                                job.Status = JobStatuses.Taken;
-                                job.Instance = InstanceId;
-                                uow.Jobs.Update(job);
-                            }
+                        foreach (var job in queuedJobs)
+                        {
+                            job.Status = JobStatuses.Taken;
+                            job.Instance = InstanceId;
+                            uow.Jobs.Update(job);
+                        }
 
-                            await uow.SaveChangesAsync();
+                        await uow.SaveChangesAsync(cancellationToken);
                     }
                     finally
                     {
@@ -91,7 +97,7 @@
                     //Execute if there are tasks
                     if (queuedJobs is List<Job> jobs && jobs.Count > 0)
                     {
-                        Logger.LogDebug("Executing {Count} new job(s) in batch ({Processing} processing).", toTake, _processing);
+                        _logger.LogDebug("Executing {Count} new job(s) in batch ({Processing} processing).", toTake, _processing);
 
                         IEnumerable<Task> tasks = jobs.Select(x => ExecuteJob(x, cancellationToken));
                         foreach (var bucket in Interleaved(tasks))
@@ -108,9 +114,7 @@
         //https://devblogs.microsoft.com/pfxteam/processing-tasks-as-they-complete/
         private Task<Task>[] Interleaved(IEnumerable<Task> tasks)
         {
-            var inputTasks = tasks.ToList();
-
-            var buckets = new TaskCompletionSource<Task>[inputTasks.Count];
+            var buckets = new TaskCompletionSource<Task>[tasks.Count()];
             var results = new Task<Task>[buckets.Length];
             for (int i = 0; i < buckets.Length; i++)
             {
@@ -127,7 +131,7 @@
                 bucket.TrySetResult(completed);
             };
 
-            foreach (Task inputTask in inputTasks)
+            foreach (Task inputTask in tasks)
                 inputTask.ContinueWith(continuation, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 
             return results;
@@ -138,21 +142,21 @@
             Type? type = Type.GetType(job.Operation);
             if (type is null)
             {
-                Logger.LogError("Unknown job of type {Type}", job.Operation);
+                _logger.LogError("Unknown job of type {Type}", job.Operation);
                 return;
             }
 
-            using (IServiceScope jobScope = ServiceScopeFactory.CreateScope())
+            using (IServiceScope jobScope = _serviceScopeFactory.CreateScope())
             {
                 IAppRelationalUnitOfWork jobUow = jobScope.ServiceProvider.GetRequiredService<IAppRelationalUnitOfWork>();
 
                 if (jobScope.ServiceProvider.GetService(type) is not IJob jobInstance)
                 {
-                    Logger.LogError("Unknown job of type {Type}", job.Operation);
+                    _logger.LogError("Unknown job of type {Type}", job.Operation);
                     return;
                 }
 
-                Logger.LogTrace("Running job {No}", job.JobNo);
+                _logger.LogTrace("Running job {No}", job.JobNo);
 
                 DateTime startTime = DateTime.UtcNow;
                 DateTime? finishTime = null;
@@ -160,12 +164,14 @@
                 job.StartedOn = startTime;
                 job.Status = JobStatuses.Running;
                 jobUow.Jobs.Update(job);
-                await jobUow.SaveChangesAsync();
+                await jobUow.SaveChangesAsync(cancellationToken);
 
                 using (CancellationTokenSource jobCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
                 {
-                    TimeSpan timeout = TimeSpan.FromSeconds(5000); //TODO: timeout pre job
-                    jobCts.CancelAfter(timeout); // TODO: set from settings, job class attribute or when schedulling a command
+                    if (job.TimeoutAfter is TimeSpan timeout)
+                    {
+                        jobCts.CancelAfter(timeout);
+                    }
 
                     JobStatuses finishStatus = JobStatuses.Error;
                     try
@@ -183,18 +189,18 @@
 
                         if (timedOut)
                         {
-                            Logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, timeout);
+                            _logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, job.TimeoutAfter);
                         }
                         else
                         {
-                            Logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
+                            _logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
                         }
                     }
                     catch (Exception ex)
                     {
                         job.Exception = JsonConvert.SerializeObject(ex);
 
-                        Logger.LogCritical(ex, "Error occured during job {Id} {JobNo} execution.", job.Id, job.JobNo);
+                        _logger.LogCritical(ex, "Error occured during job {Id} {JobNo} execution.", job.Id, job.JobNo);
                     }
                     finally
                     {
@@ -203,33 +209,36 @@
                         job.Status = finishStatus;
                         jobUow.Jobs.Update(job);
 
-                        await jobUow.SaveChangesAsync();
+                        await jobUow.SaveChangesAsync(cancellationToken);
                     }
                 }
 
-                Logger.LogTrace("Finished job {No}", job.JobNo);
+                _logger.LogTrace("Finished job {No}", job.JobNo);
             }
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("Starting {Service}.", nameof(JobSchedulerRunnerService));
+            _logger.LogInformation("Starting {Service}.", nameof(JobsProcessingService));
 
-            Timer ??= new TTimer(TickTimer!, _cts.Token, TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(50)); //TODO add appsettings section
+            Timer ??= new TTimer(TickTimer!,
+                                 _cts.Token,
+                                 _configuration.StartupDelay,
+                                 TimeSpan.FromMilliseconds(_configuration.Tick));
 
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("Stopping {Service}.", nameof(JobSchedulerRunnerService));
+            _logger.LogInformation("Stopping {Service}.", nameof(JobsProcessingService));
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            Logger.LogDebug("Disposing {Service}.", nameof(JobSchedulerRunnerService));
+            _logger.LogDebug("Disposing {Service}.", nameof(JobsProcessingService));
 
             // dispose\stop timer here
             Timer?.Dispose();

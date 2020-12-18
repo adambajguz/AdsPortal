@@ -2,7 +2,7 @@
 {
     using System.Reflection;
     using System.Text.Json.Serialization;
-    using AdsPortal.WebAPI.Configuration;
+    using AdsPortal.WebAPI.Configurations;
     using AdsPortal.WebAPI.Converters;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;

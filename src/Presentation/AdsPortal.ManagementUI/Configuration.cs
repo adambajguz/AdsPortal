@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
 
-    public static class FeatureConfiguration
+    public static class Configuration
     {
         public static IConfigurationBuilder AddManagementUIConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext, string environmentName)
         {

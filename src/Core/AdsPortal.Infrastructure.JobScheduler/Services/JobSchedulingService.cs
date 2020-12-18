@@ -20,6 +20,7 @@
         public async Task Schedule(Type operationType,
                                    ushort priority = 0,
                                    DateTime? postponeTo = null,
+                                   TimeSpan? timeoutAfter = null,
                                    object? operationArguments = null,
                                    CancellationToken cancellationToken = default)
         {
@@ -28,6 +29,7 @@
                 Operation = operationType.AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
                 Priority = priority,
                 PostponeTo = postponeTo,
+                TimeoutAfter = timeoutAfter,
                 Arguments = JsonConvert.SerializeObject(operationArguments)
             };
 
@@ -37,25 +39,18 @@
 
         public async Task Schedule<T>(ushort priority = 0,
                                       DateTime? postponeTo = null,
+                                      TimeSpan? timeoutAfter = null,
                                       object? operationArguments = null,
                                       CancellationToken cancellationToken = default)
             where T : class, IJob
         {
-            Job entity = new Job
-            {
-                Operation = typeof(T).AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
-                Priority = priority,
-                PostponeTo = postponeTo,
-                Arguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
-            };
-
-            Uow.Jobs.Add(entity);
-            await Uow.SaveChangesAsync(cancellationToken);
+            await Schedule(typeof(T), priority, postponeTo, timeoutAfter, operationArguments, cancellationToken);
         }
 
         public async Task<bool> ScheduleOne(Type operationType,
                                             ushort priority = 0,
                                             DateTime? postponeTo = null,
+                                            TimeSpan? timeoutAfter = null,
                                             object? operationArguments = null,
                                             CancellationToken cancellationToken = default)
         {
@@ -64,43 +59,19 @@
             if (await Uow.Jobs.ExistsAsync(x => x.Operation == operation, cancellationToken))
                 return false;
 
-            Job entity = new Job
-            {
-                Operation = operation,
-                Priority = priority,
-                PostponeTo = postponeTo,
-                Arguments = JsonConvert.SerializeObject(operationArguments)
-            };
-
-            Uow.Jobs.Add(entity);
-            await Uow.SaveChangesAsync(cancellationToken);
+            await Schedule(operationType, priority, postponeTo, timeoutAfter, operationArguments, cancellationToken);
 
             return true;
         }
 
         public async Task<bool> ScheduleOne<T>(ushort priority = 0,
                                                DateTime? postponeTo = null,
+                                               TimeSpan? timeoutAfter = null,
                                                object? operationArguments = null,
                                                CancellationToken cancellationToken = default)
             where T : class, IJob
         {
-            string operation = typeof(T).AssemblyQualifiedName ?? throw new ArgumentException("Invalid type.");
-
-            if (await Uow.Jobs.ExistsAsync(x => x.Operation == operation, cancellationToken))
-                return false;
-
-            Job entity = new Job
-            {
-                Operation = typeof(T).AssemblyQualifiedName ?? throw new ArgumentException("Invalid type."),
-                Priority = priority,
-                PostponeTo = postponeTo,
-                Arguments = operationArguments is null ? null : JsonConvert.SerializeObject(operationArguments)
-            };
-
-            Uow.Jobs.Add(entity);
-            await Uow.SaveChangesAsync(cancellationToken);
-
-            return true;
+            return await ScheduleOne(typeof(T), priority, postponeTo, timeoutAfter, operationArguments, cancellationToken);
         }
     }
 }
