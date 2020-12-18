@@ -2,7 +2,6 @@
 {
     using System;
     using AdsPortal.Common;
-    using Serilog;
 
     public static class MediaHelper
     {

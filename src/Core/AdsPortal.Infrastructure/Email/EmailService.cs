@@ -4,13 +4,14 @@
     using System.Net.Mail;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces;
+    using AdsPortal.Infrastructure.Configurations;
     using Microsoft.Extensions.Options;
 
     public class EmailService : IEmailService
     {
-        private readonly EmailSettings _settings;
+        private readonly EmailConfiguration _settings;
 
-        public EmailService(IOptions<EmailSettings> settings)
+        public EmailService(IOptions<EmailConfiguration> settings)
         {
             _settings = settings.Value;
         }

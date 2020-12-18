@@ -10,7 +10,7 @@
     using AdsPortal.Infrastructure.Common.Extensions;
     using Microsoft.Extensions.Caching.Distributed;
     using Microsoft.Extensions.Caching.Memory;
-    using Serilog;
+    using Microsoft.Extensions.Logging;
 
     public class CachingService : ICachingService
     {
@@ -19,10 +19,12 @@
         private readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new ConcurrentDictionary<string, SemaphoreSlim>();
 
         public IDistributedCache Provider { get; }
+        public ILogger Logger { get; }
 
-        public CachingService(IDistributedCache distributedCache)
+        public CachingService(IDistributedCache distributedCache, ILogger<CachingService> logger)
         {
             Provider = distributedCache;
+            Logger = logger;
         }
 
         //TODO add action in methods
@@ -90,7 +92,7 @@
                                                           SlidingExpiration = entry.SlidingExpiration
                                                       });
 
-            Log.Information($"{nameof(CachingService) }.Set with key: {fullKey} and SyncId {entry?.SynchronizationId} (null? {entry?.Value is null})", this);
+            Logger.LogInformation($"{nameof(CachingService) }.Set with key: {fullKey} and SyncId {entry?.SynchronizationId} (null? {entry?.Value is null})", this);
         }
 
         public async Task<T?> GetOrSet<T>(ICacheEntryConfig entryConfig, Func<T> createValue)

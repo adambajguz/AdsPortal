@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Domain.Entities;
+    using AdsPortal.Infrastructure.Identity.Configurations;
     using AdsPortal.Infrastructure.Identity.UserManager.Hasher;
     using FluentValidation;
     using Microsoft.Extensions.Options;
@@ -12,7 +13,7 @@
     {
         private readonly VersionedPasswordProvider _passwordHasher;
 
-        public UserManagerService(IOptions<PasswordHasherSettings> settings)
+        public UserManagerService(IOptions<PasswordHasherConfiguration> settings)
         {
             _passwordHasher = new VersionedPasswordProvider(settings.Value);
         }

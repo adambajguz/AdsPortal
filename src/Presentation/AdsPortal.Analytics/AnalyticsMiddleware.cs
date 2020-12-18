@@ -9,9 +9,9 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
     using Microsoft.Net.Http.Headers;
-    using Serilog;
 
     //TODO: add min max average request to respone time
     public class AnalyticsMiddleware
@@ -25,6 +25,8 @@
 
         public async Task InvokeAsync(HttpContext context)
         {
+            ILogger logger = context.RequestServices.GetRequiredService<ILogger<AnalyticsMiddleware>>();
+
             try
             {
                 HttpRequest request = context.Request;
@@ -38,20 +40,20 @@
 
                     string sanitizedPath = path.Sanitize();
 
-                    await CreateOrUpdateAnalyticsRecord(context, ip, userAgent, sanitizedPath);
+                    await CreateOrUpdateAnalyticsRecord(logger, context, ip, userAgent, sanitizedPath);
 
-                    Log.ForContext(typeof(AnalyticsMiddleware)).Debug("Request to {Path} from {IP} and {UserAgent}", sanitizedPath, ip, userAgent);
+                    logger.LogDebug("Request to {Path} from {IP} and {UserAgent}", sanitizedPath, ip, userAgent);
                 }
             }
             catch (Exception ex)
             {
-                Log.ForContext(typeof(AnalyticsMiddleware)).Error($"Error in analytics middleware", ex);
+                logger.LogError($"Error in analytics middleware", ex);
             }
 
             await _next(context);
         }
 
-        private static async Task CreateOrUpdateAnalyticsRecord(HttpContext context, IPAddress ip, StringValues userAgent, string sanitizedPath)
+        private static async Task CreateOrUpdateAnalyticsRecord(ILogger logger, HttpContext context, IPAddress ip, StringValues userAgent, string sanitizedPath)
         {
             IMediator? mediator = context.RequestServices.GetService<IMediator>();
             if (!(mediator is null))
@@ -64,7 +66,7 @@
                 };
 
                 IdResult id = await mediator.Send(command);
-                Log.ForContext(typeof(AnalyticsMiddleware)).Debug("Created or updated analytics record with id {Id}", id.Id);
+                logger.LogDebug("Created or updated analytics record with id {Id}", id.Id);
             }
         }
     }

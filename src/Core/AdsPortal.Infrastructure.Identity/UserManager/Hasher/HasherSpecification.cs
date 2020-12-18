@@ -3,6 +3,7 @@
     using System;
     using System.Security.Cryptography;
     using AdsPortal.Common.Extensions;
+    using AdsPortal.Infrastructure.Identity.Configurations;
 
     internal sealed class HasherSpecification
     {

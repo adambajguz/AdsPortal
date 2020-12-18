@@ -2,8 +2,8 @@
 {
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Common.Extensions;
+    using AdsPortal.Persistence.Configurations;
     using AdsPortal.Persistence.DbContext;
-    using AdsPortal.Persistence.DbContext.Settings;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.UoW;
     using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,10 @@
     {
         public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddConfiguration<DatabaseSettings>(configuration);
+            services.AddConfiguration<RelationalDbConfiguration>(configuration, out RelationalDbConfiguration relationalDbConfiguration);
+            services.AddConfiguration<MongoDbConfiguration>(configuration);
 
-            services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(configuration.GetConnectionString(ConnectionStringsNames.SQLDatabase)))
+            services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(relationalDbConfiguration.ConnectionString))
                     .AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
 
             services.AddSingleton<IMongoDbContext, MongoDbContext>();

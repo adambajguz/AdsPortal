@@ -10,7 +10,7 @@
         where TRequest : notnull
     {
         private readonly Stopwatch _timer;
-        private readonly ILogger<TRequest> _logger;
+        private readonly ILogger _logger;
 
         public RequestPerformanceBehaviour(ILogger<TRequest> logger)
         {

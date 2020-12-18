@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Infrastructure.Identity.UserManager.Hasher
+﻿namespace AdsPortal.Infrastructure.Identity.Configurations
 {
-    public sealed class PasswordHasherSettings
+    public sealed class PasswordHasherConfiguration
     {
         public PasswordHasherSettingsEntry[]? Entries { get; set; }
     }

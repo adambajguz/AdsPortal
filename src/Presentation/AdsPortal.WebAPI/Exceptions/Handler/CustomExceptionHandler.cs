@@ -8,8 +8,9 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using Serilog;
 
     public static class CustomExceptionHandler
     {
@@ -41,7 +42,7 @@
                 ValidationFailedException ex => HandleValidationFaliedException(ex, ref errorObject),
                 ForbiddenException _ => HttpStatusCode.Forbidden,
                 NotFoundException _ => HttpStatusCode.NotFound,
-                _ => HandleUnknownException(exception)
+                _ => HandleUnknownException(context, exception)
             };
 
             string message = exception?.Message ?? "Unknown exception";
@@ -70,9 +71,10 @@
             return HttpStatusCode.BadRequest;
         }
 
-        private static HttpStatusCode HandleUnknownException(Exception? exception)
+        private static HttpStatusCode HandleUnknownException(HttpContext context, Exception? exception)
         {
-            Log.ForContext(typeof(CustomExceptionHandler)).Error(exception, "Unhandled exception in CustomExceptionHandlerMiddleware");
+            ILogger logger = context.RequestServices.GetRequiredService<ILogger<CustomExceptionHandler>>();
+            logger.LogError(exception, "Unhandled exception in CustomExceptionHandlerMiddleware");
 
             return HttpStatusCode.InternalServerError;
         }

@@ -12,8 +12,8 @@
     using AdsPortal.Infrastructure.JobScheduler.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using Serilog;
     using TTimer = System.Threading.Timer;
 
     public sealed class JobSchedulerRunnerService : IHostedService, IJobSchedulerRunnerService
@@ -28,12 +28,14 @@
         private TTimer? Timer { get; set; }
 
         private IServiceScopeFactory ServiceScopeFactory { get; }
+        private ILogger Logger { get; }
 
         public Guid InstanceId { get; } = Guid.NewGuid();
 
-        public JobSchedulerRunnerService(IServiceScopeFactory serviceProvider)
+        public JobSchedulerRunnerService(IServiceScopeFactory serviceProvider, ILogger<JobSchedulerRunnerService> logger)
         {
             ServiceScopeFactory = serviceProvider;
+            Logger = logger;
         }
 
         private async void TickTimer(object state)
@@ -89,7 +91,7 @@
                     //Execute if there are tasks
                     if (queuedJobs is List<Job> jobs && jobs.Count > 0)
                     {
-                        Log.ForContext<JobSchedulingService>().Debug("Executing {Count} new job(s) in batch ({Processing} processing).", toTake, _processing);
+                        Logger.LogDebug("Executing {Count} new job(s) in batch ({Processing} processing).", toTake, _processing);
 
                         IEnumerable<Task> tasks = jobs.Select(x => ExecuteJob(x, cancellationToken));
                         foreach (var bucket in Interleaved(tasks))
@@ -136,7 +138,7 @@
             Type? type = Type.GetType(job.Operation);
             if (type is null)
             {
-                Log.ForContext<JobSchedulingService>().Error("Unknown job of type {Type}", job.Operation);
+                Logger.LogError("Unknown job of type {Type}", job.Operation);
                 return;
             }
 
@@ -146,11 +148,11 @@
 
                 if (jobScope.ServiceProvider.GetService(type) is not IJob jobInstance)
                 {
-                    Log.ForContext<JobSchedulingService>().Error("Unknown job of type {Type}", job.Operation);
+                    Logger.LogError("Unknown job of type {Type}", job.Operation);
                     return;
                 }
 
-                Log.ForContext<JobSchedulingService>().Verbose("Running job {No}", job.JobNo);
+                Logger.LogTrace("Running job {No}", job.JobNo);
 
                 DateTime startTime = DateTime.UtcNow;
                 DateTime? finishTime = null;
@@ -181,18 +183,18 @@
 
                         if (timedOut)
                         {
-                            Log.ForContext<JobSchedulingService>().Error("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, timeout);
+                            Logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, timeout);
                         }
                         else
                         {
-                            Log.ForContext<JobSchedulingService>().Error("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
+                            Logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
                         }
                     }
                     catch (Exception ex)
                     {
                         job.Exception = JsonConvert.SerializeObject(ex);
 
-                        Log.ForContext<JobSchedulingService>().Fatal(ex, "Error occured during job {Id} {JobNo} execution.", job.Id, job.JobNo);
+                        Logger.LogCritical(ex, "Error occured during job {Id} {JobNo} execution.", job.Id, job.JobNo);
                     }
                     finally
                     {
@@ -205,13 +207,13 @@
                     }
                 }
 
-                Log.ForContext<JobSchedulingService>().Verbose("Finished job {No}", job.JobNo);
+                Logger.LogTrace("Finished job {No}", job.JobNo);
             }
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Log.ForContext<JobSchedulingService>().Debug("Starting {Service}.", nameof(JobSchedulerRunnerService));
+            Logger.LogInformation("Starting {Service}.", nameof(JobSchedulerRunnerService));
 
             Timer ??= new TTimer(TickTimer!, _cts.Token, TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(50)); //TODO add appsettings section
 
@@ -220,14 +222,14 @@
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Log.ForContext<JobSchedulingService>().Debug("Stopping {Service}.", nameof(JobSchedulerRunnerService));
+            Logger.LogInformation("Stopping {Service}.", nameof(JobSchedulerRunnerService));
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            Log.ForContext<JobSchedulingService>().Debug("Disposing {Service}.", nameof(JobSchedulerRunnerService));
+            Logger.LogDebug("Disposing {Service}.", nameof(JobSchedulerRunnerService));
 
             // dispose\stop timer here
             Timer?.Dispose();

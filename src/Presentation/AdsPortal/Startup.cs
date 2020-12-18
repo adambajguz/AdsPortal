@@ -3,7 +3,6 @@ namespace AdsPortal
     using System.Net.Mime;
     using System.Threading.Tasks;
     using AdsPortal.Analytics;
-    using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Common;
     using AdsPortal.Domain;
     using AdsPortal.Infrastructure.Common;
@@ -35,13 +34,13 @@ namespace AdsPortal
 
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Environment { get; }
-        public ILoggerFactory Logger { get; }
+        public ILoggerFactory LoggerFactory { get; }
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment, ILoggerFactory logger)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
             Environment = environment;
-            Logger = logger;
+            LoggerFactory = loggerFactory;
         }
 
         // This method gets called by the runtime. Use it to add services to the container.
@@ -56,7 +55,7 @@ namespace AdsPortal
                     .AddInfrastructureJobSchedulerLayer(Configuration);
 
             services.AddPersistenceLayer(Configuration)
-                    .AddApplicationLayer()
+                    .AddApplicationLayer(LoggerFactory)
                     .AddMvc()
                     .AddManagementUI(Configuration);
 

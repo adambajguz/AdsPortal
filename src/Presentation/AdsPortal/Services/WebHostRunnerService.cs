@@ -6,7 +6,7 @@
     using AdsPortal.CLI.Interfaces;
     using AdsPortal.Common;
     using AdsPortal.Helpers;
-    using AdsPortal.Infrastructure.Logging.Configuration;
+    using AdsPortal.Infrastructure.Logging.Helpers;
     using Microsoft.AspNetCore.Hosting;
     using Serilog;
     using Serilog.Events;
@@ -35,7 +35,7 @@
 
         public async Task<IWebHost> StartAsync(CancellationToken cancellationToken = default)
         {
-            SerilogConfiguration.ConsoleLoggingLevelSwitch.MinimumLevel = LogEventLevel.Debug;// + 1;
+            SerilogConfigurationHelper.ConsoleLoggingLevelSwitch.MinimumLevel = LogEventLevel.Debug;// + 1;
 
             IWebHost webHost = GetWebHost();
 
@@ -44,7 +44,7 @@
                 await webHost.StartAsync(cancellationToken);
 
                 Log.ForContext<WebHostRunnerService>().Information("Background mode initialized!");
-                SerilogConfiguration.ConsoleLoggingLevelSwitch.MinimumLevel = LogEventLevel.Fatal;// + 1;
+                SerilogConfigurationHelper.ConsoleLoggingLevelSwitch.MinimumLevel = LogEventLevel.Fatal;// + 1;
             }
             catch (Exception ex)
             {

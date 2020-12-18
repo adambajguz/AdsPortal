@@ -7,19 +7,15 @@
     using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using AutoMapper.Configuration;
-    using Serilog;
+    using Microsoft.Extensions.Logging;
 
     public class CustomAutoMapperProfile : Profile
     {
-        public CustomAutoMapperProfile()
-        {
-            Assembly assembly = typeof(CustomAutoMapperProfile).Assembly;
+        private readonly ILogger _logger;
 
-            LoadCustomMappings(assembly);
-        }
-
-        public CustomAutoMapperProfile(Assembly assembly)
+        public CustomAutoMapperProfile(Assembly assembly, ILogger logger)
         {
+            _logger = logger;
             LoadCustomMappings(assembly);
         }
 
@@ -32,7 +28,7 @@
             IEnumerable<ITypeMapConfiguration> typeMapConfigs = (this as IProfileConfiguration).TypeMapConfigs;
             foreach (Type type in types)
             {
-                Log.ForContext<CustomAutoMapperProfile>().Debug("Registering mappings from configuration in {Type}", type);
+                _logger.LogDebug("Registering mappings from configuration in {Type}", type);
 
                 ICustomMapping? map = Activator.CreateInstance(type) as ICustomMapping;
                 map?.CreateMappings(this);
@@ -41,15 +37,15 @@
                 if (v == count)
                 {
                     anyEmpty = true;
-                    Log.ForContext<CustomAutoMapperProfile>().Warning("{Type} does not contain any mapping definitions", type);
+                    _logger.LogWarning("{Type} does not contain any mapping definitions", type);
                 }
                 count = v;
             }
 
-            Log.ForContext<CustomAutoMapperProfile>().Information($"Registered {{Count}} maps from {{ICustomMappingTypesCount}} classes implementing {nameof(ICustomMapping)} for {{Assembly}}", typeMapConfigs.Count(), types.Count(), rootAssembly);
+            _logger.LogInformation($"Registered {{Count}} maps from {{ICustomMappingTypesCount}} classes implementing {nameof(ICustomMapping)} for {{Assembly}}", typeMapConfigs.Count(), types.Count(), rootAssembly);
             if (anyEmpty)
             {
-                Log.ForContext<CustomAutoMapperProfile>().Warning($"At least one class implementing {nameof(ICustomMapping)} does not contain any mapping definitions in {{Assembly}}.", rootAssembly);
+                _logger.LogWarning($"At least one class implementing {nameof(ICustomMapping)} does not contain any mapping definitions in {{Assembly}}.", rootAssembly);
             }
         }
 

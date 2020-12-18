@@ -3,6 +3,7 @@
     using System;
     using System.Runtime.CompilerServices;
     using System.Security.Cryptography;
+    using AdsPortal.Infrastructure.Identity.Configurations;
 
     internal class VersionedPasswordProvider
     {
@@ -14,7 +15,7 @@
         private readonly HasherSpecification _lastSpecification;
         private readonly ushort _lastSpecificationIndex;
 
-        public VersionedPasswordProvider(PasswordHasherSettings settings)
+        public VersionedPasswordProvider(PasswordHasherConfiguration settings)
         {
             SetSpecificationFromSettings(settings);
 
@@ -23,7 +24,7 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetSpecificationFromSettings(PasswordHasherSettings settings)
+        private void SetSpecificationFromSettings(PasswordHasherConfiguration settings)
         {
             PasswordHasherSettingsEntry[] entries = settings.Entries ?? throw new NullReferenceException("At least on entry should be defined");
 

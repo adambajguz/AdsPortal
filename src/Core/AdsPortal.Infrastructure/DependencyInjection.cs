@@ -1,6 +1,7 @@
 ﻿namespace AdsPortal.Infrastructure
 {
     using AdsPortal.Common.Extensions;
+    using AdsPortal.Infrastructure.Configurations;
     using AdsPortal.Infrastructure.Email;
     using Application.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
         {
             //email
-            services.AddConfiguration<EmailSettings>(configuration);
+            services.AddConfiguration<EmailConfiguration>(configuration);
             services.AddSingleton<IEmailService, EmailService>();
 
             return services;

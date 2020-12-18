@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.Infrastructure.Logging.Configuration
 {
-    public sealed class LoggerSettings
+    public sealed class LoggingConfiguration
     {
         public string? FilePath { get; set; }
         public string? FileNameTemplate { get; set; }

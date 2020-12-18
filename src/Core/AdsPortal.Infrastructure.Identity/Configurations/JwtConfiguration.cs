@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Infrastructure.Identity.Jwt
+﻿namespace AdsPortal.Infrastructure.Identity.Configurations
 {
     using System;
 
-    public sealed class JwtSettings
+    public sealed class JwtConfiguration
     {
         public string? Key { get; set; }
         public TimeSpan Lease { get; set; }

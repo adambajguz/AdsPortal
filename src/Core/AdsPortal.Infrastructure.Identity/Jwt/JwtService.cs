@@ -9,6 +9,7 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Common.Extensions;
     using AdsPortal.Domain.Jwt;
+    using AdsPortal.Infrastructure.Identity.Configurations;
     using Application.Operations.AuthenticationOperations.Queries.GetValidToken;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
@@ -17,13 +18,13 @@
     {
         private const int MINIMUM_JWT_LENGTH = 64;
 
-        private readonly JwtSettings _settings;
+        private readonly JwtConfiguration _settings;
         private readonly byte[] _key;
         private readonly SigningCredentials _signingCredentials;
         private readonly TokenValidationParameters _validationParameters;
         private readonly JwtSecurityTokenHandler _handler;
 
-        public JwtService(IOptions<JwtSettings> settings)
+        public JwtService(IOptions<JwtConfiguration> settings)
         {
             _settings = settings.Value;
             string key = _settings.Key ?? throw new NullReferenceException("JWT key should not be null");
@@ -97,7 +98,7 @@
             _handler.ValidateToken(token, _validationParameters, out _);
         }
 
-        public static TokenValidationParameters GetValidationParameters(JwtSettings settings)
+        public static TokenValidationParameters GetValidationParameters(JwtConfiguration settings)
         {
             byte[] key = Base64UrlEncoder.DecodeBytes(settings.Key);
             string issuers = settings.Issuer ?? throw new NullReferenceException("Issuer should not be null");

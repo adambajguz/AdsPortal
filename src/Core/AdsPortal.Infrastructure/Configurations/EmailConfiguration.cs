@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Infrastructure.Email
+﻿namespace AdsPortal.Infrastructure.Configurations
 {
-    public sealed class EmailSettings
+    public sealed class EmailConfiguration
     {
         public string? SmtpClient { get; set; }
         public string? EmailAddress { get; set; }

@@ -1,22 +1,21 @@
 ﻿namespace AdsPortal.Helpers
 {
+    using System;
     using AdsPortal;
     using AdsPortal.Common;
-    using AdsPortal.Infrastructure.Logging.Configuration;
+    using AdsPortal.Infrastructure.Logging.Helpers;
     using FluentValidation;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
     using Serilog;
 
     public static class WebHostHelpers
     {
+        private const string AspNetCoreEnvironment = "ASPNETCORE_ENVIRONMENT";
+
         public static IWebHost BuildWebHost()
         {
-            SerilogConfiguration.ConfigureSerilog();
-
-            Log.ForContext(typeof(WebHostHelpers)).Information(GlobalAppConfig.AppInfo.AppNameWithVersionCopyright);
-            Log.ForContext(typeof(WebHostHelpers)).Information("Loading web host...");
-
             //Custom PropertyNameResolver to remove neasted Property in Classes e.g. Data.Id in UpdateUserCommandValidator.Model
             //ValidatorOptions.Global.PropertyNameResolver = (type, member, expression) => member?.Name;
             ValidatorOptions.Global.LanguageManager.Enabled = false;
@@ -29,10 +28,26 @@
 
         private static IWebHostBuilder CreateWebHostBuilder()
         {
-            Log.ForContext(typeof(WebHostHelpers)).Information("Starting web host...");
+            string environmentName = Environment.GetEnvironmentVariable(AspNetCoreEnvironment) ?? "Production";
 
             return WebHost.CreateDefaultBuilder()
-                          .UseKestrel()
+                          .UseKestrel((hostingContext, serverOptions) =>
+                          {
+
+                          })
+                          .ConfigureAppConfiguration((hostingContext, config) =>
+                          {
+                              config.AddJsonFile($"appsettings.json", optional: false)
+                                    .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                                    .AddEnvironmentVariables();
+                          })
+                          .ConfigureLogging((hostingContext, config) =>
+                          {
+                              SerilogConfigurationHelper.ConfigureSerilog(hostingContext.Configuration);
+
+                              Log.ForContext(typeof(WebHostHelpers)).Information(GlobalAppConfig.AppInfo.AppNameWithVersionCopyright);
+                              Log.ForContext(typeof(WebHostHelpers)).Information("Loading web host...");
+                          })
                           .UseStaticWebAssets()
                           .UseStartup<Startup>()
                           .UseSerilog();

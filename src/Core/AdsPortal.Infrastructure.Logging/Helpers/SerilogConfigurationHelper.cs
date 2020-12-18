@@ -1,8 +1,9 @@
-﻿namespace AdsPortal.Infrastructure.Logging.Configuration
+﻿namespace AdsPortal.Infrastructure.Logging.Helpers
 {
     using System;
-    using System.IO;
     using AdsPortal.Common;
+    using AdsPortal.Common.Extensions;
+    using AdsPortal.Infrastructure.Logging.Configuration;
     using Microsoft.Extensions.Configuration;
     using Sentry;
     using Serilog;
@@ -12,20 +13,13 @@
     using Serilog.Exceptions;
     using Serilog.Sinks.SystemConsole.Themes;
 
-    public static class SerilogConfiguration
+    public static class SerilogConfigurationHelper
     {
         public static LoggingLevelSwitch ConsoleLoggingLevelSwitch { get; set; } = new LoggingLevelSwitch();
 
-        public static ILogger ConfigureSerilog()
+        public static ILogger ConfigureSerilog(IConfiguration configuration)
         {
-            LoggerSettings loggerSettigns;
-            //logger configuration
-            {
-                IConfigurationBuilder configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory());
-                configuration.AddJsonFile(GlobalAppConfig.AppSettingsFileName);
-
-                loggerSettigns = configuration.Build().GetSection(nameof(LoggerSettings)).Get<LoggerSettings>();
-            }
+            LoggingConfiguration loggerSettigns = configuration.GetValue<LoggingConfiguration>();
 
             //TODO: use ILogger or ILogger<T> in the app
             //TODO: consider adding seq
@@ -41,18 +35,17 @@
             Logger logger = loggerConfiguration.CreateLogger();
             Log.Logger = logger;
 
-            logger.ForContext(typeof(SerilogConfiguration)).Information($"Config file: {GlobalAppConfig.AppSettingsFileName}");
-            logger.ForContext(typeof(SerilogConfiguration)).Information($"Logs are stored under: {loggerSettigns.FullPath}");
+            logger.ForContext(typeof(SerilogConfigurationHelper)).Information($"Config file: {GlobalAppConfig.AppSettingsFileName}");
+            logger.ForContext(typeof(SerilogConfigurationHelper)).Information($"Logs are stored under: {loggerSettigns.FullPath}");
 
             return logger;
         }
 
         #region Private LoggerConfiguration Extensions
-        private static LoggerConfiguration SetOutput(this LoggerConfiguration loggerConfiguration, LoggerSettings loggerSettigns)
+        private static LoggerConfiguration SetOutput(this LoggerConfiguration loggerConfiguration, LoggingConfiguration loggerSettigns)
         {
 #pragma warning disable CA1031 // Do not catch general exception types
             if (loggerSettigns.IsConsoleOutputEnabled)
-            {
                 try
                 {
                     loggerConfiguration.WriteTo.Async(WriteToConsole(loggerSettigns));
@@ -63,10 +56,8 @@
                     Console.WriteLine($"Cannot enable console logging. {ex}");
                     Console.WriteLine(new string('=', 25));
                 }
-            }
 
             if (loggerSettigns.IsFileOutputEnabled)
-            {
                 try
                 {
                     loggerConfiguration.WriteTo.Async(WriteToFile(loggerSettigns));
@@ -77,16 +68,14 @@
                     Console.WriteLine($"Cannot enable file logging. {ex}");
                     Console.WriteLine(new string('=', 25));
                 }
-            }
 #pragma warning restore CA1031 // Do not catch general exception types
 
             return loggerConfiguration;
         }
 
-        private static LoggerConfiguration SetLoggingLevels(this LoggerConfiguration loggerConfiguration, LoggerSettings loggerSettigns)
+        private static LoggerConfiguration SetLoggingLevels(this LoggerConfiguration loggerConfiguration, LoggingConfiguration loggerSettigns)
         {
             if (GlobalAppConfig.IsDevMode)
-            {
                 if (loggerSettigns.LogEverythingInDev)
                 {
                     loggerConfiguration.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Verbose)
@@ -104,7 +93,6 @@
                     loggerConfiguration.MinimumLevel.Debug();
                     ConsoleLoggingLevelSwitch.MinimumLevel = LogEventLevel.Debug;
                 }
-            }
             else
             {
                 loggerConfiguration.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
@@ -117,7 +105,7 @@
             return loggerConfiguration;
         }
 
-        private static LoggerConfiguration ConfigureSentry(this LoggerConfiguration loggerConfiguration, LoggerSettings loggerSettigns)
+        private static LoggerConfiguration ConfigureSentry(this LoggerConfiguration loggerConfiguration, LoggingConfiguration loggerSettigns)
         {
             if (!loggerSettigns.SentryEnabled)
                 return loggerConfiguration;
@@ -139,13 +127,13 @@
             return loggerConfiguration;
         }
 
-        private static Action<LoggerSinkConfiguration> WriteToConsole(LoggerSettings loggerSettigns)
+        private static Action<LoggerSinkConfiguration> WriteToConsole(LoggingConfiguration loggerSettigns)
         {
             return x => x.Console(outputTemplate: loggerSettigns.ConsoleOutputTemplate,
                                   theme: AnsiConsoleTheme.Code, levelSwitch: ConsoleLoggingLevelSwitch);
         }
 
-        private static Action<LoggerSinkConfiguration> WriteToFile(LoggerSettings loggerSettigns)
+        private static Action<LoggerSinkConfiguration> WriteToFile(LoggingConfiguration loggerSettigns)
         {
             return x => x.File(loggerSettigns.FullPath,
                                outputTemplate: loggerSettigns.FileOutputTemplate,

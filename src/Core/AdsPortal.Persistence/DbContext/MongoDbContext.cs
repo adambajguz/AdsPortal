@@ -5,10 +5,9 @@
     using System.Threading.Tasks;
     using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Persistence.DbContext.Settings;
+    using AdsPortal.Persistence.Configurations;
     using AdsPortal.Persistence.Extensions;
     using AdsPortal.Persistence.Interfaces.DbContext;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Options;
     using MongoDB.Driver;
 
@@ -17,15 +16,15 @@
         public MongoClient DbClient { get; }
         public IMongoDatabase Db { get; }
 
-        public MongoDbContext(IConfiguration configuration, IOptions<DatabaseSettings> options)
+        public MongoDbContext(IOptions<MongoDbConfiguration> options)
         {
-            DatabaseSettings databaseSettings = options.Value;
+            MongoDbConfiguration mongoConfiguration = options.Value;
 
-            string? connectionString = configuration.GetConnectionString(ConnectionStringsNames.MongoDatabase);
+            string? connectionString = mongoConfiguration.ConnectionString;
             if (string.IsNullOrWhiteSpace(connectionString))
                 throw new ArgumentNullException(nameof(options));
 
-            string? databaseName = databaseSettings.MongoDatabaseName;
+            string? databaseName = mongoConfiguration.DatabaseName;
             if (string.IsNullOrWhiteSpace(databaseName))
                 throw new ArgumentNullException(nameof(options));
 
