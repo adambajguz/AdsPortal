@@ -11,7 +11,7 @@
         height: 12px;
         border-radius: 50%;
         margin-right: 3px;
-        background: var(--color-accent);
+        background: var(--color-grey);
         animation: wave 1.3s linear infinite;
     }
 

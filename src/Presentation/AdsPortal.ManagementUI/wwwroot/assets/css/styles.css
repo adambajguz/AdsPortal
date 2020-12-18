@@ -25,15 +25,16 @@ body {
 
     body.dark {
         /*Chota overrides*/
-        --bg-color: #080a0a;
-        --bg-secondary-color: #082542;
-        --page-column-bg-color: #0f3952;
-        --font-color: #f5f5f5;
-        --color-grey: #bbb;
-        --color-darkGrey: #777;
-        --color-primary: #17c16f;
-        --color-error: #ea4f4f;
-        --color-accent: #00d5ff;
+        --bg-color: #1f2227;
+        --bg-secondary-color: #15191c;
+        --page-column-bg-color: #292e32;
+        --font-color: #f2f2f3;
+        --color-lightGrey: #f2f2f3;
+        --color-grey: #789aff;
+        --color-darkGrey: #15191c;
+        --color-primary: #ffc801;
+        --color-success: #28cc97;
+        --color-error: #f43f57;
         --color-warning: #ffa500;
     }
 
@@ -70,7 +71,7 @@ hr {
 
 code,
 kbd {
-    color: var(--color-accent);
+    color: var(--color-error);
 }
 
 #grid .card {
@@ -86,14 +87,17 @@ button:focus {
     outline: none;
 }
 
+.button.outline {
+    color: var(--color-lightGrey);
+}
+
+.button.primary {
+    color: var(--color-darkGrey);
+}
+
 .button.outline.error {
     border-color: var(--color-error);
     color: var(--color-error);
-}
-
-.button.outline.accent {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
 }
 
 .button.is-small {
@@ -121,18 +125,6 @@ button:focus {
 
 .text-tiny {
     font-size: calc(var(--font-size) * var(--font-size-tiny-multiplier));
-}
-
-.bd-accent {
-    border: 1px solid var(--color-accent) !important;
-}
-
-.text-accent {
-    color: var(--color-accent) !important;
-}
-
-.bg-accent {
-    background-color: var(--color-accent) !important;
 }
 
 .bg-warning {

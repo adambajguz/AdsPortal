@@ -73,7 +73,7 @@
 
         private static HttpStatusCode HandleUnknownException(HttpContext context, Exception? exception)
         {
-            ILogger logger = context.RequestServices.GetRequiredService<ILogger<CustomExceptionHandler>>();
+            ILogger logger = context.RequestServices.GetRequiredService<ILogger>();
             logger.LogError(exception, "Unhandled exception in CustomExceptionHandlerMiddleware");
 
             return HttpStatusCode.InternalServerError;

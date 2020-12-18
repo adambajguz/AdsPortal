@@ -28,7 +28,7 @@
         }
 
     .blazored-toast-container .blazored-toast-info .blazored-toast-progressbar > span {
-        background-color: var(--color-accent) !important;
+        background-color: var(--color-primary) !important;
         filter: brightness(var(--toast-progress-bar-brightness));
     }
 

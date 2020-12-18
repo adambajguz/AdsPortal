@@ -1,6 +1,12 @@
 ﻿@page "/"
 @namespace AdsPortal.ManagementUI.Pages
 
+@using Microsoft.Extensions.Options;
+@using AdsPortal.ManagementUI.Configurations;
+@using AdsPortal.ManagementUI.Shared;
+
+@inject IOptions<ApplicationConfiguration> ApplicationConfiguration;
+
 @using AdsPortal.ManagementUI.Helpers
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
@@ -8,62 +14,33 @@
     Layout = null;
 }
 
+@{
+    string iconPath = ApplicationConfiguration.Value.IconPath ?? string.Empty;
+    string iconAssetPath = MediaHelper.AsAsset(iconPath, AssetTypes.Image);
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>AdsPortal</title>
+    <title>@ApplicationConfiguration.Value.Name</title>
     <base href="~/" />
 
     <link href="@MediaHelper.AsRoot("manifest.json")" rel="manifest" />
 
-    <link rel="shortcut icon" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)">
-    <link rel="icon" type="image/png" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)" sizes="512x512">
-    <link rel="apple-touch-icon" sizes="512x512" href="@MediaHelper.AsAsset("typin-icon/typin-favicon-512px.png", AssetTypes.Image)">
+    <link rel="shortcut icon" href="@iconAssetPath">
+    <link rel="icon" type="image/png" href="@iconAssetPath" sizes="512x512">
+    <link rel="apple-touch-icon" sizes="512x512" href="@iconAssetPath">
 
     <link href="@MediaHelper.AsAsset("c-blazor-error-ui.css", AssetTypes.Stylesheet)" rel="stylesheet" />
     <link href="@MediaHelper.AsAsset("styles.css", AssetTypes.Stylesheet)" rel="stylesheet" />
 </head>
 
 <body id="body" class="dark">
-    <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
-
-        <header class="container">
-            <div class="hero is-full-screen">
-                <div class="logo is-center is-vertical-align">
-
-                    <div class="wave-loader">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
-
-                    <div class="row is-center">
-                        <div class="col-3">
-                            <img class="img-zoom-in-out" src="@MediaHelper.AsAsset("typin-icon/typin-favicon-no-bg-256px.png", AssetTypes.Image)" alt="Icon">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </header>
-    </app>
-
-    <div class="c-blazor-error-ui">
-        <environment include="Staging,Production">
-            An error has occurred. This application may no longer respond until reloaded.
-        </environment>
-        <environment include="Development">
-            An unhandled exception has occurred. See browser dev tools for details.
-        </environment>
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
 
     <script src="_framework/blazor.server.js"></script>
-
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 </html>

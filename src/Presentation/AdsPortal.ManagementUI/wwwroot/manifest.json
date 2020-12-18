@@ -1,13 +1,13 @@
 {
-  "name": "TypinExamples",
-  "short_name": "TypinExamples",
+  "name": "AdsPortal",
+  "short_name": "AdsPortal",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#080a0a",
   "theme_color": "#00d5ff",
   "icons": [
     {
-      "src": "assets/images/typin-icon/typin-favicon-512px.png",
+      "src": "assets/images/icon-512px.png",
       "type": "image/png",
       "sizes": "512x512"
     }

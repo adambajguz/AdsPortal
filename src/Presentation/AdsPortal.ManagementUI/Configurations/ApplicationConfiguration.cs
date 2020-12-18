@@ -13,6 +13,11 @@
         public string? LogoPath { get; init; }
 
         /// <summary>
+        /// Application icon path.
+        /// </summary>
+        public string? IconPath { get; init; }
+
+        /// <summary>
         /// Application description with markdown formatting.
         /// </summary>
         public string[]? Description { get; init; }
