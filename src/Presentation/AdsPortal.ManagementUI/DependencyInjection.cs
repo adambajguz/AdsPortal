@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net.Http;
+    using AdsPortal.Application.Configurations;
     using AdsPortal.Common.Extensions;
     using AdsPortal.ManagementUI.Configurations;
     using AdsPortal.ManagementUI.Services;

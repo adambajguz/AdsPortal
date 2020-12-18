@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.ManagementUI.Configurations
+﻿namespace AdsPortal.Application.Configurations
 {
     public sealed class ApplicationConfiguration
     {

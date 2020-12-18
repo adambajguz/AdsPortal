@@ -16,7 +16,7 @@
 
         public static string Sanitize(this PathString path)
         {
-            string url = path.Value;
+            string url = path.Value ?? string.Empty;
 
             string[] splitUrl = url.Split(new char[] { '?', '#' });
             string cleanedUrl = splitUrl[0];
@@ -29,7 +29,7 @@
             bool needsTrimming = cleanedUrl.Length > MAX_PATH_LENGTH;
             if (needsTrimming)
             {
-                cleanedUrl.Substring(0, MAX_PATH_LENGTH);
+                cleanedUrl = cleanedUrl.Substring(0, MAX_PATH_LENGTH);
                 cleanedUrl += TRIMMED_PATH_TOKEN;
             }
 

@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configuration\**" />
+    <Content Remove="Configuration\**" />
+    <EmbeddedResource Remove="Configuration\**" />
+    <None Remove="Configuration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
@@ -28,9 +35,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
     <Folder Include="wwwroot\assets\fonts\" />
     <Folder Include="wwwroot\assets\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.ManagementUI.Development.json">
+      <DependentUpon>appsettings.ManagementUI.json</DependentUpon>
+    </Content>
   </ItemGroup>
 
 </Project>

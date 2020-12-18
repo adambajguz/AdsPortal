@@ -4,11 +4,14 @@
     using AdsPortal;
     using AdsPortal.Common;
     using AdsPortal.Infrastructure.Logging.Helpers;
+    using AdsPortal.ManagementUI;
+    using AdsPortal.Analytics;
     using FluentValidation;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Serilog;
+    using AdsPortal.WebAPI;
 
     public static class WebHostHelpers
     {
@@ -39,6 +42,9 @@
                           {
                               config.AddJsonFile($"appsettings.json", optional: false)
                                     .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                                    .AddWebAPIConfigs(hostingContext, environmentName)
+                                    .AddManagementUIConfigs(hostingContext, environmentName)
+                                    .AddAnalyticsConfigs(hostingContext, environmentName)
                                     .AddEnvironmentVariables();
                           })
                           .ConfigureLogging((hostingContext, config) =>
