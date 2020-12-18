@@ -3,8 +3,14 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
+      "provider": "unpkg",
       "library": "chota@latest",
-      "destination": "wwwroot/assets/frameworks/chota/"
+      "destination": "wwwroot/assets/libraries/chota/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@5.15.1",
+      "destination": "wwwroot/assets/libraries/font-awesome/"
     }
   ]
 }

@@ -261,6 +261,6 @@ __pycache__/
 *.pyc
 
 # Custom
-src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/frameworks/*/*
+src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/*/*
 	
-!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/frameworks/chota/about.txt
+!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/chota/about.txt

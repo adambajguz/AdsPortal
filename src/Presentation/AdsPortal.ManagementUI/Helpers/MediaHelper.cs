@@ -21,7 +21,7 @@
                                                               throw new NullReferenceException($"{nameof(AssemblyFullName)} is null in {nameof(MediaHelper)}");
 
         private static readonly string WwwRootPath = Use_ContentFolder ? $"/_content/{AssemblyFullName}/" : $"/";
-        private static readonly string AssetsPath = $"{WwwRootPath}{AssetsFolderName}/";
+        private static readonly string AssetsPath = $"{WwwRootPath}{AssetsFolderName}";
 
         public static string AsAsset(string resource, AssetTypes type = AssetTypes.Unspecified, bool? overrideVersioning = null)
         {

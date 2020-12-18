@@ -130,34 +130,34 @@ namespace AdsPortal
 
             app.ConfigureWebApi(env);
 
-            using (IServiceScope scope = app.ApplicationServices.CreateScope())
-            {
-                IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
+            //using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            //{
+            //    IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                for (int i = 0; i < 200; ++i)
-                {
-                    if (i % 100 == 0)
-                        System.Console.WriteLine($"Added {i}");
+            //    for (int i = 0; i < 200; ++i)
+            //    {
+            //        if (i % 100 == 0)
+            //            System.Console.WriteLine($"Added {i}");
 
-                    x.Schedule<Application.Jobs.TestJob>().Wait();
-                }
+            //        x.Schedule<Application.Jobs.TestJob>().Wait();
+            //    }
 
-                for (int i = 0; i < 200; ++i)
-                {
-                    if (i % 100 == 0)
-                        System.Console.WriteLine($"Added {i}");
+            //    for (int i = 0; i < 200; ++i)
+            //    {
+            //        if (i % 100 == 0)
+            //            System.Console.WriteLine($"Added {i}");
 
-                    x.Schedule<Application.Jobs.TestJob>(1).Wait();
-                }
+            //        x.Schedule<Application.Jobs.TestJob>(1).Wait();
+            //    }
 
-                for (int i = 0; i < 200; ++i)
-                {
-                    if (i % 100 == 0)
-                        System.Console.WriteLine($"Added {i}");
+            //    for (int i = 0; i < 200; ++i)
+            //    {
+            //        if (i % 100 == 0)
+            //            System.Console.WriteLine($"Added {i}");
 
-                    x.Schedule<Application.Jobs.TestJob>(2).Wait();
-                }
-            }
+            //        x.Schedule<Application.Jobs.TestJob>(2).Wait();
+            //    }
+            //}
         }
 
         private static async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)
