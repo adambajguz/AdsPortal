@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configuration\" />
     <Folder Include="wwwroot\assets\fonts\" />
     <Folder Include="wwwroot\assets\js\" />
   </ItemGroup>

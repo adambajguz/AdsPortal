@@ -58,7 +58,7 @@ namespace AdsPortal
             services.AddPersistenceLayer(Configuration)
                     .AddApplicationLayer()
                     .AddMvc()
-                    .AddManagementUI();
+                    .AddManagementUI(Configuration);
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();

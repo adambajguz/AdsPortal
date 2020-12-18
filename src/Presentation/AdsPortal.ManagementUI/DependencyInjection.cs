@@ -2,21 +2,28 @@
 {
     using System;
     using System.Net.Http;
+    using AdsPortal.Common.Extensions;
+    using AdsPortal.ManagementUI.Configurations;
     using AdsPortal.ManagementUI.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class DependencyInjection
     {
-        public static IServiceCollection AddManagementUI(this IServiceCollection services)
+        public static IServiceCollection AddManagementUI(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddRazorPages();
             services.AddServerSideBlazor(c =>
             {
                 c.DetailedErrors = true;
             });
+
+            services.AddConfiguration<ApplicationConfiguration>(configuration)
+                    .AddConfiguration<HeaderConfiguration>(configuration)
+                    .AddConfiguration<FooterConfiguration>(configuration);
 
             // Setup HttpClient for server side in a client side compatible fashion
             services.AddScoped<HttpClient>(s =>

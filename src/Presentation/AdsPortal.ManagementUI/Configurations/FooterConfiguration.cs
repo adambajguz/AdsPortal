@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.ManagementUI.Configuration
+﻿namespace AdsPortal.ManagementUI.Configurations
 {
     using System;
 
-    public sealed class FooterSettings
+    public sealed class FooterConfiguration
     {
         /// <summary>
         /// Authors with Markdown formatting.
