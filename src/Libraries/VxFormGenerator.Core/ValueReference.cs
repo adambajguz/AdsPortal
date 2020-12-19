@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Components;
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core
 {
-
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using Microsoft.AspNetCore.Components;
 
     public class FormElementReference<TValue>
     {
@@ -44,27 +41,23 @@ namespace VxFormGenerator.Core
             var propertyInfo = modelType.GetProperty(key);
             return (TValue)propertyInfo.GetValue(model);
         }
-
     }
 
     public class ValueReference<TKey, TValue>
     {
         public TValue Value { get; set; }
         public TKey Key { get; set; }
-
     }
 
     public class ValueReferences<T> : ValueReferences
     {
         public ValueReferences()
         {
-            var values = typeof(T).GetEnumValues()
-                .Cast<T>()
-                .Select(m => new ValueReference<string, bool>() { Key = m.ToString(), Value = false })
-                .ToList();
+            IEnumerable<ValueReference<string, bool>> values = typeof(T).GetEnumValues()
+                                                                        .Cast<T>()
+                                                                        .Select(m => new ValueReference<string, bool>() { Key = m.ToString(), Value = false });
 
             AddRange(values);
-
         }
     }
 

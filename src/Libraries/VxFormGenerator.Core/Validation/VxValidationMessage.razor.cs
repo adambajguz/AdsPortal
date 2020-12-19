@@ -1,5 +1,4 @@
-﻿
-namespace VxFormGenerator.Core.Validation
+﻿namespace VxFormGenerator.Core.Validation
 {
     public class VxValidationMessageComponent<TValue> : ValidationMessageBase<TValue>
     {

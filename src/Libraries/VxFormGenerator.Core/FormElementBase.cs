@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-using VxFormGenerator.Core.Repository;
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Forms;
+    using Microsoft.AspNetCore.Components.Rendering;
+    using VxFormGenerator.Core.Internal;
+    using VxFormGenerator.Core.Repository;
+
     public class FormElementBase<TFormElement> : OwningComponentBase
     {
         private string _Label;
 
         [Inject]
         protected IFormGeneratorComponentsRepository Repo { get; set; }
+
         /// <summary>
         /// Bindable property to set the class
         /// </summary>
         public string CssClass => string.Join(" ", CssClasses.ToArray());
+
         /// <summary>
         /// Setter for the classes of the form container
         /// </summary>
@@ -30,6 +33,7 @@ namespace VxFormGenerator.Core
         /// Will set the 'class' of the all the controls. Useful when a framework needs to implement a class for all form elements
         /// </summary>
         [Parameter] public List<string> DefaultFieldClasses { get; set; }
+
         /// <summary>
         /// The identifier for the <see cref="FormElement"/>"/> used by the label element
         /// </summary>
@@ -69,14 +73,17 @@ namespace VxFormGenerator.Core
         /// The property that should generate a formcontrol
         /// </summary>
         [Parameter] public string FieldIdentifier { get; set; }
+
         /// <summary>
         /// Updates the property with the new value
         /// </summary>
         [Parameter] public EventCallback<TFormElement> ValueChanged { get; set; }
+
         /// <summary>
         /// Get the property that is bound
         /// </summary>
         [Parameter] public Expression<Func<TFormElement>> ValueExpression { get; set; }
+
         /// <summary>
         /// The current Value of the <see cref="FormElementBase{TFormElement}"/>
         /// </summary>
@@ -96,7 +103,6 @@ namespace VxFormGenerator.Core
                     var componentType = Repo.GetComponent(typeof(TFormElement));
 
                     // TODO: add the dynamic version for getting a component
-
 
                     if (componentType == null)
                         return;
@@ -151,19 +157,21 @@ namespace VxFormGenerator.Core
 
             CheckForInterfaceActions(this, CascadedEditContext.Model, fieldIdentifier, builder, treeIndex++, elementType);
 
-
             builder.CloseComponent();
-
         }
 
         private void CheckForInterfaceActions(object target,
-            object dataContext,
-            string fieldIdentifier, RenderTreeBuilder builder, int indexBuilder, Type elementType)
+                                              object dataContext,
+                                              string fieldIdentifier,
+                                              RenderTreeBuilder builder,
+                                              int indexBuilder,
+                                              Type elementType)
         {
             // Check if the component has the IRenderChildren and renderen them in the form control
             if (VxHelpers.TypeImplementsInterface(elementType, typeof(IRenderChildren)))
             {
-                var method = elementType.GetMethod(nameof(IRenderChildren.RenderChildren), BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Static);
+                MethodInfo method = elementType.GetMethod(nameof(IRenderChildren.RenderChildren),
+                                                          BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Static);
 
                 method.Invoke(null, new object[] { builder, indexBuilder, dataContext, fieldIdentifier });
             }
@@ -193,8 +201,5 @@ namespace VxFormGenerator.Core
 
             return output;
         }
-
-
-
     }
 }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-
-namespace VxFormGenerator.Core.Validation
+﻿namespace VxFormGenerator.Core.Validation
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Forms;
+
     public abstract class ValidationMessageBase<TValue> : ComponentBase, IDisposable
     {
         public abstract string ValidClass { get; set; }
@@ -55,11 +51,9 @@ namespace VxFormGenerator.Core.Validation
             }
         }
 
-
         public void Dispose()
         {
             EditContext.OnValidationStateChanged -= HandleValidationStateChanged;
         }
-
     }
 }

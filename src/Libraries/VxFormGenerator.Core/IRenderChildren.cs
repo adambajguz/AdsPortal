@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core
 {
+    using System;
+    using Microsoft.AspNetCore.Components.Rendering;
+
     /// <summary>
     /// Helper interface for rendering values in components, needs to be non-generic for the form generator
     /// </summary>

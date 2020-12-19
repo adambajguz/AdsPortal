@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using VxFormGenerator.Core;
-using VxFormGenerator.Core.Repository;
-
-namespace VxFormGenerator.Settings
+﻿namespace VxFormGenerator.Settings
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using VxFormGenerator.Core;
+    using VxFormGenerator.Core.Repository;
+
     public static class FormGeneratorServiceServiceCollectionExtension
     {
         public static void AddVxFormGenerator(IServiceCollection services, IFormGeneratorComponentsRepository repository = null, IFormGeneratorOptions options = null)
@@ -19,5 +19,4 @@ namespace VxFormGenerator.Settings
             services.AddSingleton(typeof(IFormGeneratorOptions), options);
         }
     }
-
 }

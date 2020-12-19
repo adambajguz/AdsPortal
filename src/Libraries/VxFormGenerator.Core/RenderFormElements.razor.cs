@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Forms;
+    using Microsoft.AspNetCore.Components.Rendering;
+
     public class RenderFormElements : OwningComponentBase
     {
         /// <summary>
@@ -49,10 +47,10 @@ namespace VxFormGenerator.Core
         {
             var valueChanged = Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(
                         EventCallback.Factory.Create<TValue>(
-                            this, EventCallback.Factory.
-                            CreateInferred(this, __value => propertyInfo.SetValue(model, __value),
-
+                            this,
+                            EventCallback.Factory.CreateInferred(this, __value => propertyInfo.SetValue(model, __value),
                             (TValue)propertyInfo.GetValue(model))));
+
             // Create an expression to set the ValueExpression-attribute.
             var constant = Expression.Constant(model, model.GetType());
             var exp = Expression.Property(constant, propertyInfo.Name);
@@ -65,7 +63,6 @@ namespace VxFormGenerator.Core
                 ValueExpression = lamb,
                 Key = propertyInfo.Name
             };
-
 
             var elementType = typeof(VxFormElementLoader<TValue>);
 

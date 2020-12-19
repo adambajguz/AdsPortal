@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using VxFormGenerator.Utils;
-
-namespace VxFormGenerator.Models
+﻿namespace VxFormGenerator.Models
 {
+    using System.ComponentModel;
+    using VxFormGenerator.Utils;
+
     [TypeConverter(typeof(StringToVxColorConverter))]
     public class VxColor
     {

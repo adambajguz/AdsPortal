@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace VxFormGenerator.Core.Repository
+﻿namespace VxFormGenerator.Core.Repository
 {
+    using System;
+
     /// <summary>
     /// Non-generic interface for DI in the <see cref="FormElementBase{TFormElement}"/>
     /// </summary>
@@ -11,5 +11,4 @@ namespace VxFormGenerator.Core.Repository
         public void RemoveComponent(object key);
         public Type GetComponent(object key);
     }
-
 }

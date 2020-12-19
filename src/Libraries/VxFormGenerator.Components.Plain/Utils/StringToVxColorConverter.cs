@@ -1,11 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
-using System.Reflection;
-using VxFormGenerator.Models;
-
-namespace VxFormGenerator.Utils
+﻿namespace VxFormGenerator.Utils
 {
+    using System;
+    using System.ComponentModel;
+    using System.ComponentModel.Design.Serialization;
+    using System.Reflection;
+    using VxFormGenerator.Models;
+
     internal class StringToVxColorConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)

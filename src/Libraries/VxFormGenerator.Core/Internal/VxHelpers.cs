@@ -1,28 +1,20 @@
-﻿using System;
-using System.Linq;
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core.Internal
 {
+    using System;
+    using System.Linq;
+
     public static class VxHelpers
     {
         public static bool IsTypeDerivedFromGenericType(Type typeToCheck, Type genericType)
         {
             if (typeToCheck == typeof(object))
-            {
                 return false;
-            }
             else if (typeToCheck == null)
-            {
                 return false;
-            }
             else if (typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == genericType)
-            {
                 return true;
-            }
             else
-            {
                 return IsTypeDerivedFromGenericType(typeToCheck.BaseType, genericType);
-            }
         }
         public static bool TypeImplementsInterface(Type type, Type typeToImplement)
         {

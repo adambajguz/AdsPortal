@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-
-namespace VxFormGenerator.Core
+﻿namespace VxFormGenerator.Core
 {
+    using System;
+    using System.Linq.Expressions;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Rendering;
+
     /// <summary>
     /// The loader has the task to create a <see cref="FormElement"/> with the correct bind-Value.
     /// It searches for a match in the <see cref="FormGeneratorComponentsRepository"/> and will render the mapped component.
