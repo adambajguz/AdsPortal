@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
+    using MediatR.GenericOperations.Abstractions;
 
     public class JwtTokenModel : IOperationResult
     {

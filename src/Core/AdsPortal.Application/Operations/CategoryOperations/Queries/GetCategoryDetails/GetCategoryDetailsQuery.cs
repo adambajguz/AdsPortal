@@ -7,6 +7,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategor
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Queries;
 
     public class GetCategoryDetailsQuery : IGetDetailsByIdQuery<GetCategoryDetailsResponse>
     {

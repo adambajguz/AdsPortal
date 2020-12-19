@@ -3,9 +3,15 @@
     using System;
     using System.Net.Http;
     using AdsPortal.Application.Configurations;
+    using AdsPortal.Application.Operations.CategoryOperations.Commands.CreateCategory;
+    using AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCategory;
+    using AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
+    using AdsPortal.Application.Operations.UserOperations.Commands.CreateUser;
     using AdsPortal.Common.Extensions;
+    using AdsPortal.Domain.Entities;
     using AdsPortal.ManagementUI.Configurations;
     using AdsPortal.ManagementUI.Services;
+    using MagicCRUD;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;
@@ -41,6 +47,23 @@
             });
 
             services.AddScoped<IMarkdownService, MarkdownService>();
+
+            services.AddMagicCRUD((cfg) =>
+            {
+                cfg.UseBaseApiPath("https://localhost:5001/api/");
+
+                cfg.AddOperationsGroup<Category>((operationBuilder) =>
+                {
+                    operationBuilder.AddCreateOperation<CreateCategoryCommand>()
+                                    .AddDeleteOperation<DeleteCategoryCommand>()
+                                    .AddGetListOperation<GetCategoriesListQuery, GetCategoriesListResponse>();
+                });
+
+                cfg.AddOperationsGroup<User>((operationBuilder) =>
+                {
+                    operationBuilder.AddCreateOperation<CreateUserCommand>();
+                });
+            });
 
             return services;
         }

@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Application.OperationsModels.Core
+﻿namespace MediatR.GenericOperations.Models
 {
     using System;
     using System.Collections.Generic;
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Domain.Mapping;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class PagedListResult<TResultEntry> : IOperationResult
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping

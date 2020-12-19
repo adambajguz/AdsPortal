@@ -7,6 +7,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.DeleteUs
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using MediatR.GenericOperations.Commands;
 
     public class DeleteMediaItemCommand : IDeleteByIdCommand
     {

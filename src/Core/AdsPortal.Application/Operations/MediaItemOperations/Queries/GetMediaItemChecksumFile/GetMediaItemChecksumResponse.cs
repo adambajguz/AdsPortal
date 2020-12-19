@@ -2,10 +2,10 @@
 {
     using System;
     using System.Text;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetMediaItemChecksumResponse : IIdentifiableOperationResult, ICustomMapping
     {

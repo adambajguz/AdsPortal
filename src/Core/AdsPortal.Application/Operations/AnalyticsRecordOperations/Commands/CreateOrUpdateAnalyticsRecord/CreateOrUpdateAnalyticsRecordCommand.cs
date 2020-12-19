@@ -6,12 +6,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+    using MediatR.GenericOperations.Models;
 
     public class CreateOrUpdateAnalyticsRecordCommand : IOperation<IdResult>, ICustomMapping
     {

@@ -1,11 +1,11 @@
 ﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetUserDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {

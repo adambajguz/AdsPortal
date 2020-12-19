@@ -5,10 +5,10 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using FluentValidation;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
 
     public class AuthenticateUserQuery : IOperation<JwtTokenModel>
     {

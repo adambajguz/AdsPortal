@@ -6,6 +6,7 @@ namespace AdsPortal.Application.Operations.AdvertisementOperations.Commands.Dele
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using MediatR.GenericOperations.Commands;
 
     public class DeleteAdvertisementCommand : IDeleteByIdCommand
     {

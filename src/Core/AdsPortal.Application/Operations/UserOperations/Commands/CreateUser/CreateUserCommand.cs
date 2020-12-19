@@ -10,8 +10,9 @@
     using AdsPortal.Application.Utils;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Commands;
+    using MediatR.GenericOperations.Mapping;
 
     public class CreateUserCommand : ICreateCommand
     {

@@ -1,9 +1,10 @@
 ﻿namespace AdsPortal.Application.GenericHandlers.Relational.Queries
 {
     using AdsPortal.Application.Constants;
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Domain.Mapping;
     using FluentValidation;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+    using MediatR.GenericOperations.Queries;
 
     public class GetPagedListQueryValidator<TResultEntry> : AbstractValidator<IGetPagedListQuery<TResultEntry>>
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping

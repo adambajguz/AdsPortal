@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.OperationsAbstractions
+﻿namespace MediatR.GenericOperations.Abstractions
 {
     using MediatR;
 

@@ -1,7 +1,7 @@
-namespace AdsPortal.Application.GenericHandlers.Relational.Queries
+namespace MediatR.GenericOperations.Queries
 {
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Domain.Mapping;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public interface IGetDetailsByIdQuery<TResult> : IIdentifiableOperation<TResult>
         where TResult : class, IIdentifiableOperationResult, ICustomMapping

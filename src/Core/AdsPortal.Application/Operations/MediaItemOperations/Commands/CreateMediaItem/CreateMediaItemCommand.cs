@@ -9,9 +9,10 @@
     using AdsPortal.Common.Utils;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
-    using AdsPortal.Domain.Mapping;
     using AdsPortal.Domain.Utils;
     using AutoMapper;
+    using MediatR.GenericOperations.Commands;
+    using MediatR.GenericOperations.Mapping;
     using Microsoft.AspNetCore.Http;
 
     public class CreateMediaItemCommand : ICreateCommand

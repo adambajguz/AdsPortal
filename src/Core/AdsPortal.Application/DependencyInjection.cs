@@ -3,9 +3,9 @@
     using System.Reflection;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Jobs;
-    using AdsPortal.Application.Mapping;
     using AutoMapper;
     using MediatR;
+    using MediatR.GenericOperations.Mapping;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 

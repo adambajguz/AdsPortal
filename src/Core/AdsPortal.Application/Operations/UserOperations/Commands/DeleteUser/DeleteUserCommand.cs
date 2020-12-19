@@ -7,6 +7,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using MediatR.GenericOperations.Commands;
 
     public class DeleteUserCommand : IDeleteByIdCommand
     {

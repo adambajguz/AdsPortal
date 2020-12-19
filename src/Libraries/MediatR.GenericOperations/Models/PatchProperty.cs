@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.OperationsModels.Core
+﻿namespace MediatR.GenericOperations.Models
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
+    using MediatR.GenericOperations.Abstractions;
 
     public struct PatchProperty<T> : IPatchProperty
     {

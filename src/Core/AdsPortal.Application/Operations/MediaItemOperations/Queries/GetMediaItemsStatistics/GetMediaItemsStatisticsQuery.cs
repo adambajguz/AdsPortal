@@ -3,10 +3,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Models;
     using AutoMapper;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
 
     public class GetMediaItemsStatisticsQuery : IOperation<GetMediaItemsStatisticsResponse>
     {

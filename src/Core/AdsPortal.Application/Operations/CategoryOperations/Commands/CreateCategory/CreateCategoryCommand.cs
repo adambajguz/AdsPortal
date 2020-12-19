@@ -5,8 +5,9 @@
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Commands;
+    using MediatR.GenericOperations.Mapping;
 
     public class CreateCategoryCommand : ICreateCommand
     {

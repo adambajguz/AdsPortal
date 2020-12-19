@@ -9,6 +9,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using AutoMapper;
     using FluentValidation;
     using MediatR;
+    using MediatR.GenericOperations.Commands;
 
     public abstract class UpdateCommandHandler<TCommand, TCommandValidator, TEntity> : IRequestHandler<TCommand, Unit>
         where TCommand : class, IUpdateCommand

@@ -4,9 +4,9 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using FluentValidation;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
 
     public class CleanupEntityAuditLogCommand : IOperation
     {

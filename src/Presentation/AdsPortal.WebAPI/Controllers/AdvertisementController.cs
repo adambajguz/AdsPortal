@@ -8,10 +8,10 @@
     using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails;
     using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;
     using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetPagedAdvertisementsList;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
     using AdsPortal.WebAPI.Exceptions.Handler;
+    using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Swashbuckle.AspNetCore.Annotations;

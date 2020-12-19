@@ -1,11 +1,10 @@
 ﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
-
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetUsersListResponse : IIdentifiableOperationResult, ICustomMapping
     {

@@ -6,10 +6,10 @@
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CreateRouteLog;
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogDetails;
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogsList;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
     using AdsPortal.WebAPI.Exceptions.Handler;
+    using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Swashbuckle.AspNetCore.Annotations;

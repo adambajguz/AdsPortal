@@ -6,11 +6,11 @@
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using Domain.Jwt;
     using FluentValidation;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
 
     public class ResetPasswordCommand : IOperation
     {

@@ -11,10 +11,10 @@
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetPagedMediaItemsList;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
     using AdsPortal.WebAPI.Exceptions.Handler;
+    using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Swashbuckle.AspNetCore.Annotations;

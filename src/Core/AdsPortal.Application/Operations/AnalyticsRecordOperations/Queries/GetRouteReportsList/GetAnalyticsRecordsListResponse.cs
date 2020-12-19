@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetAnalyticsRecordsListResponse : IOperationResult
     {

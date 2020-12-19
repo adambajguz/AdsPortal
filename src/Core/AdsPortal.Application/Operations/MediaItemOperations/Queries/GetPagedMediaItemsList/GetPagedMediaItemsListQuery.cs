@@ -6,6 +6,7 @@
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList;
     using AdsPortal.Domain.Entities;
+    using MediatR.GenericOperations.Queries;
 
     public class GetPagedMediaItemsListQuery : IGetPagedListQuery<GetMediaItemsListResponse>
     {

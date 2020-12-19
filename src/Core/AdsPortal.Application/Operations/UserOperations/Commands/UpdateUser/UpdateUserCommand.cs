@@ -10,9 +10,10 @@
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Jwt;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using FluentValidation;
+    using MediatR.GenericOperations.Commands;
+    using MediatR.GenericOperations.Mapping;
 
     public class UpdateUserCommand : IUpdateCommand
     {

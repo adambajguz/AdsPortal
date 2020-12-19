@@ -8,11 +8,12 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Mapping;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+    using MediatR.GenericOperations.Models;
+    using MediatR.GenericOperations.Queries;
 
     public abstract class GetListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, ListResult<TResultEntry>>
         where TQuery : class, IGetListQuery<TResultEntry>

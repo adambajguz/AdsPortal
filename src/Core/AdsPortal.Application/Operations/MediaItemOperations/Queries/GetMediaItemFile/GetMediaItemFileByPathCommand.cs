@@ -9,6 +9,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using AdsPortal.Domain.Entities;
     using AdsPortal.Domain.Utils;
     using AutoMapper;
+    using MediatR.GenericOperations.Queries;
 
     public class GetMediaItemFileByPathCommand : IGetDetailsQuery<GetMediaItemFileResponse>
     {

@@ -1,4 +1,4 @@
-namespace AdsPortal.Domain.Mapping
+namespace MediatR.GenericOperations.Mapping
 {
     using AutoMapper;
 

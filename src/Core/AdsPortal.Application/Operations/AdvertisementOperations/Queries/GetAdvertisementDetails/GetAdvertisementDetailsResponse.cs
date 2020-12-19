@@ -1,10 +1,10 @@
 ﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using Domain.Entities;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetAdvertisementDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {

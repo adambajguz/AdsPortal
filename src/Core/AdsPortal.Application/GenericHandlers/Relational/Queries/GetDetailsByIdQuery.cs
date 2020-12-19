@@ -5,11 +5,12 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+    using MediatR.GenericOperations.Queries;
 
     public abstract class GetDetailsByIdQueryHandler<TQuery, TEntity, TResult> : IRequestHandler<TQuery, TResult>
         where TQuery : class, IGetDetailsByIdQuery<TResult>

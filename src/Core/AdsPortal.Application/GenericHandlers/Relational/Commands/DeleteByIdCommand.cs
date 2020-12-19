@@ -7,6 +7,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Abstractions.Base;
     using MediatR;
+    using MediatR.GenericOperations.Commands;
 
     public abstract class DeleteByIdHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
         where TCommand : class, IDeleteByIdCommand

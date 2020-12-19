@@ -5,10 +5,10 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Entities;
     using FluentValidation;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
 
     public class ChangeUserPasswordCommand : IOperation
     {

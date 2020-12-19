@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Application.GenericHandlers.Relational.Queries
+﻿namespace MediatR.GenericOperations.Queries
 {
-    using AdsPortal.Application.OperationsAbstractions;
-    using AdsPortal.Application.OperationsModels.Core;
-    using AdsPortal.Domain.Mapping;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+    using MediatR.GenericOperations.Models;
 
     public interface IGetPagedListQuery<TResultEntry> : IOperation<PagedListResult<TResultEntry>>
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping

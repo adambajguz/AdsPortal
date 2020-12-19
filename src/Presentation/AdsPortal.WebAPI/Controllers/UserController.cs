@@ -16,10 +16,10 @@
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList;
     using AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken;
-    using AdsPortal.Application.OperationsModels.Core;
     using AdsPortal.Domain.Jwt;
     using AdsPortal.WebAPI.Attributes;
     using AdsPortal.WebAPI.Exceptions.Handler;
+    using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Swashbuckle.AspNetCore.Annotations;

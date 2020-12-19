@@ -8,6 +8,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Queries;
 
     public class GetMediaItemDetailsByIdQuery : IGetDetailsByIdQuery<GetMediaItemDetailsResponse>
     {

@@ -4,8 +4,8 @@
     using System.Net;
     using System.Threading.Tasks;
     using AdsPortal.Application.Operations.AnalyticsRecordOperations.Commands.CreateOrUpdateAnalyticsRecord;
-    using AdsPortal.Application.OperationsModels.Core;
     using MediatR;
+    using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;

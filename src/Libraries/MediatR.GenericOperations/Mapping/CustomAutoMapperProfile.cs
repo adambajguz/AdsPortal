@@ -1,10 +1,9 @@
-﻿namespace AdsPortal.Application.Mapping
+﻿namespace MediatR.GenericOperations.Mapping
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using AutoMapper.Configuration;
     using Microsoft.Extensions.Logging;
@@ -53,10 +52,10 @@
         {
             Type[] types = rootAssembly.GetExportedTypes();
 
-            IEnumerable<Type>? withCustomMappings = (from type in types
-                                                     from instance in type.GetInterfaces()
-                                                     where typeof(ICustomMapping).IsAssignableFrom(type) && !type.IsAbstract && !type.IsInterface
-                                                     select type);
+            IEnumerable<Type>? withCustomMappings = from type in types
+                                                    from instance in type.GetInterfaces()
+                                                    where typeof(ICustomMapping).IsAssignableFrom(type) && !type.IsAbstract && !type.IsInterface
+                                                    select type;
 
             return withCustomMappings.Distinct();
         }

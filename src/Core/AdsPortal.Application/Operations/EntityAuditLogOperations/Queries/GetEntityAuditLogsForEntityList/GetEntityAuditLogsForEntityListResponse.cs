@@ -1,11 +1,11 @@
 ﻿namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogsList
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Abstractions.Enums;
     using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
 
     public class GetEntityAuditLogsForEntityListResponse : IIdentifiableOperationResult, ICustomMapping
     {

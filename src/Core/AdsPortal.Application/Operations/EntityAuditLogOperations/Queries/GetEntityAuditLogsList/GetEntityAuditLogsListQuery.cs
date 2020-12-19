@@ -6,6 +6,7 @@
     using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
+    using MediatR.GenericOperations.Queries;
 
     public class GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>
     {

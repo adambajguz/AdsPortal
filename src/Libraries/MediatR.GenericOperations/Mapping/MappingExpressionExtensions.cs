@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Application.Mapping
+﻿namespace MediatR.GenericOperations.Mapping
 {
     using System;
-    using AdsPortal.Application.OperationsAbstractions;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
 
     public static class MappingExpressionExtensions
     {
