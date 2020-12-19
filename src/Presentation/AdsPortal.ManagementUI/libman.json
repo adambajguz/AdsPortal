@@ -11,6 +11,10 @@
       "provider": "cdnjs",
       "library": "font-awesome@5.15.1",
       "destination": "wwwroot/assets/libraries/font-awesome/"
+    },
+    {
+      "library": "spectre.css@0.5.9",
+      "destination": "wwwroot/assets/libraries/spectre-css/"
     }
   ]
 }

@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal", "Presentation\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{540BD2D3-CF8E-4304-8E15-0DCFA13EF481}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		global.json = global.json
 	EndProjectSection
 EndProject
@@ -68,6 +69,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.CLI", "Presentation\AdsPortal.CLI\AdsPortal.CLI.csproj", "{91E8CC87-30D5-43A0-8B08-BF8E8C44A9E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.Infrastructure.JobScheduler", "Core\AdsPortal.Infrastructure.JobScheduler\AdsPortal.Infrastructure.JobScheduler.csproj", "{E8027900-5F4D-4BFF-8439-1AD92123E9EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{94B58D2A-0937-4DA0-872C-A09D8AA83CE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VxFormGenerator.Core", "Libraries\VxFormGenerator.Core\VxFormGenerator.Core.csproj", "{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VxFormGenerator.Components.Plain", "Libraries\VxFormGenerator.Components.Plain\VxFormGenerator.Components.Plain.csproj", "{D704B6FD-D8AE-4838-AEB1-4538155D502A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +212,22 @@ Global
 		{E8027900-5F4D-4BFF-8439-1AD92123E9EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8027900-5F4D-4BFF-8439-1AD92123E9EC}.Release|x64.ActiveCfg = Release|x64
 		{E8027900-5F4D-4BFF-8439-1AD92123E9EC}.Release|x64.Build.0 = Release|x64
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}.Release|x64.Build.0 = Release|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -237,6 +260,9 @@ Global
 		{C3F6F6F9-064F-4A51-97BA-FB5603373E32} = {9F695D57-7297-451C-BB50-DA3060E59D2D}
 		{91E8CC87-30D5-43A0-8B08-BF8E8C44A9E1} = {9F695D57-7297-451C-BB50-DA3060E59D2D}
 		{E8027900-5F4D-4BFF-8439-1AD92123E9EC} = {F849C5B4-E1BE-4A8E-B16A-C1E83FC8A3F2}
+		{94B58D2A-0937-4DA0-872C-A09D8AA83CE8} = {703DCB52-753A-40DF-AF2E-C9F3D3F75827}
+		{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5} = {94B58D2A-0937-4DA0-872C-A09D8AA83CE8}
+		{D704B6FD-D8AE-4838-AEB1-4538155D502A} = {94B58D2A-0937-4DA0-872C-A09D8AA83CE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C64EC7B3-0A15-4428-8EA9-E871C89950DA}

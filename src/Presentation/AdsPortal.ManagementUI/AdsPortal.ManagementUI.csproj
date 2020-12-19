@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.Application\AdsPortal.Application.csproj" />
+    <ProjectReference Include="..\..\Libraries\VxFormGenerator.Components.Plain\VxFormGenerator.Components.Plain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
