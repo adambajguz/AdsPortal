@@ -33,33 +33,16 @@ namespace VxFormGenerator.Core
         {
             var modelType = model.GetType();
 
-            if (modelType == typeof(ExpandoObject))
-            {
-                var accessor = ((IDictionary<string, object>)model);
-                accessor[key] = value;
-            }
-            else
-            {
-                var propertyInfo = modelType.GetProperty(key);
-                propertyInfo.SetValue(model, value);
-            }
+            var propertyInfo = modelType.GetProperty(key);
+            propertyInfo.SetValue(model, value);
         }
 
         public static TValue GetValue(object model, string key)
         {
             var modelType = model.GetType();
 
-            if (modelType == typeof(ExpandoObject))
-            {
-                var accessor = ((IDictionary<string, object>)model);
-                return (TValue)accessor[key];
-            }
-            else
-            {
-                var propertyInfo = modelType.GetProperty(key);
-                return (TValue)propertyInfo.GetValue(model);
-            }
-
+            var propertyInfo = modelType.GetProperty(key);
+            return (TValue)propertyInfo.GetValue(model);
         }
 
     }

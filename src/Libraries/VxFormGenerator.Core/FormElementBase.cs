@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -50,24 +49,13 @@ namespace VxFormGenerator.Core
             get
             {
 
-                var modelType = CascadedEditContext.Model.GetType();
+                DisplayAttribute dd = CascadedEditContext.Model
+                                                         .GetType()
+                                                         .GetProperty(FieldIdentifier)
+                                                         .GetCustomAttributes(typeof(DisplayAttribute), false)
+                                                         .FirstOrDefault() as DisplayAttribute;
 
-                if (modelType == typeof(ExpandoObject))
-                {
-                    return FieldIdentifier;
-                }
-                else
-                {
-                    var dd = CascadedEditContext.Model
-                    .GetType()
-                    .GetProperty(FieldIdentifier)
-                    .GetCustomAttributes(typeof(DisplayAttribute), false)
-                    .FirstOrDefault() as DisplayAttribute;
-
-                    return _Label ?? dd?.Name;
-                }
-
-
+                return _Label ?? dd?.Name;
             }
             set => _Label = value;
         }
@@ -103,32 +91,32 @@ namespace VxFormGenerator.Core
         public RenderFragment CreateComponent()
         {
             return builder =>
-{
-    // Get the mapped control based on the property type
-    var componentType = Repo.GetComponent(typeof(TFormElement));
+                {
+                    // Get the mapped control based on the property type
+                    var componentType = Repo.GetComponent(typeof(TFormElement));
 
-    // TODO: add the dynamic version for getting a component
+                    // TODO: add the dynamic version for getting a component
 
 
-    if (componentType == null)
-        return;
-    //  throw new Exception($"No component found for: {propInfoValue.PropertyType.ToString()}");
+                    if (componentType == null)
+                        return;
+                    //  throw new Exception($"No component found for: {propInfoValue.PropertyType.ToString()}");
 
-    // Set the found component
-    var elementType = componentType;
+                    // Set the found component
+                    var elementType = componentType;
 
-    // When the elementType that is rendered is a generic Set the propertyType as the generic type
-    if (elementType.IsGenericTypeDefinition)
-    {
-        Type[] typeArgs = { typeof(TFormElement) };
-        elementType = elementType.MakeGenericType(typeArgs);
-    }
+                    // When the elementType that is rendered is a generic Set the propertyType as the generic type
+                    if (elementType.IsGenericTypeDefinition)
+                    {
+                        Type[] typeArgs = { typeof(TFormElement) };
+                        elementType = elementType.MakeGenericType(typeArgs);
+                    }
 
-    /*   // Activate the the Type so that the methods can be called
-       var instance = Activator.CreateInstance(elementType);*/
+                    /*   // Activate the the Type so that the methods can be called
+                       var instance = Activator.CreateInstance(elementType);*/
 
-    CreateFormComponent(this, CascadedEditContext.Model, FieldIdentifier, builder, elementType);
-};
+                    CreateFormComponent(this, CascadedEditContext.Model, FieldIdentifier, builder, elementType);
+                };
         }
 
         /// <summary>

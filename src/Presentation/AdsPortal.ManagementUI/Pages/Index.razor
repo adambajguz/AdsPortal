@@ -35,7 +35,40 @@
     <div class="row">
         <div class="col">
             <WaveLoader />
-            <WaveLoader IsAlternativeColor="true"/>
+            <WaveLoader IsAlternativeColor="true" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <EditForm Model="Model"
+                      OnValidSubmit="HandleValidSubmit"
+                      OnInvalidSubmit="HandleInValidSubmit">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <RenderFormElements></RenderFormElements>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </EditForm>
         </div>
     </div>
 </section>
+
+@code{
+
+    private Models.SampleModel Model = new ();
+
+
+    /// <summary>
+    /// Will handle the submit action of the form
+    /// </summary>
+    /// <param name="context">The model with values as entered in the form</param>
+    private void HandleValidSubmit(EditContext context)
+    {
+        // save your changes
+    }
+
+    private void HandleInValidSubmit(EditContext context)
+    {
+
+
+    }
+}
