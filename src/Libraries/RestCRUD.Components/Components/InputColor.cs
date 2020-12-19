@@ -4,7 +4,7 @@
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Rendering;
-    using RestCRUD.Core;
+    using RestCRUD;
     using RestCRUD.Models;
 
     public class InputColor : CrudInputBase<VxColor>

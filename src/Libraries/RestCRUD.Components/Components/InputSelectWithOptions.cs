@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Forms;
     using Microsoft.AspNetCore.Components.Rendering;
-    using RestCRUD.Core;
+    using RestCRUD;
 
     public class InputSelectWithOptions<TValue> : InputSelect<TValue>, IRenderChildren
     {

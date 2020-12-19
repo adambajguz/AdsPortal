@@ -14,12 +14,6 @@
     using AdsPortal.Domain.Mapping;
     using MediatR;
 
-    public interface IGetListQuery<TResultEntry> : IOperation<ListResult<TResultEntry>>
-        where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
-    {
-
-    }
-
     public abstract class GetListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, ListResult<TResultEntry>>
         where TQuery : class, IGetListQuery<TResultEntry>
         where TEntity : class, IBaseRelationalEntity

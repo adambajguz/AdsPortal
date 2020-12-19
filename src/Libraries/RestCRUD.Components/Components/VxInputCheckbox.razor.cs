@@ -2,7 +2,7 @@
 {
     using System;
     using Microsoft.AspNetCore.Components;
-    using RestCRUD.Core;
+    using RestCRUD;
 
     public class VxInputCheckboxComponent : CrudInputBase<bool>, IDisposable
     {

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Components.Forms;
-    using RestCRUD.Core;
+    using RestCRUD;
     using RestCRUD.Core.Repository;
     using RestCRUD.Models;
 

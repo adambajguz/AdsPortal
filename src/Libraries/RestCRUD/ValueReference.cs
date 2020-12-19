@@ -1,4 +1,4 @@
-﻿namespace RestCRUD.Core
+﻿namespace RestCRUD
 {
     using System;
     using System.Collections.Generic;

@@ -1,6 +1,7 @@
 ﻿namespace RestCRUD.Core.Repository
 {
     using System;
+    using RestCRUD;
 
     /// <summary>
     /// Non-generic interface for DI in the <see cref="FormElementBase{TFormElement}"/>

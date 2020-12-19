@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Components;
-    using RestCRUD.Core;
+    using RestCRUD;
 
     public class InputCheckboxMultipleComponent<T> : CrudInputBase<T>
     {

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestCRUD\RestCRUD.csproj" />
+    <ProjectReference Include="..\..\Core\AdsPortal.Domain.Abstractions\AdsPortal.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\MediatR.GenericOperations\MediatR.GenericOperations.csproj" />
   </ItemGroup>
+
 </Project>

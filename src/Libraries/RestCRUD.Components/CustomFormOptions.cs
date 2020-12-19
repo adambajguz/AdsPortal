@@ -1,7 +1,7 @@
 ﻿namespace RestCRUD.Components
 {
     using System;
-    using RestCRUD.Core;
+    using RestCRUD;
 
     public class CustomFormOptions : IFormGeneratorOptions
     {

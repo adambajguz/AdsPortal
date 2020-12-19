@@ -1,4 +1,4 @@
-﻿namespace RestCRUD.Core
+﻿namespace RestCRUD
 {
     using System;
     using System.Collections.Generic;
@@ -195,9 +195,7 @@
             if (AdditionalAttributes != null &&
                   AdditionalAttributes.TryGetValue("class", out var @class) &&
                   !string.IsNullOrEmpty(Convert.ToString(@class)))
-            {
                 return $"{@class} {output}";
-            }
 
             return output;
         }

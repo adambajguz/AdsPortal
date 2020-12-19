@@ -10,15 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-    <PackageReference Include="FluentValidation" Version="9.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
-    <ProjectReference Include="..\..\Libraries\MediatR.GenericOperations\MediatR.GenericOperations.csproj" />
-    <ProjectReference Include="..\AdsPortal.Domain\AdsPortal.Domain.csproj" />
   </ItemGroup>
 
 </Project>

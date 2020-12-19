@@ -1,6 +1,6 @@
 ﻿namespace RestCRUD.Components
 {
-    using RestCRUD.Core;
+    using RestCRUD;
 
     public class FormElementComponent<TFormElement> : FormElementBase<TFormElement>
     {

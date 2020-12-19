@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using RestCRUD.Core;
+    using RestCRUD;
     using RestCRUD.Models;
 
     [Flags]

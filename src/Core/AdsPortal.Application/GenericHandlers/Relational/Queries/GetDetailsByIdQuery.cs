@@ -11,12 +11,6 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
     using AutoMapper;
     using MediatR;
 
-    public interface IGetDetailsByIdQuery<TResult> : IIdentifiableOperation<TResult>
-        where TResult : class, IIdentifiableOperationResult, ICustomMapping
-    {
-
-    }
-
     public abstract class GetDetailsByIdQueryHandler<TQuery, TEntity, TResult> : IRequestHandler<TQuery, TResult>
         where TQuery : class, IGetDetailsByIdQuery<TResult>
         where TEntity : class, IBaseRelationalEntity

@@ -5,17 +5,10 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Mapping;
     using AutoMapper;
     using FluentValidation;
     using MediatR;
-
-    public interface IUpdateCommand : IIdentifiableOperation, ICustomMapping
-    {
-
-    }
 
     public abstract class UpdateCommandHandler<TCommand, TCommandValidator, TEntity> : IRequestHandler<TCommand, Unit>
         where TCommand : class, IUpdateCommand

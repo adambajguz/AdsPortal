@@ -1,8 +1,9 @@
-namespace RestCRUD.Core
+namespace RestCRUD
 {
     using System;
 
-    public class CrudIgnoreAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public sealed class CrudIgnoreAttribute : Attribute
     {
 
     }

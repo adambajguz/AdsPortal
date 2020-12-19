@@ -1,4 +1,4 @@
-﻿namespace RestCRUD.Core
+﻿namespace RestCRUD
 {
     using System;
     using System.Linq.Expressions;
@@ -64,9 +64,7 @@
                 builder.AddAttribute(4, nameof(FormElementBase<TValue>.ValueExpression), lamb);
             }
             else
-            {
                 builder.AddAttribute(4, nameof(FormElementBase<TValue>.ValueExpression), ValueReference.ValueExpression);
-            }
 
             // Set the property name so the element is aware of the property that it represents
             // and is able to trace back to the model

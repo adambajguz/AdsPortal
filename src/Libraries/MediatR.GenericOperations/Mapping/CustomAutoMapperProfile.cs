@@ -60,35 +60,5 @@
 
             return withCustomMappings.Distinct();
         }
-
-        //private void ApplyMappingsFromAssembly(Assembly assembly)
-        //{
-        //    Type[] types = assembly.GetExportedTypes();
-        //    Type interfaceType = typeof(IMapFrom<>);
-        //    string methodName = nameof(IMapFrom<object>.Mapping);
-        //    Type[] argumentTypes = new Type[] { typeof(Profile) };
-
-        //    foreach (Type type in types)
-        //    {
-        //        List<Type> interfaces = type.GetInterfaces()
-        //            .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType)
-        //            .ToList();
-
-        //        // Has the type implemented any IMapFrom<T>?
-        //        if (interfaces.Count > 0)
-        //        {
-        //            // Yes, then let's create an instance
-        //            object? instance = Activator.CreateInstance(type);
-
-        //            // and invoke each implementation of `.Mapping()`
-        //            foreach (Type i in interfaces)
-        //            {
-        //                MethodInfo? methodInfo = i.GetMethod(methodName, argumentTypes);
-
-        //                methodInfo?.Invoke(instance, new object[] { this });
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

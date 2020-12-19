@@ -15,13 +15,6 @@
     using FluentValidation;
     using MediatR;
 
-    public interface IGetPagedListQuery<TResultEntry> : IOperation<PagedListResult<TResultEntry>>
-        where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
-    {
-        public int Page { get; init; }
-        public int EntiresPerPage { get; init; }
-    }
-
     public abstract class GetPagedListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, PagedListResult<TResultEntry>>
         where TQuery : class, IGetPagedListQuery<TResultEntry>
         where TEntity : class, IBaseRelationalEntity

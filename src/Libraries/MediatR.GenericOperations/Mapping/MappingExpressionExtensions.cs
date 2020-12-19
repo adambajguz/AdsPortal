@@ -11,7 +11,7 @@
         {
             mappingExpression.ForAllMembers(opt =>
             {
-                opt.Condition((src, dest, srcValue) => !(srcValue is IPatchProperty patchProperty) || patchProperty.Include);
+                opt.Condition((src, dest, srcValue) => srcValue is not IPatchProperty patchProperty || patchProperty.Include);
                 memberOptions?.Invoke(opt);
             });
         }

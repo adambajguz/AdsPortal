@@ -7,14 +7,8 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.OperationsAbstractions;
     using AdsPortal.Domain.Abstractions.Base;
     using MediatR;
-
-    public interface IDeleteMultipleCommand : IOperation
-    {
-
-    }
 
     public abstract class DeleteMultipleHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
         where TCommand : class, IDeleteMultipleCommand

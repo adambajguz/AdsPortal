@@ -14,14 +14,8 @@
         {
             builder.AddCommandsFromThisAssembly();
 
-            builder.UseDirectMode(true, configuration: (cfg) =>
-                   {
-
-                   })
-                   .UseInteractiveMode(configuration: (cfg) =>
-                   {
-
-                   });
+            builder.UseDirectMode(true)
+                   .UseInteractiveMode();
 
             builder.UseTitle(GlobalAppConfig.AppInfo.InteractiveCLI)
                    .UseVersionText(GlobalAppConfig.AppInfo.AppVersionText)
@@ -36,7 +30,7 @@
             {
                 AuthTokenHolder tokenHolder = services.GetRequiredService<AuthTokenHolder>();
 
-                cfg.BaseAddress = new Uri("http://localhost:2137/api/");
+                cfg.BaseAddress = new Uri("https://localhost:5001/api/");
 
                 if (tokenHolder.HasToken)
                     cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenHolder.Token);

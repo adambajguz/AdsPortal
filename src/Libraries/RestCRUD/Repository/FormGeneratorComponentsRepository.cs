@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using RestCRUD;
 
     public class FormGeneratorComponentsRepository : IFormGeneratorComponentsRepository
     {
