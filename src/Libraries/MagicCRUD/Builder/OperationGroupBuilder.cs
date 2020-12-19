@@ -5,7 +5,6 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;
-    using MediatR.GenericOperations.Models;
     using MediatR.GenericOperations.Queries;
 
     public sealed class OperationGroupBuilder<TEntity> : IBuilder<OperationGroupConfiguration>

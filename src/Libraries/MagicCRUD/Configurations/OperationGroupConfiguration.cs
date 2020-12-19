@@ -1,6 +1,8 @@
 ﻿namespace MagicCRUD.Configurations
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public sealed class OperationGroupConfiguration
     {
@@ -15,5 +17,18 @@
         public OperationConfiguration? GetDetailsByIdOperation { get; init; }
         public OperationConfiguration? GetListOperation { get; init; }
         public OperationConfiguration? GetPagedListOperation { get; init; }
+
+        public IEnumerable<OperationConfiguration> GetOperations()
+        {
+            return new[] {
+                CreateOperation,
+                UpdateOperation,
+                PatchOperation,
+                DeleteOperation,
+                GetDetailsByIdOperation,
+                GetListOperation,
+                GetPagedListOperation
+            }.Where(x => x is not null)!;
+        }
     }
 }

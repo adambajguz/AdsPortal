@@ -1,0 +1,30 @@
+﻿@page "/panel"
+@page "/panel/{Entity}"
+@page "/panel/{Entity}/{Operation}"
+@page "/panel/{Entity}/{Operation}/{*Args}"
+
+<section>
+    <div class="row">
+        <div class="col-12">
+            <h1>Management Panel</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <MagicCRUDRouter Entity="@Entity" Operation="@Operation" Args="@Args"/>
+        </div>
+    </div>
+</section>
+
+@code
+{
+  [Parameter]
+  public string? Entity { get; set; }
+
+  [Parameter]
+  public string? Operation { get; set; }
+
+  [Parameter]
+  public string? Args { get; set; }
+}
