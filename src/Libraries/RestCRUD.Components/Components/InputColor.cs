@@ -1,13 +1,13 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using RestCRUD.Core;
-using RestCRUD.Models;
-
-namespace RestCRUD.Form.Components.Plain
+﻿namespace RestCRUD.Components
 {
-    public class InputColor : VxInputBase<VxColor>
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Rendering;
+    using RestCRUD.Core;
+    using RestCRUD.Models;
+
+    public class InputColor : CrudInputBase<VxColor>
     {
         /// <inheritdoc />
         protected override void BuildRenderTree(RenderTreeBuilder builder)

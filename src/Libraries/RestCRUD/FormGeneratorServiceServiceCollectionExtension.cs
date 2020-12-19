@@ -6,7 +6,7 @@
 
     public static class FormGeneratorServiceServiceCollectionExtension
     {
-        public static void AddVxFormGenerator(IServiceCollection services, IFormGeneratorComponentsRepository repository = null, IFormGeneratorOptions options = null)
+        public static void AddRestCrudGenerator(IServiceCollection services, IFormGeneratorComponentsRepository repository = null, IFormGeneratorOptions options = null)
         {
             if (repository == null)
                 throw new System.Exception("No repository provided, please refer to the documentation.");

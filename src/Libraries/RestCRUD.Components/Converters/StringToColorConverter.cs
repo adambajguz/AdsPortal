@@ -1,4 +1,4 @@
-﻿namespace RestCRUD.Utils
+﻿namespace RestCRUD.Components.Converters
 {
     using System;
     using System.ComponentModel;
@@ -6,14 +6,12 @@
     using System.Reflection;
     using RestCRUD.Models;
 
-    internal class StringToVxColorConverter : TypeConverter
+    internal class StringToColorConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             if (sourceType == typeof(string))
-            {
                 return true;
-            }
 
             return base.CanConvertFrom(context, sourceType);
         }
@@ -23,9 +21,7 @@
             string stringValue = value as string;
 
             if (stringValue != null)
-            {
                 return new VxColor(stringValue);
-            }
 
             return base.ConvertFrom(context, culture, value);
         }
@@ -47,9 +43,7 @@
                 ConstructorInfo ctor = typeof(VxColor).GetConstructor(new Type[] { typeof(string) });
 
                 if (ctor != null)
-                {
                     return new InstanceDescriptor(ctor, new object[] { obj.Value });
-                }
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

@@ -10,7 +10,7 @@
     /// It searches for a match in the <see cref="FormGeneratorComponentsRepository"/> and will render the mapped component.
     /// </summary>
     /// <typeparam name="TValue">The type of the property</typeparam>
-    public class VxFormElementLoader<TValue> : OwningComponentBase
+    public class FormElementLoader<TValue> : OwningComponentBase
     {
         [Inject]
         private IFormGeneratorOptions Options { get; set; }

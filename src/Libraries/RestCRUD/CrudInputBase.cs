@@ -8,7 +8,7 @@
     /// Extended version of the <see cref="InputBase{TValue}"/> allows for generated HTML ID attributes
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    public abstract class VxInputBase<TValue> : InputBase<TValue>
+    public abstract class CrudInputBase<TValue> : InputBase<TValue>
     {
         private string id = Guid.NewGuid().ToString();
 

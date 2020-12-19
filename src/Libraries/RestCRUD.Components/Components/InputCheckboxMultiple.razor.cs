@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Components;
-using RestCRUD.Core;
-
-namespace RestCRUD.Form.Components.Plain
+﻿namespace RestCRUD.Components
 {
-    public class InputCheckboxMultipleComponent<T> : VxInputBase<T>
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Components;
+    using RestCRUD.Core;
+
+    public class InputCheckboxMultipleComponent<T> : CrudInputBase<T>
     {
         /// <summary>
         /// Gets or sets the child content to be rendering inside the select element.

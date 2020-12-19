@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using RestCRUD.Core.Repository;
 
     public class FormGeneratorComponentsRepository : IFormGeneratorComponentsRepository
     {
@@ -19,6 +18,7 @@
         {
             _ComponentDict = componentRegistrations;
         }
+
         public FormGeneratorComponentsRepository(Dictionary<Type, Type> componentRegistrations, Type defaultComponent)
         {
             _ComponentDict = componentRegistrations;

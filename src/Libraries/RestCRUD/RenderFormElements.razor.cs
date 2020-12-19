@@ -28,7 +28,7 @@
 
             // Look over all the properties in the class.
             // TODO: Should have an option to be excluded from selection
-            foreach (var propertyInfo in modelType.GetProperties().Where(w => w.GetCustomAttribute<VxIgnoreAttribute>() == null))
+            foreach (var propertyInfo in modelType.GetProperties().Where(w => w.GetCustomAttribute<CrudIgnoreAttribute>() == null))
             {
                 // Get the generic CreateFormComponent and set the property type of the model and the elementType that is rendered
                 MethodInfo method = typeof(RenderFormElements).GetMethod(nameof(RenderFormElements.CreateFormElementReferencePoco), BindingFlags.NonPublic | BindingFlags.Instance);
@@ -64,10 +64,10 @@
                 Key = propertyInfo.Name
             };
 
-            var elementType = typeof(VxFormElementLoader<TValue>);
+            var elementType = typeof(FormElementLoader<TValue>);
 
             builder.OpenComponent(0, elementType);
-            builder.AddAttribute(1, nameof(VxFormElementLoader<TValue>.ValueReference), formElementReference);
+            builder.AddAttribute(1, nameof(FormElementLoader<TValue>.ValueReference), formElementReference);
             builder.CloseComponent();
         }
     }

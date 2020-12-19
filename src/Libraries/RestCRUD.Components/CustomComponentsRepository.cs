@@ -1,16 +1,15 @@
-﻿namespace RestCRUD.Repository.Plain
+﻿namespace RestCRUD.Components
 {
     using System;
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Components.Forms;
     using RestCRUD.Core;
     using RestCRUD.Core.Repository;
-    using RestCRUD.Form.Components.Plain;
     using RestCRUD.Models;
 
-    public class VxComponentsRepository : FormGeneratorComponentsRepository
+    public class CustomComponentsRepository : FormGeneratorComponentsRepository
     {
-        public VxComponentsRepository()
+        public CustomComponentsRepository()
         {
             _ComponentDict = new Dictionary<Type, Type>()
                 {

@@ -1,9 +1,9 @@
 ﻿namespace RestCRUD.Models
 {
     using System.ComponentModel;
-    using RestCRUD.Utils;
+    using RestCRUD.Components.Converters;
 
-    [TypeConverter(typeof(StringToVxColorConverter))]
+    [TypeConverter(typeof(StringToColorConverter))]
     public class VxColor
     {
 

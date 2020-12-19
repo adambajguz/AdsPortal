@@ -1,13 +1,13 @@
-﻿namespace RestCRUD.Settings.Plain
+﻿namespace RestCRUD.Components
 {
+    using RestCRUD.Settings;
     using Microsoft.Extensions.DependencyInjection;
-    using RestCRUD.Repository.Plain;
 
     public static class ServiceCollectionExtensions
     {
-        public static void AddRestCRUD(this IServiceCollection services, VxComponentsRepository repository = null, VxFormOptions options = null)
+        public static void AddRestCRUD(this IServiceCollection services, CustomComponentsRepository repository = null, CustomFormOptions options = null)
         {
-            FormGeneratorServiceServiceCollectionExtension.AddVxFormGenerator(services, repository ?? new VxComponentsRepository(), options ?? new VxFormOptions());
+            FormGeneratorServiceServiceCollectionExtension.AddRestCrudGenerator(services, repository ?? new CustomComponentsRepository(), options ?? new CustomFormOptions());
         }
     }
 }

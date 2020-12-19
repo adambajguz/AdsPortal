@@ -1,14 +1,13 @@
-﻿namespace RestCRUD.Settings.Plain
+﻿namespace RestCRUD.Components
 {
     using System;
     using RestCRUD.Core;
-    using RestCRUD.Form;
 
-    public class VxFormOptions : IFormGeneratorOptions
+    public class CustomFormOptions : IFormGeneratorOptions
     {
         public Type FormElementComponent { get; set; }
 
-        public VxFormOptions()
+        public CustomFormOptions()
         {
             FormElementComponent = typeof(FormElement<>);
         }

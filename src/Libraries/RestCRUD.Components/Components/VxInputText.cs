@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-
-namespace RestCRUD.Form.Components.Plain
+﻿namespace RestCRUD.Components
 {
+    using Microsoft.AspNetCore.Components.Forms;
+
     public class VxInputText : InputText
     {
+
     }
 }

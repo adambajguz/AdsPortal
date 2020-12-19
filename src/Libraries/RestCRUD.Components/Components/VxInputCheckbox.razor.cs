@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
-using RestCRUD.Core;
-
-namespace RestCRUD.Form.Components.Plain
+﻿namespace RestCRUD.Components
 {
-    public class VxInputCheckboxComponent : VxInputBase<bool>, IDisposable
+    using System;
+    using Microsoft.AspNetCore.Components;
+    using RestCRUD.Core;
+
+    public class VxInputCheckboxComponent : CrudInputBase<bool>, IDisposable
     {
         [Parameter] public string Label { get; set; }
         [Parameter] public string LabelCss { get; set; }

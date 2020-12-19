@@ -11,7 +11,7 @@
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using RestCRUD.Settings.Plain;
+    using RestCRUD.Components;
 
     public static class DependencyInjection
     {

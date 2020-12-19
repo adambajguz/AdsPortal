@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-using RestCRUD.Core;
-
-namespace RestCRUD.Form.Components.Plain
+﻿namespace RestCRUD.Components
 {
+    using System;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Forms;
+    using Microsoft.AspNetCore.Components.Rendering;
+    using RestCRUD.Core;
+
     public class InputSelectWithOptions<TValue> : InputSelect<TValue>, IRenderChildren
     {
         public static Type TypeOfChildToRender => typeof(InputSelectOption<string>);
@@ -22,7 +22,7 @@ namespace RestCRUD.Form.Components.Plain
                     // check if the type of the propery is an Enum
                     if (typeof(TValue).IsEnum)
                     {
-                        // when type is a enum present them as an <option> element 
+                        // when type is a enum present them as an <option> element
                         // by leveraging the component InputSelectOption
                         var values = typeof(TValue).GetEnumValues();
                         foreach (var val in values)
@@ -38,11 +38,7 @@ namespace RestCRUD.Form.Components.Plain
                             _builder.CloseComponent();
                         }
                     }
-
-
                 }));
-
         }
-
     }
 }
