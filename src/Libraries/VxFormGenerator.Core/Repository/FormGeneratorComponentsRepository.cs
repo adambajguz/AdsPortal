@@ -50,17 +50,17 @@ namespace VxFormGenerator.Core.Repository
 
         public void RegisterComponent(object key, Type component)
         {
-            RegisterComponent((TKey) key, component);
+            RegisterComponent((TKey)key, component);
         }
 
         public void RemoveComponent(object key)
         {
-            RemoveComponent((TKey) key);
+            RemoveComponent((TKey)key);
         }
 
         public Type GetComponent(object key)
         {
-            return GetComponent((TKey) key);
+            return GetComponent((TKey)key);
         }
     }
 

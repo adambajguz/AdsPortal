@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
-using System;
-using System.Reflection;
+﻿using System;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace VxFormGenerator.Core
 {
@@ -19,15 +18,17 @@ namespace VxFormGenerator.Core
         /// <param name="dataContext">The model for the form</param>
         /// <param name="propInfoValue">The property that is filled by the <see cref="FormElement"/></param>
         public static void RenderChildren(RenderTreeBuilder builder, int index, object dataContext,
-            string fieldIdentifier) => throw new NotImplementedException();
-
+            string fieldIdentifier)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
     /// Helper interface for that allows a derived component set the component that needs to render. 
     /// Useful for components that render children and should allow a different styling without changing logic
     /// </summary>
-    public interface IRenderChildrenSwapable: IRenderChildren
+    public interface IRenderChildrenSwapable : IRenderChildren
     {
 
         /// <summary>
@@ -41,7 +42,9 @@ namespace VxFormGenerator.Core
         /// <param name="typeOfChildToRender">The type of the child that should be rendered</param>
         public static void RenderChildren(RenderTreeBuilder builder, int index, object dataContext,
             string fieldIdentifier,
-            Type typeOfChildToRender) => throw new NotImplementedException();
-
+            Type typeOfChildToRender)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

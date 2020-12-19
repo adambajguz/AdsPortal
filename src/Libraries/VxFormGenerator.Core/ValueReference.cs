@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace VxFormGenerator.Core
 {
@@ -16,11 +15,7 @@ namespace VxFormGenerator.Core
 
         public TValue Value
         {
-            get
-            {
-
-                return _value;
-            }
+            get => _value;
             set
             {
                 _value = value;
@@ -62,7 +57,7 @@ namespace VxFormGenerator.Core
             else
             {
                 var propertyInfo = modelType.GetProperty(key);
-                return (TValue) propertyInfo.GetValue(model);
+                return (TValue)propertyInfo.GetValue(model);
             }
 
         }
@@ -85,7 +80,7 @@ namespace VxFormGenerator.Core
                 .Select(m => new ValueReference<string, bool>() { Key = m.ToString(), Value = false })
                 .ToList();
 
-            this.AddRange(values);
+            AddRange(values);
 
         }
     }

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
+using Microsoft.AspNetCore.Components;
 using VxFormGenerator.Core;
 
 namespace VxFormGenerator.Form.Components.Plain
@@ -11,9 +11,9 @@ namespace VxFormGenerator.Form.Components.Plain
         [Parameter] public string ContainerCss { get; set; }
 
         protected override bool TryParseValueFromString(string value, out bool result, out string validationErrorMessage)
-           => throw new NotImplementedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
-
-
+        {
+            throw new NotImplementedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+        }
     }
 
 }

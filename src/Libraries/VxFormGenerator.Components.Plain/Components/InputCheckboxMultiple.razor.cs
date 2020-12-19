@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 using VxFormGenerator.Core;
 
 namespace VxFormGenerator.Form.Components.Plain
@@ -12,11 +12,13 @@ namespace VxFormGenerator.Form.Components.Plain
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        List<VxInputCheckboxComponent> Checkboxes = new List<VxInputCheckboxComponent>();
+        private readonly List<VxInputCheckboxComponent> Checkboxes = new List<VxInputCheckboxComponent>();
 
         /// <inheritdoc />
         protected override bool TryParseValueFromString(string value, out T result, out string validationErrorMessage)
-            => throw new NotImplementedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+        {
+            throw new NotImplementedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+        }
 
         internal void RegisterCheckbox(VxInputCheckboxComponent checkbox)
         {

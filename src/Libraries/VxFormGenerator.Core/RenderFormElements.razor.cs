@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace VxFormGenerator.Core
 {
@@ -16,7 +15,7 @@ namespace VxFormGenerator.Core
         /// <summary>
         /// Get the <see cref="EditForm.EditContext"/> instance. This instance will be used to fill out the values inputted by the user
         /// </summary>
-        [CascadingParameter] EditContext CascadedEditContext { get; set; }
+        [CascadingParameter] private EditContext CascadedEditContext { get; set; }
 
         /// <summary>
         /// Override the default render method, determining if the <see cref="EditContext.Model"/> 
@@ -29,7 +28,7 @@ namespace VxFormGenerator.Core
 
             // Check the type of the model
             var modelType = CascadedEditContext.Model.GetType();
-            
+
             if (modelType == typeof(ExpandoObject))
             {
                 // Accesing a ExpandoObject requires to cast the model as a dictionary, so it's accesable by a key of type string
@@ -51,7 +50,7 @@ namespace VxFormGenerator.Core
             {
                 // Look over all the properties in the class. 
                 // TODO: Should have an option to be excluded from selection 
-                foreach (var propertyInfo in modelType.GetProperties().Where(w=> w.GetCustomAttribute<VxIgnoreAttribute>() == null))
+                foreach (var propertyInfo in modelType.GetProperties().Where(w => w.GetCustomAttribute<VxIgnoreAttribute>() == null))
                 {
                     // Get the generic CreateFormComponent and set the property type of the model and the elementType that is rendered
                     MethodInfo method = typeof(RenderFormElements).GetMethod(nameof(RenderFormElements.CreateFormElementReferencePoco), BindingFlags.NonPublic | BindingFlags.Instance);
@@ -80,8 +79,7 @@ namespace VxFormGenerator.Core
             // cast the model to a dictionary so it's accessable
             var accessor = ((IDictionary<string, object>)model);
 
-            object value = default(TValue);
-            accessor.TryGetValue(key, out value);
+            accessor.TryGetValue(key, out object value);
 
             var valueChanged = Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck(
                         EventCallback.Factory.Create<TValue>(
@@ -111,7 +109,7 @@ namespace VxFormGenerator.Core
                             CreateInferred(this, __value => propertyInfo.SetValue(model, __value),
 
                             (TValue)propertyInfo.GetValue(model))));
-   // Create an expression to set the ValueExpression-attribute.
+            // Create an expression to set the ValueExpression-attribute.
             var constant = Expression.Constant(model, model.GetType());
             var exp = Expression.Property(constant, propertyInfo.Name);
             var lamb = Expression.Lambda<Func<TValue>>(exp);
@@ -123,7 +121,7 @@ namespace VxFormGenerator.Core
                 ValueExpression = lamb,
                 Key = propertyInfo.Name
             };
-                     
+
 
             var elementType = typeof(VxFormElementLoader<TValue>);
 

@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Rendering;
 using VxFormGenerator.Core.Repository;
 
 namespace VxFormGenerator.Core
@@ -15,13 +15,13 @@ namespace VxFormGenerator.Core
     public class FormElementBase<TFormElement> : OwningComponentBase
     {
         private string _Label;
-        
+
         [Inject]
         protected IFormGeneratorComponentsRepository Repo { get; set; }
         /// <summary>
         /// Bindable property to set the class
         /// </summary>
-        public string CssClass { get => string.Join(" ", CssClasses.ToArray()); }
+        public string CssClass => string.Join(" ", CssClasses.ToArray());
         /// <summary>
         /// Setter for the classes of the form container
         /// </summary>
@@ -39,7 +39,7 @@ namespace VxFormGenerator.Core
         /// <summary>
         /// Get the <see cref="EditForm.EditContext"/> instance. This instance will be used to fill out the values inputted by the user
         /// </summary>
-        [CascadingParameter] EditContext CascadedEditContext { get; set; }
+        [CascadingParameter] private EditContext CascadedEditContext { get; set; }
 
         /// <summary>
         /// The label for the <see cref="FormElement"/>, if not set, it will check for a <see cref="DisplayAttribute"/> on the <see cref="CascadedEditContext.Model"/>
@@ -69,12 +69,12 @@ namespace VxFormGenerator.Core
 
 
             }
-            set { _Label = value; }
+            set => _Label = value;
         }
 
         protected override void OnInitialized()
         {
-         
+
         }
 
         /// <summary>
@@ -100,33 +100,36 @@ namespace VxFormGenerator.Core
         /// </summary>
         /// <param name="propInfoValue"></param>
         /// <returns></returns>
-        public RenderFragment CreateComponent() => builder =>
+        public RenderFragment CreateComponent()
         {
-            // Get the mapped control based on the property type
-            var componentType = Repo.GetComponent(typeof(TFormElement));
-            
-            // TODO: add the dynamic version for getting a component
+            return builder =>
+{
+    // Get the mapped control based on the property type
+    var componentType = Repo.GetComponent(typeof(TFormElement));
+
+    // TODO: add the dynamic version for getting a component
 
 
-            if (componentType == null)
-                return;
-            //  throw new Exception($"No component found for: {propInfoValue.PropertyType.ToString()}");
+    if (componentType == null)
+        return;
+    //  throw new Exception($"No component found for: {propInfoValue.PropertyType.ToString()}");
 
-            // Set the found component
-            var elementType = componentType;
+    // Set the found component
+    var elementType = componentType;
 
-            // When the elementType that is rendered is a generic Set the propertyType as the generic type
-            if (elementType.IsGenericTypeDefinition)
-            {
-                Type[] typeArgs = { typeof(TFormElement) };
-                elementType = elementType.MakeGenericType(typeArgs);
-            }
+    // When the elementType that is rendered is a generic Set the propertyType as the generic type
+    if (elementType.IsGenericTypeDefinition)
+    {
+        Type[] typeArgs = { typeof(TFormElement) };
+        elementType = elementType.MakeGenericType(typeArgs);
+    }
 
-            /*   // Activate the the Type so that the methods can be called
-               var instance = Activator.CreateInstance(elementType);*/
+    /*   // Activate the the Type so that the methods can be called
+       var instance = Activator.CreateInstance(elementType);*/
 
-            this.CreateFormComponent(this, CascadedEditContext.Model, FieldIdentifier, builder, elementType);
-        };
+    CreateFormComponent(this, CascadedEditContext.Model, FieldIdentifier, builder, elementType);
+};
+        }
 
         /// <summary>
         /// Creates the component that is rendered in the form
@@ -168,7 +171,7 @@ namespace VxFormGenerator.Core
         private void CheckForInterfaceActions(object target,
             object dataContext,
             string fieldIdentifier, RenderTreeBuilder builder, int indexBuilder, Type elementType)
-        {            
+        {
             // Check if the component has the IRenderChildren and renderen them in the form control
             if (VxHelpers.TypeImplementsInterface(elementType, typeof(IRenderChildren)))
             {
@@ -203,7 +206,7 @@ namespace VxFormGenerator.Core
             return output;
         }
 
-     
+
 
     }
 }

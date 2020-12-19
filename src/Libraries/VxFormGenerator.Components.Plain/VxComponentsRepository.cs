@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using VxFormGenerator.Form.Components.Plain;
+using Microsoft.AspNetCore.Components.Forms;
 using VxFormGenerator.Core;
-using VxFormGenerator.Models;
 using VxFormGenerator.Core.Repository;
+using VxFormGenerator.Form.Components.Plain;
+using VxFormGenerator.Models;
 
 namespace VxFormGenerator.Repository.Plain
 {
@@ -25,9 +25,6 @@ namespace VxFormGenerator.Repository.Plain
                         {typeof(VxColor), typeof(InputColor) }
                   };
             _DefaultComponent = null;
-         
-            
         }
-     
     }
 }

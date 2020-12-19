@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace VxFormGenerator.Core.Repository
 {
@@ -20,7 +18,7 @@ namespace VxFormGenerator.Core.Repository
                 type = typeof(ValueReferences);
             }
             // When it's a Nullable type use the underlying type for matching
-            else if(Nullable.GetUnderlyingType(key) != null )
+            else if (Nullable.GetUnderlyingType(key) != null)
             {
                 type = Nullable.GetUnderlyingType(key);
             }

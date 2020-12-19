@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 using VxFormGenerator.Utils;
 
 namespace VxFormGenerator.Models
@@ -16,7 +13,7 @@ namespace VxFormGenerator.Models
 
         public VxColor(string value)
         {
-            this.Value = value;
+            Value = value;
         }
     }
 }

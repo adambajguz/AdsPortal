@@ -2,7 +2,7 @@
 
 namespace VxFormGenerator.Form.Components.Plain
 {
-    public class VxInputText: InputText
+    public class VxInputText : InputText
     {
     }
 }
