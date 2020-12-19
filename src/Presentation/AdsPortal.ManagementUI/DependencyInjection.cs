@@ -11,7 +11,7 @@
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using VxFormGenerator.Settings.Plain;
+    using RestCRUD.Settings.Plain;
 
     public static class DependencyInjection
     {
@@ -23,7 +23,7 @@
                 c.DetailedErrors = true;
             });
 
-            services.AddVxFormGenerator();
+            services.AddRestCRUD();
 
             services.AddConfiguration<ApplicationConfiguration>(configuration)
                     .AddConfiguration<HeaderConfiguration>(configuration)

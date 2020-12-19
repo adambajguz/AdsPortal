@@ -2,8 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using VxFormGenerator.Core;
-    using VxFormGenerator.Models;
+    using RestCRUD.Core;
+    using RestCRUD.Models;
 
     [Flags]
     public enum FoodKind

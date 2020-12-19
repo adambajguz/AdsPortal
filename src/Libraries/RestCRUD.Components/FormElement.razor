@@ -1,0 +1,17 @@
+﻿@namespace RestCRUD.Form
+
+@typeparam TFormElement
+@inherits FormElementComponent<TFormElement>
+
+<div>
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="form-control-label" for="@Id">@Label</label>
+    }
+
+    @CreateComponent()
+
+    <RestCRUD.Core.Validation.VxValidationMessage For="@ValueExpression">
+
+    </RestCRUD.Core.Validation.VxValidationMessage>
+</div>

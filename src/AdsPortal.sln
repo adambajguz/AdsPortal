@@ -72,9 +72,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.Infrastructure.Jo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{94B58D2A-0937-4DA0-872C-A09D8AA83CE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VxFormGenerator.Core", "Libraries\VxFormGenerator.Core\VxFormGenerator.Core.csproj", "{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestCRUD", "Libraries\RestCRUD\RestCRUD.csproj", "{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VxFormGenerator.Components.Plain", "Libraries\VxFormGenerator.Components.Plain\VxFormGenerator.Components.Plain.csproj", "{D704B6FD-D8AE-4838-AEB1-4538155D502A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestCRUD.Components", "Libraries\RestCRUD.Components\RestCRUD.Components.csproj", "{D704B6FD-D8AE-4838-AEB1-4538155D502A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
