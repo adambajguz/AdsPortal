@@ -5,6 +5,8 @@
 
     public class OperationConfiguration
     {
+        public OperationGroupConfiguration Group { get; internal set; } = default!;
+
         public string Template { get; }
         public HttpMethod Method { get; }
 

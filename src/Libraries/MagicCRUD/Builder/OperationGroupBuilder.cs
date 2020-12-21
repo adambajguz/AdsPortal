@@ -102,7 +102,7 @@
             _operationPath ??= typeof(TEntity).Name.ToLower();
             _operationPath = _operationPath.Trim('/') + '/';
 
-            return new OperationGroupConfiguration
+            OperationGroupConfiguration cfg = new ()
             {
                 EntityType = typeof(TEntity),
                 OperationPath = _operationPath ?? string.Empty,
@@ -114,6 +114,13 @@
                 GetListOperation = _getListOperation,
                 GetPagedListOperation = _getPagedListOperation
             };
+
+            foreach(OperationConfiguration x in cfg.GetOperations())
+            {
+                x.Group = cfg;
+            }
+
+            return cfg;
         }
     }
 }
