@@ -1,4 +1,4 @@
-﻿namespace MagicCRUD.Services
+﻿namespace MagicOperations.Services
 {
     using System;
 

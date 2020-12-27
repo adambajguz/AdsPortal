@@ -2,16 +2,10 @@
 {
     using System;
     using System.Net.Http;
-    using AdsPortal.Application.Configurations;
-    using AdsPortal.Application.Operations.CategoryOperations.Commands.CreateCategory;
-    using AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCategory;
-    using AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
-    using AdsPortal.Application.Operations.UserOperations.Commands.CreateUser;
     using AdsPortal.Common.Extensions;
-    using AdsPortal.Domain.Entities;
     using AdsPortal.ManagementUI.Configurations;
     using AdsPortal.ManagementUI.Services;
-    using MagicCRUD;
+    using MagicOperations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;
@@ -31,7 +25,7 @@
 
             services.AddRestCRUD();
 
-            services.AddConfiguration<ApplicationConfiguration>(configuration)
+            services.AddConfiguration<ManagementUIConfiguration>(configuration)
                     .AddConfiguration<HeaderConfiguration>(configuration)
                     .AddConfiguration<FooterConfiguration>(configuration);
 
@@ -48,21 +42,10 @@
 
             services.AddScoped<IMarkdownService, MarkdownService>();
 
-            services.AddMagicCRUD((cfg) =>
+            services.AddMagicOperations((builder) =>
             {
-                cfg.UseBaseApiPath("https://localhost:5001/api/");
-
-                cfg.AddOperationsGroup<Category>((operationBuilder) =>
-                {
-                    operationBuilder.AddCreateOperation<CreateCategoryCommand>()
-                                    .AddDeleteOperation<DeleteCategoryCommand>()
-                                    .AddGetListOperation<GetCategoriesListQuery, GetCategoriesListResponse>();
-                });
-
-                cfg.AddOperationsGroup<User>((operationBuilder) =>
-                {
-                    operationBuilder.AddCreateOperation<CreateUserCommand>();
-                });
+                builder.UseBaseUri("https://localhost:5001/api/");
+                builder.AddOperationsFromThisAssembly();
             });
 
             return services;

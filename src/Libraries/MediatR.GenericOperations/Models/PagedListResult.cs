@@ -17,7 +17,7 @@
         public int Left { get; }
         public int TotalCount { get; }
 
-        public IList<TResultEntry> Entries { get; }
+        public IReadOnlyList<TResultEntry> Entries { get; }
 
         public PagedListResult(int currentPageNumber, int entriesPerPage, int totalCount, List<TResultEntry> entries)
         {

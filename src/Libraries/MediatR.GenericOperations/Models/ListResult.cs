@@ -7,12 +7,11 @@
     public class ListResult<TResultEntry> : IOperationResult
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
     {
-        public int Count { get; }
-        public IList<TResultEntry> Entries { get; }
+        public int Count => Entries.Count;
+        public IReadOnlyList<TResultEntry> Entries { get; }
 
         public ListResult(List<TResultEntry> entries)
         {
-            Count = entries.Count;
             Entries = entries;
         }
     }

@@ -19,7 +19,7 @@
         public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
 
-        public IList<GetCategoryAdvertisementsDetailsResponse> Advertisements { get; set; } = default!;
+        public IReadOnlyList<GetCategoryAdvertisementsDetailsResponse> Advertisements { get; set; } = default!;
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

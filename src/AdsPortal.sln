@@ -74,7 +74,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestCRUD", "Libraries\RestC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestCRUD.Components", "Libraries\RestCRUD.Components\RestCRUD.Components.csproj", "{D704B6FD-D8AE-4838-AEB1-4538155D502A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicCRUD", "Libraries\MagicCRUD\MagicCRUD.csproj", "{2E6992CD-12A7-412E-95D2-D8B88B1B5744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicOperations", "Libraries\MagicOperations\MagicOperations.csproj", "{2E6992CD-12A7-412E-95D2-D8B88B1B5744}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.GenericOperations", "Libraries\MediatR.GenericOperations\MediatR.GenericOperations.csproj", "{60AD27D7-D192-40EA-A2C7-C8F171DA588E}"
 EndProject

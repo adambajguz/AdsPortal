@@ -1,30 +1,26 @@
-﻿namespace MagicCRUD
+﻿namespace MagicOperations
 {
     using System;
     using System.Net.Http.Headers;
-    using MagicCRUD.Builder;
-    using MagicCRUD.Configurations;
-    using MagicCRUD.Services;
+    using MagicOperations.Configurations;
+    using MagicOperations.Services;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddMagicCRUD(this IServiceCollection services, Action<MagicCRUDBuilder> configuration)
+        public static IServiceCollection AddMagicOperations(this IServiceCollection services, Action<MagicOperationsBuilder> builder)
         {
-            MagicCRUDBuilder builder = new();
-            configuration?.Invoke(builder);
-            MagicCRUDConfiguration built = builder.Build();
+            MagicOperationsBuilder builderObj = new();
+            builder?.Invoke(builderObj);
+            MagicOperationsConfiguration configuration = builderObj.Build();
 
-            services.AddSingleton<MagicCRUDConfiguration>(built);
-
+            services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddScoped<AuthTokenHolder>();
             services.AddScoped<ApiService>();
 
-            services.AddHttpClient("MagicCRUDAPI", (services, cfg) =>
+            services.AddHttpClient("MagicOperationsAPI", (services, cfg) =>
             {
                 AuthTokenHolder tokenHolder = services.GetRequiredService<AuthTokenHolder>();
-                MagicCRUDConfiguration configuration = services.GetRequiredService<MagicCRUDConfiguration>();
-
                 cfg.BaseAddress = new Uri(configuration.BaseApiPath);
 
                 if (tokenHolder.HasToken)

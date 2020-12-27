@@ -11,13 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Configuration\**" />
-    <Content Remove="Configuration\**" />
-    <EmbeddedResource Remove="Configuration\**" />
-    <None Remove="Configuration\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
@@ -31,8 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\AdsPortal.Common\AdsPortal.Common.csproj" />
-    <ProjectReference Include="..\..\Core\AdsPortal.Application\AdsPortal.Application.csproj" />
-    <ProjectReference Include="..\..\Libraries\MagicCRUD\MagicCRUD.csproj" />
+    <ProjectReference Include="..\..\Libraries\MagicOperations\MagicOperations.csproj" />
     <ProjectReference Include="..\..\Libraries\RestCRUD.Components\RestCRUD.Components.csproj" />
   </ItemGroup>
 

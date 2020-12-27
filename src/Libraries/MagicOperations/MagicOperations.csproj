@@ -17,7 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\AdsPortal.Domain.Abstractions\AdsPortal.Domain.Abstractions.csproj" />
-    <ProjectReference Include="..\MediatR.GenericOperations\MediatR.GenericOperations.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\" />
   </ItemGroup>
 
 </Project>
