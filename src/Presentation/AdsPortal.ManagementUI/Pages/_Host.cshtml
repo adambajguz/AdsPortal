@@ -3,13 +3,13 @@
 
 @using Microsoft.Extensions.Options;
 @using AdsPortal.Application.Configurations;
-@using AdsPortal.ManagementUI.Shared;
 
-@inject IOptions<ApplicationConfiguration> ApplicationConfiguration;
+@inject IOptions<ApplicationConfiguration> ApplicationConfiguration
 
 @using AdsPortal.ManagementUI.Helpers
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     Layout = null;
 }
@@ -33,7 +33,6 @@
     <link rel="icon" type="image/png" href="@iconAssetPath" sizes="512x512">
     <link rel="apple-touch-icon" sizes="512x512" href="@iconAssetPath">
 
-    <link href="@MediaHelper.AsAsset("c-blazor-error-ui.css", AssetTypes.Stylesheet)" rel="stylesheet" />
     <link href="@MediaHelper.AsAsset("styles.css", AssetTypes.Stylesheet)" rel="stylesheet" />
 </head>
 
