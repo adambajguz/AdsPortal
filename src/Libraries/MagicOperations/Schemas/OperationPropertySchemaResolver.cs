@@ -14,7 +14,7 @@
 
             string displayName = attribute.DisplayName ?? operationProperty.Name;
 
-            return new OperationPropertySchema(attribute.Renderer, displayName);
+            return new OperationPropertySchema(operationProperty, attribute.Renderer, displayName);
         }
     }
 }

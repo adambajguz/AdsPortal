@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using MagicOperations.Configurations;
+    using MagicOperations.Components.DefaultOperationRenderers;
+    using MagicOperations.Components.DefaultPropertyRenderers;
     using MagicOperations.Extensions;
     using MagicOperations.Schemas;
 
@@ -14,6 +15,22 @@
     public sealed class MagicOperationsBuilder
     {
         private string? _baseUri;
+
+        private readonly Dictionary<MagicOperationTypes, Type> _defaultOperationRenderers = new()
+        {
+            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer) },
+            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer) },
+            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer) },
+            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer) },
+            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer) },
+            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer) }
+        };
+
+        private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
+        {
+            { typeof(string), typeof(StringRenderer) }
+        };
+
         private readonly List<Type> _operationTypes = new List<Type>();
 
         /// <summary>
@@ -30,6 +47,34 @@
 
             return this;
         }
+
+        #region Default operation renderers
+        public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
+        {
+            _defaultOperationRenderers[operation] = type;
+
+            return this;
+        }
+
+        public MagicOperationsBuilder UseDefaultOperationRenderer<TRenderer>(MagicOperationTypes operation)
+        {
+            return UseDefaultOperationRenderer(operation, typeof(TRenderer));
+        }
+        #endregion
+
+        #region Default property renderers
+        public MagicOperationsBuilder UseDefaultPropertyRenderer(Type propertyType, Type rendererType)
+        {
+            _defaultPropertyRenderers[propertyType] = rendererType;
+
+            return this;
+        }
+
+        public MagicOperationsBuilder UseDefaultPropertyRenderer<TPropety, TRenderer>(MagicOperationTypes operation)
+        {
+            return UseDefaultPropertyRenderer(typeof(TPropety), typeof(TRenderer));
+        }
+        #endregion
 
         #region Operations
         /// <summary>
@@ -112,7 +157,14 @@
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
 
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes);
-            MagicOperationsConfiguration configuration = new(_baseUri, _operationTypes, resolvedOperations.Groups, resolvedOperations.Schemas);
+
+            MagicOperationsConfiguration configuration = new(_baseUri,
+                                                             _operationTypes,
+                                                             resolvedOperations.Groups,
+                                                             resolvedOperations.Schemas,
+                                                             resolvedOperations.ModelToSchemaMappings,
+                                                             _defaultOperationRenderers,
+                                                             _defaultPropertyRenderers);
 
             return configuration;
         }

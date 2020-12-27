@@ -5,14 +5,14 @@
     using MagicOperations.Attributes;
 
     [OperationGroup("category")]
-    [GetListOperation]
+    [GetAllOperation]
     public class GetCategoriesList : ListResult<CategoriesListItem>
     {
 
     }
 
     [OperationGroup("category")]
-    [GetPagedListOperation]
+    [GetPagedOperation]
     public class GetPagedCategoriesList : ListResult<CategoriesListItem>
     {
 

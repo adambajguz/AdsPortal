@@ -22,9 +22,14 @@
         public string? DisplayName { get; init; }
 
         /// <summary>
-        /// Http method to use.
+        /// Http method to use. Defaults to HttpMethods.Post
         /// </summary>
         public string? HttpMethod { get; init; }
+
+        /// <summary>
+        /// Operation type.
+        /// </summary>
+        public MagicOperationTypes OperationType { get; protected init; }
 
         public OperationAttribute()
         {
@@ -40,8 +45,8 @@
         /// </summary>
         public CreateOperationAttribute()
         {
+            OperationType = MagicOperationTypes.Create;
             Route ??= "create";
-            DisplayName ??= Route.ToUpperInvariant();
             HttpMethod ??= HttpMethods.Post;
         }
     }
@@ -54,8 +59,8 @@
         /// </summary>
         public UpdateOperationAttribute()
         {
+            OperationType = MagicOperationTypes.Update;
             Route ??= "update";
-            DisplayName ??= Route.ToUpperInvariant();
             HttpMethod ??= HttpMethods.Put;
         }
     }
@@ -64,52 +69,53 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="DeleteOperationAttribute"/>.
-        /// Default values: Route = "delete/{id:guid}"; HttpMethod = HttpMethods.Delete
+        /// Default values: Route = "delete/{id}"; HttpMethod = HttpMethods.Delete
         /// </summary>
         public DeleteOperationAttribute()
         {
-            Route ??= "delete/{id:guid}";
-            DisplayName ??= Route.ToUpperInvariant();
+            OperationType = MagicOperationTypes.Delete;
+            Route ??= "delete/{Id}";
             HttpMethod ??= HttpMethods.Delete;
         }
     }
 
-    public sealed class GetDetailsOperationAttribute : OperationAttribute
+    public sealed class DetailsOperationAttribute : OperationAttribute
     {
         /// <summary>
-        /// Initializes an instance of <see cref="GetDetailsOperationAttribute"/>.
-        /// Default values: Route = "get/{id:guid}"; HttpMethod = HttpMethods.Get
+        /// Initializes an instance of <see cref="DetailsOperationAttribute"/>.
+        /// Default values: Route = "get/{Id}"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetDetailsOperationAttribute()
+        public DetailsOperationAttribute()
         {
-            Route ??= "get/{id}";
-            DisplayName ??= Route.ToUpperInvariant();
+            OperationType = MagicOperationTypes.Details;
+            Route ??= "get/{Id}";
             HttpMethod ??= HttpMethods.Get;
         }
     }
 
-    public sealed class GetListOperationAttribute : OperationAttribute
+    public sealed class GetAllOperationAttribute : OperationAttribute
     {
         /// <summary>
-        /// Initializes an instance of <see cref="GetListOperationAttribute"/>.
+        /// Initializes an instance of <see cref="GetAllOperationAttribute"/>.
         /// Default values: Route = "get-all"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetListOperationAttribute()
+        public GetAllOperationAttribute()
         {
+            OperationType = MagicOperationTypes.GetAll;
             Route ??= "get-all";
-            DisplayName ??= Route.ToUpperInvariant();
             HttpMethod ??= HttpMethods.Get;
         }
     }
 
-    public sealed class GetPagedListOperationAttribute : OperationAttribute
+    public sealed class GetPagedOperationAttribute : OperationAttribute
     {
         /// <summary>
-        /// Initializes an instance of <see cref="GetPagedListOperationAttribute"/>.
+        /// Initializes an instance of <see cref="GetPagedOperationAttribute"/>.
         /// Default values: Route = "get-paged"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetPagedListOperationAttribute()
+        public GetPagedOperationAttribute()
         {
+            OperationType = MagicOperationTypes.GetPaged;
             Route ??= "get-paged";
             HttpMethod ??= HttpMethods.Get;
         }

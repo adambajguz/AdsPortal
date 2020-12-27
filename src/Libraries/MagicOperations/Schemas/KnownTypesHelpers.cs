@@ -20,9 +20,9 @@
             return type.IsDefined(typeof(CreateOperationAttribute)) ||
                    type.IsDefined(typeof(UpdateOperationAttribute)) ||
                    type.IsDefined(typeof(DeleteOperationAttribute)) ||
-                   type.IsDefined(typeof(GetDetailsOperationAttribute)) ||
-                   type.IsDefined(typeof(GetListOperationAttribute)) ||
-                   type.IsDefined(typeof(GetPagedListOperationAttribute));
+                   type.IsDefined(typeof(DetailsOperationAttribute)) ||
+                   type.IsDefined(typeof(GetAllOperationAttribute)) ||
+                   type.IsDefined(typeof(GetPagedOperationAttribute));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// </summary>
         public static bool IsGetDetailsOperationType(Type type)
         {
-            return type.IsDefined(typeof(GetDetailsOperationAttribute)) &&
+            return type.IsDefined(typeof(DetailsOperationAttribute)) &&
                    !type.IsAbstract &&
                    !type.IsInterface;
         }
@@ -70,7 +70,7 @@
         /// </summary>
         public static bool IsGetListOperationType(Type type)
         {
-            return type.IsDefined(typeof(GetListOperationAttribute)) &&
+            return type.IsDefined(typeof(GetAllOperationAttribute)) &&
                    !type.IsAbstract &&
                    !type.IsInterface;
         }
@@ -80,7 +80,7 @@
         /// </summary>
         public static bool IsGetPagedListOperationType(Type type)
         {
-            return type.IsDefined(typeof(GetPagedListOperationAttribute)) &&
+            return type.IsDefined(typeof(GetPagedOperationAttribute)) &&
                    !type.IsAbstract &&
                    !type.IsInterface;
         }

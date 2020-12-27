@@ -19,8 +19,4 @@
     <ProjectReference Include="..\..\Core\AdsPortal.Domain.Abstractions\AdsPortal.Domain.Abstractions.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
-
 </Project>

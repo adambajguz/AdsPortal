@@ -2,7 +2,6 @@
 {
     using System;
     using System.Net.Http.Headers;
-    using MagicOperations.Configurations;
     using MagicOperations.Services;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +15,7 @@
 
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddScoped<AuthTokenHolder>();
-            services.AddScoped<ApiService>();
+            services.AddScoped<MagicApiService>();
 
             services.AddHttpClient("MagicOperationsAPI", (services, cfg) =>
             {

@@ -5,7 +5,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup("category")]
-    [GetDetailsOperation]
+    [DetailsOperation]
     public class GetCategoryDetailsResponse
     {
         public Guid Id { get; init; }

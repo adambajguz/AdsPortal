@@ -6,49 +6,53 @@
     using System.Reflection;
     using MagicOperations.Attributes;
     using MagicOperations.Extensions;
+    using Microsoft.AspNetCore.Http;
 
     public static class OperationSchemaResolver
     {
-        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyList<OperationSchema> Schemas) Resolve(IReadOnlyList<Type> operationTypes)
+        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyList<OperationSchema> Schemas, IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings) Resolve(IReadOnlyList<Type> operationTypes)
         {
             Dictionary<string, OperationGroupSchema> groups = new();
             List<OperationSchema> schemas = new();
+            Dictionary<Type, OperationSchema> modelToSchemaMappings = new();
 
-            foreach (Type operationType in operationTypes)
+            foreach (Type operationModelType in operationTypes)
             {
-                OperationGroupAttribute? group = operationType.GetCustomAttribute<OperationGroupAttribute>(true);
+                OperationGroupAttribute? group = operationModelType.GetCustomAttribute<OperationGroupAttribute>(true);
 
                 string route = group?.Route ?? string.Empty;
                 groups.TryAdd(route, new OperationGroupSchema(route));
 
                 OperationGroupSchema groupSchema = groups[route];
 
-                OperationSchema operationSchema = ResolveGroup(operationType, groupSchema);
+                OperationSchema operationSchema = ResolveGroup(operationModelType, groupSchema);
                 schemas.Add(operationSchema);
                 groupSchema.AddOperation(operationSchema);
+                modelToSchemaMappings.Add(operationModelType, operationSchema);
             }
 
-            return (groups, schemas);
+            return (groups, schemas, modelToSchemaMappings);
         }
 
-        public static OperationSchema ResolveGroup(Type operationType, OperationGroupSchema groupSchema)
+        public static OperationSchema ResolveGroup(Type operationModelType, OperationGroupSchema groupSchema)
         {
-            OperationAttribute? operation = operationType.GetCustomAttribute<OperationAttribute>(true);
+            OperationAttribute? operation = operationModelType.GetCustomAttribute<OperationAttribute>(true);
 
-            if (operation is null)
-                throw new MagicOperationsException($"Operation {operationType.FullName} does not have {typeof(OperationAttribute).FullName}");
+            _ = operation ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName}");
 
-
-            OperationPropertySchema[] properties = operationType.GetProperties()
-                                                                .Select(OperationPropertySchemaResolver.TryResolve)
-                                                                .Where(o => o is not null)
-                                                                .ToArray()!;
+            OperationPropertySchema[] propertySchemas = operationModelType.GetProperties()
+                                                                          .Select(OperationPropertySchemaResolver.TryResolve)
+                                                                          .Where(o => o is not null)
+                                                                          .ToArray()!;
 
             return new OperationSchema(groupSchema,
                                        operation.Renderer,
+                                       operationModelType,
                                        operation.Route,
                                        operation.DisplayName ?? operation.Route?.ToUpperInvariant() ?? string.Empty,
-                                       operation.HttpMethod);
+                                       operation.HttpMethod ?? HttpMethods.Post,
+                                       operation.OperationType,
+                                       propertySchemas);
         }
     }
 }

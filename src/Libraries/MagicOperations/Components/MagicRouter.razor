@@ -1,0 +1,18 @@
+﻿<h3>MagicRouter</h3>
+
+<p>Type: @Model.GetType().AssemblyQualifiedName</p>
+<p>BaseAPI: @Configuration.BaseApiPath</p>
+
+@if (Schema is not null)
+{
+    <p>Group route: @Schema.Group.Route</p>
+    <p>Route: @Schema.Route</p>
+    <p>DisplayName: @Schema.DisplayName</p>
+    <p>HttpMethod: @Schema.HttpMethod</p>
+    <p>ModelType: @Schema.ModelType.AssemblyQualifiedName</p>
+    <p>OperationType: @Schema.OperationType</p>
+}
+
+@code {
+
+}
