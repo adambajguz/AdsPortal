@@ -1,6 +1,5 @@
 ﻿namespace AdsPortal
 {
-    using AdsPortal.Analytics;
     using AdsPortal.Infrastructure.JobScheduler;
     using AdsPortal.ManagementUI;
     using AdsPortal.Persistence;
@@ -18,7 +17,6 @@
                    .AddJobSchedulerConfigs(hostingContext, environmentName)
                    .AddWebAPIConfigs(hostingContext, environmentName)
                    .AddManagementUIConfigs(hostingContext, environmentName)
-                   .AddAnalyticsConfigs(hostingContext, environmentName)
                    .AddEnvironmentVariables();
 
             return builder;

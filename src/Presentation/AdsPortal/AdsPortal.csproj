@@ -29,7 +29,6 @@
     <ProjectReference Include="..\..\Core\AdsPortal.Infrastructure.Media\AdsPortal.Infrastructure.Media.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.Infrastructure\AdsPortal.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.Persistence\AdsPortal.Persistence.csproj" />
-    <ProjectReference Include="..\AdsPortal.Analytics\AdsPortal.Analytics.csproj" />
     <ProjectReference Include="..\AdsPortal.ManagementUI\AdsPortal.ManagementUI.csproj" />
     <ProjectReference Include="..\AdsPortal.WebAPI\AdsPortal.WebAPI.csproj" />
     <ProjectReference Include="..\AdsPortal.CLI\AdsPortal.CLI.csproj" />

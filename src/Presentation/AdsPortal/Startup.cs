@@ -2,7 +2,6 @@ namespace AdsPortal
 {
     using System.Net.Mime;
     using System.Threading.Tasks;
-    using AdsPortal.Analytics;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Common;
     using AdsPortal.Domain;
@@ -95,14 +94,11 @@ namespace AdsPortal
 
             if (GlobalAppConfig.IsDevMode)
             {
-                app.UseAnalytics();
                 app.UseSerilogRequestLogging();
-
                 app.UseStaticFiles();
             }
             else
             {
-                app.UseAnalytics();
                 app.UseStaticFiles();
                 app.UseSerilogRequestLogging(); //Logging after static files to prevent showing static files in logs
             }
@@ -124,8 +120,8 @@ namespace AdsPortal
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapHealthChecks("/health");
-                endpoints.MapManagementUI();
                 endpoints.MapControllers();
+                endpoints.MapManagementUI();
             });
 
             app.ConfigureWebApi(env);

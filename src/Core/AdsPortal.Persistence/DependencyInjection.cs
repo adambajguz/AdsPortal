@@ -15,15 +15,11 @@
         public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddConfiguration<RelationalDbConfiguration>(configuration, out RelationalDbConfiguration relationalDbConfiguration);
-            services.AddConfiguration<MongoDbConfiguration>(configuration);
 
             services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(relationalDbConfiguration.ConnectionString))
                     .AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
 
-            services.AddSingleton<IMongoDbContext, MongoDbContext>();
-
             services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
-            services.AddScoped<IMongoUnitOfWork, MongoUnitOfWork>();
 
             return services;
         }
@@ -31,7 +27,6 @@
         public static IHealthChecksBuilder AddPersistenceHealthChecks(this IHealthChecksBuilder healthChecksBuilder)
         {
             healthChecksBuilder.AddDbContextCheck<RelationalDbContext>();
-            //healthChecksBuilder.AddMongoDb();
 
             return healthChecksBuilder;
         }

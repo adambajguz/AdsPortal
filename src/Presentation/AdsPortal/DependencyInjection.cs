@@ -1,4 +1,4 @@
-﻿namespace AdsPortal
+namespace AdsPortal
 {
     using System;
     using System.IO.Compression;
@@ -32,7 +32,6 @@
 
             //if (GlobalAppConfig.DEV_MODE)//(_env.IsDevelopment())
             //{
-
             //    services.AddHttpsRedirection(options =>
             //    {
             //        options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
