@@ -31,6 +31,7 @@
                 {
                     builder.OpenComponent(0, operationRendererType);
                     builder.AddAttribute(1, nameof(OperationRenderer.Model), Model);
+                    builder.AddAttribute(2, nameof(OperationRenderer.Schema), Schema);
                     builder.CloseComponent();
                 };
             }

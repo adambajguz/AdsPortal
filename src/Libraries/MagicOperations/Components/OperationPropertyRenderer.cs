@@ -1,9 +1,14 @@
 ﻿namespace MagicOperations.Components
 {
+    using MagicOperations.Schemas;
     using Microsoft.AspNetCore.Components;
 
     public abstract partial class OperationPropertyRenderer<T> : ComponentBase
     {
-        protected T? Value { get; set; }
+        [Parameter]
+        public T? Value { get; set; }
+
+        [Parameter]
+        public OperationPropertySchema Schema { get; set; } = default!;
     }
 }

@@ -18,6 +18,7 @@
         public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
 
+        [OperationPropertyIgnore]
         public IList<GetCategoryAdvertisementsDetailsResponse> Advertisements { get; set; } = default!;
     }
 

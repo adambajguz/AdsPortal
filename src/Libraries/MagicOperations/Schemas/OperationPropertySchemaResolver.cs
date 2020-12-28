@@ -7,14 +7,16 @@
     {
         public static OperationPropertySchema? TryResolve(PropertyInfo operationProperty)
         {
-            OperationPropertyAttribute? attribute = operationProperty.GetCustomAttribute<OperationPropertyAttribute>(true);
+            OperationPropertyIgnoreAttribute? ignoreAttribute = operationProperty.GetCustomAttribute<OperationPropertyIgnoreAttribute>(true);
 
-            if (attribute is null)
+            if (ignoreAttribute is not null)
                 return null;
 
-            string displayName = attribute.DisplayName ?? operationProperty.Name;
+            OperationPropertyAttribute? attribute = operationProperty.GetCustomAttribute<OperationPropertyAttribute>(true);
 
-            return new OperationPropertySchema(operationProperty, attribute.Renderer, displayName);
+            string displayName = attribute?.DisplayName ?? operationProperty.Name;
+
+            return new OperationPropertySchema(operationProperty, attribute?.Renderer, displayName);
         }
     }
 }

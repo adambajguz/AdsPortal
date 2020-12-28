@@ -3,3 +3,8 @@
 @inherits DetailsOperationRenderer
 
 <h3>DetailsDefaultRenderer</h3>
+
+@foreach (var fragment in RenderFragments)
+{
+    @fragment
+}
