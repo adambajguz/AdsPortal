@@ -21,14 +21,19 @@
             base.OnParametersSet();
 
             Type type = Model.GetType();
-            OperationSchema? schema = Configuration.ModelToSchemaMappings.GetValueOrDefault(type);
-            Schema = schema;
+            Schema = Configuration.ModelToSchemaMappings.GetValueOrDefault(type);
 
-            RenderFragment = (builder) =>
+            if (Schema is not null)
             {
-                builder.OpenComponent(0, type);
-                builder.CloseComponent();
-            };
+                Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
+
+                RenderFragment = (builder) =>
+                {
+                    builder.OpenComponent(0, operationRendererType);
+                    builder.AddAttribute(1, nameof(OperationRenderer.Model), Model);
+                    builder.CloseComponent();
+                };
+            }
         }
     }
 }
