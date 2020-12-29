@@ -1,0 +1,14 @@
+﻿@inherits OperationPropertyRenderer<bool>
+
+@if (OperationSchema.IsCreateOrUpdate)
+{
+    <label>
+        @PropertySchema.DisplayName (value: @Value)
+        <InputCheckbox @bind-Value="Value" />
+    </label>
+}
+else
+{
+    <p>@PropertySchema.DisplayName: @Value</p>
+}
+

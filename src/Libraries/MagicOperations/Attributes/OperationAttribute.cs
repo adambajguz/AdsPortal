@@ -33,7 +33,7 @@ namespace MagicOperations.Attributes
 
         public OperationAttribute(string defaultAction)
         {
-            if(string.IsNullOrWhiteSpace(Action))
+            if (string.IsNullOrWhiteSpace(Action))
                 Action = defaultAction;
 
             DisplayName ??= Action.ToUpperInvariant();
