@@ -10,7 +10,7 @@
 
     public static class OperationSchemaResolver
     {
-        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyList<OperationSchema> Schemas, IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings) Resolve(IReadOnlyList<Type> operationTypes)
+        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyList<OperationSchema> Schemas, IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings) Resolve(IReadOnlyList<Type> operationTypes, Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations)
         {
             Dictionary<string, OperationGroupSchema> groups = new();
             List<OperationSchema> schemas = new();
@@ -20,12 +20,9 @@
             {
                 OperationGroupAttribute? group = operationModelType.GetCustomAttribute<OperationGroupAttribute>(true);
 
-                string route = group?.Route ?? string.Empty;
-                groups.TryAdd(route, new OperationGroupSchema(route));
+                OperationGroupSchema groupSchema = ResolveOperationGroup(groupConfigurations, groups, group);
 
-                OperationGroupSchema groupSchema = groups[route];
-
-                OperationSchema operationSchema = ResolveGroup(operationModelType, groupSchema);
+                OperationSchema operationSchema = ResolveOperation(operationModelType, groupSchema);
                 schemas.Add(operationSchema);
                 groupSchema.AddOperation(operationSchema);
                 modelToSchemaMappings.Add(operationModelType, operationSchema);
@@ -34,7 +31,20 @@
             return (groups, schemas, modelToSchemaMappings);
         }
 
-        public static OperationSchema ResolveGroup(Type operationModelType, OperationGroupSchema groupSchema)
+        private static OperationGroupSchema ResolveOperationGroup(Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations, Dictionary<string, OperationGroupSchema> groups, OperationGroupAttribute? group)
+        {
+            string key = group?.Key ?? string.Empty;
+
+            groupConfigurations.TryGetValue(key, out MagicOperationGroupConfiguration? groupConfiguration);
+
+            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Route);
+
+            groups.TryAdd(key, value);
+
+            return value;
+        }
+
+        private static OperationSchema ResolveOperation(Type operationModelType, OperationGroupSchema groupSchema)
         {
             OperationAttribute? operation = operationModelType.GetCustomAttribute<OperationAttribute>(true);
 
@@ -48,8 +58,8 @@
             return new OperationSchema(groupSchema,
                                        operation.Renderer,
                                        operationModelType,
-                                       operation.Route,
-                                       operation.DisplayName ?? operation.Route?.ToUpperInvariant() ?? string.Empty,
+                                       operation.Action,
+                                       operation.DisplayName ?? operation.Action?.ToUpperInvariant() ?? string.Empty,
                                        operation.HttpMethod ?? HttpMethods.Post,
                                        operation.OperationType,
                                        propertySchemas);

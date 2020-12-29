@@ -3,7 +3,7 @@
     using System;
     using MagicOperations.Attributes;
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [UpdateOperation]
     public class UpdateCategoryCommand
     {

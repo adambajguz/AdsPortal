@@ -33,7 +33,7 @@
             _ = schema ?? throw new MagicOperationsException($"Invalid schema.");
 
             string route = ReplaceTokens(model, schema);
-            string path = Path.Combine(schema.Group.Route ?? string.Empty, route);
+            string path = Path.Combine(schema.Group.Key ?? string.Empty, route);
 
             HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
             var response = await client.SendAsync(new HttpRequestMessage
@@ -50,7 +50,7 @@
 
         public string ReplaceTokens(object model, OperationSchema schema)
         {
-            string route = schema.Route ?? string.Empty;
+            string route = schema.Action ?? string.Empty;
             MatchCollection matches = _regex.Matches(route);
 
             List<string> tokens = matches.Cast<Match>()

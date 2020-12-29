@@ -21,9 +21,9 @@
         public Type ModelType { get; }
 
         /// <summary>
-        /// Operation route relative to base URI and group (if set).
+        /// Operation action relative to base URI and group route (if set).
         /// </summary>
-        public string? Route { get; }
+        public string Action { get; }
 
         /// <summary>
         /// Operation display name.
@@ -48,7 +48,7 @@
         public OperationSchema(OperationGroupSchema group,
                                Type? renderer,
                                Type modelType,
-                               string? route,
+                               string action,
                                string displayName,
                                string httpMethod,
                                MagicOperationTypes operationType,
@@ -57,7 +57,7 @@
             Group = group;
             Renderer = renderer;
             ModelType = modelType;
-            Route = route;
+            Action = action;
             DisplayName = displayName;
             HttpMethod = httpMethod;
             OperationType = operationType;

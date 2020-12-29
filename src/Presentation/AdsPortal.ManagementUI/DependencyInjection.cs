@@ -4,6 +4,7 @@
     using System.Net.Http;
     using AdsPortal.Common.Extensions;
     using AdsPortal.ManagementUI.Configurations;
+    using AdsPortal.ManagementUI.Models;
     using AdsPortal.ManagementUI.Services;
     using MagicOperations;
     using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,8 @@
             {
                 builder.UseBaseUri("https://localhost:5001/api/");
                 builder.AddOperationsFromThisAssembly();
+
+                builder.AddGroupConfiguration(OperationGroups.Category, (g) => { g.Route = "category"; });
             });
 
             return services;

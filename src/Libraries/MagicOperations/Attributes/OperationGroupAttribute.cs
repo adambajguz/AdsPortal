@@ -6,13 +6,13 @@
     public sealed class OperationGroupAttribute : Attribute
     {
         /// <summary>
-        /// Operation route relative to base URI.
+        /// Operation group key.
         /// </summary>
-        public string Route { get; }
+        public string Key { get; }
 
-        public OperationGroupAttribute(string route)
+        public OperationGroupAttribute(string key)
         {
-            Route = route;
+            Key = key;
         }
     }
 }

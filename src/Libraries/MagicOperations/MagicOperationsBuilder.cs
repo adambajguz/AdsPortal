@@ -36,6 +36,8 @@
 
         private readonly List<Type> _operationTypes = new List<Type>();
 
+        private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
+
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
         /// </summary>
@@ -147,6 +149,18 @@
         }
         #endregion
 
+        #region Group configurations
+        public MagicOperationsBuilder AddGroupConfiguration(string groupKey, Action<MagicOperationGroupConfiguration> configuration)
+        {
+            MagicOperationGroupConfiguration groupConfiguration = new();
+            configuration?.Invoke(groupConfiguration);
+
+            _groupConfigurations.Add(groupKey, groupConfiguration);
+
+            return this;
+        }
+        #endregion
+
         /// <summary>
         /// Creates an instance of <see cref="CliApplication"/> using configured parameters.
         /// Default values are used in place of parameters that were not specified.
@@ -159,7 +173,7 @@
             if (_operationTypes.Count == 0)
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
 
-            var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes);
+            var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
 
             MagicOperationsConfiguration configuration = new(_baseUri,
                                                              _operationTypes,

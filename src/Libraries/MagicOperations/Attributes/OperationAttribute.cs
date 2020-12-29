@@ -1,4 +1,4 @@
-﻿namespace MagicOperations.Attributes
+namespace MagicOperations.Attributes
 {
     using System;
     using Microsoft.AspNetCore.Http;
@@ -12,9 +12,9 @@
         public Type? Renderer { get; init; }
 
         /// <summary>
-        /// Operation route relative to base URI and group (if set).
+        /// Operation action relative to base URI and group route (if set).
         /// </summary>
-        public string? Route { get; init; }
+        public string Action { get; }
 
         /// <summary>
         /// Operation display name. Defaults to uppercase route.
@@ -31,9 +31,12 @@
         /// </summary>
         public MagicOperationTypes OperationType { get; protected init; }
 
-        public OperationAttribute()
+        public OperationAttribute(string defaultAction)
         {
-            DisplayName ??= Route?.ToUpperInvariant();
+            if(string.IsNullOrWhiteSpace(Action))
+                Action = defaultAction;
+
+            DisplayName ??= Action.ToUpperInvariant();
         }
     }
 
@@ -41,12 +44,11 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="CreateOperationAttribute"/>.
-        /// Default values: Route = "create"; HttpMethod = HttpMethods.Post
+        /// Default values: Action = "create"; HttpMethod = HttpMethods.Post
         /// </summary>
-        public CreateOperationAttribute()
+        public CreateOperationAttribute() : base("create")
         {
             OperationType = MagicOperationTypes.Create;
-            Route ??= "create";
             HttpMethod ??= HttpMethods.Post;
         }
     }
@@ -55,12 +57,11 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="UpdateOperationAttribute"/>.
-        /// Default values: Route = "update"; HttpMethod = HttpMethods.Put
+        /// Default values: Action = "update"; HttpMethod = HttpMethods.Put
         /// </summary>
-        public UpdateOperationAttribute()
+        public UpdateOperationAttribute() : base("update")
         {
             OperationType = MagicOperationTypes.Update;
-            Route ??= "update";
             HttpMethod ??= HttpMethods.Put;
         }
     }
@@ -69,12 +70,11 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="DeleteOperationAttribute"/>.
-        /// Default values: Route = "delete/{id}"; HttpMethod = HttpMethods.Delete
+        /// Default values: Action = "delete/{id}"; HttpMethod = HttpMethods.Delete
         /// </summary>
-        public DeleteOperationAttribute()
+        public DeleteOperationAttribute() : base("delete/{Id}")
         {
             OperationType = MagicOperationTypes.Delete;
-            Route ??= "delete/{Id}";
             HttpMethod ??= HttpMethods.Delete;
         }
     }
@@ -83,12 +83,11 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="DetailsOperationAttribute"/>.
-        /// Default values: Route = "get/{Id}"; HttpMethod = HttpMethods.Get
+        /// Default values: Action = "get/{Id}"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public DetailsOperationAttribute()
+        public DetailsOperationAttribute() : base("get/{Id}")
         {
             OperationType = MagicOperationTypes.Details;
-            Route ??= "get/{Id}";
             HttpMethod ??= HttpMethods.Get;
         }
     }
@@ -99,10 +98,9 @@
         /// Initializes an instance of <see cref="GetAllOperationAttribute"/>.
         /// Default values: Route = "get-all"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetAllOperationAttribute()
+        public GetAllOperationAttribute() : base("get-all")
         {
             OperationType = MagicOperationTypes.GetAll;
-            Route ??= "get-all";
             HttpMethod ??= HttpMethods.Get;
         }
     }
@@ -111,12 +109,11 @@
     {
         /// <summary>
         /// Initializes an instance of <see cref="GetPagedOperationAttribute"/>.
-        /// Default values: Route = "get-paged"; HttpMethod = HttpMethods.Get
+        /// Default values: Action = "get-paged"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetPagedOperationAttribute()
+        public GetPagedOperationAttribute() : base("get-paged")
         {
             OperationType = MagicOperationTypes.GetPaged;
-            Route ??= "get-paged";
             HttpMethod ??= HttpMethods.Get;
         }
     }

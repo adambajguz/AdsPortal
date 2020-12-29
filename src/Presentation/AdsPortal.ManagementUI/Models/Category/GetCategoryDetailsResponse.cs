@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using MagicOperations.Attributes;
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [DetailsOperation]
     public class GetCategoryDetailsResponse
     {

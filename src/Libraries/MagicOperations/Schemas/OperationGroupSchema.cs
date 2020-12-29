@@ -5,7 +5,12 @@
     public sealed class OperationGroupSchema
     {
         /// <summary>
-        /// Operation route relative to base URI. If null, operation has no group.
+        /// Operation group key.
+        /// </summary>
+        public string Key { get; }
+
+        /// <summary>
+        /// Operation group route relative to base URI. If null, operation has no extra route.
         /// </summary>
         public string? Route { get; }
 
@@ -16,8 +21,9 @@
         /// </summary>
         public IReadOnlyList<OperationSchema> Operations => _operations;
 
-        public OperationGroupSchema(string? route)
+        public OperationGroupSchema(string key, string? route)
         {
+            Key = key;
             Route = route;
         }
 

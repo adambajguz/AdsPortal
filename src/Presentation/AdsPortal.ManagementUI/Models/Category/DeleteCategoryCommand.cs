@@ -3,7 +3,7 @@ namespace AdsPortal.ManagementUI.Models.Category
     using System;
     using MagicOperations.Attributes;
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [DeleteOperation]
     public class DeleteCategoryCommand
     {

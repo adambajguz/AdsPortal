@@ -4,14 +4,14 @@
     using AdsPortal.ManagementUI.Models.Base;
     using MagicOperations.Attributes;
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [GetAllOperation]
     public class GetCategoriesList : ListResult<CategoriesListItem>
     {
 
     }
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [GetPagedOperation]
     public class GetPagedCategoriesList : ListResult<CategoriesListItem>
     {

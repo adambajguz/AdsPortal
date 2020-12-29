@@ -2,7 +2,7 @@
 {
     using MagicOperations.Attributes;
 
-    [OperationGroup("category")]
+    [OperationGroup(OperationGroups.Category)]
     [CreateOperation]
     public class CreateCategoryCommand
     {
