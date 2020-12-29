@@ -3,3 +3,8 @@
 @inherits DeleteOperationRenderer
 
 <h3>DeleteDefaultRenderer</h3>
+
+@foreach (var fragment in RenderFragments)
+{
+    @fragment
+}

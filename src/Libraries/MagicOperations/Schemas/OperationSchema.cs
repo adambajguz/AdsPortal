@@ -46,6 +46,26 @@
         /// </summary>
         public MagicOperationTypes OperationType { get; }
 
+        /// <summary>
+        /// Whether operation is Create or Update.
+        /// </summary>
+        public bool IsCreateOrUpdate => OperationType == MagicOperationTypes.Create || OperationType == MagicOperationTypes.Update;
+
+        /// <summary>
+        /// Whether operation is GetAll or GetPaged.
+        /// </summary>
+        public bool IsList => OperationType == MagicOperationTypes.GetAll || OperationType == MagicOperationTypes.GetPaged;
+
+        /// <summary>
+        /// Whether operation is Details.
+        /// </summary>
+        public bool IsDetails => OperationType == MagicOperationTypes.Details;
+
+        /// <summary>
+        /// Whether operation is Delete.
+        /// </summary>
+        public bool IsDelete => OperationType == MagicOperationTypes.Delete;
+
         public OperationSchema(OperationGroupSchema group,
                                Type? renderer,
                                Type modelType,

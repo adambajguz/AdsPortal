@@ -1,7 +1,13 @@
 ﻿@inherits OperationPropertyRenderer<string>
 
-<p>StringRenderer :: @Schema.DisplayName :: @Value</p>
-
-@code {
-
+@if (OperationSchema.IsCreateOrUpdate)
+{
+    <label>
+        @PropertySchema.DisplayName (value: @Value)
+        <InputText @bind-Value="Value" />
+    </label>
+}
+else
+{
+    <p>@PropertySchema.DisplayName: @Value</p>
 }

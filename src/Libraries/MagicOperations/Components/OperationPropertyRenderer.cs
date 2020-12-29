@@ -9,6 +9,9 @@
         public T? Value { get; set; }
 
         [Parameter]
-        public OperationPropertySchema Schema { get; set; } = default!;
+        public OperationPropertySchema PropertySchema { get; set; } = default!;
+
+        [Parameter]
+        public OperationSchema OperationSchema { get; set; } = default!;
     }
 }

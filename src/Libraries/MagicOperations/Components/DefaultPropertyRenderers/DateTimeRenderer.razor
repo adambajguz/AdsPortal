@@ -1,7 +1,14 @@
 ﻿@inherits OperationPropertyRenderer<DateTime>
 
-<p>DateTimeRenderer :: @Schema.DisplayName :: @Value.ToLongDateString() @Value.ToLongTimeString()</p>
-
-@code {
-
+@if (OperationSchema.IsCreateOrUpdate)
+{
+    <label>
+        @PropertySchema.DisplayName (value: @Value.ToLongTimeString())
+        <InputDate @bind-Value="Value" />
+    </label>
 }
+else
+{
+    <p>@PropertySchema.DisplayName: @Value.ToLongDateString() @Value.ToLongTimeString()</p>
+}
+

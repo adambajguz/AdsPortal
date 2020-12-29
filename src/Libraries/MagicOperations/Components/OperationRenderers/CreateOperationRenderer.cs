@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    public abstract class CreateOperationRenderer : OperationRenderer
+    public abstract class CreateOperationRenderer : SingleItemOperationRenderer
     {
         public Task SubmitAsync()
         {

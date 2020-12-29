@@ -3,3 +3,12 @@
 @inherits UpdateOperationRenderer
 
 <h3>UpdateDefaultRenderer</h3>
+
+<p>@System.Text.Json.JsonSerializer.Serialize(Model)</p>
+
+<EditForm Model="Model">
+    @foreach (var fragment in RenderFragments)
+    {
+        @fragment
+    }
+</EditForm>

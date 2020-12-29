@@ -2,8 +2,9 @@
 {
     using System.Threading.Tasks;
 
-    public abstract class UpdateOperationRenderer : OperationRenderer
+    public abstract class UpdateOperationRenderer : SingleItemOperationRenderer
     {
+
         public Task SubmitAsync()
         {
             return Task.CompletedTask;

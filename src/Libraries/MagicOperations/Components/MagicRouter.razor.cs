@@ -52,7 +52,7 @@
                     {
                         builder.OpenComponent(0, operationRendererType);
                         builder.AddAttribute(1, nameof(OperationRenderer.Model), model);
-                        builder.AddAttribute(2, nameof(OperationRenderer.Schema), Schema);
+                        builder.AddAttribute(2, nameof(OperationRenderer.OperationSchema), Schema);
                         builder.CloseComponent();
                     };
 

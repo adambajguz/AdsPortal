@@ -3,7 +3,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public abstract class DeleteOperationRenderer : OperationRenderer
+    public abstract class DeleteOperationRenderer : SingleItemOperationRenderer
     {
         public async Task SubmitAsync(CancellationToken cancellationToken = default)
         {
