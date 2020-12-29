@@ -8,9 +8,10 @@ namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetUserDetailsQuery : IGetDetailsByIdQuery<GetUserDetailsResponse>
+    public class GetUserDetailsQuery : IGetDetailsQuery<GetUserDetailsResponse>, IIdentifiableOperation<GetUserDetailsResponse>
     {
         public Guid Id { get; init; }
 

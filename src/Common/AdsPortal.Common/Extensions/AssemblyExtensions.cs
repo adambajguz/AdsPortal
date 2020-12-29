@@ -49,7 +49,7 @@
             catch (ReflectionTypeLoadException ex)
             {
                 // Return the types that could be loaded. Types can contain null values.
-                return ex.Types.Where(type => type != null);
+                return ex.Types.Where(type => type is not null)!;
             }
             catch (Exception ex)
             {

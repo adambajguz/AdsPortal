@@ -10,13 +10,11 @@
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Abstractions.Base;
     using FluentValidation;
-    using MediatR;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
-    using MediatR.GenericOperations.Queries;
 
-    public abstract class GetPagedListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, PagedListResult<TResultEntry>>
+    public abstract class GetPagedListQueryHandler<TQuery, TEntity, TResultEntry> : GetPagedListOperationHandler<TQuery, TEntity, TResultEntry>
         where TQuery : class, IGetPagedListQuery<TResultEntry>
         where TEntity : class, IBaseRelationalEntity
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
@@ -36,7 +34,7 @@
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
+        public override async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query;
             await OnInit(cancellationToken);
@@ -47,8 +45,8 @@
             int entriesPerPage = query.EntiresPerPage;
             int pageNumber = query.Page;
             int skip = entriesPerPage * pageNumber;
-
             int total = await Repository.GetCountAsync(Filter);
+
             List<TResultEntry> list = await OnFetch(skip, entriesPerPage, total, cancellationToken);
 
             PagedListResult<TResultEntry> getPagedListResponse = new PagedListResult<TResultEntry>(pageNumber, query.EntiresPerPage, total, list);
@@ -57,26 +55,14 @@
             return getPagedListResponse;
         }
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual async Task<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken)
+        protected override async Task<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken)
         {
             return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
-                                                              orderBy: OrderBy,
-                                                              noTracking: true,
-                                                              skip: skip,
-                                                              take: entriesPerPage,
-                                                              cancellationToken: cancellationToken);
-        }
-
-        protected virtual Task OnFetched(PagedListResult<TResultEntry> response, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
+                                                                 orderBy: OrderBy,
+                                                                 noTracking: true,
+                                                                 skip: skip,
+                                                                 take: entriesPerPage,
+                                                                 cancellationToken: cancellationToken);
         }
     }
 }

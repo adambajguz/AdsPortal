@@ -5,7 +5,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class PagedListResult<TResultEntry> : IOperationResult
+    public class PagedListResult<TResultEntry> : ListResult<TResultEntry>
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
     {
         public int CurrentPageNumber { get; }
@@ -13,13 +13,11 @@
         public int LastPage { get; }
 
         public int Seen { get; }
-        public int Count { get; }
         public int Left { get; }
         public int TotalCount { get; }
 
-        public IReadOnlyList<TResultEntry> Entries { get; }
-
-        public PagedListResult(int currentPageNumber, int entriesPerPage, int totalCount, List<TResultEntry> entries)
+        public PagedListResult(int currentPageNumber, int entriesPerPage, int totalCount, List<TResultEntry> entries) :
+            base(entries)
         {
             CurrentPageNumber = currentPageNumber;
             EntiresPerPage = entriesPerPage;
@@ -28,11 +26,8 @@
             int seenTmp = currentPageNumber * entriesPerPage;
             Seen = seenTmp > totalCount ? totalCount : seenTmp;
 
-            Count = entries.Count;
             Left = totalCount - Seen - Count;
             TotalCount = totalCount;
-
-            Entries = entries;
         }
     }
 }

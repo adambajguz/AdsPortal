@@ -6,7 +6,6 @@
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
     using AdsPortal.Domain.Entities;
-    using MediatR.GenericOperations.Queries;
 
     public class GetPagedCategoriesListQuery : IGetPagedListQuery<GetCategoriesListResponse>
     {

@@ -11,7 +11,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using MediatR;
     using MediatR.GenericOperations.Commands;
 
-    public abstract class UpdateCommandHandler<TCommand, TCommandValidator, TEntity> : IRequestHandler<TCommand, Unit>
+    public abstract class UpdateCommandHandler<TCommand, TCommandValidator, TEntity> : UpdateOperationHandler<TCommand, TEntity>
         where TCommand : class, IUpdateCommand
         where TEntity : class, IBaseRelationalEntity
         where TCommandValidator : AbstractValidator<TCommand>, new()
@@ -30,7 +30,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Mapper = mapper;
         }
 
-        public async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
@@ -48,26 +48,9 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
             return await Unit.Task;
         }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnUpdated(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
     }
 
-    public abstract class UpdateCommandHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
+    public abstract class UpdateCommandHandler<TCommand, TEntity> : UpdateOperationHandler<TCommand, TEntity>
             where TCommand : class, IUpdateCommand
             where TEntity : class, IBaseRelationalEntity
     {
@@ -85,7 +68,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Mapper = mapper;
         }
 
-        public async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
@@ -101,20 +84,6 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             await OnUpdated(entity, cancellationToken);
 
             return await Unit.Task;
-        }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected abstract Task OnValidate(TEntity entity, CancellationToken cancellationToken);
-
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnUpdated(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

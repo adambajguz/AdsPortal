@@ -8,9 +8,10 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetMediaItemDetailsByIdQuery : IGetDetailsByIdQuery<GetMediaItemDetailsResponse>
+    public class GetMediaItemDetailsByIdQuery : IGetDetailsQuery<GetMediaItemDetailsResponse>, IIdentifiableOperation<GetMediaItemDetailsResponse>
     {
         public Guid Id { get; init; }
 

@@ -6,9 +6,10 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCat
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using Domain.Entities;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 
-    public class DeleteCategoryCommand : IDeleteByIdCommand
+    public class DeleteCategoryCommand : IDeleteCommand, IIdentifiableOperation
     {
         public Guid Id { get; init; }
 

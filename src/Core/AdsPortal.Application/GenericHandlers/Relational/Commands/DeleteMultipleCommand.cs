@@ -11,8 +11,8 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using MediatR;
     using MediatR.GenericOperations.Commands;
 
-    public abstract class DeleteMultipleHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
-        where TCommand : class, IDeleteMultipleCommand
+    public abstract class DeleteMultipleHandler<TCommand, TEntity> : DeleteOperationHandler<TCommand, TEntity>
+        where TCommand : class, IDeleteCommand
         where TEntity : class, IBaseRelationalEntity
     {
         private TCommand? command;
@@ -29,31 +29,23 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
 
             List<TEntity> entitiesToRemove = await Repository.AllAsync(Filter, cancellationToken: cancellationToken);
-            await OnValidate(entitiesToRemove, cancellationToken);
+
+            foreach (TEntity entity in entitiesToRemove)
+            {
+                await OnValidate(entity, cancellationToken);
+            }
 
             Repository.RemoveMultiple(entitiesToRemove);
             await Uow.SaveChangesAsync();
             await OnRemoved(cancellationToken);
 
             return await Unit.Task;
-        }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(List<TEntity> entitiesToRemove, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnRemoved(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

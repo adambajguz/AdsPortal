@@ -11,9 +11,10 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetMediaItemChecksumFileByIdCommand : IGetDetailsByIdQuery<GetMediaItemChecksumResponse>
+    public class GetMediaItemChecksumFileByIdCommand : IGetDetailsQuery<GetMediaItemChecksumResponse>, IIdentifiableOperation<GetMediaItemChecksumResponse>
     {
         public Guid Id { get; init; }
 

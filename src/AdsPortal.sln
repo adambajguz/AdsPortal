@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.CLI", "Presentati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.Infrastructure.JobScheduler", "Core\AdsPortal.Infrastructure.JobScheduler\AdsPortal.Infrastructure.JobScheduler.csproj", "{E8027900-5F4D-4BFF-8439-1AD92123E9EC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{94B58D2A-0937-4DA0-872C-A09D8AA83CE8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{94B58D2A-0937-4DA0-872C-A09D8AA83CE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestCRUD", "Libraries\RestCRUD\RestCRUD.csproj", "{52EDBE6F-2EE1-4DCD-9849-C5187C2D11E5}"
 EndProject

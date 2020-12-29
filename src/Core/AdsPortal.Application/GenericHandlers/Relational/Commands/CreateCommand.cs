@@ -8,11 +8,10 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using AdsPortal.Domain.Abstractions.Base;
     using AutoMapper;
     using FluentValidation;
-    using MediatR;
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Models;
 
-    public abstract class CreateCommandHandler<TCommand, TCommandValidator, TEntity> : IRequestHandler<TCommand, IdResult>
+    public abstract class CreateCommandHandler<TCommand, TCommandValidator, TEntity> : CreateOperationHandler<TCommand, TEntity>
         where TCommand : class, ICreateCommand
         where TCommandValidator : AbstractValidator<TCommand>, new()
         where TEntity : class, IBaseRelationalEntity
@@ -31,7 +30,8 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Mapper = mapper;
         }
 
-        public async Task<IdResult> Handle(TCommand command, CancellationToken cancellationToken)
+        //TODO: maybe handle should be in library
+        public override async Task<IdResult> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
@@ -48,26 +48,9 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
             return new IdResult { Id = entity.Id };
         }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnAdded(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
     }
 
-    public abstract class CreateCommandHandler<TCommand, TEntity> : IRequestHandler<TCommand, IdResult>
+    public abstract class CreateCommandHandler<TCommand, TEntity> : CreateOperationHandler<TCommand, TEntity>
         where TCommand : class, ICreateCommand
         where TEntity : class, IBaseRelationalEntity
     {
@@ -85,7 +68,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Mapper = mapper;
         }
 
-        public async Task<IdResult> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<IdResult> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
@@ -100,20 +83,6 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             await OnAdded(entity, cancellationToken);
 
             return new IdResult { Id = entity.Id };
-        }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected abstract Task OnValidate(CancellationToken cancellationToken);
-
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnAdded(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

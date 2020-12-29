@@ -9,13 +9,12 @@
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Abstractions.Base;
-    using MediatR;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
     using MediatR.GenericOperations.Queries;
 
-    public abstract class GetListQueryHandler<TQuery, TEntity, TResultEntry> : IRequestHandler<TQuery, ListResult<TResultEntry>>
+    public abstract class GetListQueryHandler<TQuery, TEntity, TResultEntry> : GetListOperationHandler<TQuery, TEntity, TResultEntry>
         where TQuery : class, IGetListQuery<TResultEntry>
         where TEntity : class, IBaseRelationalEntity
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping
@@ -35,7 +34,7 @@
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public async Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
+        public override async Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query;
             await OnInit(cancellationToken);
@@ -48,19 +47,12 @@
             return getListResponse;
         }
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual async Task<List<TResultEntry>> OnFetch(CancellationToken cancellationToken)
+        protected override async Task<List<TResultEntry>> OnFetch(CancellationToken cancellationToken)
         {
             return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
                                                               orderBy: OrderBy,
                                                               noTracking: true,
                                                               cancellationToken: cancellationToken);
-        }
-
-        protected virtual Task OnFetched(ListResult<TResultEntry> response, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

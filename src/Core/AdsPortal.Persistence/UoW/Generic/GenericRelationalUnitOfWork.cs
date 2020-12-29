@@ -45,8 +45,7 @@
             IEnumerable<Type> types = exportedTypes.Where(type => !type.IsAbstract &&
                                                                   type.Namespace != null &&
                                                                   !type.IsGenericTypeDefinition &&
-                                                                  typeof(IBaseRelationalEntity).IsAssignableFrom(type) &&
-                                                                  !typeof(IBaseMongoEntity).IsAssignableFrom(type));
+                                                                  typeof(IBaseRelationalEntity).IsAssignableFrom(type));
 
             Dictionary<string, Type> tableNameToEntityLookup = new Dictionary<string, Type>();
             foreach (Type type in types)

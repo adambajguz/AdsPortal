@@ -7,10 +7,11 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Abstractions.Base;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 
-    public abstract class DeleteByIdHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
-        where TCommand : class, IDeleteByIdCommand
+    public abstract class DeleteByIdHandler<TCommand, TEntity> : DeleteOperationHandler<TCommand, TEntity>
+        where TCommand : class, IDeleteCommand, IIdentifiableOperation
         where TEntity : class, IBaseRelationalEntity
     {
         private TCommand? command;
@@ -25,7 +26,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command;
             await OnInit(cancellationToken);
@@ -39,18 +40,6 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             await OnRemoved(cancellationToken);
 
             return await Unit.Task;
-        }
-
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnRemoved(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

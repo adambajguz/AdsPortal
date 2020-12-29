@@ -7,13 +7,12 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Abstractions.Base;
     using AutoMapper;
-    using MediatR;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Queries;
 
-    public abstract class GetDetailsByIdQueryHandler<TQuery, TEntity, TResult> : IRequestHandler<TQuery, TResult>
-        where TQuery : class, IGetDetailsByIdQuery<TResult>
+    public abstract class GetDetailsByIdQueryHandler<TQuery, TEntity, TResult> : GetDetailsOperationHandler<TQuery, TEntity, TResult>
+        where TQuery : class, IGetDetailsQuery<TResult>, IIdentifiableOperation<TResult>
         where TEntity : class, IBaseRelationalEntity
         where TResult : class, IIdentifiableOperationResult, ICustomMapping
     {
@@ -31,7 +30,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
             Mapper = mapper;
         }
 
-        public async Task<TResult> Handle(TQuery query, CancellationToken cancellationToken)
+        public override async Task<TResult> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query;
             await OnInit(cancellationToken);
@@ -45,21 +44,9 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
             return response;
         }
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual async Task<TEntity> OnFetch(CancellationToken cancellationToken)
+        protected override async Task<TEntity> OnFetch(CancellationToken cancellationToken)
         {
             return await Repository.SingleByIdAsync(Query.Id, noTracking: true, cancellationToken);
-        }
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnMapped(TEntity entity, TResult response, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

@@ -7,9 +7,10 @@ namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAd
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Domain.Entities;
     using AutoMapper;
+    using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetAdvertisementDetailsQuery : IGetDetailsByIdQuery<GetAdvertisementDetailsResponse>
+    public class GetAdvertisementDetailsQuery : IGetDetailsQuery<GetAdvertisementDetailsResponse>, IIdentifiableOperation<GetAdvertisementDetailsResponse>
     {
         public Guid Id { get; init; }
 

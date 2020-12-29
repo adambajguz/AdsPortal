@@ -6,7 +6,6 @@
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList;
     using AdsPortal.Domain.Entities;
-    using MediatR.GenericOperations.Queries;
 
     public class GetPagedUsersListQuery : IGetPagedListQuery<GetUsersListResponse>
     {
