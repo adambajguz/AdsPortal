@@ -1,11 +1,11 @@
 ﻿namespace AdsPortal.SpecialPages.Core
 {
     using System;
-    using AdsPortal.Common;
     using AdsPortal.SpecialPages;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public static class SpecialPagesConfiguration
     {
@@ -15,7 +15,7 @@
                 throw new ArgumentNullException(nameof(services));
 
             // Register Development pages
-            if (GlobalAppConfig.IsDevMode)
+            if (environment.IsDevelopment())
                 app.AddSpecialPage<RegisteredServicesPage>(environment, services);
 
             // Register Development and Production pages

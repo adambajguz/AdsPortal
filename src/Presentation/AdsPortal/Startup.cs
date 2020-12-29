@@ -24,6 +24,7 @@ namespace AdsPortal
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Persistence;
     using Serilog;
@@ -76,7 +77,7 @@ namespace AdsPortal
             if (FeaturesSettings.AlwaysUseExceptionHandling)
                 app.UseExceptionHandler(error => error.UseCustomErrors());
 
-            if (GlobalAppConfig.IsDevMode)
+            if (env.IsDevelopment())
             {
                 if (!FeaturesSettings.AlwaysUseExceptionHandling)
                     app.UseDeveloperExceptionPage();
@@ -92,7 +93,7 @@ namespace AdsPortal
 
             //app.UseHttpsRedirection();
 
-            if (GlobalAppConfig.IsDevMode)
+            if (env.IsDevelopment())
             {
                 app.UseSerilogRequestLogging();
                 app.UseStaticFiles();

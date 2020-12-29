@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using AdsPortal.CLI.Commands.Database;
     using AdsPortal.CLI.Interfaces;
-    using AdsPortal.Common;
     using AdsPortal.Helpers;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
@@ -23,9 +22,7 @@
         {
             using (IWebHost webHost = WebHostHelpers.BuildWebHost())
             {
-                string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
-
-                Log.ForContext(typeof(MigrateDatabaseCommand)).Warning("Server START: {Mode} mode enabled.", mode);
+                Log.ForContext(typeof(MigrateDatabaseCommand)).Warning("Server START");
 
                 try
                 {
@@ -63,9 +60,7 @@
         {
             using (IWebHost webHost = WebHostHelpers.BuildWebHost())
             {
-                string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
-
-                Log.ForContext(typeof(DatabaseVerifyCommand)).Warning("Server START: {Mode} mode enabled.", mode);
+                Log.ForContext(typeof(DatabaseVerifyCommand)).Warning("Server START");
 
                 try
                 {

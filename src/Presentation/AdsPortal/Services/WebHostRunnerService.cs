@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.CLI.Interfaces;
-    using AdsPortal.Common;
     using AdsPortal.Helpers;
     using AdsPortal.Infrastructure.Logging.Helpers;
     using Microsoft.AspNetCore.Hosting;
@@ -59,8 +58,7 @@
         {
             IWebHost webHost = WebHostHelpers.BuildWebHost();
 
-            string mode = GlobalAppConfig.IsDevMode ? "Development" : "Production";
-            Log.ForContext<WebHostRunnerService>().Warning("Server START: {Mode} mode enabled.", mode);
+            Log.ForContext<WebHostRunnerService>().Warning("Server START");
 
             return webHost;
         }

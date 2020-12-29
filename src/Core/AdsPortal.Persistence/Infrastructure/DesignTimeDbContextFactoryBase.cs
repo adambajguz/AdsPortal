@@ -2,7 +2,6 @@
 {
     using System;
     using System.IO;
-    using AdsPortal.Common;
     using AdsPortal.Common.Extensions;
     using AdsPortal.Persistence.Configurations;
     using Microsoft.EntityFrameworkCore;
@@ -25,11 +24,8 @@
 
         private TContext Create(string basePath, string currentPath, string environmentName)
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder().SetBasePath(basePath);
-            configurationBuilder.AddJsonFile(GlobalAppConfig.AppSettingsFileName);
-
-            IConfigurationRoot configurationRoot = configurationBuilder
-                .AddJsonFile($"appsettings.json", optional: true)
+            IConfigurationRoot configurationRoot = new ConfigurationBuilder().SetBasePath(basePath)
+                .AddJsonFile($"appsettings.json", optional: false)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
                 .AddJsonFile($"{currentPath}{Path.DirectorySeparatorChar}appsettings.Persistence.json", optional: false)
                 .AddJsonFile($"{currentPath}{Path.DirectorySeparatorChar}appsettings.Persistence.{environmentName}.json", optional: true)
