@@ -24,12 +24,6 @@
                 c.RouteTemplate = "api/{documentName}/swagger.json";
             });
 
-            app.UseReDoc(c =>
-            {
-                c.RoutePrefix = GlobalAppConfig.AppInfo.ReDocRoute;
-                c.SpecUrl(GlobalAppConfig.AppInfo.SwaggerStartupUrl);
-            });
-
             app.UseSwaggerUI(c =>
             {
                 c.DisplayRequestDuration();

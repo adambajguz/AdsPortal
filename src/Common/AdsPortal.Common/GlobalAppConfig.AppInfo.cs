@@ -31,8 +31,6 @@
             public static string SwaggerStartupUrl { get; } = $"/{SwaggerRoute}/{SwaggerDocumentName}/swagger.json";
             public static string RestApiUrl { get; } = $"/{SwaggerRoute}";
             public static string SwaggerUrl { get; } = $"/{SwaggerRoute}/index.html";
-            public static string ReDocRoute { get; } = $"{SwaggerRoute}/redoc";
-            public static string ReDocUrl { get; } = $"/{ReDocRoute}/index.html";
             public static string HealthUrl { get; } = "/health";
 
             public static string AppShortDescription { get; } = $"Backend Api for {AppName}.";
@@ -43,7 +41,6 @@
                                                            "Links:\n" +
                                                            @$"OpenAPI specification can be found at {SwaggerStartupUrl}\n" +
                                                            @$"Swagger can be accessed through {SwaggerUrl}\n" +
-                                                           @$"ReDoc can be accessed through {ReDocUrl}\n" +
                                                            "\n" +
                                                            @$"REST API base url is {RestApiUrl}\n" +
                                                            "\n" +
@@ -56,7 +53,8 @@
                                                                "<b>Links:</b><br>" +
                                                                @$"OpenAPI specification can be found at <a href=""{SwaggerStartupUrl}"">{SwaggerStartupUrl}</a><br>" +
                                                                @$"Swagger can be accessed through <a href=""{SwaggerUrl}"">{SwaggerUrl}</a><br>" +
-                                                               @$"ReDoc can be accessed through <a href=""{ReDocUrl}"">{ReDocUrl}</a><br>" +
+                                                               @$"<br>" +
+                                                               @$"<a href=""/"">Go back to Portal</a><br>" +
                                                                @$"<br>" +
                                                                @$"REST API base url is <a href=""{RestApiUrl}"">{RestApiUrl}</a><br>" +
                                                                @$"<br>" +

@@ -231,7 +231,7 @@
                                                              _operationListingRenderer,
                                                              _errorRenderer,
                                                              _defaultOperationRenderers,
-                                                             _defaultPropertyRenderers);;
+                                                             _defaultPropertyRenderers); ;
 
             return configuration;
         }

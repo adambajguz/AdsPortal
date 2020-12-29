@@ -5,15 +5,15 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #00d5ff;
+    background: var(--color-primary);
     border-radius: 0px;
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #00b9de;
+        background: var(--color-warning);
     }
 
 ::-webkit-scrollbar-track {
-    visibility: hidden
-    border-radius: 0px;
+    visibility: hidden;
+    border-radius: 0;
 }
