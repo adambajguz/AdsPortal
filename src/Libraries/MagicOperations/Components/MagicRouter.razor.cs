@@ -1,40 +1,83 @@
 ﻿namespace MagicOperations.Components
 {
     using System;
-    using System.Collections.Generic;
     using MagicOperations.Schemas;
+    using MagicOperations.Services;
     using Microsoft.AspNetCore.Components;
+    using Microsoft.Extensions.Logging;
 
     public partial class MagicRouter : ComponentBase
     {
+        protected OperationSchema? Schema { get; set; }
         protected RenderFragment? RenderFragment { get; private set; }
 
         [Inject] private MagicOperationsConfiguration Configuration { get; init; } = default!;
+        [Inject] private IMagicRouteResolver RouteResolver { get; init; } = default!;
+        [Inject] private ILogger<MagicRouter> Logger { get; init; } = default!;
 
         [Parameter]
-        public object Model { get; init; } = default!;
-
-        protected OperationSchema? Schema { get; set; }
+        public string? Args { get; init; }
 
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
 
-            Type type = Model.GetType();
-            Schema = Configuration.ModelToSchemaMappings.GetValueOrDefault(type);
-
-            if (Schema is not null)
+            try
             {
-                Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
-
-                RenderFragment = (builder) =>
+                if (string.IsNullOrWhiteSpace(Args))
                 {
-                    builder.OpenComponent(0, operationRendererType);
-                    builder.AddAttribute(1, nameof(OperationRenderer.Model), Model);
-                    builder.AddAttribute(2, nameof(OperationRenderer.Schema), Schema);
-                    builder.CloseComponent();
-                };
+                    if (Configuration.OperationListingRenderer is Type operationListingRendererType)
+                    {
+                        RenderFragment = (builder) =>
+                        {
+                            builder.OpenComponent(0, operationListingRendererType);
+                            builder.CloseComponent();
+                        };
+                    }
+
+                    return;
+                }
+
+                (OperationSchema Schema, UriTemplate.UriTemplateMatch Arguments)? operation = RouteResolver.Resolve(Args);
+
+                if (operation is not null)
+                {
+                    Schema = operation.Value.Schema;
+                    Type type = Schema.ModelType;
+                    object model = Activator.CreateInstance(type)!;
+
+                    Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
+
+                    RenderFragment = (builder) =>
+                    {
+                        builder.OpenComponent(0, operationRendererType);
+                        builder.AddAttribute(1, nameof(OperationRenderer.Model), model);
+                        builder.AddAttribute(2, nameof(OperationRenderer.Schema), Schema);
+                        builder.CloseComponent();
+                    };
+
+                    return;
+                }
+
+                Logger.LogDebug("Unknown route {Route}.", Args);
+                RenderError();
             }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Unknown error during route resolving.");
+            }
+        }
+
+        private void RenderError()
+        {
+            Type errorRendererType = Configuration.ErrorRenderer;
+
+            RenderFragment = (builder) =>
+            {
+                builder.OpenComponent(0, errorRendererType);
+                builder.AddAttribute(1, nameof(OperationErrorRenderer.Route), Args);
+                builder.CloseComponent();
+            };
         }
     }
 }

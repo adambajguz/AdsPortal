@@ -20,6 +20,11 @@
 
         [OperationPropertyIgnore]
         public IList<GetCategoryAdvertisementsDetailsResponse> Advertisements { get; set; } = default!;
+
+        public GetCategoryDetailsResponse()
+        {
+            Description = "lorem ipsum";
+        }
     }
 
     public class GetCategoryAdvertisementsDetailsResponse

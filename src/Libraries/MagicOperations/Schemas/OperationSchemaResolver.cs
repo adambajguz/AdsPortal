@@ -18,27 +18,32 @@
 
             foreach (Type operationModelType in operationTypes)
             {
-                OperationGroupAttribute? group = operationModelType.GetCustomAttribute<OperationGroupAttribute>(true);
+                OperationGroupAttribute? groupAttribute = operationModelType.GetCustomAttribute<OperationGroupAttribute>(true);
 
-                OperationGroupSchema groupSchema = ResolveOperationGroup(groupConfigurations, groups, group);
+                OperationGroupSchema groupSchema = ResolveOperationGroup(groupConfigurations, groups, groupAttribute);
 
                 OperationSchema operationSchema = ResolveOperation(operationModelType, groupSchema);
                 schemas.Add(operationSchema);
-                groupSchema.AddOperation(operationSchema);
                 modelToSchemaMappings.Add(operationModelType, operationSchema);
+                groupSchema.AddOperation(operationSchema);
+
             }
 
             return (groups, schemas, modelToSchemaMappings);
         }
 
-        private static OperationGroupSchema ResolveOperationGroup(Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations, Dictionary<string, OperationGroupSchema> groups, OperationGroupAttribute? group)
+        private static OperationGroupSchema ResolveOperationGroup(Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations, Dictionary<string, OperationGroupSchema> groups, OperationGroupAttribute? groupAttribute)
         {
-            string key = group?.Key ?? string.Empty;
+            string key = groupAttribute?.Key ?? string.Empty;
+
+            if (groups.TryGetValue(key, out OperationGroupSchema? ogs))
+            {
+                return ogs;
+            }
 
             groupConfigurations.TryGetValue(key, out MagicOperationGroupConfiguration? groupConfiguration);
 
-            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Route);
-
+            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Route, groupConfiguration?.DisplayName);
             groups.TryAdd(key, value);
 
             return value;

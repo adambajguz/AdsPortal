@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using MagicOperations.Extensions
+
+@inherits OperationListingRenderer
+@inject NavigationManager NavMan
+
+<p>Default operation listing renderer.</p>
+
+@foreach (var schemaGroup in Configuration.OperationSchemas.GroupBy(x => x.Group))
+{
+    <p>@schemaGroup.Key.DisplayName</p>
+    <ul>
+        @foreach (var schema in schemaGroup)
+        {
+            string uri = NavMan.BuildCurrentPageRelativeUri(schema.GetFullRoute());
+
+            <li>
+                <NavLink href="@uri">@uri</NavLink>
+            </li>
+        }
+    </ul>
+}

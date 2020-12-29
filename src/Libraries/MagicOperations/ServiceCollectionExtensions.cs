@@ -14,6 +14,7 @@
             MagicOperationsConfiguration configuration = builderObj.Build();
 
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
+            services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
             services.AddScoped<AuthTokenHolder>();
             services.AddScoped<MagicApiService>();
 

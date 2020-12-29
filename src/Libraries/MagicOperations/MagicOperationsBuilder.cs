@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using MagicOperations.Components;
     using MagicOperations.Components.DefaultOperationRenderers;
     using MagicOperations.Components.DefaultPropertyRenderers;
     using MagicOperations.Extensions;
@@ -34,9 +35,11 @@
             { typeof(string), typeof(StringRenderer) }
         };
 
+        private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
         private readonly List<Type> _operationTypes = new List<Type>();
 
-        private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
+        private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
+        private Type? _errorRenderer;
 
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
@@ -52,6 +55,48 @@
 
             return this;
         }
+
+        #region Operation listing renderer
+        public MagicOperationsBuilder UseOperationListing(Type operationListingRenderer)
+        {
+            _operationListingRenderer = operationListingRenderer;
+
+            return this;
+        }
+
+        public MagicOperationsBuilder UseOperationListing<T>()
+            where T : OperationListingRenderer
+        {
+            _operationListingRenderer = typeof(T);
+
+            return this;
+        }
+
+        public MagicOperationsBuilder DisableOperationsListing<T>()
+            where T : OperationErrorRenderer
+        {
+            _operationListingRenderer = null;
+
+            return this;
+        }
+        #endregion
+
+        #region Error renderer
+        public MagicOperationsBuilder UseErrorRenderer(Type errorRenderer)
+        {
+            _errorRenderer = errorRenderer;
+
+            return this;
+        }
+
+        public MagicOperationsBuilder UseErrorRenderer<T>()
+            where T : OperationErrorRenderer
+        {
+            _errorRenderer = typeof(T);
+
+            return this;
+        }
+        #endregion
 
         #region Default operation renderers
         public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
@@ -173,6 +218,8 @@
             if (_operationTypes.Count == 0)
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
 
+            _errorRenderer ??= typeof(DefaultErrorRenderer);
+
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
 
             MagicOperationsConfiguration configuration = new(_baseUri,
@@ -180,8 +227,10 @@
                                                              resolvedOperations.Groups,
                                                              resolvedOperations.Schemas,
                                                              resolvedOperations.ModelToSchemaMappings,
+                                                             _operationListingRenderer,
+                                                             _errorRenderer,
                                                              _defaultOperationRenderers,
-                                                             _defaultPropertyRenderers);
+                                                             _defaultPropertyRenderers);;
 
             return configuration;
         }

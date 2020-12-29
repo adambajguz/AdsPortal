@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     public sealed class OperationSchema
     {
@@ -62,6 +63,26 @@
             HttpMethod = httpMethod;
             OperationType = operationType;
             PropertySchemas = propertySchemas;
+        }
+
+        public string GetFullRoute()
+        {
+            return Path.Join(Group.Route ?? string.Empty, Action).Replace('\\', '/');
+        }
+
+        public bool MatchesRoute(Uri route)
+        {
+            return ExtractArguments(route) is not null;
+        }
+
+        public UriTemplate.UriTemplateMatch ExtractArguments(Uri route)
+        {
+            string currentOprationRoute = GetFullRoute();
+
+            UriTemplate.UriTemplate template = new UriTemplate.UriTemplate(currentOprationRoute);
+            UriTemplate.UriTemplateMatch? uriTemplateMatch = template.Match(new Uri("http://localhost/"), route);
+
+            return uriTemplateMatch;
         }
     }
 }

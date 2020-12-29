@@ -14,6 +14,11 @@
         /// </summary>
         public string? Route { get; }
 
+        /// <summary>
+        /// Property display name.
+        /// </summary>
+        public string DisplayName { get; }
+
         private readonly List<OperationSchema> _operations = new();
 
         /// <summary>
@@ -21,10 +26,11 @@
         /// </summary>
         public IReadOnlyList<OperationSchema> Operations => _operations;
 
-        public OperationGroupSchema(string key, string? route)
+        public OperationGroupSchema(string key, string? route, string? displayName)
         {
             Key = key;
             Route = route;
+            DisplayName = displayName ?? route ?? key;
         }
 
         internal void AddOperation(OperationSchema operationSchema)

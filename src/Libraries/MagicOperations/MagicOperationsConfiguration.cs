@@ -12,16 +12,21 @@
         public IReadOnlyDictionary<string, OperationGroupSchema> OperationGroups { get; }
         public IReadOnlyList<OperationSchema> OperationSchemas { get; }
 
+        public IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings { get; }
+
+        public Type OperationListingRenderer { get; }
+        public Type ErrorRenderer { get; }
         public IReadOnlyDictionary<MagicOperationTypes, Type> DefaultOperationRenderers { get; }
         public IReadOnlyDictionary<Type, Type> DefaultOperationPropertyRenderers { get; }
-
-        public IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings { get; }
 
         public MagicOperationsConfiguration(string baseApiPath,
                                             IReadOnlyList<Type> operationTypes,
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
                                             IReadOnlyList<OperationSchema> operationSchemas,
                                             IReadOnlyDictionary<Type, OperationSchema> modelToSchemaMappings,
+
+                                            Type operationListingRenderer,
+                                            Type errorRenderer,
                                             IReadOnlyDictionary<MagicOperationTypes, Type> defaultOperationRenderers,
                                             IReadOnlyDictionary<Type, Type> defaultOperationPropertyRenderers)
         {
@@ -32,6 +37,8 @@
             OperationSchemas = operationSchemas;
             ModelToSchemaMappings = modelToSchemaMappings;
 
+            OperationListingRenderer = operationListingRenderer;
+            ErrorRenderer = errorRenderer;
             DefaultOperationRenderers = defaultOperationRenderers;
             DefaultOperationPropertyRenderers = defaultOperationPropertyRenderers;
         }

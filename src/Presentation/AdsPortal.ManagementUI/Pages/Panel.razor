@@ -1,7 +1,7 @@
 ﻿@page "/panel"
-@page "/panel/{Entity}"
-@page "/panel/{Entity}/{Operation}"
-@page "/panel/{Entity}/{Operation}/{*Args}"
+@page "/panel/{*Args}"
+
+@*https://stackoverflow.com/questions/50102726/get-current-url-in-a-blazor-component*@
 
 <section>
     <div class="row">
@@ -12,20 +12,13 @@
 
     <div class="row">
         <div class="col">
-            @Entity @Operation @Args
-            <MagicRouter Model="@(new Models.Category.GetCategoryDetailsResponse())"/>
+            <MagicRouter Args="@Args" />
         </div>
     </div>
 </section>
 
 @code
 {
-  [Parameter]
-  public string? Entity { get; set; }
-
-  [Parameter]
-  public string? Operation { get; set; }
-
-  [Parameter]
-  public string? Args { get; set; }
+    [Parameter]
+    public string? Args { get; set; }
 }
