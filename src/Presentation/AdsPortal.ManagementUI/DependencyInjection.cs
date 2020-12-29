@@ -1,14 +1,11 @@
 ﻿namespace AdsPortal.ManagementUI
 {
-    using System;
-    using System.Net.Http;
     using AdsPortal.Common.Extensions;
     using AdsPortal.ManagementUI.Configurations;
     using AdsPortal.ManagementUI.Models;
     using AdsPortal.ManagementUI.Services;
     using MagicOperations;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,17 +27,6 @@
                     .AddConfiguration<HeaderConfiguration>(configuration)
                     .AddConfiguration<FooterConfiguration>(configuration);
 
-            // Setup HttpClient for server side in a client side compatible fashion
-            services.AddScoped<HttpClient>(s =>
-            {
-                // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
-                NavigationManager? uriHelper = s.GetRequiredService<NavigationManager>();
-                return new HttpClient
-                {
-                    BaseAddress = new Uri(uriHelper.BaseUri)
-                };
-            });
-
             services.AddScoped<IMarkdownService, MarkdownService>();
 
             services.AddMagicOperations((builder) =>
@@ -58,6 +44,12 @@
                 {
                     g.Route = "category";
                     g.DisplayName = "Category";
+                });
+
+                builder.AddGroupConfiguration(OperationGroups.User, (g) =>
+                {
+                    g.Route = "user";
+                    g.DisplayName = "User";
                 });
             });
 
