@@ -6,7 +6,7 @@
 
     [OperationGroup(OperationGroups.Category)]
     [DetailsOperation]
-    public class GetCategoryDetailsResponse
+    public class CategoryDetails
     {
         public Guid Id { get; init; }
 
@@ -19,15 +19,10 @@
         public string Description { get; init; } = string.Empty;
 
         [OperationPropertyIgnore]
-        public IList<GetCategoryAdvertisementsDetailsResponse> Advertisements { get; set; } = default!;
-
-        public GetCategoryDetailsResponse()
-        {
-            Description = "lorem ipsum";
-        }
+        public IList<CategoryAdvertisementsDetails> Advertisements { get; set; } = default!;
     }
 
-    public class GetCategoryAdvertisementsDetailsResponse
+    public class CategoryAdvertisementsDetails
     {
         public Guid Id { get; init; }
 

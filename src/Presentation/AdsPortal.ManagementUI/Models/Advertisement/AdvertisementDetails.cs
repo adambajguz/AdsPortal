@@ -1,12 +1,11 @@
-﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails
+﻿namespace AdsPortal.ManagementUI.Models.Advertisement
 {
     using System;
-    using AutoMapper;
-    using Domain.Entities;
-    using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
+    using MagicOperations.Attributes;
 
-    public class GetAdvertisementDetailsResponse : IIdentifiableOperationResult, ICustomMapping
+    [OperationGroup(OperationGroups.Advertisement)]
+    [DetailsOperation]
+    public class AdvertisementDetails
     {
         public Guid Id { get; init; }
 
@@ -24,10 +23,5 @@
         public Guid? CoverImageId { get; init; }
         public Guid CategoryId { get; init; }
         public Guid AuthorId { get; init; }
-
-        void ICustomMapping.CreateMappings(Profile configuration)
-        {
-            configuration.CreateMap<Advertisement, GetAdvertisementDetailsResponse>();
-        }
     }
 }

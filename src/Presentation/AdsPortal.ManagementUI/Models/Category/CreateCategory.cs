@@ -1,14 +1,11 @@
 ﻿namespace AdsPortal.ManagementUI.Models.Category
 {
-    using System;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
-    [UpdateOperation]
-    public class UpdateCategoryCommand
+    [CreateOperation]
+    public class CreateCategory
     {
-        public Guid Id { get; init; }
-
         public string? Name { get; init; } = string.Empty;
         public string? Description { get; init; } = string.Empty;
     }

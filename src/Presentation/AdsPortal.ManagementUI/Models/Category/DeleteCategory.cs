@@ -5,7 +5,7 @@ namespace AdsPortal.ManagementUI.Models.Category
 
     [OperationGroup(OperationGroups.Category)]
     [DeleteOperation]
-    public class DeleteCategoryCommand
+    public class DeleteCategory
     {
         public Guid Id { get; init; }
     }

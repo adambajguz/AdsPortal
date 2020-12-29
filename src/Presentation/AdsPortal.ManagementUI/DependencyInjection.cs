@@ -48,6 +48,12 @@
                 builder.UseBaseUri("https://localhost:5001/api/");
                 builder.AddOperationsFromThisAssembly();
 
+                builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
+                {
+                    g.Route = "advertisement";
+                    g.DisplayName = "Advertisement";
+                });
+
                 builder.AddGroupConfiguration(OperationGroups.Category, (g) =>
                 {
                     g.Route = "category";

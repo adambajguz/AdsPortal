@@ -17,13 +17,8 @@
         public DateTime VisibleTo { get; init; }
 
         public Guid? CoverImageId { get; init; }
-        public virtual MediaItem? CoverImage { get; init; } = default!;
-
         public Guid CategoryId { get; init; }
-        public Category Category { get; init; } = default!;
-
         public Guid AuthorId { get; init; }
-        public User Author { get; init; } = default!;
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {

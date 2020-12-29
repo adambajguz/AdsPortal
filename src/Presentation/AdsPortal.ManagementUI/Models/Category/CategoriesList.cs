@@ -6,14 +6,14 @@
 
     [OperationGroup(OperationGroups.Category)]
     [GetAllOperation]
-    public class GetCategoriesList : ListResult<CategoriesListItem>
+    public class CategoriesList : ListResult<CategoriesListItem>
     {
 
     }
 
     [OperationGroup(OperationGroups.Category)]
     [GetPagedOperation]
-    public class GetPagedCategoriesList : ListResult<CategoriesListItem>
+    public class PagedCategoriesList : ListResult<CategoriesListItem>
     {
 
     }
