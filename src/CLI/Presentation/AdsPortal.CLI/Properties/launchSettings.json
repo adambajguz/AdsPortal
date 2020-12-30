@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AdsPortal.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "interactive"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="FluentValidation" Version="9.3.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Library\MediatR.GenericOperations\MediatR.GenericOperations.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Common\AdsPortal.Shared.Extensions\AdsPortal.Shared.Extensions.csproj" />
+    <ProjectReference Include="..\AdsPortal.WebApi.Domain\AdsPortal.WebApi.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

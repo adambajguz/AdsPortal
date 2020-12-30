@@ -261,8 +261,8 @@ __pycache__/
 *.pyc
 
 # Custom
-src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/*/*
+src/WebPortal/Presentation/AdsPortal.WebPortal/wwwroot/assets/libraries/*/*
 
-!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/chota/about.txt
-!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/font-awesome/about.txt
-!src/Presentation/AdsPortal.ManagementUI/wwwroot/assets/libraries/spectre-css/about.txt
+!src/WebPortal/Presentation/AdsPortal.WebPortal/wwwroot/assets/libraries/chota/about.txt
+!src/WebPortal/Presentation/AdsPortal.WebPortal/wwwroot/assets/libraries/font-awesome/about.txt
+!src/WebPortal/Presentation/AdsPortal.WebPortal/wwwroot/assets/libraries/spectre-css/about.txt
