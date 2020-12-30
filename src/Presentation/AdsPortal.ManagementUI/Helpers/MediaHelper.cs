@@ -39,7 +39,7 @@
             if (!GloballyDisabledVersioning)
             {
                 if (versioned || (overrideVersioning is bool b && b))
-                    return tmp + "?v=" + GlobalAppConfig.AppInfo.AppVersionTextPlain;
+                    return tmp + "?v=" + AppInfo.AppVersionTextPlain;
             }
 
             return tmp;
@@ -59,7 +59,7 @@
             if (!GloballyDisabledVersioning)
             {
                 if (versioned)
-                    return tmp + "?v=" + GlobalAppConfig.AppInfo.AppVersionTextPlain;
+                    return tmp + "?v=" + AppInfo.AppVersionTextPlain;
             }
 
             return tmp;

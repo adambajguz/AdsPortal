@@ -29,8 +29,8 @@
                 c.DisplayRequestDuration();
                 //c.EnableValidator();
                 c.ShowExtensions();
-                c.RoutePrefix = GlobalAppConfig.AppInfo.SwaggerRoute;
-                c.SwaggerEndpoint(GlobalAppConfig.AppInfo.SwaggerStartupUrl, GlobalAppConfig.AppInfo.AppNameWithVersion);
+                c.RoutePrefix = AppInfo.SwaggerRoute;
+                c.SwaggerEndpoint(AppInfo.SwaggerStartupUrl, AppInfo.AppNameWithVersion);
                 c.OverrideIndexStream();
             });
 
@@ -68,11 +68,11 @@
                 //c.OperationFilter<FileUploadOperationFilter>(); //TODO fix
 
                 c.AddFluentValidationRules();
-                c.SwaggerDoc(GlobalAppConfig.AppInfo.SwaggerDocumentName, new OpenApiInfo
+                c.SwaggerDoc(AppInfo.SwaggerDocumentName, new OpenApiInfo
                 {
-                    Version = GlobalAppConfig.AppInfo.AppVersionText,
-                    Title = GlobalAppConfig.AppInfo.AppName,
-                    Description = GlobalAppConfig.AppInfo.AppDescriptionHTML
+                    Version = AppInfo.AppVersionText,
+                    Title = AppInfo.AppName,
+                    Description = AppInfo.AppDescriptionHTML
                 });
 
                 c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, //Name the security scheme

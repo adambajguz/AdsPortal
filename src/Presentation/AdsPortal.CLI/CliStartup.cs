@@ -17,9 +17,9 @@
             builder.UseDirectMode(true)
                    .UseInteractiveMode();
 
-            builder.UseTitle(GlobalAppConfig.AppInfo.InteractiveCLI)
-                   .UseVersionText(GlobalAppConfig.AppInfo.AppVersionText)
-                   .UseDescription(GlobalAppConfig.AppInfo.AppShortDescription);
+            builder.UseTitle(AppInfo.InteractiveCLI)
+                   .UseVersionText(AppInfo.AppVersionText)
+                   .UseDescription(AppInfo.AppShortDescription);
         }
 
         public void ConfigureServices(IServiceCollection services)

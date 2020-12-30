@@ -126,7 +126,7 @@
                 o.Dsn = new Dsn(loggerSettigns.SentryDSN);
                 o.AttachStacktrace = true;
                 o.SendDefaultPii = true;
-                o.Release = GlobalAppConfig.AppInfo.SentryReleaseVersion;
+                o.Release = AppInfo.SentryReleaseVersion;
                 o.ReportAssemblies = true;
                 o.Environment = environmentName;
             });

@@ -22,7 +22,7 @@
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
-            await console.Output.WriteLineAsync(GlobalAppConfig.AppInfo.AppName);
+            await console.Output.WriteLineAsync(AppInfo.AppName);
             await console.Output.WriteLineAsync($"Status: {_webHostProviderService.Status}");
             await console.Output.WriteLineAsync($"Startup time: {_webHostProviderService.StartupTime}");
             await console.Output.WriteLineAsync($"Runtime: {_webHostProviderService.Runtime}");

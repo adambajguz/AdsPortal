@@ -7,6 +7,8 @@
 
     internal class HashedPassword
     {
+        private const int VersionByteSize = sizeof(ushort); // == 2
+
         private readonly string _rawVersion;
         private readonly string _salt;
         private readonly string _hash;
@@ -15,7 +17,7 @@
 
         public HashedPassword(byte[] salt, byte[] hash, ushort version)
         {
-            _rawVersion = version.ToString($"X{HasherSpecification.VERSION_BYTE_SIZE}");
+            _rawVersion = version.ToString($"X{VersionByteSize}");
             Version = version;
 
             _salt = Convert.ToBase64String(salt);
@@ -24,15 +26,15 @@
 
         public HashedPassword(string saltedPassword, HasherSpecification[] specifications)
         {
-            _rawVersion = saltedPassword.Substring(0, HasherSpecification.VERSION_BYTE_SIZE);
+            _rawVersion = saltedPassword.Substring(0, VersionByteSize);
             Version = ushort.Parse(_rawVersion, NumberStyles.HexNumber);
 
             HasherSpecification specification = specifications[Version];
 
             int saltStrLength = Base64Extensions.GetBase64EncodedLength(specification.SaltByteSize);
-            int hashIndex = saltStrLength + HasherSpecification.VERSION_BYTE_SIZE;
+            int hashIndex = saltStrLength + VersionByteSize;
 
-            _salt = saltedPassword.Substring(HasherSpecification.VERSION_BYTE_SIZE, saltStrLength);
+            _salt = saltedPassword.Substring(VersionByteSize, saltStrLength);
             _hash = saltedPassword.Substring(hashIndex);
         }
 

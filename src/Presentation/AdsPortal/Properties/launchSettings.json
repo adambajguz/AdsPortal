@@ -10,10 +10,10 @@
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
-    "AdsPortal (Development) [Interactive]": {
+    "AdsPortal (Development) Interactive": {
       "commandName": "Project",
+      "commandLineArgs": "interactive",
       "workingDirectory": "$(TargetDir)",
-      "commandLineArgs": "[interactive]",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -21,8 +21,8 @@
     },
     "AdsPortal (Development) --help": {
       "commandName": "Project",
-      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "--help",
+      "workingDirectory": "$(TargetDir)",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -36,10 +36,10 @@
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
-    "AdsPortal (Production) [Interactive]": {
+    "AdsPortal (Production) Interactive": {
       "commandName": "Project",
+      "commandLineArgs": "interactive",
       "workingDirectory": "$(TargetDir)",
-      "commandLineArgs": "[interactive]",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
@@ -47,8 +47,8 @@
     },
     "AdsPortal (Production) --help": {
       "commandName": "Project",
-      "workingDirectory": "$(TargetDir)",
       "commandLineArgs": "--help",
+      "workingDirectory": "$(TargetDir)",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }

@@ -42,7 +42,7 @@
                           {
                               SerilogConfigurationHelper.ConfigureSerilog(hostingContext.Configuration, hostingContext.HostingEnvironment, environmentName);
 
-                              Log.ForContext(typeof(WebHostHelpers)).Information(GlobalAppConfig.AppInfo.AppNameWithVersionCopyright);
+                              Log.ForContext(typeof(WebHostHelpers)).Information(AppInfo.AppNameWithVersionCopyright);
                               Log.ForContext(typeof(WebHostHelpers)).Information("Loading web host...");
                           })
                           .UseStaticWebAssets()

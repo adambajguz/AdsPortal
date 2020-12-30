@@ -116,7 +116,7 @@ namespace AdsPortal
             //app.UseSession();
 
             app.ConfigureSpecialPages(Environment, _services)
-               .UseHealthChecks(GlobalAppConfig.AppInfo.HealthUrl);
+               .UseHealthChecks(AppInfo.HealthUrl);
 
             app.UseEndpoints(endpoints =>
             {
@@ -167,8 +167,8 @@ namespace AdsPortal
 
             string reasonPhrase = ReasonPhrases.GetReasonPhrase(httpRespone.StatusCode);
 
-            string response = $"{GlobalAppConfig.AppInfo.AppName} Error Page\n" +
-                              $"{GlobalAppConfig.AppInfo.AppVersionText}\n\n" +
+            string response = $"{AppInfo.AppName} Error Page\n" +
+                              $"{AppInfo.AppVersionText}\n\n" +
                               $"Status code: {httpRespone.StatusCode} - {reasonPhrase}";
 
             await httpRespone.WriteAsync(response);
