@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Domain.Entities
+﻿namespace AdsPortal.WebApi.Domain.Entities
 {
     using System;
-    using AdsPortal.Domain.Abstractions.Audit;
-    using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Enums;
+    using AdsPortal.WebApi.Domain.Abstractions.Audit;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Enums;
 
     [AuditIgnore]
     public class Job : IBaseRelationalEntity, IEntityCreation

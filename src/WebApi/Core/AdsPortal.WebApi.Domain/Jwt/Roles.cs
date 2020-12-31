@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Jwt
+﻿namespace AdsPortal.WebApi.Domain.Jwt
 {
     using System;
 

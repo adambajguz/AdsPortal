@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Configurations.SwaggerFilters
+﻿namespace AdsPortal.WebApi.Rest.Configurations.SwaggerFilters
 {
     using System.Collections.Immutable;
     using System.Linq;

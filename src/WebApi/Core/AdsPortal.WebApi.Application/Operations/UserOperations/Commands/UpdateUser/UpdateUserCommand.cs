@@ -8,8 +8,8 @@
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
     using FluentValidation;
     using MediatR.GenericOperations.Commands;

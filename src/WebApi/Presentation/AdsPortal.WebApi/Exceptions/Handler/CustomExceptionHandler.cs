@@ -1,10 +1,11 @@
-﻿namespace AdsPortal.WebAPI.Exceptions.Handler
+﻿namespace AdsPortal.WebApi.Exceptions.Handler
 {
     using System;
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using AdsPortal.Application.Exceptions;
+    using AdsPortal.WebApi.Application.Exceptions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;

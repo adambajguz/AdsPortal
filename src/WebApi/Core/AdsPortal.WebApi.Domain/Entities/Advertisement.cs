@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Domain.Entities
+﻿namespace AdsPortal.WebApi.Domain.Entities
 {
     using System;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public class Advertisement : IBaseRelationalEntity, IEntityInfo
     {

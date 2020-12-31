@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails
 {
     using System;
+    using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
-    using Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 

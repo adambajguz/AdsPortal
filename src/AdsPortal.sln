@@ -106,7 +106,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.WebPortal.Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.WebApi.Domain.Abstractions", "WebApi\Core\AdsPortal.WebApi.Domain.Abstractions\AdsPortal.WebApi.Domain.Abstractions.csproj", "{C0FFFC74-8EFF-4E88-BE7D-75C2D9D8B3AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdsPortal.Shared.Extensions", "Shared\Common\AdsPortal.Shared.Extensions\AdsPortal.Shared.Extensions.csproj", "{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.Shared.Extensions", "Shared\Common\AdsPortal.Shared.Extensions\AdsPortal.Shared.Extensions.csproj", "{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.WebApi.Grpc", "WebApi\Presentation\AdsPortal.WebApi.Grpc\AdsPortal.WebApi.Grpc.csproj", "{27035688-53E9-458F-9A07-C6ABF01DF598}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdsPortal.WebApi.Rest", "WebApi\Presentation\AdsPortal.WebApi.Rest\AdsPortal.WebApi.Rest.csproj", "{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -275,6 +279,22 @@ Global
 		{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86}.Release|x64.ActiveCfg = Release|x64
 		{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86}.Release|x64.Build.0 = Release|x64
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Debug|x64.ActiveCfg = Debug|x64
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Debug|x64.Build.0 = Debug|x64
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Release|x64.ActiveCfg = Release|x64
+		{27035688-53E9-458F-9A07-C6ABF01DF598}.Release|x64.Build.0 = Release|x64
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Debug|x64.ActiveCfg = Debug|x64
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Debug|x64.Build.0 = Debug|x64
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Release|x64.ActiveCfg = Release|x64
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -324,6 +344,8 @@ Global
 		{C553DF08-F5B8-401C-9AD2-46A25C94856E} = {27CE6142-26B6-40C6-B84A-A813266F6A50}
 		{C0FFFC74-8EFF-4E88-BE7D-75C2D9D8B3AC} = {FE162396-C714-4F7E-9236-CFB048D74D28}
 		{7ECF3BE6-49C4-41FC-BAFC-4D3137A10C86} = {04A1F21F-9B48-470D-9B83-FC6887CA0274}
+		{27035688-53E9-458F-9A07-C6ABF01DF598} = {C67051FC-00EF-4AE2-B276-E69E72C03157}
+		{1A3DC564-49C6-4E2A-A4F4-39E60B1B1B3F} = {C67051FC-00EF-4AE2-B276-E69E72C03157}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3C0D371-71FB-4A5B-82F4-5B79CF26E872}

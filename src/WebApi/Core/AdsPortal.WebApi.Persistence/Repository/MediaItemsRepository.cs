@@ -7,10 +7,10 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Models;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Models;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 

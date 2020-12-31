@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.SpecialPages.Core
+﻿namespace AdsPortal.WebApi.SpecialPages.Core
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;

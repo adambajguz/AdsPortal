@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Application.Interfaces.Identity
 {
     using System;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Jwt;
 
     public interface ICurrentUserService
     {

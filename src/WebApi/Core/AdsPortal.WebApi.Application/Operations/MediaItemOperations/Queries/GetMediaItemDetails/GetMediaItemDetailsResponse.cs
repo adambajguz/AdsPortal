@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails
 {
     using System;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Services
+﻿namespace AdsPortal.WebApi.Services
 {
     using System;
     using System.Collections.Generic;

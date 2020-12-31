@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public interface IGenericRelationalRepository : IGenericRelationalReadOnlyRepository
     {

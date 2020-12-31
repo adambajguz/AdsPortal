@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using Application.Constants;
     using FluentValidation;
 

@@ -1,16 +1,14 @@
-﻿namespace AdsPortal.WebAPI
+﻿namespace AdsPortal.WebApi
 {
     using System;
     using System.IO.Compression;
     using System.Net.Mime;
     using System.Reflection;
     using System.Text.Json.Serialization;
-    using AdsPortal.WebAPI.Configurations;
-    using AdsPortal.WebAPI.Converters;
+    using AdsPortal.WebApi.Configurations;
+    using AdsPortal.WebApi.Converters;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json.Converters;
@@ -19,7 +17,6 @@
     {
         public static IServiceCollection AddWebApi(this IServiceCollection services)
         {
-            services.AddSwagger();
             services.AddDistributedMemoryCache();
 
             services.AddHttpContextAccessor();
@@ -38,10 +35,6 @@
                 //options.ExcludedHosts.Add("example.com");
                 //options.ExcludedHosts.Add("www.example.com");
             });
-
-            //Mvc
-            IMvcBuilder mvcBuilder = services.AddControllers()
-                                             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddResponseCompression(options =>
             {
@@ -111,13 +104,6 @@
             return services;
         }
 
-        public static IApplicationBuilder ConfigureWebApi(this IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.ConfigureSwagger();
-
-            return app;
-        }
-
         public static IMvcBuilder AddMvcSerializer(this IMvcBuilder mvcBuilder)
         {
             if (FeaturesSettings.UseNewtonsoftJson)
@@ -143,7 +129,7 @@
         {
             mvcBuilder.AddFluentValidation(c => c.RegisterValidatorsFromAssemblies(new Assembly[]
                 {
-                    typeof(Application.DependencyInjection).GetTypeInfo().Assembly,
+                    typeof(AdsPortal.Application.DependencyInjection).GetTypeInfo().Assembly,
                     typeof(Domain.DependencyInjection).GetTypeInfo().Assembly
                 }));
 

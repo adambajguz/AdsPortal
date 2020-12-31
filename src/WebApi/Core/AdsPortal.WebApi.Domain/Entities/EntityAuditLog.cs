@@ -1,10 +1,11 @@
-﻿namespace AdsPortal.Domain.Entities
+﻿namespace AdsPortal.WebApi.Domain.Entities
 {
     using System;
-    using AdsPortal.Domain.Abstractions.Audit;
-    using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Abstractions.Enums;
+    using AdsPortal.WebApi.Domain.Abstractions.Audit;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Enums;
 
+    [AuditIgnore]
     public class EntityAuditLog : IBaseRelationalEntity, IEntityCreation, IAuditLog
     {
         public Guid Id { get; set; }

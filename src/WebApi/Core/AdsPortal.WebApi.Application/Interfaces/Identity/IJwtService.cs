@@ -2,7 +2,7 @@
 {
     using System;
     using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Jwt;
 
     public interface IJwtService
     {

@@ -1,7 +1,7 @@
 namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPassword
 {
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using Application.Constants;
     using FluentValidation;
 

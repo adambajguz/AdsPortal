@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Abstractions.Base
+﻿namespace AdsPortal.WebApi.Domain.Abstractions.Base
 {
     public interface IEntityInfo : IEntityCreation, IEntityLastSaved
     {

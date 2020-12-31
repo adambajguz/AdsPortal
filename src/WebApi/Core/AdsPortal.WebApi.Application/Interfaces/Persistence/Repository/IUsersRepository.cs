@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
 
     public interface IUsersRepository : IGenericRelationalRepository<User>
     {

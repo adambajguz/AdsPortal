@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.SpecialPages
+﻿namespace AdsPortal.WebApi.SpecialPages
 {
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using AdsPortal.SpecialPages.Core;
+    using AdsPortal.WebApi.SpecialPages.Core;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;

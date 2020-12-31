@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Domain.Abstractions.Base
+﻿namespace AdsPortal.WebApi.Domain.Abstractions.Base
 {
     using System;
-    using AdsPortal.Domain.Abstractions.Audit;
+    using AdsPortal.WebApi.Domain.Abstractions.Audit;
 
     public interface IEntityLastSaved
     {

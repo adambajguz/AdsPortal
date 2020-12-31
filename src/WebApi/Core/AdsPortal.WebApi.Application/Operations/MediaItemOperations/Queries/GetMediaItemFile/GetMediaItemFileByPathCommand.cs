@@ -6,8 +6,8 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Utils;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;
     using MediatR.GenericOperations.Queries;
 

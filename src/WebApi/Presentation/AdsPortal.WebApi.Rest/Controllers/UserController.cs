@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Controllers
+﻿namespace AdsPortal.WebApi.Rest.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -16,9 +16,9 @@
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails;
     using AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList;
     using AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken;
-    using AdsPortal.Domain.Jwt;
-    using AdsPortal.WebAPI.Attributes;
-    using AdsPortal.WebAPI.Exceptions.Handler;
+    using AdsPortal.WebApi.Application.Exceptions;
+    using AdsPortal.WebApi.Attributes;
+    using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

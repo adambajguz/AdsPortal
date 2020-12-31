@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;

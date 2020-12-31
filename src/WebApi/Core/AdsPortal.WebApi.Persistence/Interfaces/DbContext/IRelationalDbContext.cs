@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Persistence.Interfaces.DbContext
 {
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
-    using Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
 
     public interface IRelationalDbContext : IGenericRelationalDbContext

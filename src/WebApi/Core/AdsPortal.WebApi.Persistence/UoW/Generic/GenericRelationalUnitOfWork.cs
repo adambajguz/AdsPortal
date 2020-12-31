@@ -8,11 +8,11 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
-    using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Infrastructure.Extensions;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Persistence.Repository.Generic;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 

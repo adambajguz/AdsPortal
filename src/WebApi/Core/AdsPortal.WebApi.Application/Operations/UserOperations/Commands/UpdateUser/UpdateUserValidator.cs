@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.UpdateUser
 {
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Jwt;
     using Application.Constants;
     using FluentValidation;
 

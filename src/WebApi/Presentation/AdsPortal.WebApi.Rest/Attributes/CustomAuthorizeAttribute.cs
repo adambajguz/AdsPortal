@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Attributes
+﻿namespace AdsPortal.WebApi.Attributes
 {
     using System;
     using System.Collections.Generic;

@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
-    using Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 

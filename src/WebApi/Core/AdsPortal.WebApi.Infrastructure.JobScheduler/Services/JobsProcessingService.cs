@@ -8,9 +8,9 @@
     using AdsPortal.Application.Configurations;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Enums;
     using AdsPortal.Infrastructure.JobScheduler.Interfaces;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Enums;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;

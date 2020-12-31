@@ -3,8 +3,8 @@
     using System;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Jwt;
 
     public interface IDataRightsService
     {

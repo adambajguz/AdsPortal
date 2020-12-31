@@ -1,17 +1,20 @@
-namespace AdsPortal
+namespace AdsPortal.WebApi
 {
+    using System;
     using System.Net.Mime;
+    using System.Reflection;
     using System.Threading.Tasks;
+    using AdsPortal.Application;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Infrastructure.Identity;
     using AdsPortal.Infrastructure.JobScheduler;
     using AdsPortal.Persistence;
     using AdsPortal.Shared.Extensions.Logging;
-    using AdsPortal.SpecialPages.Core;
-    using AdsPortal.WebAPI;
-    using AdsPortal.WebAPI.Configurations;
-    using AdsPortal.WebAPI.Exceptions.Handler;
-    using Application;
+    using AdsPortal.WebApi.Configurations;
+    using AdsPortal.WebApi.Exceptions.Handler;
+    using AdsPortal.WebApi.Grpc;
+    using AdsPortal.WebApi.Rest;
+    using AdsPortal.WebApi.SpecialPages.Core;
     using FluentValidation;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -19,6 +22,7 @@ namespace AdsPortal
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -60,7 +64,9 @@ namespace AdsPortal
 
             services.AddPersistenceLayer(Configuration)
                     .AddApplicationLayer(LoggerFactory)
-                    .AddWebApi();
+                    .AddWebApi()
+                    .AddRestApi()
+                    .AddGrpcApi();
 
             services.AddMvc()
                     .AddMvcSerializer()
@@ -68,6 +74,11 @@ namespace AdsPortal
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();
+
+            //Mvc
+            services.AddControllers()
+                    .SetCompatibilityVersion(CompatibilityVersion.Latest)
+                    .AddApplicationPart(typeof(Rest.DependencyInjection).Assembly).AddControllersAsServices();
 
             _services = services;
         }
@@ -86,15 +97,17 @@ namespace AdsPortal
             if (env.IsDevelopment())
             {
                 if (!FeaturesSettings.AlwaysUseExceptionHandling)
+                {
                     app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                if (!FeaturesSettings.AlwaysUseExceptionHandling)
-                    app.UseExceptionHandler(error => error.UseCustomErrors());
+                }
+                else
+                {
+                    if (!FeaturesSettings.AlwaysUseExceptionHandling)
+                        app.UseExceptionHandler(error => error.UseCustomErrors());
 
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
             }
 
             //app.UseHttpsRedirection();
@@ -119,7 +132,8 @@ namespace AdsPortal
                 endpoints.MapControllers();
             });
 
-            app.ConfigureWebApi(env);
+            app.ConfigureRestApi(env)
+               .ConfigureGrpcApi(env);
 
             if (false)
             {
@@ -132,7 +146,7 @@ namespace AdsPortal
                         if (i % 100 == 0)
                             System.Console.WriteLine($"Added {i}");
 
-                        x.Schedule<Application.Jobs.TestJob>().Wait();
+                        x.Schedule<AdsPortal.Application.Jobs.TestJob>().Wait();
                     }
 
                     for (int i = 0; i < 500; ++i)
@@ -140,7 +154,7 @@ namespace AdsPortal
                         if (i % 100 == 0)
                             System.Console.WriteLine($"Added {i}");
 
-                        x.Schedule<Application.Jobs.TestJob>(1).Wait();
+                        x.Schedule<AdsPortal.Application.Jobs.TestJob>(1).Wait();
                     }
 
                     for (int i = 0; i < 200; ++i)
@@ -148,7 +162,7 @@ namespace AdsPortal
                         if (i % 100 == 0)
                             System.Console.WriteLine($"Added {i}");
 
-                        x.Schedule<Application.Jobs.TestJob>(2).Wait();
+                        x.Schedule<AdsPortal.Application.Jobs.TestJob>(2).Wait();
                     }
                 }
             }
@@ -162,7 +176,7 @@ namespace AdsPortal
             string reasonPhrase = ReasonPhrases.GetReasonPhrase(httpRespone.StatusCode);
 
             string response = $"{Configuration.GetValue<string>("Application:Name")} Error Page\n" +
-                              $"1.0.0\n\n" +
+                              $"{Assembly.GetEntryAssembly()?.GetName()?.Version ?? new Version(0, 0, 0, 0)}\n\n" +
                               $"Status code: {httpRespone.StatusCode} - {reasonPhrase}";
 
             await httpRespone.WriteAsync(response);

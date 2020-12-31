@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Abstractions.Audit
+﻿namespace AdsPortal.WebApi.Domain.Abstractions.Audit
 {
     using System;
 

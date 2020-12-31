@@ -5,7 +5,7 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using FluentValidation;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

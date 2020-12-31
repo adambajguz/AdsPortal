@@ -5,9 +5,9 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;

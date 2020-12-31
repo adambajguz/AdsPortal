@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public interface IGenericRelationalReadOnlyRepository
     {

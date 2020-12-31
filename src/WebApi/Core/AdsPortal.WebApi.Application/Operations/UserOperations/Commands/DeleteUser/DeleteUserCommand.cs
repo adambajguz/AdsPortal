@@ -6,7 +6,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 

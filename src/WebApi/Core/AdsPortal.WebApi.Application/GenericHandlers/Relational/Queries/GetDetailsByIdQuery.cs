@@ -5,7 +5,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;

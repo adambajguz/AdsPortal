@@ -5,8 +5,8 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Domain.Models;
-    using Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Models;
 
     public interface IMediaItemsRepository : IGenericRelationalRepository<MediaItem>
     {

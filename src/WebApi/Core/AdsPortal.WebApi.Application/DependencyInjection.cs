@@ -16,13 +16,13 @@
             services.AddAutoMapper(cfg =>
                 {
                     cfg.AddProfile(new CustomAutoMapperProfile(typeof(DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
-                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(Domain.DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
+                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(WebApi.Domain.DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
                 });
 
             services.AddMediatR(new Assembly[]
                 {
                     typeof(DependencyInjection).Assembly,
-                    typeof(Domain.DependencyInjection).Assembly
+                    typeof(WebApi.Domain.DependencyInjection).Assembly
                 });
 
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));

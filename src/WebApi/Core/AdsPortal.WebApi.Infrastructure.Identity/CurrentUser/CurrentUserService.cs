@@ -5,8 +5,8 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
     using System.Security.Claims;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Domain.Jwt;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Domain.Jwt;
     using Microsoft.AspNetCore.Http;
 
     public class CurrentUserService : ICurrentUserService

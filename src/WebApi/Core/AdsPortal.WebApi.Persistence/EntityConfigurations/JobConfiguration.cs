@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.Persistence.Configurations
 {
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain
+﻿namespace AdsPortal.WebApi.Domain
 {
     using Microsoft.Extensions.DependencyInjection;
 

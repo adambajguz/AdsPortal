@@ -7,8 +7,8 @@
     using AdsPortal.Application.Interfaces;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
-    using Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Jwt;
     using FluentValidation;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

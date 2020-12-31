@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Models
+﻿namespace AdsPortal.WebApi.Domain.Models
 {
     public class StatisticsModel<T>
         where T : struct

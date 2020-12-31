@@ -6,10 +6,10 @@
     using AdsPortal.Application.Extensions;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Jwt;
-    using AdsPortal.Domain.Utils;
     using AdsPortal.Shared.Extensions.Utils;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;

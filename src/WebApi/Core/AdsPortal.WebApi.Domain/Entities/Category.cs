@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Domain.Entities
+﻿namespace AdsPortal.WebApi.Domain.Entities
 {
     using System;
     using System.Collections.Generic;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public class Category : IBaseRelationalEntity, IEntityInfo
     {

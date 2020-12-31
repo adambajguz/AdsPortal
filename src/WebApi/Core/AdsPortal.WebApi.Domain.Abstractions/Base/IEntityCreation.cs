@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Abstractions.Base
+﻿namespace AdsPortal.WebApi.Domain.Abstractions.Base
 {
     using System;
 

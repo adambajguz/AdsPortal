@@ -5,7 +5,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCat
     using System.Threading.Tasks;
     using AdsPortal.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 

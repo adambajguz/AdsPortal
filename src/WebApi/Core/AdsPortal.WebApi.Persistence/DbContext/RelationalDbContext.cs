@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.Persistence.DbContext
 {
-    using AdsPortal.Domain.Entities;
     using AdsPortal.Persistence.Configurations;
     using AdsPortal.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
 
     public class RelationalDbContext : DbContext, IRelationalDbContext

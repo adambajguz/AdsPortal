@@ -5,7 +5,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using FluentValidation;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

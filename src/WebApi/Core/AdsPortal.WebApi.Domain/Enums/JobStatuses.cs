@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Enums
+﻿namespace AdsPortal.WebApi.Domain.Enums
 {
     public enum JobStatuses
     {

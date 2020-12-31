@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Controllers
+﻿namespace AdsPortal.WebApi.Rest.Controllers
 {
     using System;
     using MediatR;

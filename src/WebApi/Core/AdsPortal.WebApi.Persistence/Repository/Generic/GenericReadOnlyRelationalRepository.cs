@@ -8,8 +8,8 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Domain.Abstractions.Base;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
 {
-    using AdsPortal.Domain.Models;
+    using AdsPortal.WebApi.Domain.Models;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;

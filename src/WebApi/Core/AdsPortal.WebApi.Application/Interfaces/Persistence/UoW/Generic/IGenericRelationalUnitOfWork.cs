@@ -3,7 +3,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public interface IGenericRelationalUnitOfWork
     {

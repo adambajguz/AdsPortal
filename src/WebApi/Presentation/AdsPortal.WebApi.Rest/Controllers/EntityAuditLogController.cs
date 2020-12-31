@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Controllers
+﻿namespace AdsPortal.WebApi.Rest.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -6,9 +6,9 @@
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CreateRouteLog;
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogDetails;
     using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogsList;
-    using AdsPortal.Domain.Jwt;
-    using AdsPortal.WebAPI.Attributes;
-    using AdsPortal.WebAPI.Exceptions.Handler;
+    using AdsPortal.WebApi.Application.Exceptions;
+    using AdsPortal.WebApi.Attributes;
+    using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

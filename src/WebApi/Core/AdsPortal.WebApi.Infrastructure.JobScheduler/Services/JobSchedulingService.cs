@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using Newtonsoft.Json;
 
     public class JobSchedulingService : IJobSchedulingService

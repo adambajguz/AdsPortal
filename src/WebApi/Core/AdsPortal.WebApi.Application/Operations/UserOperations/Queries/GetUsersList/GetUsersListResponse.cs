@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUsersList
 {
     using System;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;

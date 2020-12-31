@@ -11,31 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="index.html" />
-  </ItemGroup>
-
-  <ItemGroup>
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\AdsPortal.WebApi Publish.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="index.html" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +30,8 @@
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure.Media\AdsPortal.WebApi.Infrastructure.Media.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure\AdsPortal.WebApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Persistence\AdsPortal.WebApi.Persistence.csproj" />
+    <ProjectReference Include="..\AdsPortal.WebApi.Grpc\AdsPortal.WebApi.Grpc.csproj" />
+    <ProjectReference Include="..\AdsPortal.WebApi.Rest\AdsPortal.WebApi.Rest.csproj" />
   </ItemGroup>
 
   <ItemGroup>

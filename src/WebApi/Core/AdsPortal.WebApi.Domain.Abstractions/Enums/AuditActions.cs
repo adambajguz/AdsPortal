@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Domain.Abstractions.Enums
+﻿namespace AdsPortal.WebApi.Domain.Abstractions.Enums
 {
     public enum AuditActions
     {

@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.WebAPI.Configurations
+﻿namespace AdsPortal.WebApi.Rest.Configurations
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using AdsPortal.WebAPI.Configurations.SwaggerFilters;
+    using AdsPortal.WebApi.Rest.Configurations.SwaggerFilters;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
@@ -40,9 +40,7 @@
         {
             Assembly? assembly = MethodBase.GetCurrentMethod()?.DeclaringType?.Assembly;
             if (assembly is null)
-            {
                 Log.ForContext(typeof(SwaggerConfiguration)).Error("Custom SwaggerUI index.html cannot be retrived. Using default.");
-            }
             else
             {
                 string? ns = assembly.GetName().Name;
@@ -85,7 +83,7 @@
                                   @$"<br>" +
                                   @$"App health can be checked under <a href=""/health"">/health</a><br>" +
                                   "</p>"
-            });
+                });
 
                 c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, //Name the security scheme
                     new OpenApiSecurityScheme
@@ -111,10 +109,10 @@
                 });
             });
 
-            if (FeaturesSettings.UseNewtonsoftJson)
-                services.AddSwaggerGenNewtonsoftSupport();
-            else
-                services.AddSwaggerGen();
+            //if (FeaturesSettings.UseNewtonsoftJson)
+            services.AddSwaggerGenNewtonsoftSupport();
+            //else
+            //    services.AddSwaggerGen();
         }
     }
 }

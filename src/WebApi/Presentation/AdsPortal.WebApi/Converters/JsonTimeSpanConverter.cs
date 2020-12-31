@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Converters
+﻿namespace AdsPortal.WebApi.Converters
 {
     using System;
     using System.Diagnostics;

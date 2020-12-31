@@ -2,7 +2,7 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
 
     public interface IUserManagerService
     {

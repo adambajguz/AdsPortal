@@ -8,10 +8,10 @@
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Entities;
-    using AdsPortal.Domain.Jwt;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Jwt;
     using Microsoft.AspNetCore.Http;
 
     public class DataRightsService : IDataRightsService

@@ -8,13 +8,13 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.Repository;
     using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
-    using AdsPortal.Domain.Abstractions.Audit;
-    using AdsPortal.Domain.Abstractions.Enums;
-    using AdsPortal.Domain.Entities;
     using AdsPortal.Infrastructure.Extensions;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Persistence.Repository;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Domain.Abstractions.Audit;
+    using AdsPortal.WebApi.Domain.Abstractions.Enums;
+    using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;

@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Domain.Utils
+﻿namespace AdsPortal.WebApi.Domain.Utils
 {
     using System;
     using System.Data.HashFunction;
     using System.Data.HashFunction.MurmurHash;
-    using AdsPortal.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
 
     public static class MediaItemPathHasher
     {

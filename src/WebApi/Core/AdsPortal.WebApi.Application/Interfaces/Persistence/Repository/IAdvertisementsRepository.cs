@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using Domain.Entities;
+    using AdsPortal.WebApi.Domain.Entities;
 
     public interface IAdvertisementsRepository : IGenericRelationalRepository<Advertisement>
     {

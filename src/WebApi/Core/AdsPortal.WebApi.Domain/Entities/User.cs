@@ -1,10 +1,10 @@
-﻿namespace AdsPortal.Domain.Entities
+﻿namespace AdsPortal.WebApi.Domain.Entities
 {
     using System;
     using System.Collections.Generic;
-    using AdsPortal.Domain.Abstractions.Audit;
-    using AdsPortal.Domain.Abstractions.Base;
-    using AdsPortal.Domain.Jwt;
+    using AdsPortal.WebApi.Domain.Abstractions.Audit;
+    using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Jwt;
 
     public class User : IBaseRelationalEntity, IEntityInfo, IJwtUserData
     {

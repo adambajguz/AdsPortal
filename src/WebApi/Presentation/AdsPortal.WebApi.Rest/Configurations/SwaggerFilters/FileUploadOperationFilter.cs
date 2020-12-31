@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Configurations.SwaggerFilters
+﻿namespace AdsPortal.WebApi.Rest.Configurations.SwaggerFilters
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -13,23 +13,17 @@
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (!(operation.RequestBody?.Content?.Any(x => x.Key == "multipart/form-data") ?? false))
-            {
                 return;
-            }
 
             OpenApiParameter? fileParameter = operation.Parameters.FirstOrDefault(x => x.Name == "file");
             if (fileParameter != null)
-            {
                 operation.Parameters.Remove(fileParameter);
-            }
 
             IList<ParameterDescriptor> parameters = context.ApiDescription.ActionDescriptor.Parameters;
             ParameterDescriptor? parameterDescriptor = parameters.Where(x => x.ParameterType == typeof(IFormFile)).FirstOrDefault();
 
             if (parameterDescriptor is null)
-            {
                 return;
-            }
 
             string parameterName = parameterDescriptor.Name;
 

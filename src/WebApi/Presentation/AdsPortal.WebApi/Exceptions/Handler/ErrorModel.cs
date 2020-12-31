@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebAPI.Exceptions.Handler
+﻿namespace AdsPortal.WebApi.Exceptions.Handler
 {
     using System;
 
