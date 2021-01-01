@@ -5,13 +5,19 @@
 
     public abstract partial class OperationPropertyRenderer<T> : ComponentBase
     {
-        [Parameter]
-        public T? Value { get; set; }
+        public T? Value
+        {
+            get => (T)PropertySchema.Property.GetValue(Model);
+            set => PropertySchema.Property.SetValue(Model, value);
+        }
 
         [Parameter]
-        public OperationPropertySchema PropertySchema { get; set; } = default!;
+        public object Model { get; init; } = default!;
 
         [Parameter]
-        public OperationSchema OperationSchema { get; set; } = default!;
+        public OperationPropertySchema PropertySchema { get; init; } = default!;
+
+        [Parameter]
+        public OperationSchema OperationSchema { get; init; } = default!;
     }
 }

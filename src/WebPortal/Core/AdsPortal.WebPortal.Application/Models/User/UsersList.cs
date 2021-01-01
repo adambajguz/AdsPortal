@@ -6,15 +6,15 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [GetAllOperation]
-    public class UsersList : ListResult<UsersListItem>
+    [GetAllOperation(ResponseType = typeof(ListResult<UsersListItem>))]
+    public class UsersList
     {
 
     }
 
     [OperationGroup(OperationGroups.User)]
-    [GetPagedOperation]
-    public class PagedUsersList : ListResult<UsersListItem>
+    [GetPagedOperation(ResponseType = typeof(ListResult<UsersListItem>))]
+    public class PagedUsersList
     {
 
     }

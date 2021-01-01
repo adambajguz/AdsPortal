@@ -37,6 +37,11 @@
         public string HttpMethod { get; }
 
         /// <summary>
+        /// Type of response. When null, no response.
+        /// </summary>
+        public Type? ResponseType { get; init; }
+
+        /// <summary>
         /// Property schemas.
         /// </summary>
         public IReadOnlyList<OperationPropertySchema> PropertySchemas { get; }
@@ -72,6 +77,7 @@
                                string action,
                                string displayName,
                                string httpMethod,
+                               Type? responseType,
                                MagicOperationTypes operationType,
                                IReadOnlyList<OperationPropertySchema> propertySchemas)
         {
@@ -81,6 +87,7 @@
             Action = action;
             DisplayName = displayName;
             HttpMethod = httpMethod;
+            ResponseType = responseType;
             OperationType = operationType;
             PropertySchemas = propertySchemas;
         }

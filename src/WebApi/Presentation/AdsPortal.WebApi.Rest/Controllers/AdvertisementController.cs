@@ -72,6 +72,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Advertisement deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteAdvertisement([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteAdvertisementCommand { Id = id }));

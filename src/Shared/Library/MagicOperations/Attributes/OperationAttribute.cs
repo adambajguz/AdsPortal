@@ -14,7 +14,7 @@ namespace MagicOperations.Attributes
         /// <summary>
         /// Operation action relative to base URI and group route (if set).
         /// </summary>
-        public string Action { get; }
+        public string Action { get; init; }
 
         /// <summary>
         /// Operation display name. Defaults to uppercase route.
@@ -25,6 +25,11 @@ namespace MagicOperations.Attributes
         /// Http method to use. Defaults to HttpMethods.Post
         /// </summary>
         public string? HttpMethod { get; init; }
+
+        /// <summary>
+        /// Type of response. When null, no response.
+        /// </summary>
+        public Type? ResponseType { get; init; }
 
         /// <summary>
         /// Operation type.

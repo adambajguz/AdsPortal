@@ -1,13 +1,20 @@
 ﻿namespace MagicOperations.Components.OperationRenderers
 {
     using System.Threading.Tasks;
+    using MagicOperations.Extensions;
 
     public abstract class UpdateOperationRenderer : SingleItemOperationRenderer
     {
-
-        public Task SubmitAsync()
+        public async Task UpdateAsync()
         {
-            return Task.CompletedTask;
+            try
+            {
+                await Api.UpdateAsync(Model);
+            }
+            catch (ApiException ex)
+            {
+                Errors = ex.Message;
+            }
         }
     }
 }

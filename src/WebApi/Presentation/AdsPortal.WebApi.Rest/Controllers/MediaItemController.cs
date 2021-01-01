@@ -141,6 +141,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Media item deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteMedia([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteMediaItemCommand { Id = id }));

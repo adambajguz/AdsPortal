@@ -5,6 +5,6 @@
     public abstract class OperationErrorRenderer : ComponentBase
     {
         [Parameter]
-        public string? Route { get; set; }
+        public string? Route { get; init; }
     }
 }

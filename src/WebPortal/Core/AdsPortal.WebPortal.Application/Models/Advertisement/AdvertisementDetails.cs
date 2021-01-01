@@ -5,7 +5,12 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [DetailsOperation]
+    [DetailsOperation(ResponseType = typeof(AdvertisementDetails))]
+    public class GetAdvertisementDetails
+    {
+
+    }
+
     public class AdvertisementDetails
     {
         public Guid Id { get; init; }

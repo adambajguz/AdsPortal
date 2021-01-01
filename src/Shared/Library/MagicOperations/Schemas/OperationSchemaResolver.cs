@@ -66,6 +66,7 @@
                                        operation.Action,
                                        operation.DisplayName ?? operation.Action?.ToUpperInvariant() ?? string.Empty,
                                        operation.HttpMethod ?? HttpMethods.Post,
+                                       operation.ResponseType,
                                        operation.OperationType,
                                        propertySchemas);
         }

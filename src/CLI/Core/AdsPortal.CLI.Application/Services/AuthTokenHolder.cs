@@ -11,6 +11,11 @@
 
         public bool HasToken => !string.IsNullOrWhiteSpace(Token);
 
+        public AuthTokenHolder()
+        {
+
+        }
+
         public void Set(JwtTokenModel? model)
         {
             Token = model?.Token;

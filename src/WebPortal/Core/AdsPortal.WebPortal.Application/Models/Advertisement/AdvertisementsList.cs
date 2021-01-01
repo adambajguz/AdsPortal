@@ -6,15 +6,15 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [GetAllOperation]
-    public class AdvertisementsList : ListResult<AdvertisementsListItem>
+    [GetAllOperation(ResponseType = typeof(ListResult<AdvertisementsListItem>))]
+    public class AdvertisementsList
     {
 
     }
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [GetPagedOperation]
-    public class PagedAdvertisementsList : ListResult<AdvertisementsListItem>
+    [GetPagedOperation(ResponseType = typeof(ListResult<AdvertisementsListItem>))]
+    public class PagedAdvertisementsList
     {
 
     }

@@ -14,7 +14,7 @@
 
         public IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings { get; }
 
-        public Type OperationListingRenderer { get; }
+        public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
         public IReadOnlyDictionary<MagicOperationTypes, Type> DefaultOperationRenderers { get; }
         public IReadOnlyDictionary<Type, Type> DefaultOperationPropertyRenderers { get; }
@@ -25,7 +25,7 @@
                                             IReadOnlyList<OperationSchema> operationSchemas,
                                             IReadOnlyDictionary<Type, OperationSchema> modelToSchemaMappings,
 
-                                            Type operationListingRenderer,
+                                            Type? operationListingRenderer,
                                             Type errorRenderer,
                                             IReadOnlyDictionary<MagicOperationTypes, Type> defaultOperationRenderers,
                                             IReadOnlyDictionary<Type, Type> defaultOperationPropertyRenderers)

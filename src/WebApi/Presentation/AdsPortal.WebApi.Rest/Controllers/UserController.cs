@@ -163,6 +163,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Password changed")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> ChangeUserPassword([FromBody] ChangeUserPasswordCommand request)
         {
             return Ok(await Mediator.Send(request));

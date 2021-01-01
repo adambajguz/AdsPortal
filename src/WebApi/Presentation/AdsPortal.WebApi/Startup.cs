@@ -86,29 +86,19 @@ namespace AdsPortal.WebApi
         // This method gets called by the runtime. Use it to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                AllowStatusCode404Response = true,
+                ExceptionHandler = async (ctx) => await CustomExceptionHandler.HandleExceptionAsync(ctx)
+            });
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            if (FeaturesSettings.AlwaysUseExceptionHandling)
-                app.UseExceptionHandler(error => error.UseCustomErrors());
-
-            if (env.IsDevelopment())
-            {
-                if (!FeaturesSettings.AlwaysUseExceptionHandling)
-                {
-                    app.UseDeveloperExceptionPage();
-                }
-                else
-                {
-                    if (!FeaturesSettings.AlwaysUseExceptionHandling)
-                        app.UseExceptionHandler(error => error.UseCustomErrors());
-
-                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                    app.UseHsts();
-                }
-            }
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
 
             //app.UseHttpsRedirection();
 
@@ -116,8 +106,9 @@ namespace AdsPortal.WebApi
 
             app.UseRouting()
                .UseResponseCompression()
-               .UseCors("AllowAll")
-               .UseStatusCodePages(StatusCodePageRespone);
+               .UseCors("AllowAll");
+
+            app.UseStatusCodePages(StatusCodePageRespone);
 
             app.UseAuthentication()
                .UseAuthorization();

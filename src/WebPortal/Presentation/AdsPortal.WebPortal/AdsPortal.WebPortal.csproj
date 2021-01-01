@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\AdsPortal.WebPortal Publish.pubxml" />
   </ItemGroup>
 

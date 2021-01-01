@@ -3,10 +3,10 @@
     using System;
     using System.Linq;
     using System.Net;
+    using System.Net.Mime;
     using System.Threading.Tasks;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.WebApi.Application.Exceptions;
-    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
@@ -15,17 +15,7 @@
 
     public static class CustomExceptionHandler
     {
-        public static void UseCustomErrors(this IApplicationBuilder app)
-        {
-            app.Use(WriteResponse);
-        }
-
-        private static Task WriteResponse(HttpContext context, Func<Task> next)
-        {
-            return WriteResponse(context);
-        }
-
-        private static async Task WriteResponse(HttpContext context)
+        public static async Task HandleExceptionAsync(HttpContext context)
         {
             // Try and retrieve the error from the ExceptionHandler middleware
             IExceptionHandlerFeature? exceptionDetails = context.Features.Get<IExceptionHandlerFeature>();
@@ -50,7 +40,7 @@
 
             ExceptionResponse response = new ExceptionResponse(code, message, errorObject);
 
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = MediaTypeNames.Application.Json;
             context.Response.StatusCode = (int)code;
 
             string responseJson = JsonConvert.SerializeObject(response);

@@ -19,11 +19,11 @@
 
             services.AddScoped<IMarkdownService, MarkdownService>();
 
-            services.AddHttpClient();
+            //services.AddHttpClient();
 
             services.AddMagicOperations((builder) =>
             {
-                builder.UseBaseUri(applicationConfiguration.ApiUrl); ;
+                builder.UseBaseUri(applicationConfiguration.ApiUrl ?? string.Empty);
                 builder.AddOperationsFromThisAssembly();
 
                 builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>

@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Http.Json;
     using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Threading;
@@ -25,7 +26,37 @@
             _configuration = configuration;
         }
 
-        public async Task ExecuteAsync(object model, CancellationToken cancellationToken = default)
+        public async Task CreateAsync(object model, CancellationToken cancellationToken = default)
+        {
+            await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task UpdateAsync(object model, CancellationToken cancellationToken = default)
+        {
+            await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task DeleteAsync(object model, CancellationToken cancellationToken = default)
+        {
+            await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task<object?> Get(object model, CancellationToken cancellationToken = default)
+        {
+            return await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task<object?> GetList(object model, CancellationToken cancellationToken = default)
+        {
+            return await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task<object?> GetPaged(object model, CancellationToken cancellationToken = default)
+        {
+            return await ExecuteAsync(model, cancellationToken);
+        }
+
+        public async Task<object?> ExecuteAsync(object model, CancellationToken cancellationToken = default)
         {
             Type type = model.GetType();
             OperationSchema? schema = _configuration.ModelToSchemaMappings.GetValueOrDefault(type);
@@ -33,18 +64,40 @@
             _ = schema ?? throw new MagicOperationsException($"Invalid schema.");
 
             string route = ReplaceTokens(model, schema);
-            string path = Path.Combine(schema.Group.Key ?? string.Empty, route);
+            string path = Path.Combine(schema.Group.Key ?? string.Empty, route).Replace('\\', '/'); //TODO: add Url.Combine?
 
             HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
             var response = await client.SendAsync(new HttpRequestMessage
             {
-                RequestUri = new Uri(path),
-                Method = new HttpMethod(schema.HttpMethod)
+                RequestUri = new Uri(path, UriKind.Relative),
+                Method = new HttpMethod(schema.HttpMethod),
+                Content = JsonContent.Create(model)
             }, cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
-                var obj = response.Content.ReadAsStringAsync();
+                object? obj = schema.ResponseType is Type t ? await response.Content.ReadFromJsonAsync(t) : null;
+
+                return obj;
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.BadRequest:
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ApiException(error); //TODO: improve
+
+                case System.Net.HttpStatusCode.Unauthorized:
+                    throw new ApiException("Unauthorized");
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    throw new ApiException("Forbidden");
+
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new ApiException("Not found");
+
+                default:
+                    throw new ApiException("Unknown error");
             }
         }
 

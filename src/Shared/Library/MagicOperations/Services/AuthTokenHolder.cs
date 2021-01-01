@@ -9,6 +9,11 @@
 
         public bool HasToken => !string.IsNullOrWhiteSpace(Token);
 
+        public AuthTokenHolder()
+        {
+
+        }
+
         public void Set(string? token, DateTime? validTo)
         {
             Token = token;

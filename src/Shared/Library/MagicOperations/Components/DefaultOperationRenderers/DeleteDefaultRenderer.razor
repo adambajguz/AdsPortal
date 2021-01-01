@@ -4,7 +4,19 @@
 
 <h3>DeleteDefaultRenderer</h3>
 
-@foreach (var fragment in RenderFragments)
+@if (Errors is not null)
 {
-    @fragment
+    <p>@Errors.ToString()</p>
+}
+else
+{
+    <p>Are you sure to delete this object?</p>
+
+    @foreach (var fragment in RenderFragments)
+    {
+        @fragment
+    }
+
+    <button @onclick="DeleteAsync">Delete</button>
+    <button>Cancel</button>
 }

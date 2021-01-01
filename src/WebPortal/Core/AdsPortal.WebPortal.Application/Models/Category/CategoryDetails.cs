@@ -6,7 +6,12 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
-    [DetailsOperation]
+    [DetailsOperation(ResponseType = typeof(CategoryDetails))]
+    public class GetCategoryDetails
+    {
+
+    }
+
     public class CategoryDetails
     {
         public Guid Id { get; init; }

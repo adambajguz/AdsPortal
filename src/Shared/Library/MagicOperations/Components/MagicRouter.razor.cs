@@ -46,6 +46,8 @@
                     Type type = Schema.ModelType;
                     object model = Activator.CreateInstance(type)!;
 
+                    //TODO bind values from url
+
                     Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
 
                     RenderFragment = (builder) =>

@@ -1,10 +1,11 @@
 ﻿namespace AdsPortal.WebPortal.Application.Models.User
 {
     using AdsPortal.WebPortal.Application.Models;
+    using AdsPortal.WebPortal.Application.Models.Base;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [CreateOperation]
+    [CreateOperation(ResponseType = typeof(IdResult))]
     public class CreateUser
     {
         public string? Email { get; init; }

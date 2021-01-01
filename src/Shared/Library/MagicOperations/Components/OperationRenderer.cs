@@ -6,13 +6,15 @@
 
     public abstract class OperationRenderer : ComponentBase
     {
+        public object? Errors { get; protected set; }
+
         [Parameter]
         public object Model { get; init; } = default!;
 
         [Parameter]
-        public OperationSchema OperationSchema { get; set; } = default!;
+        public OperationSchema OperationSchema { get; init; } = default!;
 
-        [Inject] protected MagicApiService MagicApi { get; init; } = default!;
+        [Inject] protected MagicApiService Api { get; init; } = default!;
         [Inject] protected MagicOperationsConfiguration Configuration { get; init; } = default!;
     }
 }

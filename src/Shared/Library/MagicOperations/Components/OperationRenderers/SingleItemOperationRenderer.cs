@@ -20,12 +20,12 @@
                 Type propertyType = propertySchema.Property.PropertyType;
                 Type operationPropertyRendererType = propertySchema.Renderer ?? Configuration.DefaultOperationPropertyRenderers[propertyType];
 
-                object? value = propertySchema.Property.GetValue(Model);
+                //object? value = propertySchema.Property.GetValue(Model);
 
                 renderFragments.Add((builder) =>
                 {
                     builder.OpenComponent(0, operationPropertyRendererType);
-                    builder.AddAttribute(1, nameof(OperationPropertyRenderer<object>.Value), value);
+                    builder.AddAttribute(1, nameof(OperationPropertyRenderer<object>.Model), Model);
                     builder.AddAttribute(2, nameof(OperationPropertyRenderer<object>.PropertySchema), propertySchema);
                     builder.AddAttribute(3, nameof(OperationPropertyRenderer<object>.OperationSchema), OperationSchema);
                     builder.CloseComponent();

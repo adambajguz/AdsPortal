@@ -27,7 +27,7 @@
         public const string GetAll = nameof(GetCategorysList);
         public const string GetPaged = nameof(GetPagedCategorysList);
 
-        [CustomAuthorize(Roles.Admin)]
+        //[CustomAuthorize(Roles.Admin)]
         [HttpPost("create")]
         [SwaggerOperation(
             Summary = "Create new category",
@@ -51,7 +51,7 @@
             return Ok(await Mediator.Send(new GetCategoryDetailsQuery { Id = id }));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        //[CustomAuthorize(Roles.Admin)]
         [HttpPut("update")]
         [SwaggerOperation(
             Summary = "Update category details",
@@ -64,7 +64,7 @@
             return Ok(await Mediator.Send(request));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        //[CustomAuthorize(Roles.Admin)]
         [HttpDelete("delete/{id:guid}")]
         [SwaggerOperation(
             Summary = "Delete category",
@@ -72,6 +72,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Category deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteCategoryCommand { Id = id }));

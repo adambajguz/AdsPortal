@@ -2,10 +2,11 @@
 {
     using System;
     using AdsPortal.WebPortal.Application.Models;
+    using AdsPortal.WebPortal.Application.Models.Base;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [CreateOperation]
+    [CreateOperation(ResponseType = typeof(IdResult))]
     public class CreateAdvertisement
     {
         public string? Title { get; init; } = string.Empty;
