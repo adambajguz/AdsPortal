@@ -76,7 +76,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                object? obj = schema.ResponseType is Type t ? await response.Content.ReadFromJsonAsync(t) : null;
+                object? obj = schema.ResponseType is Type t ? await response.Content.ReadFromJsonAsync(t, cancellationToken: cancellationToken) : null;
 
                 return obj;
             }
@@ -84,7 +84,7 @@
             switch (response.StatusCode)
             {
                 case System.Net.HttpStatusCode.BadRequest:
-                    string error = await response.Content.ReadAsStringAsync();
+                    string error = await response.Content.ReadAsStringAsync(cancellationToken);
                     throw new ApiException(error); //TODO: improve
 
                 case System.Net.HttpStatusCode.Unauthorized:

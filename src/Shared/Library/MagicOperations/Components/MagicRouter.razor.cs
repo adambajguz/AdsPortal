@@ -1,6 +1,7 @@
 ﻿namespace MagicOperations.Components
 {
     using System;
+    using System.Collections.Generic;
     using MagicOperations.Schemas;
     using MagicOperations.Services;
     using Microsoft.AspNetCore.Components;
@@ -38,7 +39,7 @@
                     return;
                 }
 
-                (OperationSchema Schema, UriTemplate.UriTemplateMatch Arguments)? operation = RouteResolver.Resolve(Args);
+                (OperationSchema Schema, IEnumerable<OperationArgument> Arguments)? operation = RouteResolver.Resolve(Args);
 
                 if (operation is not null)
                 {

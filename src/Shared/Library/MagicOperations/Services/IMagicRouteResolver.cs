@@ -1,9 +1,10 @@
 ﻿namespace MagicOperations.Services
 {
+    using System.Collections.Generic;
     using MagicOperations.Schemas;
 
     public interface IMagicRouteResolver
     {
-        (OperationSchema Schema, UriTemplate.UriTemplateMatch Arguments)? Resolve(string route);
+        (OperationSchema Schema, IEnumerable<OperationArgument>)? Resolve(string route);
     }
 }

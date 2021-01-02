@@ -1,6 +1,7 @@
 ﻿namespace MagicOperations.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using MagicOperations.Schemas;
 
@@ -13,28 +14,26 @@
             _configuration = configuration;
         }
 
-        public (OperationSchema Schema, UriTemplate.UriTemplateMatch Arguments)? Resolve(string route)
+        public (OperationSchema Schema, IEnumerable<OperationArgument>)? Resolve(string route)
         {
             string[] parts = route.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
             if (parts.Length == 0)
                 throw new ArgumentException("Empty route.", nameof(route));
 
-            Uri uriRoute = new Uri("http://localhost/" + route, UriKind.Absolute);
-
-            if (parts.Length == 2)
+            if (parts.Length >= 2)
             {
-                OperationGroupSchema? group = _configuration.OperationGroups.Values.Where(x => x.Route == parts[1]).FirstOrDefault();
+                OperationGroupSchema? group = _configuration.OperationGroups.Values.Where(x => x.Route == parts[0]).FirstOrDefault();
 
-                if (group is not null && group.Operations.FirstOrDefault(x => x.MatchesRoute(uriRoute)) is OperationSchema os0)
+                if (group is not null && group.Operations.FirstOrDefault(x => x.MatchesRoute(route)) is OperationSchema os0)
                 {
-                    return (os0, os0.ExtractArguments(uriRoute));
+                    return (os0, os0.ExtractArguments(route)!);
                 }
             }
 
-            if (_configuration.OperationSchemas.FirstOrDefault(x => x.MatchesRoute(uriRoute)) is OperationSchema os1)
+            if (_configuration.OperationSchemas.FirstOrDefault(x => x.MatchesRoute(route)) is OperationSchema os1)
             {
-                return (os1, os1.ExtractArguments(uriRoute));
+                return (os1, os1.ExtractArguments(route)!);
             }
 
             return null;

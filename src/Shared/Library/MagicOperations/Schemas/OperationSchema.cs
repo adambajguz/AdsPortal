@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using StringUnformatter;
 
     public sealed class OperationSchema
     {
@@ -71,6 +73,8 @@
         /// </summary>
         public bool IsDelete => OperationType == MagicOperationTypes.Delete;
 
+        private Lazy<StringTemplate> RouteTemplate { get; }
+
         public OperationSchema(OperationGroupSchema group,
                                Type? renderer,
                                Type modelType,
@@ -90,6 +94,8 @@
             ResponseType = responseType;
             OperationType = operationType;
             PropertySchemas = propertySchemas;
+
+            RouteTemplate = new Lazy<StringTemplate>(() => StringTemplate.Parse(GetFullRoute()));
         }
 
         public string GetFullRoute()
@@ -97,19 +103,19 @@
             return Path.Join(Group.Route ?? string.Empty, Action).Replace('\\', '/');
         }
 
-        public bool MatchesRoute(Uri route)
+        public bool MatchesRoute(string route)
         {
-            return ExtractArguments(route) is not null;
+            return RouteTemplate.Value.Matches(route);
         }
 
-        public UriTemplate.UriTemplateMatch ExtractArguments(Uri route)
+        public IEnumerable<OperationArgument>? ExtractArguments(string route)
         {
-            string currentOprationRoute = GetFullRoute();
+            Dictionary<string, string>? arguments = RouteTemplate.Value.Unformat(route);
 
-            UriTemplate.UriTemplate template = new UriTemplate.UriTemplate(currentOprationRoute);
-            UriTemplate.UriTemplateMatch? uriTemplateMatch = template.Match(new Uri("http://localhost/"), route);
-
-            return uriTemplateMatch;
+            return arguments?.Join(PropertySchemas,
+                                   x => x.Key,
+                                   x => x.Property.Name,
+                                   (arg, schema) => new OperationArgument(schema, arg.Value));
         }
     }
 }
