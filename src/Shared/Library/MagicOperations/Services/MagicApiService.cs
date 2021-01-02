@@ -12,6 +12,8 @@
     using System.Threading.Tasks;
     using MagicOperations.Extensions;
     using MagicOperations.Schemas;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
 
     public class MagicApiService
     {
@@ -19,11 +21,13 @@
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly MagicOperationsConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public MagicApiService(IHttpClientFactory httpClientFactory, MagicOperationsConfiguration configuration)
+        public MagicApiService(IHttpClientFactory httpClientFactory, MagicOperationsConfiguration configuration, ILogger<MagicApiService> logger)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task CreateAsync(object model, CancellationToken cancellationToken = default)
@@ -76,9 +80,24 @@
 
             if (response.IsSuccessStatusCode)
             {
-                object? obj = schema.ResponseType is Type t ? await response.Content.ReadFromJsonAsync(t, cancellationToken: cancellationToken) : null;
+                try
+                {
+                    string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
 
-                return obj;
+                    object? obj = schema.ResponseType is null ? null : JsonConvert.DeserializeObject(responseString, schema.ResponseType);
+
+                    return obj;
+                }
+                catch (JsonSerializationException ex)
+                {
+                    _logger.LogError(ex, "Failed to deserialize response.");
+                    throw new ApiException("Server response error");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Unknown error.");
+                    throw new ApiException("Server response error");
+                }
             }
 
             switch (response.StatusCode)

@@ -13,8 +13,8 @@
     }
 
     [OperationGroup(OperationGroups.Category)]
-    [GetPagedOperation(ResponseType = typeof(ListResult<CategoriesListItem>))]
-    public class PagedCategoriesList
+    [GetPagedOperation(Action = "get-paged?page={Page}&per-page={EntiresPerPage}", ResponseType = typeof(ListResult<CategoriesListItem>))]
+    public class PagedCategoriesList : GetPagedListQuery
     {
 
     }
