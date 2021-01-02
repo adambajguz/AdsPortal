@@ -5,7 +5,7 @@ namespace AdsPortal.WebPortal.Application.Models.Category
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
-    [DeleteOperation(Action = "delete/{Id}/{Name}?Type={Type}")]
+    [DeleteOperation(Action = "delete/{Id}")]
     public class DeleteCategory
     {
         public Guid Id { get; init; }
