@@ -1,13 +1,82 @@
-﻿<h3>MagicRouter</h3>
-
-@if (Schema is not null)
+﻿@if (Debug && Schema is not null)
 {
-    <p>Group route: @Schema.Group.Key</p>
-    <p>Route: @Schema.Action</p>
-    <p>DisplayName: @Schema.DisplayName</p>
-    <p>HttpMethod: @Schema.HttpMethod</p>
-    <p>ModelType: @Schema.ModelType.AssemblyQualifiedName</p>
-    <p>OperationType: @Schema.OperationType</p>
+    <div class="magic-router-debug">
+        <table>
+            <thead>
+                <tr>
+                    <th>Param</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Configuration</td>
+                </tr>
+                <tr>
+                    <td>Base API path</td>
+                    <td>@Configuration.BaseApiPath</td>
+                </tr>
+                <tr>
+                    <td>Operation list renderer</td>
+                    <td>@(Configuration.OperationListingRenderer?.AssemblyQualifiedName ?? "<not set>")</td>
+                </tr>
+                <tr>
+                    <td>Error renderer</td>
+                    <td>@Configuration.ErrorRenderer.AssemblyQualifiedName</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Schema</td>
+                </tr>
+                <tr>
+                    <td>Group key</td>
+                    <td>@Schema.Group.Key</td>
+                </tr>
+                <tr>
+                    <td>Group route</td>
+                    <td>@Schema.Group.Route</td>
+                </tr>
+                <tr>
+                    <td>Renderer type</td>
+                    <td>@(Schema.Renderer?.AssemblyQualifiedName ?? "<default>")</td>
+                </tr>
+                <tr>
+                    <td>Action</td>
+                    <td>@Schema.Action</td>
+                </tr>
+                <tr>
+                    <td>Full route</td>
+                    <td>@Schema.GetFullRoute()</td>
+                </tr>
+                <tr>
+                    <td>Display name</td>
+                    <td>@Schema.DisplayName</td>
+                </tr>
+                <tr>
+                    <td>HTTP Method</td>
+                    <td>@Schema.HttpMethod</td>
+                </tr>
+                <tr>
+                    <td>Model type</td>
+                    <td>@Schema.ModelType.AssemblyQualifiedName</td>
+                </tr>
+                <tr>
+                    <td>Operation type</td>
+                    <td>@Schema.ModelType.AssemblyQualifiedName</td>
+                </tr>
+                <tr>
+                    <td>Reponse type</td>
+                    <td>@(Schema.ResponseType?.AssemblyQualifiedName ?? "<not set>")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Rendering</td>
+                </tr>
+                <tr>
+                    <td>Render fragment</td>
+                    <td>@(RenderFragment is null ? "EMPTY" : "SET")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 }
 
 @if (RenderFragment is not null)

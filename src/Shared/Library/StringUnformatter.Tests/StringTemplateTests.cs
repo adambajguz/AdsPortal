@@ -1,9 +1,9 @@
 namespace StringUnformatter.Tests
 {
-    using Xunit;
-    using FluentAssertions;
     using System;
     using System.Collections.Generic;
+    using FluentAssertions;
+    using Xunit;
 
     public class StringTemplateTests
     {
