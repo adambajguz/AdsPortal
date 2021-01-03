@@ -7,14 +7,14 @@
 
     [OperationGroup(OperationGroups.User)]
     [GetAllOperation(ResponseType = typeof(ListResult<UsersListItem>))]
-    public class UsersList
+    public class GetUsersList
     {
 
     }
 
     [OperationGroup(OperationGroups.User)]
     [GetPagedOperation(Action = "get-paged?page={Page}&per-page={EntiresPerPage}", ResponseType = typeof(ListResult<UsersListItem>))]
-    public class PagedUsersList : GetPagedListQuery
+    public class Get : GetPagedListQuery
     {
 
     }

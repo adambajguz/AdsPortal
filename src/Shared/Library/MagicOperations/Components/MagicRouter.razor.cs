@@ -2,9 +2,7 @@ namespace MagicOperations.Components
 {
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
     using MagicOperations.Extensions;
-    using MagicOperations.Internal;
     using MagicOperations.Internal.Extensions;
     using MagicOperations.Schemas;
     using MagicOperations.Services;
@@ -18,6 +16,7 @@ namespace MagicOperations.Components
 
         [Inject] private NavigationManager NavigationManager { get; init; } = default!;
         [Inject] private MagicOperationsConfiguration Configuration { get; init; } = default!;
+        [Inject] private IOperationModelFactory ModelFactory { get; init; } = default!;
         [Inject] private IMagicRouteResolver RouteResolver { get; init; } = default!;
         [Inject] private ILogger<MagicRouter> Logger { get; init; } = default!;
 
@@ -45,14 +44,7 @@ namespace MagicOperations.Components
             {
                 if (string.IsNullOrWhiteSpace(path))
                 {
-                    if (Configuration.OperationListingRenderer is Type operationListingRendererType)
-                    {
-                        RenderFragment = (builder) =>
-                        {
-                            builder.OpenComponent(0, operationListingRendererType);
-                            builder.CloseComponent();
-                        };
-                    }
+                    RenderOperationsList();
 
                     return;
                 }
@@ -62,9 +54,7 @@ namespace MagicOperations.Components
                 if (operation is not null)
                 {
                     Schema = operation.Value.Schema;
-                    Type type = Schema.ModelType;
-                    object model = Activator.CreateInstance(type)!;
-                    TryBindData(model, operation.Value.Arguments);
+                    object model = ModelFactory.CreateInstanceAndBindData(Schema.ModelType, operation.Value.Arguments);
 
                     Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
 
@@ -94,15 +84,15 @@ namespace MagicOperations.Components
             }
         }
 
-        private void TryBindData(object model, IEnumerable<OperationArgument> arguments)
+        private void RenderOperationsList()
         {
-            foreach (OperationArgument arg in arguments)
+            if (Configuration.OperationListingRenderer is Type operationListingRendererType)
             {
-                PropertyInfo propertyInfo = arg.Schema.Property;
-
-                object? value = arg.Convert();
-
-                propertyInfo.SetValue(model, value);
+                RenderFragment = (builder) =>
+                {
+                    builder.OpenComponent(0, operationListingRendererType);
+                    builder.CloseComponent();
+                };
             }
         }
 

@@ -14,6 +14,7 @@
 
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
+            services.AddSingleton<IOperationModelFactory, OperationModelFactory>();
             services.AddScoped<AuthTokenHolder>();
             services.AddScoped<MagicApiService>();
 

@@ -5,7 +5,7 @@
     using System.Linq;
     using MagicOperations.Schemas;
 
-    public class MagicRouteResolver : IMagicRouteResolver
+    internal class MagicRouteResolver : IMagicRouteResolver
     {
         private readonly MagicOperationsConfiguration _configuration;
 

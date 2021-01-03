@@ -7,14 +7,14 @@
 
     [OperationGroup(OperationGroups.Advertisement)]
     [GetAllOperation(ResponseType = typeof(ListResult<AdvertisementsListItem>))]
-    public class AdvertisementsList
+    public class GetAdvertisementsList
     {
 
     }
 
     [OperationGroup(OperationGroups.Advertisement)]
     [GetPagedOperation(Action = "get-paged?page={Page}&per-page={EntiresPerPage}", ResponseType = typeof(ListResult<AdvertisementsListItem>))]
-    public class PagedAdvertisementsList : GetPagedListQuery
+    public class GetPagedAdvertisementsList : GetPagedListQuery
     {
 
     }
