@@ -10,9 +10,9 @@
         public string Key { get; }
 
         /// <summary>
-        /// Operation group route relative to base URI. If null, operation has no extra route.
+        /// Operation group path relative to base URI. If null, operation has no extra route.
         /// </summary>
-        public string? Route { get; }
+        public string? Path { get; }
 
         /// <summary>
         /// Property display name.
@@ -26,11 +26,11 @@
         /// </summary>
         public IReadOnlyList<OperationSchema> Operations => _operations;
 
-        public OperationGroupSchema(string key, string? route, string? displayName)
+        public OperationGroupSchema(string key, string? path, string? displayName)
         {
             Key = key;
-            Route = route;
-            DisplayName = displayName ?? route ?? key;
+            Path = path;
+            DisplayName = displayName ?? path ?? key;
         }
 
         internal void AddOperation(OperationSchema operationSchema)

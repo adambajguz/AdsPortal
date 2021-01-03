@@ -25,6 +25,21 @@
                     <td>@Configuration.ErrorRenderer.AssemblyQualifiedName</td>
                 </tr>
                 <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Paths and args</td>
+                </tr>
+                <tr>
+                    <td>Path</td>
+                    <td>@(Path ?? "<not set>")</td>
+                </tr>
+                <tr>
+                    <td>Base path</td>
+                    <td>@(BasePath ?? "<not set>")</td>
+                </tr>
+                <tr>
+                    <td>Args fallback</td>
+                    <td>@(ArgsFallback ?? "<not set>")</td>
+                </tr>
+                <tr>
                     <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Schema</td>
                 </tr>
                 <tr>
@@ -32,8 +47,8 @@
                     <td>@Schema.Group.Key</td>
                 </tr>
                 <tr>
-                    <td>Group route</td>
-                    <td>@Schema.Group.Route</td>
+                    <td>Group path</td>
+                    <td>@Schema.Group.Path</td>
                 </tr>
                 <tr>
                     <td>Renderer type</td>
@@ -44,8 +59,8 @@
                     <td>@Schema.Action</td>
                 </tr>
                 <tr>
-                    <td>Full route</td>
-                    <td>@Schema.GetFullRoute()</td>
+                    <td>Full path</td>
+                    <td>@Schema.GetFullPath()</td>
                 </tr>
                 <tr>
                     <td>Display name</td>
@@ -67,19 +82,9 @@
                     <td>Reponse type</td>
                     <td>@(Schema.ResponseType?.AssemblyQualifiedName ?? "<not set>")</td>
                 </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center; font-weight: bold; border-top: 1px solid;">Rendering</td>
-                </tr>
-                <tr>
-                    <td>Render fragment</td>
-                    <td>@(RenderFragment is null ? "EMPTY" : "SET")</td>
-                </tr>
             </tbody>
         </table>
     </div>
 }
 
-@if (RenderFragment is not null)
-{
-    @RenderFragment
-}
+@Render()

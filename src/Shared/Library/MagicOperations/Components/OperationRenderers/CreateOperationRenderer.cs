@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
     public abstract class CreateOperationRenderer : SingleItemOperationRenderer
@@ -14,14 +15,14 @@
         {
             try
             {
-                await Api.CreateAsync(Model);
+                await Api.ExecuteAsync(OperationModel);
 
                 IsCreated = true;
                 OnCreated?.Invoke(this, EventArgs.Empty);
             }
             catch (ApiException ex)
             {
-                Errors = ex.Message;
+                ErrorModel = ex.Message;
             }
         }
     }

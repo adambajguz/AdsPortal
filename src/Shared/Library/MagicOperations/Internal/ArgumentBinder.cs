@@ -105,7 +105,7 @@
                                               $"Target type is not assignable from array and doesn't have a public constructor that takes an array.");
         }
 
-        public static object? Convert(this OperationArgument argument)
+        public static object? Convert(this OperationUriArgument argument)
         {
             PropertyInfo? property = argument.Schema.Property;
             string value = argument.Value;

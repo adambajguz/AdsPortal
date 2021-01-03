@@ -5,9 +5,9 @@
 
 <h3>GetAllDefaultRenderer</h3>
 
-@if (Errors is not null)
+@if (ErrorModel is not null)
 {
-    <p>@Errors.ToString()</p>
+    <p>@ErrorModel.ToString()</p>
 }
 else if (List is null)
 {

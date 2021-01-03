@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using MagicOperations.Attributes;
+    using MagicOperations.Builder;
     using MagicOperations.Extensions;
     using Microsoft.AspNetCore.Http;
 
@@ -43,7 +44,7 @@
 
             groupConfigurations.TryGetValue(key, out MagicOperationGroupConfiguration? groupConfiguration);
 
-            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Route, groupConfiguration?.DisplayName);
+            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Path, groupConfiguration?.DisplayName);
             groups.TryAdd(key, value);
 
             return value;

@@ -11,11 +11,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using MagicOperations.Extensions;
+    using MagicOperations.Interfaces;
     using MagicOperations.Schemas;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
-    public class MagicApiService
+    public sealed class MagicApiService : IMagicApiService
     {
         private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
 
@@ -28,36 +29,6 @@
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
             _logger = logger;
-        }
-
-        public async Task CreateAsync(object model, CancellationToken cancellationToken = default)
-        {
-            await ExecuteAsync(model, cancellationToken);
-        }
-
-        public async Task UpdateAsync(object model, CancellationToken cancellationToken = default)
-        {
-            await ExecuteAsync(model, cancellationToken);
-        }
-
-        public async Task DeleteAsync(object model, CancellationToken cancellationToken = default)
-        {
-            await ExecuteAsync(model, cancellationToken);
-        }
-
-        public async Task<object?> Get(object model, CancellationToken cancellationToken = default)
-        {
-            return await ExecuteAsync(model, cancellationToken);
-        }
-
-        public async Task<object?> GetList(object model, CancellationToken cancellationToken = default)
-        {
-            return await ExecuteAsync(model, cancellationToken);
-        }
-
-        public async Task<object?> GetPaged(object model, CancellationToken cancellationToken = default)
-        {
-            return await ExecuteAsync(model, cancellationToken);
         }
 
         public async Task<object?> ExecuteAsync(object model, CancellationToken cancellationToken = default)
@@ -120,7 +91,7 @@
             }
         }
 
-        public string ReplaceTokens(object model, OperationSchema schema)
+        private string ReplaceTokens(object model, OperationSchema schema)
         {
             string route = schema.Action ?? string.Empty;
             MatchCollection matches = _regex.Matches(route);

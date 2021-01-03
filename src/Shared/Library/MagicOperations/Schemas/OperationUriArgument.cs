@@ -1,11 +1,11 @@
 ﻿namespace MagicOperations.Schemas
 {
-    public class OperationArgument
+    public sealed class OperationUriArgument
     {
         public OperationPropertySchema Schema { get; }
         public string Value { get; }
 
-        public OperationArgument(OperationPropertySchema schema, string value)
+        public OperationUriArgument(OperationPropertySchema schema, string value)
         {
             Schema = schema;
             Value = value;

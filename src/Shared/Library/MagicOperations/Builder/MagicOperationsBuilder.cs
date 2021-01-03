@@ -1,9 +1,10 @@
-﻿namespace MagicOperations
+﻿namespace MagicOperations.Builder
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using MagicOperations;
     using MagicOperations.Components;
     using MagicOperations.Components.DefaultOperationRenderers;
     using MagicOperations.Components.DefaultPropertyRenderers;
@@ -60,6 +61,9 @@
         #region Operation listing renderer
         public MagicOperationsBuilder UseOperationListing(Type operationListingRenderer)
         {
+            if (!operationListingRenderer.IsSubclassOf(typeof(OperationListingRenderer)))
+                throw new MagicOperationsException($"{operationListingRenderer.FullName} is not a valid operation listing renderer type.");
+
             _operationListingRenderer = operationListingRenderer;
 
             return this;
@@ -68,13 +72,10 @@
         public MagicOperationsBuilder UseOperationListing<T>()
             where T : OperationListingRenderer
         {
-            _operationListingRenderer = typeof(T);
-
-            return this;
+            return UseOperationListing(typeof(T));
         }
 
-        public MagicOperationsBuilder DisableOperationsListing<T>()
-            where T : OperationErrorRenderer
+        public MagicOperationsBuilder DisableOperationsListing()
         {
             _operationListingRenderer = null;
 
@@ -85,6 +86,9 @@
         #region Error renderer
         public MagicOperationsBuilder UseErrorRenderer(Type errorRenderer)
         {
+            if (!errorRenderer.IsSubclassOf(typeof(OperationErrorRenderer)))
+                throw new MagicOperationsException($"{errorRenderer.FullName} is not a valid operation error renderer type.");
+
             _errorRenderer = errorRenderer;
 
             return this;
@@ -93,21 +97,23 @@
         public MagicOperationsBuilder UseErrorRenderer<T>()
             where T : OperationErrorRenderer
         {
-            _errorRenderer = typeof(T);
-
-            return this;
+            return UseErrorRenderer(typeof(T));
         }
         #endregion
 
         #region Default operation renderers
         public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
         {
+            if (!type.IsSubclassOf(typeof(OperationRenderer)))
+                throw new MagicOperationsException($"{type.FullName} is not a valid operation renderer type.");
+
             _defaultOperationRenderers[operation] = type;
 
             return this;
         }
 
         public MagicOperationsBuilder UseDefaultOperationRenderer<TRenderer>(MagicOperationTypes operation)
+            where TRenderer : OperationRenderer
         {
             return UseDefaultOperationRenderer(operation, typeof(TRenderer));
         }
@@ -116,12 +122,16 @@
         #region Default property renderers
         public MagicOperationsBuilder UseDefaultPropertyRenderer(Type propertyType, Type rendererType)
         {
+            if (!rendererType.IsSubclassOf(typeof(OperationPropertyRenderer<>).MakeGenericType(propertyType)))
+                throw new MagicOperationsException($"{rendererType.FullName} is not a valid operation property renderer type.");
+
             _defaultPropertyRenderers[propertyType] = rendererType;
 
             return this;
         }
 
-        public MagicOperationsBuilder UseDefaultPropertyRenderer<TPropety, TRenderer>(MagicOperationTypes operation)
+        public MagicOperationsBuilder UseDefaultPropertyRenderer<TPropety, TRenderer>()
+            where TRenderer : OperationPropertyRenderer<TPropety>
         {
             return UseDefaultPropertyRenderer(typeof(TPropety), typeof(TRenderer));
         }
@@ -231,7 +241,7 @@
                                                              _operationListingRenderer,
                                                              _errorRenderer,
                                                              _defaultOperationRenderers,
-                                                             _defaultPropertyRenderers); ;
+                                                             _defaultPropertyRenderers);
 
             return configuration;
         }

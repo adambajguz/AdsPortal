@@ -1,11 +1,11 @@
-﻿namespace MagicOperations
+﻿namespace MagicOperations.Builder
 {
     public sealed class MagicOperationGroupConfiguration
     {
         /// <summary>
-        /// Route.
+        /// Operation group path relative to base URI. If null, operation has no extra path.
         /// </summary>
-        public string? Route { get; set; }
+        public string? Path { get; set; }
 
         /// <summary>
         /// Property display name.

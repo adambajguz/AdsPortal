@@ -24,7 +24,7 @@
         public Type ModelType { get; }
 
         /// <summary>
-        /// Operation action relative to base URI and group route (if set).
+        /// Operation action relative to base URI and group path (if set).
         /// </summary>
         public string Action { get; }
 
@@ -73,7 +73,7 @@
         /// </summary>
         public bool IsDelete => OperationType == MagicOperationTypes.Delete;
 
-        private Lazy<StringTemplate> RouteTemplate { get; }
+        private Lazy<StringTemplate> ActionTemplate { get; }
 
         public OperationSchema(OperationGroupSchema group,
                                Type? renderer,
@@ -95,27 +95,30 @@
             OperationType = operationType;
             PropertySchemas = propertySchemas;
 
-            RouteTemplate = new Lazy<StringTemplate>(() => StringTemplate.Parse(GetFullRoute()));
+            ActionTemplate = new Lazy<StringTemplate>(() => StringTemplate.Parse(GetFullPath()));
         }
 
-        public string GetFullRoute()
+        public string GetFullPath()
         {
-            return Path.Join(Group.Route ?? string.Empty, Action).Replace('\\', '/');
+            return Path.Join(Group.Path ?? string.Empty, Action).Replace('\\', '/');
         }
 
-        public bool MatchesRoute(string route)
+        public bool MatchesPath(string path)
         {
-            return RouteTemplate.Value.Matches(route);
+            return ActionTemplate.Value.Matches(path);
         }
 
-        public IEnumerable<OperationArgument>? ExtractArguments(string route)
+        /// <summary>
+        /// Returns arguments from path, null when failed to unformat, or empty collection when successfully unformatted but no arguments were present.
+        /// </summary>
+        public IEnumerable<OperationUriArgument>? ExtractArguments(string path)
         {
-            Dictionary<string, string>? arguments = RouteTemplate.Value.Unformat(route);
+            Dictionary<string, string>? arguments = ActionTemplate.Value.Unformat(path);
 
             return arguments?.Join(PropertySchemas,
                                    x => x.Key,
                                    x => x.Property.Name,
-                                   (arg, schema) => new OperationArgument(schema, arg.Value));
+                                   (arg, schema) => new OperationUriArgument(schema, arg.Value));
         }
     }
 }

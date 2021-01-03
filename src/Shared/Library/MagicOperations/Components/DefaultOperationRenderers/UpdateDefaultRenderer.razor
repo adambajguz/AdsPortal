@@ -4,16 +4,13 @@
 
 <h3>UpdateDefaultRenderer</h3>
 
-@if (Errors is not null)
+@if (ErrorModel is not null)
 {
-    <p>@Errors.ToString()</p>
+    <p>@ErrorModel.ToString()</p>
 }
 else
 {
-    <EditForm Model="Model">
-        @foreach (var fragment in RenderFragments)
-        {
-            @fragment
-        }
+    <EditForm Model="OperationModel">
+        @RenderItem()
     </EditForm>
 }

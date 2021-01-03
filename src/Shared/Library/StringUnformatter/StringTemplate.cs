@@ -20,7 +20,7 @@
 
         public static StringTemplate Parse(string template)
         {
-            var parsed = ParseTemplate(template);
+            (bool HasParametes, List<StringTemplatePart> Parameters) parsed = ParseTemplate(template);
 
             return new StringTemplate(template, parsed.Parameters, parsed.HasParametes);
         }
@@ -45,7 +45,7 @@
                 {
                     if (i - sliceStart != 0)
                     {
-                        string tmp = new string(span.Slice(sliceStart, i - sliceStart));
+                        string tmp = new string(span[sliceStart..i]);
 
                         if (string.IsNullOrWhiteSpace(tmp))
                             throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
@@ -54,14 +54,14 @@
                     }
 
                     isOpened = true;
-                    sliceStart = i;
+                    sliceStart = i + 1;
                 }
                 else if (isOpened && ch == '}')
                 {
                     if (parts.Count > 0 && parts[^1].IsParameter)
                         throw new FormatException($"String template '{template}' is invalid. Template cannot contain two or more subsequent parameters.");
 
-                    string tmp = new string(span.Slice(sliceStart + 1, i - sliceStart - 1));
+                    string tmp = new string(span[sliceStart..i]);
 
                     if (string.IsNullOrWhiteSpace(tmp))
                         throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
@@ -80,7 +80,7 @@
 
             if (span.Length != sliceStart)
             {
-                string tmp = new string(span.Slice(sliceStart));
+                string tmp = new string(span[sliceStart..]);
 
                 if (string.IsNullOrWhiteSpace(tmp))
                     throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
@@ -118,7 +118,7 @@
                         if (index < 0)
                             return null;
 
-                        string value0 = formatted.Substring(searchStartIndex, index - searchStartIndex);
+                        string value0 = formatted[searchStartIndex..index];
 
                         if (string.IsNullOrWhiteSpace(value0))
                             return null;
@@ -129,7 +129,7 @@
                     }
                     else
                     {
-                        string value1 = formatted.Substring(searchStartIndex);
+                        string value1 = formatted[searchStartIndex..];
 
                         if (string.IsNullOrWhiteSpace(value1))
                         {

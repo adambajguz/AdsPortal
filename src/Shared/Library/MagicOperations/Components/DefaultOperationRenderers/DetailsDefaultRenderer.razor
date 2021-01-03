@@ -4,14 +4,11 @@
 
 <h3>DetailsDefaultRenderer</h3>
 
-@if (Errors is not null)
+@if (ErrorModel is not null)
 {
-    <p>@Errors.ToString()</p>
+    <p>@ErrorModel.ToString()</p>
 }
 else
 {
-    @foreach (var fragment in RenderFragments)
-    {
-        @fragment
-    }
+    @RenderItem()
 }

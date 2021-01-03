@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
     public abstract class UpdateOperationRenderer : SingleItemOperationRenderer
@@ -14,14 +15,14 @@
         {
             try
             {
-                await Api.UpdateAsync(Model);
+                await Api.ExecuteAsync(OperationModel);
 
                 IsUpdated = true;
                 OnUpdated?.Invoke(this, EventArgs.Empty);
             }
             catch (ApiException ex)
             {
-                Errors = ex.Message;
+                ErrorModel = ex.Message;
             }
         }
     }

@@ -5,23 +5,24 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Reflection;
+    using MagicOperations.Interfaces;
     using MagicOperations.Internal;
     using MagicOperations.Schemas;
 
-    public class OperationModelFactory : IOperationModelFactory
+    public sealed class OperationModelFactory : IOperationModelFactory
     {
-        private static ConcurrentDictionary<Type, Func<object>> _cachedFunctions = new ConcurrentDictionary<Type, Func<object>>();
+        private static readonly ConcurrentDictionary<Type, Func<object>> _cachedFunctions = new ConcurrentDictionary<Type, Func<object>>();
 
         public OperationModelFactory()
         {
 
         }
 
-        public object CreateInstanceAndBindData(Type modelType, IEnumerable<OperationArgument> arguments)
+        public object CreateInstanceAndBindData(Type modelType, IEnumerable<OperationUriArgument> arguments)
         {
             object model = CreateInstance(modelType);
 
-            foreach (OperationArgument arg in arguments)
+            foreach (OperationUriArgument arg in arguments)
             {
                 PropertyInfo propertyInfo = arg.Schema.Property;
 

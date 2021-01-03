@@ -12,7 +12,7 @@ namespace MagicOperations.Attributes
         public Type? Renderer { get; init; }
 
         /// <summary>
-        /// Operation action relative to base URI and group route (if set).
+        /// Operation action relative to base URI and group path (if set).
         /// </summary>
         public string Action { get; init; }
 

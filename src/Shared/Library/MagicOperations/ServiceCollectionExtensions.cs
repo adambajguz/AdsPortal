@@ -1,6 +1,8 @@
 ﻿namespace MagicOperations
 {
     using System;
+    using MagicOperations.Builder;
+    using MagicOperations.Interfaces;
     using MagicOperations.Services;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +17,8 @@
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
             services.AddSingleton<IOperationModelFactory, OperationModelFactory>();
+            services.AddScoped<IMagicApiService, MagicApiService>();
             services.AddScoped<AuthTokenHolder>();
-            services.AddScoped<MagicApiService>();
 
             services.AddHttpClient("MagicOperationsAPI", (services, cfg) =>
             {

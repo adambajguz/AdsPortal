@@ -29,7 +29,7 @@
                 startIndex += valueLength;
             }
 
-            return source.Substring(startIndex);
+            return source[startIndex..];
         }
 
         public static string TrimEnd(this string source, string value, StringComparison comparisonType = StringComparison.CurrentCulture)

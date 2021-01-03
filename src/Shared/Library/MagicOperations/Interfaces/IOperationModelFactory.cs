@@ -1,4 +1,4 @@
-﻿namespace MagicOperations.Services
+﻿namespace MagicOperations.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
 
     public interface IOperationModelFactory
     {
-        object CreateInstanceAndBindData(Type modelType, IEnumerable<OperationArgument> arguments);
+        object CreateInstanceAndBindData(Type modelType, IEnumerable<OperationUriArgument> arguments);
         object CreateInstance(Type type);
     }
 }

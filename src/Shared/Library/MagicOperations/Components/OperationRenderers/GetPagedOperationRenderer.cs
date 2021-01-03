@@ -1,7 +1,30 @@
 ﻿namespace MagicOperations.Components.OperationRenderers
 {
-    public abstract class GetPagedOperationRenderer : OperationRenderer
-    {
+    using System.Threading.Tasks;
+    using MagicOperations.Components.OperationRenderers.Base;
+    using MagicOperations.Extensions;
 
+    public abstract class GetPagedOperationRenderer : MultiItemOperationRenderer
+    {
+        public object? List { get; private set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            await GetPagedAsync();
+        }
+
+        public async Task GetPagedAsync()
+        {
+            try
+            {
+                List = await Api.ExecuteAsync(OperationModel);
+            }
+            catch (ApiException ex)
+            {
+                ErrorModel = ex.Message;
+            }
+        }
     }
 }

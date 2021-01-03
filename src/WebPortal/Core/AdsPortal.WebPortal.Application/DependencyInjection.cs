@@ -28,19 +28,19 @@
 
                 builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
                 {
-                    g.Route = "advertisement";
+                    g.Path = "advertisement";
                     g.DisplayName = "Advertisement";
                 });
 
                 builder.AddGroupConfiguration(OperationGroups.Category, (g) =>
                 {
-                    g.Route = "category";
+                    g.Path = "category";
                     g.DisplayName = "Category";
                 });
 
                 builder.AddGroupConfiguration(OperationGroups.User, (g) =>
                 {
-                    g.Route = "user";
+                    g.Path = "user";
                     g.DisplayName = "User";
                 });
             });

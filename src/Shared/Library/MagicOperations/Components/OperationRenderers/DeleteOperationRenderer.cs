@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
     public abstract class DeleteOperationRenderer : SingleItemOperationRenderer
@@ -12,19 +13,19 @@
 
         public async Task DeleteAsync()
         {
-            if (Model is null)
+            if (OperationModel is null)
                 return;
 
             try
             {
-                await Api.DeleteAsync(Model);
+                await Api.ExecuteAsync(OperationModel);
 
                 IsDeleted = true;
                 OnDeleted?.Invoke(this, EventArgs.Empty);
             }
             catch (ApiException ex)
             {
-                Errors = ex.Message;
+                ErrorModel = ex.Message;
             }
         }
     }

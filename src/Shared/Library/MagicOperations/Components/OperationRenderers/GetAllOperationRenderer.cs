@@ -1,9 +1,10 @@
 ﻿namespace MagicOperations.Components.OperationRenderers
 {
     using System.Threading.Tasks;
+    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class GetAllOperationRenderer : OperationRenderer
+    public abstract class GetAllOperationRenderer : MultiItemOperationRenderer
     {
         public object? List { get; private set; }
 
@@ -18,11 +19,11 @@
         {
             try
             {
-                List = await Api.GetList(Model);
+                List = await Api.ExecuteAsync(OperationModel);
             }
             catch (ApiException ex)
             {
-                Errors = ex.Message;
+                ErrorModel = ex.Message;
             }
         }
     }

@@ -4,9 +4,9 @@
 
 <h3>CreateDefaultRenderer</h3>
 
-@if (Errors is not null)
+@if (ErrorModel is not null)
 {
-    <p>@Errors.ToString()</p>
+    <p>@ErrorModel.ToString()</p>
 }
 else
 {
@@ -16,11 +16,8 @@ else
         return;
     }
 
-    <EditForm Model="Model">
-        @foreach (var fragment in RenderFragments)
-        {
-            @fragment
-        }
+    <EditForm Model="OperationModel">
+        @RenderItem()
     </EditForm>
 
     <button @onclick="CreateAsync">Create</button>

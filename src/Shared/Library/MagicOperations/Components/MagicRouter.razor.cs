@@ -3,16 +3,16 @@ namespace MagicOperations.Components
     using System;
     using System.Collections.Generic;
     using MagicOperations.Extensions;
+    using MagicOperations.Interfaces;
     using MagicOperations.Internal.Extensions;
     using MagicOperations.Schemas;
-    using MagicOperations.Services;
     using Microsoft.AspNetCore.Components;
     using Microsoft.Extensions.Logging;
 
-    public partial class MagicRouter : ComponentBase
+    public sealed partial class MagicRouter : ComponentBase
     {
-        protected OperationSchema? Schema { get; set; }
-        protected RenderFragment? RenderFragment { get; private set; }
+        private string? Path { get; set; }
+        private OperationSchema? Schema { get; set; }
 
         [Inject] private NavigationManager NavigationManager { get; init; } = default!;
         [Inject] private MagicOperationsConfiguration Configuration { get; init; } = default!;
@@ -40,67 +40,73 @@ namespace MagicOperations.Components
             if (string.IsNullOrWhiteSpace(path))
                 path = ArgsFallback ?? string.Empty;
 
+            Path = path;
+            Schema = RouteResolver.ResolveSchema(Path);
+        }
+
+        private RenderFragment Render()
+        {
             try
             {
-                if (string.IsNullOrWhiteSpace(path))
+                if (string.IsNullOrWhiteSpace(Path))
                 {
-                    RenderOperationsList();
-
-                    return;
+                    return RenderOperationsList();
                 }
 
-                (OperationSchema Schema, IEnumerable<OperationArgument> Arguments)? operation = RouteResolver.Resolve(path);
+                IEnumerable<OperationUriArgument>? arguments = Schema?.ExtractArguments(Path);
 
-                if (operation is not null)
+                if (arguments is not null)
                 {
-                    Schema = operation.Value.Schema;
-                    object model = ModelFactory.CreateInstanceAndBindData(Schema.ModelType, operation.Value.Arguments);
+                    object model = ModelFactory.CreateInstanceAndBindData(Schema!.ModelType, arguments);
 
                     Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
 
-                    RenderFragment = (builder) =>
+                    return (builder) =>
                     {
                         builder.OpenComponent(0, operationRendererType);
-                        builder.AddAttribute(1, nameof(OperationRenderer.Model), model);
-                        builder.AddAttribute(2, nameof(OperationRenderer.OperationSchema), Schema);
+                        builder.AddAttribute(1, nameof(OperationRenderer.BasePath), BasePath ?? string.Empty);
+                        builder.AddAttribute(2, nameof(OperationRenderer.OperationModel), model);
+                        builder.AddAttribute(3, nameof(OperationRenderer.OperationSchema), Schema);
                         builder.CloseComponent();
                     };
-
-                    return;
                 }
 
-                Logger.LogDebug("Unknown route {Route}.", path);
-                RenderError($"Unknown route {path}.");
+                Logger.LogDebug("Unknown route {Route}.", Path);
+                RenderError($"Unknown route {Path}.");
             }
             catch (ArgumentBinderException abex)
             {
                 Logger.LogWarning(abex, "Argument binder exception occured.");
-                RenderError(abex.Message);
+                return RenderError(abex.Message);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Unknown error during route resolving.");
-                RenderError("Unknown error during MagicOperations route resolving.");
+                return RenderError("Unknown error during MagicOperations route resolving.");
             }
+
+            return (builder) => { };
         }
 
-        private void RenderOperationsList()
+        private RenderFragment RenderOperationsList()
         {
             if (Configuration.OperationListingRenderer is Type operationListingRendererType)
             {
-                RenderFragment = (builder) =>
+                return (builder) =>
                 {
                     builder.OpenComponent(0, operationListingRendererType);
                     builder.CloseComponent();
                 };
             }
+
+            return (builder) => { };
         }
 
-        private void RenderError(string? message = null)
+        private RenderFragment RenderError(string? message = null)
         {
             Type errorRendererType = Configuration.ErrorRenderer;
 
-            RenderFragment = (builder) =>
+            return (builder) =>
             {
                 builder.OpenComponent(0, errorRendererType);
                 builder.AddAttribute(1, nameof(OperationErrorRenderer.Message), message);
