@@ -19,7 +19,7 @@
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
             services.AddSingleton<IOperationModelFactory, OperationModelFactory>();
-            services.AddScoped<IMagicOperationsService, MagicOperationsService>();
+            services.AddScoped<IMagicRenderService, MagicRenderService>();
             services.AddScoped<IMagicApiService, MagicApiService>();
             services.AddScoped<AuthTokenHolder>();
 

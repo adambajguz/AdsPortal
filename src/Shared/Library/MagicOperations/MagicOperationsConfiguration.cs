@@ -17,6 +17,7 @@
 
         public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
+        public Type DefaultModelRenderer { get; }
         public IReadOnlyDictionary<MagicOperationTypes, Type> DefaultOperationRenderers { get; }
         public IReadOnlyDictionary<Type, Type> DefaultOperationPropertyRenderers { get; }
 
@@ -29,6 +30,8 @@
 
                                             Type? operationListingRenderer,
                                             Type errorRenderer,
+                                            Type defaultModelRenderer,
+
                                             IReadOnlyDictionary<MagicOperationTypes, Type> defaultOperationRenderers,
                                             IReadOnlyDictionary<Type, Type> defaultOperationPropertyRenderers)
         {
@@ -42,6 +45,8 @@
 
             OperationListingRenderer = operationListingRenderer;
             ErrorRenderer = errorRenderer;
+            DefaultModelRenderer = defaultModelRenderer;
+
             DefaultOperationRenderers = defaultOperationRenderers;
             DefaultOperationPropertyRenderers = defaultOperationPropertyRenderers;
         }

@@ -20,7 +20,7 @@
                     builder.OpenComponent(i++, operationPropertyRendererType);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.Model), OperationModel);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.PropertySchema), propertySchema);
-                    builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.OperationSchema), OperationSchema);
+                    builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.IsWrite), OperationSchema.IsCreateOrUpdate); //TODO: how to render table when we only have write/read bool prop?
                     builder.CloseComponent();
                 }
             };

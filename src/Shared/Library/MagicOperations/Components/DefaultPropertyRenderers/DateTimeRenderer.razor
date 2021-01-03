@@ -1,6 +1,6 @@
 ﻿@inherits OperationPropertyRenderer<DateTime>
 
-@if (OperationSchema.IsCreateOrUpdate)
+@if (IsWrite)
 {
     <label>
         @PropertySchema.DisplayName

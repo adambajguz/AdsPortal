@@ -1,6 +1,6 @@
 ﻿@inherits OperationPropertyRenderer<string>
 
-@if (OperationSchema.IsCreateOrUpdate)
+@if (IsWrite)
 {
     <label>
         @PropertySchema.DisplayName

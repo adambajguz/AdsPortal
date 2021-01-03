@@ -10,7 +10,7 @@
     using Microsoft.AspNetCore.Components;
     using Microsoft.Extensions.Logging;
 
-    public class MagicOperationsService : IMagicOperationsService
+    public class MagicRenderService : IMagicRenderService
     {
         private NavigationManager _navigationManager { get; init; } = default!;
         private MagicOperationsConfiguration _configuration { get; init; } = default!;
@@ -18,11 +18,11 @@
         private IMagicRouteResolver _routeResolver { get; init; } = default!;
         private ILogger _logger { get; init; } = default!;
 
-        public MagicOperationsService(NavigationManager navigationManager,
+        public MagicRenderService(NavigationManager navigationManager,
                                       MagicOperationsConfiguration configuration,
                                       IOperationModelFactory operationModelFactory,
                                       IMagicRouteResolver routeResolver,
-                                      ILogger<MagicOperationsService> logger)
+                                      ILogger<MagicRenderService> logger)
         {
             _navigationManager = navigationManager;
             _configuration = configuration;
@@ -31,12 +31,33 @@
             _logger = logger;
         }
 
-        public RenderFragment RenderModel(object? model)
+        public RenderFragment RenderModel(object? model, bool isWrite = false)
         {
             if (model is null)
                 return (builder) => { };
 
-            return (builder) => { };
+            Type type = model.GetType();
+            RenderableClassSchema? schema = _configuration.RenderabeTypeToSchemaMap.GetValueOrDefault(type);
+
+            if (schema is null)
+            {
+                return RenderError($"Invalid model. Either model is not renderable or was not registered {type.AssemblyQualifiedName}.");
+            }
+
+            Type operationRendererType = schema.Renderer ?? _configuration.DefaultModelRenderer;
+            if (operationRendererType.IsGenericType)
+            {
+                operationRendererType = operationRendererType.MakeGenericType(type);
+            }
+
+            return (builder) =>
+            {
+                builder.OpenComponent(0, operationRendererType);
+                builder.AddAttribute(1, nameof(ModelRenderer<object>.Model), model);
+                builder.AddAttribute(2, nameof(ModelRenderer<object>.Schema), schema);
+                builder.AddAttribute(3, nameof(ModelRenderer<object>.IsWrite), isWrite);
+                builder.CloseComponent();
+            };
         }
 
         public RenderFragment RenderOperationRouter(string? basePath, string? argsFallback)
@@ -80,7 +101,7 @@
                 }
 
                 _logger.LogDebug("Unknown route {Route}.", path);
-                RenderError($"Unknown route {path}.");
+                return RenderError($"Unknown route {path}.");
             }
             catch (ArgumentBinderException abex)
             {
@@ -92,8 +113,6 @@
                 _logger.LogError(ex, "Unknown error during route resolving.");
                 return RenderError("Unknown error during MagicOperations route resolving.");
             }
-
-            return (builder) => { };
         }
 
         private RenderFragment RenderOperationsList()

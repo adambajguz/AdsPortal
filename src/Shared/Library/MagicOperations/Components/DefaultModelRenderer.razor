@@ -1,0 +1,13 @@
+﻿@typeparam T
+@inherits ModelRenderer<T>
+
+@if (IsWrite)
+{
+    <EditForm Model="Model">
+        @RenderProperties()
+    </EditForm>
+}
+else
+{
+    @RenderProperties()
+}

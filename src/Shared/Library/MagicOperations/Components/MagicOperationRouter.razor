@@ -1,8 +1,8 @@
 ﻿@using MagicOperations.Interfaces
 
-@inject IMagicOperationsService MagicOperationsService
+@inject IMagicRenderService RenderService
 
-@MagicOperationsService.RenderOperationRouter(BasePath, ArgsFallback)
+@RenderService.RenderOperationRouter(BasePath, ArgsFallback)
 
 @code {
     [Parameter]

@@ -20,7 +20,7 @@
                     builder.OpenComponent(i++, operationPropertyRendererType);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.Model), model);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.PropertySchema), propertySchema);
-                    builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.OperationSchema), OperationSchema);
+                    builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.IsWrite), OperationSchema.IsCreateOrUpdate);
                     builder.CloseComponent();
                 }
             };

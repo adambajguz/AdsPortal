@@ -35,6 +35,6 @@
         public RenderablePropertySchema PropertySchema { get; init; } = default!;
 
         [Parameter]
-        public OperationSchema OperationSchema { get; init; } = default!;
+        public bool IsWrite { get; init; }
     }
 }

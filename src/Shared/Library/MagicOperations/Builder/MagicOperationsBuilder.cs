@@ -43,6 +43,7 @@
 
         private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
         private Type? _errorRenderer;
+        private Type? _modelRenderer;
 
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
@@ -99,6 +100,24 @@
             where T : OperationErrorRenderer
         {
             return UseErrorRenderer(typeof(T));
+        }
+        #endregion
+
+        #region Model renderer
+        public MagicOperationsBuilder UseModelRenderer(Type modelRender)
+        {
+            if (!modelRender.IsSubclassOf(typeof(OperationErrorRenderer)))
+                throw new MagicOperationsException($"{modelRender.FullName} is not a valid operation error renderer type.");
+
+            _modelRenderer = modelRender;
+
+            return this;
+        }
+
+        public MagicOperationsBuilder UseModelRenderer<T>()
+            where T : OperationErrorRenderer
+        {
+            return UseModelRenderer(typeof(T));
         }
         #endregion
 
@@ -208,7 +227,7 @@
 
         #region Renderable class
         /// <summary>
-        /// Adds an operation of specified type to the application.
+        /// Adds a renderable class to the application.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClass(Type type)
         {
@@ -221,7 +240,7 @@
         }
 
         /// <summary>
-        /// Adds an operation of specified type to the application.
+        /// Adds a renderable class to the application.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClass<T>()
             where T : class
@@ -230,43 +249,43 @@
         }
 
         /// <summary>
-        /// Adds multiple operations to the application.
+        /// Adds multiple renderable classes to the application.
         /// </summary>
-        public MagicOperationsBuilder AddRenderableClasses(IEnumerable<Type> operationTypes)
+        public MagicOperationsBuilder AddRenderableClasses(IEnumerable<Type> types)
         {
-            foreach (Type commandType in operationTypes)
-                AddRenderableClass(commandType);
+            foreach (Type type in types)
+                AddRenderableClass(type);
 
             return this;
         }
 
         /// <summary>
-        /// Adds operations from the specified assembly to the application.
-        /// Only adds public valid operation types.
+        /// Adds renderable classes from the specified assembly to the application.
+        /// Only adds public valid renderable classes.
         /// </summary>
-        public MagicOperationsBuilder AddRenderableClassesFrom(Assembly operationAssembly)
+        public MagicOperationsBuilder AddRenderableClassesFrom(Assembly assembly)
         {
-            foreach (Type commandType in operationAssembly.ExportedTypes.Where(KnownTypesHelpers.IsOperationType))
-                AddRenderableClass(commandType);
+            foreach (Type type in assembly.ExportedTypes.Where(KnownTypesHelpers.IsRenderableClassType))
+                AddRenderableClass(type);
 
             return this;
         }
 
         /// <summary>
-        /// Adds operations from the specified assemblies to the application.
-        /// Only adds public valid operation types.
+        /// Adds renderable classes from the specified assemblies to the application.
+        /// Only adds public valid renderable types classes.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClassesFrom(IEnumerable<Assembly> operationAssemblies)
         {
-            foreach (Assembly commandAssembly in operationAssemblies)
-                AddRenderableClassesFrom(commandAssembly);
+            foreach (Assembly assembly in operationAssemblies)
+                AddRenderableClassesFrom(assembly);
 
             return this;
         }
 
         /// <summary>
-        /// Adds operations from the calling assembly to the application.
-        /// Only adds public valid operation types.
+        /// Adds renderable classes from the calling assembly to the application.
+        /// Only adds public valid renderable classes.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClassesFromThisAssembly()
         {
@@ -299,6 +318,7 @@
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
 
             _errorRenderer ??= typeof(DefaultErrorRenderer);
+            _modelRenderer ??= typeof(DefaultModelRenderer<>);
 
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
             IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes.Distinct());
@@ -310,6 +330,7 @@
                                                              resolvedRenderableClasses,
                                                              _operationListingRenderer,
                                                              _errorRenderer,
+                                                             _modelRenderer,
                                                              _defaultOperationRenderers,
                                                              _defaultPropertyRenderers);
 
