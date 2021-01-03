@@ -1,7 +1,8 @@
 ﻿@using Components.OperationRenderers
 
-@typeparam T
-@inherits DetailsOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits DetailsOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
 

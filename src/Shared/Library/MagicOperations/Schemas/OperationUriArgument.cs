@@ -2,10 +2,10 @@
 {
     public sealed class OperationUriArgument
     {
-        public OperationPropertySchema Schema { get; }
+        public RenderablePropertySchema Schema { get; }
         public string Value { get; }
 
-        public OperationUriArgument(OperationPropertySchema schema, string value)
+        public OperationUriArgument(RenderablePropertySchema schema, string value)
         {
             Schema = schema;
             Value = value;

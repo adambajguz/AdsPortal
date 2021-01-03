@@ -10,9 +10,21 @@
     public static class KnownTypesHelpers
     {
         /// <summary>
-        /// Checks whether type is a valid command.
+        /// Checks whether type is a valid renderable class.
         /// </summary>
-        public static bool IsOperationCommandType(Type type)
+        public static bool IsRenderableClassType(Type type)
+        {
+            if (type.IsAbstract || type.IsInterface)
+                return false;
+
+            return type.IsDefined(typeof(RenderableClassAttribute)) ||
+                   IsOperationType(type);
+        }
+
+        /// <summary>
+        /// Checks whether type is a valid operation class. Every operation class is a valid renderable class.
+        /// </summary>
+        public static bool IsOperationType(Type type)
         {
             if (type.IsAbstract || type.IsInterface)
                 return false;

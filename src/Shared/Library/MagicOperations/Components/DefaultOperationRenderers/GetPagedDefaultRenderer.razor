@@ -1,7 +1,8 @@
 ﻿@using Components.OperationRenderers
 
-@typeparam T
-@inherits GetPagedOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits GetPagedOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
 

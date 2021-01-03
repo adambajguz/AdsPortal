@@ -5,8 +5,9 @@
     using System.IO;
     using System.Linq;
     using System.Net.Http;
-    using System.Net.Http.Json;
+    using System.Net.Mime;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -14,61 +15,65 @@
     using MagicOperations.Interfaces;
     using MagicOperations.Schemas;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
 
     public sealed class MagicApiService : IMagicApiService
     {
         private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
 
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ISerializer _serializer;
         private readonly MagicOperationsConfiguration _configuration;
         private readonly ILogger _logger;
 
-        public MagicApiService(IHttpClientFactory httpClientFactory, MagicOperationsConfiguration configuration, ILogger<MagicApiService> logger)
+        public MagicApiService(IHttpClientFactory httpClientFactory, ISerializer serializer, MagicOperationsConfiguration configuration, ILogger<MagicApiService> logger)
         {
             _httpClientFactory = httpClientFactory;
+            _serializer = serializer;
             _configuration = configuration;
             _logger = logger;
         }
 
-        public async Task<object?> ExecuteAsync(object model, CancellationToken cancellationToken = default)
+        public async Task<TResponse?> ExecuteAsync<TOperation, TResponse>(TOperation operationModel, CancellationToken cancellationToken = default)
+            where TOperation : notnull
         {
-            Type type = model.GetType();
-            OperationSchema? schema = _configuration.ModelToSchemaMappings.GetValueOrDefault(type);
+            OperationSchema? schema = _configuration.OperationTypeToSchemaMap.GetValueOrDefault(typeof(TOperation));
 
             _ = schema ?? throw new MagicOperationsException($"Invalid schema.");
 
-            string route = ReplaceTokens(model, schema);
+            string route = ReplaceTokens(operationModel, schema);
             string path = Path.Combine(schema.Group.Key ?? string.Empty, route).Replace('\\', '/'); //TODO: add Url.Combine?
 
-            HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
-            var response = await client.SendAsync(new HttpRequestMessage
+            HttpResponseMessage response;
+            try
             {
-                RequestUri = new Uri(path, UriKind.Relative),
-                Method = new HttpMethod(schema.HttpMethod),
-                Content = JsonContent.Create(model)
-            }, cancellationToken);
+                string serializedModel = _serializer.Serialize(operationModel);
 
-            if (response.IsSuccessStatusCode)
-            {
-                try
+                HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(path, UriKind.Relative),
+                    Method = new HttpMethod(schema.HttpMethod),
+                    Content = new StringContent(serializedModel, Encoding.UTF8, MediaTypeNames.Application.Json),
+                };
+
+                response = await client.SendAsync(request, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
                 {
                     string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
 
-                    object? obj = schema.ResponseType is null ? null : JsonConvert.DeserializeObject(responseString, schema.ResponseType);
-
-                    return obj;
+                    return schema.ResponseType is null ? default : _serializer.Deserialize<TResponse>(responseString);
                 }
-                catch (JsonSerializationException ex)
-                {
-                    _logger.LogError(ex, "Failed to deserialize response.");
-                    throw new ApiException("Server response error");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Unknown error.");
-                    throw new ApiException("Server response error");
-                }
+            }
+            catch (SerializerException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize response.");
+                throw new ApiException("Server response error", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unknown error.");
+                throw new ApiException("Server response error", ex);
             }
 
             switch (response.StatusCode)

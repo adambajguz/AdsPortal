@@ -4,13 +4,13 @@
 @inherits OperationListingRenderer
 @inject NavigationManager NavigationManager
 
-<h2>Operation listing</h2>
+<h2>Operations</h2>
 
-@foreach (var schemaGroup in Configuration.OperationSchemas.GroupBy(x => x.Group).OrderBy(x => x.Key.DisplayName))
+@foreach (var schemaGroup in Configuration.OperationGroups.Values.OrderBy(x => x.DisplayName))
 {
-    <p>@schemaGroup.Key.DisplayName</p>
+    <p>@schemaGroup.DisplayName</p>
     <ul>
-        @foreach (var schema in schemaGroup)
+        @foreach (var schema in schemaGroup.Operations)
         {
             string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetFullPath());
 

@@ -20,12 +20,12 @@
 
         private readonly Dictionary<MagicOperationTypes, Type> _defaultOperationRenderers = new()
         {
-            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer<>) },
-            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer<>) },
-            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer<>) },
-            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer<>) },
-            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer<>) },
-            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer<>) }
+            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer<,>) },
+            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer<,>) },
+            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer<,>) },
+            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer<,>) },
+            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer<,>) },
+            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer<,>) }
         };
 
         private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
@@ -39,6 +39,7 @@
 
         private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
         private readonly List<Type> _operationTypes = new List<Type>();
+        private readonly List<Type> _renderableClassesTypes = new List<Type>();
 
         private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
         private Type? _errorRenderer;
@@ -104,7 +105,7 @@
         #region Default operation renderers
         public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
         {
-            if (!type.IsSubclassOf(typeof(OperationRenderer<>)))
+            if (!type.IsSubclassOf(typeof(OperationRenderer<,>)))
                 throw new MagicOperationsException($"{type.FullName} is not a valid operation renderer type.");
 
             _defaultOperationRenderers[operation] = type;
@@ -142,10 +143,11 @@
         /// </summary>
         public MagicOperationsBuilder AddOperation(Type operationType)
         {
-            if (!KnownTypesHelpers.IsOperationCommandType(operationType))
+            if (!KnownTypesHelpers.IsOperationType(operationType))
                 throw new MagicOperationsException($"{operationType.FullName} is not a valid operation type.");
 
             _operationTypes.Add(operationType);
+            _renderableClassesTypes.Add(operationType);
 
             return this;
         }
@@ -176,7 +178,7 @@
         /// </summary>
         public MagicOperationsBuilder AddOperationsFrom(Assembly operationAssembly)
         {
-            foreach (Type commandType in operationAssembly.ExportedTypes.Where(KnownTypesHelpers.IsOperationCommandType))
+            foreach (Type commandType in operationAssembly.ExportedTypes.Where(KnownTypesHelpers.IsOperationType))
                 AddOperation(commandType);
 
             return this;
@@ -201,6 +203,74 @@
         public MagicOperationsBuilder AddOperationsFromThisAssembly()
         {
             return AddOperationsFrom(Assembly.GetCallingAssembly());
+        }
+        #endregion
+
+        #region Renderable class
+        /// <summary>
+        /// Adds an operation of specified type to the application.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClass(Type type)
+        {
+            if (!KnownTypesHelpers.IsRenderableClassType(type))
+                throw new MagicOperationsException($"{type.FullName} is not a valid renderable class type.");
+
+            _renderableClassesTypes.Add(type);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an operation of specified type to the application.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClass<T>()
+            where T : class
+        {
+            return AddRenderableClass(typeof(T));
+        }
+
+        /// <summary>
+        /// Adds multiple operations to the application.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClasses(IEnumerable<Type> operationTypes)
+        {
+            foreach (Type commandType in operationTypes)
+                AddRenderableClass(commandType);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds operations from the specified assembly to the application.
+        /// Only adds public valid operation types.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClassesFrom(Assembly operationAssembly)
+        {
+            foreach (Type commandType in operationAssembly.ExportedTypes.Where(KnownTypesHelpers.IsOperationType))
+                AddRenderableClass(commandType);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds operations from the specified assemblies to the application.
+        /// Only adds public valid operation types.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClassesFrom(IEnumerable<Assembly> operationAssemblies)
+        {
+            foreach (Assembly commandAssembly in operationAssemblies)
+                AddRenderableClassesFrom(commandAssembly);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds operations from the calling assembly to the application.
+        /// Only adds public valid operation types.
+        /// </summary>
+        public MagicOperationsBuilder AddRenderableClassesFromThisAssembly()
+        {
+            return AddRenderableClassesFrom(Assembly.GetCallingAssembly());
         }
         #endregion
 
@@ -231,12 +301,13 @@
             _errorRenderer ??= typeof(DefaultErrorRenderer);
 
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
+            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes.Distinct());
 
             MagicOperationsConfiguration configuration = new(_baseUri,
                                                              _operationTypes,
                                                              resolvedOperations.Groups,
-                                                             resolvedOperations.Schemas,
-                                                             resolvedOperations.ModelToSchemaMappings,
+                                                             resolvedOperations.OperationTypeToSchemaMap,
+                                                             resolvedRenderableClasses,
                                                              _operationListingRenderer,
                                                              _errorRenderer,
                                                              _defaultOperationRenderers,

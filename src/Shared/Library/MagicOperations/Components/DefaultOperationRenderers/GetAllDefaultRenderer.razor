@@ -1,10 +1,13 @@
 ﻿@using System.Collections
 @using Components.OperationRenderers
+@using MagicOperations.Interfaces
 
-@typeparam T
-@inherits GetAllOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits GetAllOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
+@inject ISerializer Serializer
 
 <h2>@OperationSchema.DisplayName</h2>
 <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
@@ -13,11 +16,11 @@
 {
     <p>@ErrorModel.ToString()</p>
 }
-else if (List is null)
+else if (ResponseModel is null)
 {
     <p>Loading...</p>
 }
-else if (List is IEnumerable enumerableList)
+else if (ResponseModel is IEnumerable enumerableList)
 {
     <table>
         <thead>
@@ -41,7 +44,7 @@ else if (List is IEnumerable enumerableList)
 }
 else
 {
-    @System.Text.Json.JsonSerializer.Serialize(List)
+    @Serializer.Serialize(ResponseModel)
 
     <p>List does not implement IEnumerable</p>
 }

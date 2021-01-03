@@ -4,15 +4,15 @@
     using MagicOperations.Schemas;
     using Microsoft.AspNetCore.Components;
 
-    public abstract class MultiItemOperationRenderer<T> : OperationRenderer<T>
-        where T : notnull
+    public abstract class MultiItemOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
+        where TOperation : notnull
     {
         protected RenderFragment RenderItem(object model)
         {
             return (builder) =>
             {
                 int i = 0;
-                foreach (OperationPropertySchema propertySchema in OperationSchema.PropertySchemas)
+                foreach (RenderablePropertySchema propertySchema in OperationSchema.PropertySchemas)
                 {
                     Type propertyType = propertySchema.Property.PropertyType;
                     Type operationPropertyRendererType = propertySchema.Renderer ?? Configuration.DefaultOperationPropertyRenderers[propertyType];

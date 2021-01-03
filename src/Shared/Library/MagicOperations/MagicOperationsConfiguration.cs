@@ -10,9 +10,10 @@
 
         public IReadOnlyList<Type> OperationTypes { get; }
         public IReadOnlyDictionary<string, OperationGroupSchema> OperationGroups { get; }
-        public IReadOnlyList<OperationSchema> OperationSchemas { get; }
+        public IEnumerable<OperationSchema> OperationSchemas => OperationTypeToSchemaMap.Values;
+        public IReadOnlyDictionary<Type, OperationSchema> OperationTypeToSchemaMap { get; }
 
-        public IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings { get; }
+        public IReadOnlyDictionary<Type, RenderableClassSchema> RenderabeTypeToSchemaMap { get; }
 
         public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
@@ -22,8 +23,9 @@
         public MagicOperationsConfiguration(string baseApiPath,
                                             IReadOnlyList<Type> operationTypes,
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
-                                            IReadOnlyList<OperationSchema> operationSchemas,
-                                            IReadOnlyDictionary<Type, OperationSchema> modelToSchemaMappings,
+                                            IReadOnlyDictionary<Type, OperationSchema> operationTypeToSchemaMap,
+
+                                            IReadOnlyDictionary<Type, RenderableClassSchema> renderabeTypeToSchemaMap,
 
                                             Type? operationListingRenderer,
                                             Type errorRenderer,
@@ -31,11 +33,12 @@
                                             IReadOnlyDictionary<Type, Type> defaultOperationPropertyRenderers)
         {
             BaseApiPath = baseApiPath;
-            OperationTypes = operationTypes;
 
+            OperationTypes = operationTypes;
             OperationGroups = operationGroups;
-            OperationSchemas = operationSchemas;
-            ModelToSchemaMappings = modelToSchemaMappings;
+            OperationTypeToSchemaMap = operationTypeToSchemaMap;
+
+            RenderabeTypeToSchemaMap = renderabeTypeToSchemaMap;
 
             OperationListingRenderer = operationListingRenderer;
             ErrorRenderer = errorRenderer;

@@ -1,4 +1,4 @@
-﻿namespace MagicOperations.Schemas
+namespace MagicOperations.Schemas
 {
     using System;
     using System.Collections.Generic;
@@ -11,10 +11,9 @@
 
     public static class OperationSchemaResolver
     {
-        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyList<OperationSchema> Schemas, IReadOnlyDictionary<Type, OperationSchema> ModelToSchemaMappings) Resolve(IReadOnlyList<Type> operationTypes, Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations)
+        public static (IReadOnlyDictionary<string, OperationGroupSchema> Groups, IReadOnlyDictionary<Type, OperationSchema> OperationTypeToSchemaMap) Resolve(IReadOnlyList<Type> operationTypes, Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations)
         {
             Dictionary<string, OperationGroupSchema> groups = new();
-            List<OperationSchema> schemas = new();
             Dictionary<Type, OperationSchema> modelToSchemaMappings = new();
 
             foreach (Type operationModelType in operationTypes)
@@ -24,13 +23,12 @@
                 OperationGroupSchema groupSchema = ResolveOperationGroup(groupConfigurations, groups, groupAttribute);
 
                 OperationSchema operationSchema = ResolveOperation(operationModelType, groupSchema);
-                schemas.Add(operationSchema);
                 modelToSchemaMappings.Add(operationModelType, operationSchema);
                 groupSchema.AddOperation(operationSchema);
 
             }
 
-            return (groups, schemas, modelToSchemaMappings);
+            return (groups, modelToSchemaMappings);
         }
 
         private static OperationGroupSchema ResolveOperationGroup(Dictionary<string, MagicOperationGroupConfiguration> groupConfigurations, Dictionary<string, OperationGroupSchema> groups, OperationGroupAttribute? groupAttribute)
@@ -52,24 +50,25 @@
 
         private static OperationSchema ResolveOperation(Type operationModelType, OperationGroupSchema groupSchema)
         {
-            OperationAttribute? operation = operationModelType.GetCustomAttribute<OperationAttribute>(true);
+            OperationAttribute? operationAttr = operationModelType.GetCustomAttribute<OperationAttribute>(true);
+            RenderableClassAttribute? renderableClassAttr = operationModelType.GetCustomAttribute<RenderableClassAttribute>(true);
 
-            _ = operation ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName}");
+            _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName}");
 
-            OperationPropertySchema[] propertySchemas = operationModelType.GetProperties()
-                                                                          .Select(OperationPropertySchemaResolver.TryResolve)
+            RenderablePropertySchema[] propertySchemas = operationModelType.GetProperties()
+                                                                          .Select(RenderablePropertySchemaResolver.TryResolve)
                                                                           .Where(x => x is not null)
                                                                           .OrderBy(x => x!.Order)
                                                                           .ToArray()!;
 
             return new OperationSchema(groupSchema,
-                                       operation.Renderer,
+                                       renderableClassAttr?.Renderer,
                                        operationModelType,
-                                       operation.Action,
-                                       operation.DisplayName ?? $"[{operation.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
-                                       operation.HttpMethod ?? HttpMethods.Post,
-                                       operation.ResponseType,
-                                       operation.OperationType,
+                                       operationAttr.Action,
+                                       operationAttr.DisplayName ?? $"[{operationAttr.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
+                                       operationAttr.HttpMethod ?? HttpMethods.Post,
+                                       operationAttr.ResponseType,
+                                       operationAttr.OperationType,
                                        propertySchemas);
         }
     }

@@ -1,0 +1,13 @@
+﻿@using MagicOperations.Interfaces
+
+@inject IMagicOperationsService MagicOperationsService
+
+@MagicOperationsService.RenderOperationRouter(BasePath, ArgsFallback)
+
+@code {
+    [Parameter]
+    public string? BasePath { get; init; }
+
+    [Parameter]
+    public string? ArgsFallback { get; init; }
+}

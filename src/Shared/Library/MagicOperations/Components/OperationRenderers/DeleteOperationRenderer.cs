@@ -5,8 +5,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class DeleteOperationRenderer<T> : SingleItemOperationRenderer<T>
-        where T : notnull
+    public abstract class DeleteOperationRenderer<TOperation, TResponse> : SingleItemOperationRenderer<TOperation, TResponse>
+        where TOperation : notnull
     {
         protected bool IsDeleted { get; private set; }
 
@@ -19,7 +19,7 @@
 
             try
             {
-                await Api.ExecuteAsync(OperationModel);
+                ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);
 
                 IsDeleted = true;
                 OnDeleted?.Invoke(this, EventArgs.Empty);

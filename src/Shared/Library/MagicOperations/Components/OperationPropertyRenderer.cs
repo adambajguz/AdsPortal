@@ -32,7 +32,7 @@
         public object Model { get; init; } = default!;
 
         [Parameter]
-        public OperationPropertySchema PropertySchema { get; init; } = default!;
+        public RenderablePropertySchema PropertySchema { get; init; } = default!;
 
         [Parameter]
         public OperationSchema OperationSchema { get; init; } = default!;

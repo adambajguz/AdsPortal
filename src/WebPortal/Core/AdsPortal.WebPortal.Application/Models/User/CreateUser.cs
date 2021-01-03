@@ -16,7 +16,7 @@
         public string? PhoneNumber { get; init; }
         public string? Address { get; init; }
 
-        [OperationPropertyIgnore]
+        [RenderablePropertyIgnore]
         public Roles Role { get; init; }
     }
 }

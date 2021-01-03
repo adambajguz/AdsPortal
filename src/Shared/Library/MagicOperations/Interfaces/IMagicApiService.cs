@@ -5,6 +5,7 @@
 
     public interface IMagicApiService
     {
-        Task<object?> ExecuteAsync(object model, CancellationToken cancellationToken = default);
+        Task<TResponse?> ExecuteAsync<TOperation, TResponse>(TOperation model, CancellationToken cancellationToken = default)
+            where TOperation : notnull;
     }
 }

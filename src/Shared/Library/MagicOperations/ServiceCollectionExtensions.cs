@@ -5,6 +5,7 @@
     using MagicOperations.Interfaces;
     using MagicOperations.Services;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
 
     public static class ServiceCollectionExtensions
     {
@@ -14,9 +15,11 @@
             builder?.Invoke(builderObj);
             MagicOperationsConfiguration configuration = builderObj.Build();
 
+            services.TryAddSingleton<ISerializer, DefaultSerializer>();
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
             services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
             services.AddSingleton<IOperationModelFactory, OperationModelFactory>();
+            services.AddScoped<IMagicOperationsService, MagicOperationsService>();
             services.AddScoped<IMagicApiService, MagicApiService>();
             services.AddScoped<AuthTokenHolder>();
 

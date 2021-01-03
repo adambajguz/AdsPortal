@@ -1,0 +1,10 @@
+﻿@using MagicOperations.Interfaces
+
+@inject IMagicOperationsService MagicOperationsService
+
+@MagicOperationsService.RenderModel(Model)
+
+@code {
+    [Parameter]
+    public object? Model { get; init; }
+}

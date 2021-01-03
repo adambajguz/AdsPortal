@@ -1,7 +1,8 @@
 ﻿@using Components.OperationRenderers
 
-@typeparam T
-@inherits UpdateOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits UpdateOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
 
@@ -13,6 +14,12 @@
 }
 else
 {
+    if (IsUpdated)
+    {
+        <p>Updated @(ResponseModel?.ToString() ?? string.Empty)</p>
+        return;
+    }
+
     <EditForm Model="OperationModel">
         @RenderItem()
     </EditForm>

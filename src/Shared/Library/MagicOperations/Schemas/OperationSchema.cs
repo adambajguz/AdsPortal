@@ -19,9 +19,9 @@
         public Type? Renderer { get; }
 
         /// <summary>
-        /// Model type.
+        /// Operation model type.
         /// </summary>
-        public Type ModelType { get; }
+        public Type OperationModelType { get; }
 
         /// <summary>
         /// Operation action relative to base URI and group path (if set).
@@ -46,7 +46,7 @@
         /// <summary>
         /// Property schemas.
         /// </summary>
-        public IReadOnlyList<OperationPropertySchema> PropertySchemas { get; }
+        public IReadOnlyList<RenderablePropertySchema> PropertySchemas { get; }
 
         /// <summary>
         /// Operation type.
@@ -77,17 +77,17 @@
 
         public OperationSchema(OperationGroupSchema group,
                                Type? renderer,
-                               Type modelType,
+                               Type operationModelType,
                                string action,
                                string displayName,
                                string httpMethod,
                                Type? responseType,
                                MagicOperationTypes operationType,
-                               IReadOnlyList<OperationPropertySchema> propertySchemas)
+                               IReadOnlyList<RenderablePropertySchema> propertySchemas)
         {
             Group = group;
             Renderer = renderer;
-            ModelType = modelType;
+            OperationModelType = operationModelType;
             Action = action;
             DisplayName = displayName;
             HttpMethod = httpMethod;

@@ -1,7 +1,8 @@
 ﻿@using Components.OperationRenderers
 
-@typeparam T
-@inherits CreateOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits CreateOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
 
@@ -16,7 +17,7 @@ else
 {
     if (IsCreated)
     {
-        <p>Created</p>
+        <p>Created @(ResponseModel?.ToString() ?? string.Empty)</p>
         return;
     }
 

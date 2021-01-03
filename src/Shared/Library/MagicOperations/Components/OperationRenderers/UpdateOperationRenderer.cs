@@ -5,8 +5,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class UpdateOperationRenderer<T> : SingleItemOperationRenderer<T>
-        where T : notnull
+    public abstract class UpdateOperationRenderer<TOperation, TResponse> : SingleItemOperationRenderer<TOperation, TResponse>
+        where TOperation : notnull
     {
         protected bool IsUpdated { get; private set; }
 
@@ -16,7 +16,7 @@
         {
             try
             {
-                await Api.ExecuteAsync(OperationModel);
+                ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);
 
                 IsUpdated = true;
                 OnUpdated?.Invoke(this, EventArgs.Empty);

@@ -4,11 +4,9 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class GetPagedOperationRenderer<T> : MultiItemOperationRenderer<T>
-        where T : notnull
+    public abstract class GetPagedOperationRenderer<TOperation, TResponse> : MultiItemOperationRenderer<TOperation, TResponse>
+        where TOperation : notnull
     {
-        public object? List { get; private set; }
-
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -20,7 +18,7 @@
         {
             try
             {
-                List = await Api.ExecuteAsync(OperationModel);
+                ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);
             }
             catch (ApiException ex)
             {

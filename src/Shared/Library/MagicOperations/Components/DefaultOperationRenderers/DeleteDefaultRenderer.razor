@@ -1,7 +1,8 @@
 ﻿@using Components.OperationRenderers
 
-@typeparam T
-@inherits DeleteOperationRenderer<T>
+@typeparam TOperation
+@typeparam TResponse
+@inherits DeleteOperationRenderer<TOperation, TResponse>
 
 @inject NavigationManager NavigationManager
 
@@ -15,7 +16,7 @@ else
 {
     if (IsDeleted)
     {
-        <p>Deleted</p>
+        <p>Deleted @(ResponseModel?.ToString() ?? string.Empty)</p>
         return;
     }
 
