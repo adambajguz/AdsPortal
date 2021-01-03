@@ -2,7 +2,7 @@
 @using MagicOperations.Extensions
 
 @inherits OperationListingRenderer
-@inject NavigationManager NavMan
+@inject NavigationManager NavigationManager
 
 <p>Default operation listing renderer.</p>
 
@@ -12,7 +12,7 @@
     <ul>
         @foreach (var schema in schemaGroup)
         {
-            string uri = NavMan.BuildCurrentPageRelativeUri(schema.GetFullRoute());
+            string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetFullRoute());
 
             <li>
                 <NavLink href="@uri">@uri</NavLink>

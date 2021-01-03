@@ -7,9 +7,16 @@
     {
         public static string GetCurrentPageUri(this NavigationManager navigationManager)
         {
-            Uri tmp = new Uri(navigationManager.Uri, UriKind.Absolute);
+            Uri tmp = new Uri(navigationManager.Uri);
 
             return tmp.AbsolutePath;
+        }
+
+        public static string GetCurrentPageUriWithQuery(this NavigationManager navigationManager)
+        {
+            Uri tmp = new Uri(navigationManager.Uri);
+
+            return tmp.PathAndQuery;
         }
 
         public static string BuildCurrentPageRelativeUri(this NavigationManager navigationManager, string uri)

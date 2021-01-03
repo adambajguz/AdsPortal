@@ -10,6 +10,12 @@
 }
 else
 {
+    if (IsDeleted)
+    {
+        <p>Deleted</p>
+        return;
+    }
+
     <p>Are you sure to delete this object?</p>
 
     @foreach (var fragment in RenderFragments)

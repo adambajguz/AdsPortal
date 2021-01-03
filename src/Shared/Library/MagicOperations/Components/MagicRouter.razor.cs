@@ -1,10 +1,11 @@
-﻿namespace MagicOperations.Components
+namespace MagicOperations.Components
 {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
     using MagicOperations.Extensions;
     using MagicOperations.Internal;
+    using MagicOperations.Internal.Extensions;
     using MagicOperations.Schemas;
     using MagicOperations.Services;
     using Microsoft.AspNetCore.Components;
@@ -15,12 +16,16 @@
         protected OperationSchema? Schema { get; set; }
         protected RenderFragment? RenderFragment { get; private set; }
 
+        [Inject] private NavigationManager NavigationManager { get; init; } = default!;
         [Inject] private MagicOperationsConfiguration Configuration { get; init; } = default!;
         [Inject] private IMagicRouteResolver RouteResolver { get; init; } = default!;
         [Inject] private ILogger<MagicRouter> Logger { get; init; } = default!;
 
         [Parameter]
-        public string? Args { get; init; }
+        public string? BasePath { get; init; }
+
+        [Parameter]
+        public string? ArgsFallback { get; init; }
 
         [Parameter]
         public bool Debug { get; init; }
@@ -29,9 +34,16 @@
         {
             base.OnParametersSet();
 
+            string path = NavigationManager.GetCurrentPageUriWithQuery()
+                                           .TrimStart(BasePath ?? string.Empty, StringComparison.InvariantCulture)
+                                           .TrimStart('/');
+
+            if (string.IsNullOrWhiteSpace(path))
+                path = ArgsFallback ?? string.Empty;
+
             try
             {
-                if (string.IsNullOrWhiteSpace(Args))
+                if (string.IsNullOrWhiteSpace(path))
                 {
                     if (Configuration.OperationListingRenderer is Type operationListingRendererType)
                     {
@@ -45,7 +57,7 @@
                     return;
                 }
 
-                (OperationSchema Schema, IEnumerable<OperationArgument> Arguments)? operation = RouteResolver.Resolve(Args);
+                (OperationSchema Schema, IEnumerable<OperationArgument> Arguments)? operation = RouteResolver.Resolve(path);
 
                 if (operation is not null)
                 {
@@ -67,8 +79,8 @@
                     return;
                 }
 
-                Logger.LogDebug("Unknown route {Route}.", Args);
-                RenderError($"Unknown route {Args}.");
+                Logger.LogDebug("Unknown route {Route}.", path);
+                RenderError($"Unknown route {path}.");
             }
             catch (ArgumentBinderException abex)
             {
@@ -101,8 +113,7 @@
             RenderFragment = (builder) =>
             {
                 builder.OpenComponent(0, errorRendererType);
-                builder.AddAttribute(1, nameof(OperationErrorRenderer.Route), Args);
-                builder.AddAttribute(2, nameof(OperationErrorRenderer.Message), message);
+                builder.AddAttribute(1, nameof(OperationErrorRenderer.Message), message);
                 builder.CloseComponent();
             };
         }

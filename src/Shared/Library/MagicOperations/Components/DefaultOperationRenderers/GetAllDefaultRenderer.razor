@@ -9,6 +9,10 @@
 {
     <p>@Errors.ToString()</p>
 }
+else if (List is null)
+{
+    <p>Loading...</p>
+}
 else if (List is IEnumerable enumerableList)
 {
     <table>
