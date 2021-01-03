@@ -5,7 +5,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class CreateOperationRenderer : SingleItemOperationRenderer
+    public abstract class CreateOperationRenderer<T> : SingleItemOperationRenderer<T>
+        where T : notnull
     {
         protected bool IsCreated { get; private set; }
 

@@ -1,9 +1,13 @@
 ﻿@using System.Collections
 @using Components.OperationRenderers
 
-@inherits GetAllOperationRenderer
+@typeparam T
+@inherits GetAllOperationRenderer<T>
 
-<h3>GetAllDefaultRenderer</h3>
+@inject NavigationManager NavigationManager
+
+<h2>@OperationSchema.DisplayName</h2>
+<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
 
 @if (ErrorModel is not null)
 {
@@ -23,7 +27,7 @@ else if (List is IEnumerable enumerableList)
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in enumerableList)
+            @foreach (object item in enumerableList)
             {
                 <tr>
                     <td>Base API path</td>

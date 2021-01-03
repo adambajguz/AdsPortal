@@ -5,7 +5,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class UpdateOperationRenderer : SingleItemOperationRenderer
+    public abstract class UpdateOperationRenderer<T> : SingleItemOperationRenderer<T>
+        where T : notnull
     {
         protected bool IsUpdated { get; private set; }
 

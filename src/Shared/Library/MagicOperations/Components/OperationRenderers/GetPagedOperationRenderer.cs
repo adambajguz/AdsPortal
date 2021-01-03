@@ -4,7 +4,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class GetPagedOperationRenderer : MultiItemOperationRenderer
+    public abstract class GetPagedOperationRenderer<T> : MultiItemOperationRenderer<T>
+        where T : notnull
     {
         public object? List { get; private set; }
 

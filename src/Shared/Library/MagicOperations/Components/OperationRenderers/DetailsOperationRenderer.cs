@@ -2,7 +2,8 @@
 {
     using MagicOperations.Components.OperationRenderers.Base;
 
-    public abstract class DetailsOperationRenderer : SingleItemOperationRenderer
+    public abstract class DetailsOperationRenderer<T> : SingleItemOperationRenderer<T>
+        where T : notnull
     {
 
     }

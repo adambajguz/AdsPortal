@@ -1,8 +1,12 @@
 ﻿@using Components.OperationRenderers
 
-@inherits GetPagedOperationRenderer
+@typeparam T
+@inherits GetPagedOperationRenderer<T>
 
-<h3>GetPagedDefaultRenderer</h3>
+@inject NavigationManager NavigationManager
+
+<h2>@OperationSchema.DisplayName</h2>
+<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
 
 @if (ErrorModel is not null)
 {

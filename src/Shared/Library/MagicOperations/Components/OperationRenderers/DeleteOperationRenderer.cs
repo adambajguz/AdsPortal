@@ -5,7 +5,8 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class DeleteOperationRenderer : SingleItemOperationRenderer
+    public abstract class DeleteOperationRenderer<T> : SingleItemOperationRenderer<T>
+        where T : notnull
     {
         protected bool IsDeleted { get; private set; }
 

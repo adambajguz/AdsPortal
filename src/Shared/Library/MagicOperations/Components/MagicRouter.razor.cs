@@ -60,13 +60,17 @@ namespace MagicOperations.Components
                     object model = ModelFactory.CreateInstanceAndBindData(Schema!.ModelType, arguments);
 
                     Type operationRendererType = Schema.Renderer ?? Configuration.DefaultOperationRenderers[Schema.OperationType];
+                    if (operationRendererType.IsGenericType)
+                    {
+                        operationRendererType = operationRendererType.MakeGenericType(Schema.ModelType);
+                    }
 
                     return (builder) =>
                     {
                         builder.OpenComponent(0, operationRendererType);
-                        builder.AddAttribute(1, nameof(OperationRenderer.BasePath), BasePath ?? string.Empty);
-                        builder.AddAttribute(2, nameof(OperationRenderer.OperationModel), model);
-                        builder.AddAttribute(3, nameof(OperationRenderer.OperationSchema), Schema);
+                        builder.AddAttribute(1, nameof(OperationRenderer<object>.BasePath), BasePath ?? string.Empty);
+                        builder.AddAttribute(2, nameof(OperationRenderer<object>.OperationModel), model);
+                        builder.AddAttribute(3, nameof(OperationRenderer<object>.OperationSchema), Schema);
                         builder.CloseComponent();
                     };
                 }

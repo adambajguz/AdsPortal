@@ -4,7 +4,8 @@
     using MagicOperations.Schemas;
     using Microsoft.AspNetCore.Components;
 
-    public abstract class SingleItemOperationRenderer : OperationRenderer
+    public abstract class SingleItemOperationRenderer<T> : OperationRenderer<T>
+        where T : notnull
     {
         protected RenderFragment RenderItem()
         {

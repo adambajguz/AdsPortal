@@ -1,8 +1,11 @@
 ﻿@using Components.OperationRenderers
 
-@inherits DeleteOperationRenderer
+@typeparam T
+@inherits DeleteOperationRenderer<T>
 
-<h3>DeleteDefaultRenderer</h3>
+@inject NavigationManager NavigationManager
+
+<h2>@OperationSchema.DisplayName</h2>
 
 @if (ErrorModel is not null)
 {
@@ -21,5 +24,5 @@ else
     @RenderItem()
 
     <button @onclick="DeleteAsync">Delete</button>
-    <button>Cancel</button>
+    <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>
 }

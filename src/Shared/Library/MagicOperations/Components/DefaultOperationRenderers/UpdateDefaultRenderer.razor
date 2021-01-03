@@ -1,8 +1,11 @@
 ﻿@using Components.OperationRenderers
 
-@inherits UpdateOperationRenderer
+@typeparam T
+@inherits UpdateOperationRenderer<T>
 
-<h3>UpdateDefaultRenderer</h3>
+@inject NavigationManager NavigationManager
+
+<h2>@OperationSchema.DisplayName</h2>
 
 @if (ErrorModel is not null)
 {
@@ -14,3 +17,5 @@ else
         @RenderItem()
     </EditForm>
 }
+
+<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>

@@ -66,7 +66,7 @@
                                        operation.Renderer,
                                        operationModelType,
                                        operation.Action,
-                                       operation.DisplayName ?? operation.Action?.ToUpperInvariant() ?? string.Empty,
+                                       operation.DisplayName ?? $"[{operation.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
                                        operation.HttpMethod ?? HttpMethods.Post,
                                        operation.ResponseType,
                                        operation.OperationType,

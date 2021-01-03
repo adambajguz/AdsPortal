@@ -17,12 +17,12 @@ namespace MagicOperations.Attributes
         public string Action { get; init; }
 
         /// <summary>
-        /// Operation display name. Defaults to uppercase route.
+        /// Operation display name. Defaults to uppercase action with group name.
         /// </summary>
         public string? DisplayName { get; init; }
 
         /// <summary>
-        /// Http method to use. Defaults to HttpMethods.Post
+        /// Http method to use. Defaults to HttpMethods.Post.
         /// </summary>
         public string? HttpMethod { get; init; }
 
@@ -40,8 +40,6 @@ namespace MagicOperations.Attributes
         {
             if (string.IsNullOrWhiteSpace(Action))
                 Action = defaultAction;
-
-            DisplayName ??= Action.ToUpperInvariant();
         }
     }
 

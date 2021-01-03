@@ -20,12 +20,12 @@
 
         private readonly Dictionary<MagicOperationTypes, Type> _defaultOperationRenderers = new()
         {
-            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer) },
-            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer) },
-            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer) },
-            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer) },
-            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer) },
-            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer) }
+            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer<>) },
+            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer<>) },
+            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer<>) },
+            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer<>) },
+            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer<>) },
+            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer<>) }
         };
 
         private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
@@ -104,7 +104,7 @@
         #region Default operation renderers
         public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
         {
-            if (!type.IsSubclassOf(typeof(OperationRenderer)))
+            if (!type.IsSubclassOf(typeof(OperationRenderer<>)))
                 throw new MagicOperationsException($"{type.FullName} is not a valid operation renderer type.");
 
             _defaultOperationRenderers[operation] = type;
@@ -113,7 +113,6 @@
         }
 
         public MagicOperationsBuilder UseDefaultOperationRenderer<TRenderer>(MagicOperationTypes operation)
-            where TRenderer : OperationRenderer
         {
             return UseDefaultOperationRenderer(operation, typeof(TRenderer));
         }
