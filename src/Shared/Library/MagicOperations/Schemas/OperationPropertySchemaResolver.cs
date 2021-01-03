@@ -16,7 +16,10 @@
 
             string displayName = attribute?.DisplayName ?? operationProperty.Name;
 
-            return new OperationPropertySchema(operationProperty, attribute?.Renderer, displayName);
+            return new OperationPropertySchema(operationProperty,
+                                               attribute?.Renderer,
+                                               displayName,
+                                               attribute?.Order ?? 0);
         }
     }
 }

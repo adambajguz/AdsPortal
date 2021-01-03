@@ -57,7 +57,8 @@
 
             OperationPropertySchema[] propertySchemas = operationModelType.GetProperties()
                                                                           .Select(OperationPropertySchemaResolver.TryResolve)
-                                                                          .Where(o => o is not null)
+                                                                          .Where(x => x is not null)
+                                                                          .OrderBy(x => x!.Order)
                                                                           .ToArray()!;
 
             return new OperationSchema(groupSchema,

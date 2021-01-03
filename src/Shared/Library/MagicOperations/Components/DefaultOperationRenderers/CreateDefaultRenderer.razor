@@ -10,6 +10,12 @@
 }
 else
 {
+    if (IsCreated)
+    {
+        <p>Created</p>
+        return;
+    }
+
     <EditForm Model="Model">
         @foreach (var fragment in RenderFragments)
         {
@@ -18,5 +24,4 @@ else
     </EditForm>
 
     <button @onclick="CreateAsync">Create</button>
-    @*TODO: how to send update from property renderer to operation renderer*@
 }

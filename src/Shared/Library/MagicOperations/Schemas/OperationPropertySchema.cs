@@ -20,13 +20,20 @@
         /// </summary>
         public string DisplayName { get; }
 
+        /// <summary>
+        /// Property order.
+        /// </summary>
+        public int Order { get; }
+
         public OperationPropertySchema(PropertyInfo property,
                                        Type? renderer,
-                                       string displayName)
+                                       string displayName,
+                                       int order)
         {
             Property = property;
             Renderer = renderer;
             DisplayName = displayName;
+            Order = order;
         }
     }
 }

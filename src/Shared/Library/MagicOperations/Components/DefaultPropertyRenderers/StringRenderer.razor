@@ -3,7 +3,7 @@
 @if (OperationSchema.IsCreateOrUpdate)
 {
     <label>
-        @PropertySchema.DisplayName (value: @Value)
+        @PropertySchema.DisplayName
         <InputText @bind-Value="Value" />
     </label>
 }

@@ -14,5 +14,10 @@
         /// Property display name. When null, property name will be used.
         /// </summary>
         public string? DisplayName { get; init; }
+
+        /// <summary>
+        /// Property order.
+        /// </summary>
+        public int Order { get; init; }
     }
 }

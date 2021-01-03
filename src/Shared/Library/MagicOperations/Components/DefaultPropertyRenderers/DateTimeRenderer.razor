@@ -3,7 +3,7 @@
 @if (OperationSchema.IsCreateOrUpdate)
 {
     <label>
-        @PropertySchema.DisplayName (value: @Value.ToLongTimeString())
+        @PropertySchema.DisplayName
         <InputDate @bind-Value="Value" />
     </label>
 }
