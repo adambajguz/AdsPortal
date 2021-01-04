@@ -13,7 +13,11 @@
 {
     <p>@ErrorModel.ToString()</p>
 }
+else if (ResponseModel is null)
+{
+    <p>Loading...</p>
+}
 else
 {
-    <MagicModel Model="OperationModel" />
+    <MagicModel Model="ResponseModel" />
 }

@@ -25,7 +25,7 @@
             }
             catch (JsonSerializationException ex)
             {
-                throw new SerializerException($"Faield to serialize object to JSON: {ex.Message}", ex);
+                throw new SerializerException($"Failed to serialize object to JSON: {ex.Message}", ex);
             }
         }
 
@@ -37,7 +37,7 @@
             }
             catch (JsonSerializationException ex)
             {
-                throw new SerializerException($"Faield to deserialize JSON: {ex.Message}", ex);
+                throw new SerializerException($"Failed to deserialize JSON: {ex.Message}", ex);
             }
         }
 
@@ -49,7 +49,7 @@
             }
             catch (JsonSerializationException ex)
             {
-                throw new SerializerException($"Faield to deserialize JSON: {ex.Message}", ex);
+                throw new SerializerException($"Failed to deserialize JSON: {ex.Message}", ex);
             }
         }
     }

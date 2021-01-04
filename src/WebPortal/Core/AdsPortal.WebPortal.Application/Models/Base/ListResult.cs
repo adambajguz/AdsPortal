@@ -11,15 +11,5 @@
     {
         public int Count { get; init; }
         public List<TResultEntry>? Entries { get; init; }
-
-        //public IEnumerator<TResultEntry> GetEnumerator()
-        //{
-        //    return Entries?.GetEnumerator() ?? Enumerable.Empty<TResultEntry>().GetEnumerator();
-        //}
-
-        //IEnumerator IEnumerable.GetEnumerator()
-        //{
-        //    return Entries?.GetEnumerator() ?? Enumerable.Empty<TResultEntry>().GetEnumerator();
-        //}
     }
 }

@@ -64,6 +64,8 @@
             return this;
         }
 
+        //TODO: rebuild builder - only methods related with auto resling from assembly and Model renderer for classes that cannot be decorated with RenderableClassAttribute
+
         #region Operation listing renderer
         public MagicOperationsBuilder UseOperationListing(Type operationListingRenderer)
         {

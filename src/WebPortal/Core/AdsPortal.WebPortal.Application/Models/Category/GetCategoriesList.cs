@@ -13,7 +13,7 @@
     }
 
     [OperationGroup(OperationGroups.Category)]
-    [GetPagedOperation(Action = "get-paged?page={Page}&per-page={EntiresPerPage}", ResponseType = typeof(ListResult<CategoriesListItem>))]
+    [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", ResponseType = typeof(PagedListResult<CategoriesListItem>))]
     public class GetPagedCategoriesList : GetPagedListQuery
     {
 
