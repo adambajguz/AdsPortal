@@ -30,6 +30,7 @@
 
         private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
         {
+            { typeof(int), typeof(IntRenderer) },
             { typeof(bool), typeof(BoolRenderer) },
             { typeof(Guid), typeof(GuidRenderer) },
             { typeof(Guid?), typeof(NullableGuidRenderer) },

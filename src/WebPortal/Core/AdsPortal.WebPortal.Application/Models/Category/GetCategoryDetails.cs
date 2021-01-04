@@ -12,6 +12,7 @@
 
     }
 
+    [RenderableClass]
     public class CategoryDetails
     {
         public Guid Id { get; init; }
@@ -28,6 +29,7 @@
         public IList<CategoryAdvertisementsDetails> Advertisements { get; set; } = default!;
     }
 
+    [RenderableClass]
     public class CategoryAdvertisementsDetails
     {
         public Guid Id { get; init; }

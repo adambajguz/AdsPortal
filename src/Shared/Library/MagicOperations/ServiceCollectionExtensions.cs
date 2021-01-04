@@ -17,7 +17,6 @@
 
             services.TryAddSingleton<ISerializer, DefaultSerializer>();
             services.AddSingleton<MagicOperationsConfiguration>(configuration);
-            services.AddSingleton<IMagicRouteResolver, MagicRouteResolver>();
             services.AddSingleton<IOperationModelFactory, OperationModelFactory>();
             services.AddScoped<IMagicRenderService, MagicRenderService>();
             services.AddScoped<IMagicApiService, MagicApiService>();

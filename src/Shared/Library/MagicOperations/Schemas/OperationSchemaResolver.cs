@@ -53,7 +53,10 @@ namespace MagicOperations.Schemas
             OperationAttribute? operationAttr = operationModelType.GetCustomAttribute<OperationAttribute>(true);
             RenderableClassAttribute? renderableClassAttr = operationModelType.GetCustomAttribute<RenderableClassAttribute>(true);
 
-            _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName}");
+            _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName} attribute.");
+
+            if (operationAttr.ResponseType is not null && !KnownTypesHelpers.IsRenderableClassType(operationAttr.ResponseType))
+                throw new MagicOperationsException($"Operation response type {operationAttr.ResponseType} is not a renderable type.");
 
             RenderablePropertySchema[] propertySchemas = operationModelType.GetProperties()
                                                                           .Select(RenderablePropertySchemaResolver.TryResolve)

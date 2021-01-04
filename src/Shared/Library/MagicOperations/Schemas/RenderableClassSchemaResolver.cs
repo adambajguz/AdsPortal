@@ -15,20 +15,20 @@ namespace MagicOperations.Schemas
 
             foreach (Type operationModelType in renderableTypes)
             {
-                RenderableClassSchema operationSchema = ResolveOperation(operationModelType);
+                RenderableClassSchema operationSchema = ResolveRenderableClass(operationModelType);
                 renderableTypeToSchemaMappings.Add(operationModelType, operationSchema);
             }
 
             return renderableTypeToSchemaMappings;
         }
 
-        private static RenderableClassSchema ResolveOperation(Type type)
+        private static RenderableClassSchema ResolveRenderableClass(Type type)
         {
             OperationAttribute? operationAttr = type.GetCustomAttribute<OperationAttribute>(true);
             RenderableClassAttribute? renderableClassAttr = type.GetCustomAttribute<RenderableClassAttribute>(true);
 
             if (operationAttr is null && renderableClassAttr is null)
-                throw new MagicOperationsException($"Operation {type.FullName} does not have {typeof(RenderableClassAttribute).FullName} or {typeof(OperationAttribute).FullName}.");
+                throw new MagicOperationsException($"Operation {type.FullName} does not have {typeof(RenderableClassAttribute).FullName} and/or {typeof(OperationAttribute).FullName} attributes.");
 
             RenderablePropertySchema[] propertySchemas = type.GetProperties()
                                                              .Select(RenderablePropertySchemaResolver.TryResolve)

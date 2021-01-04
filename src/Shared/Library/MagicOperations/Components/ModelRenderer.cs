@@ -26,7 +26,7 @@
                 foreach (RenderablePropertySchema propertySchema in Schema.PropertySchemas)
                 {
                     Type propertyType = propertySchema.Property.PropertyType;
-                    Type operationPropertyRendererType = propertySchema.Renderer ?? Configuration.DefaultOperationPropertyRenderers[propertyType];
+                    Type operationPropertyRendererType = propertySchema.Renderer ?? Configuration.DefaultPropertyRenderers[propertyType];
 
                     builder.OpenComponent(i++, operationPropertyRendererType);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.Model), Model);

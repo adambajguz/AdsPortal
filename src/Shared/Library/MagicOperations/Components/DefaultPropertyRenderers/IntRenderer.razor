@@ -1,0 +1,14 @@
+﻿@inherits OperationPropertyRenderer<int>
+
+@if (IsWrite)
+{
+    <label>
+        @PropertySchema.DisplayName
+        <InputNumber @bind-Value="Value" />
+    </label>
+}
+else
+{
+    <p>@PropertySchema.DisplayName: @Value</p>
+}
+

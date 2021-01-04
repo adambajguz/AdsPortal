@@ -11,6 +11,7 @@
 
     }
 
+    [RenderableClass]
     public class UserDetails
     {
         public Guid Id { get; init; }

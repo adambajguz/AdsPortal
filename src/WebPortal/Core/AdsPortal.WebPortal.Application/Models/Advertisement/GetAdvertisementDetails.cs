@@ -11,6 +11,7 @@
 
     }
 
+    [RenderableClass]
     public class AdvertisementDetails
     {
         public Guid Id { get; init; }

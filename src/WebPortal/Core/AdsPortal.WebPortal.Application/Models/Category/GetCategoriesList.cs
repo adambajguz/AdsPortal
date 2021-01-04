@@ -19,6 +19,7 @@
 
     }
 
+    [RenderableClass]
     public class CategoriesListItem
     {
         public Guid Id { get; init; }

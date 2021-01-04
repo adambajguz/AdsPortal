@@ -19,6 +19,7 @@
 
     }
 
+    [RenderableClass]
     public class UsersListItem
     {
         public Guid Id { get; init; }

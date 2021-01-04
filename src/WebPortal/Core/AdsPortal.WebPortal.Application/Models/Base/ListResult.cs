@@ -3,9 +3,11 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using MagicOperations.Attributes;
     using Newtonsoft.Json;
 
     [JsonObject]
+    [RenderableClass]
     public class ListResult<TResultEntry> : IEnumerable<TResultEntry>
         where TResultEntry : class
     {

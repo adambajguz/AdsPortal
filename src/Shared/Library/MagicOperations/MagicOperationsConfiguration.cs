@@ -19,7 +19,7 @@
         public Type ErrorRenderer { get; }
         public Type DefaultModelRenderer { get; }
         public IReadOnlyDictionary<MagicOperationTypes, Type> DefaultOperationRenderers { get; }
-        public IReadOnlyDictionary<Type, Type> DefaultOperationPropertyRenderers { get; }
+        public IReadOnlyDictionary<Type, Type> DefaultPropertyRenderers { get; }
 
         public MagicOperationsConfiguration(string baseApiPath,
                                             IReadOnlyList<Type> operationTypes,
@@ -33,7 +33,7 @@
                                             Type defaultModelRenderer,
 
                                             IReadOnlyDictionary<MagicOperationTypes, Type> defaultOperationRenderers,
-                                            IReadOnlyDictionary<Type, Type> defaultOperationPropertyRenderers)
+                                            IReadOnlyDictionary<Type, Type> defaultPropertyRenderers)
         {
             BaseApiPath = baseApiPath;
 
@@ -48,7 +48,7 @@
             DefaultModelRenderer = defaultModelRenderer;
 
             DefaultOperationRenderers = defaultOperationRenderers;
-            DefaultOperationPropertyRenderers = defaultOperationPropertyRenderers;
+            DefaultPropertyRenderers = defaultPropertyRenderers;
         }
     }
 }
