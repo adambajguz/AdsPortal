@@ -20,31 +20,7 @@ else if (ResponseModel is null)
 {
     <p>Loading...</p>
 }
-else if (ResponseModel is IEnumerable enumerableList)
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Param</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (object item in enumerableList)
-            {
-                <tr>
-                    <td>Base API path</td>
-                    <td>
-                        <MagicModel Model="item" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
 else
 {
-    @Serializer.Serialize(ResponseModel)
-
-    <p>List does not implement IEnumerable</p>
+    <MagicModel Model="ResponseModel" />
 }

@@ -35,10 +35,29 @@
                 return (builder) => { };
 
             Type type = model.GetType();
-            RenderableClassSchema? schema = _configuration.RenderabeTypeToSchemaMap.GetValueOrDefault(type);
+            RenderableClassSchema? schema = _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(type);
+
+            //Fallback to base types other than object
+            if (schema is null)
+            {
+                foreach (Type baseType in type.GetBaseTypesOtherThanObject())
+                {
+                    schema ??= _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(baseType);
+                }
+            }
+
+            //Fallback to interfaces
+            if (schema is null)
+            {
+                foreach (Type interafaceType in type.GetInterfaces())
+                {
+                    schema ??= _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(interafaceType);
+                }
+            }
 
             if (schema is null)
             {
+                _logger.LogError("Invalid model. Either model is not renderable or was not registered {Type}.", type.AssemblyQualifiedName);
                 return RenderError($"Invalid model. Either model is not renderable or was not registered {type.AssemblyQualifiedName}.");
             }
 

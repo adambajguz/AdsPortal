@@ -8,6 +8,30 @@
 
     internal static class TypeExtensions
     {
+        public static IEnumerable<Type> GetBaseTypes(this Type type)
+        {
+            Type? currentBaseType = type.BaseType;
+            while (currentBaseType != null)
+            {
+                yield return currentBaseType;
+                currentBaseType = currentBaseType.BaseType;
+            }
+        }
+
+        public static IEnumerable<Type> GetBaseTypesOtherThanObject(this Type type)
+        {
+            Type? currentBaseType = type.BaseType;
+            while (currentBaseType != null)
+            {
+                if (currentBaseType != typeof(object))
+                {
+                    yield return currentBaseType;
+                }
+
+                currentBaseType = currentBaseType.BaseType;
+            }
+        }
+
         public static Type? TryGetEnumerableArgumentUnderlyingType(this PropertyInfo? property)
         {
             return property != null && property.PropertyType != typeof(string)

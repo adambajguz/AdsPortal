@@ -1,6 +1,7 @@
 ﻿namespace MagicOperations.Builder
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -35,7 +36,8 @@
             { typeof(int), typeof(IntRenderer) },
             { typeof(bool), typeof(BoolRenderer) },
             { typeof(DateTime), typeof(DateTimeRenderer) },
-            { typeof(string), typeof(StringRenderer) }
+            { typeof(string), typeof(StringRenderer) },
+            { typeof(IEnumerable), typeof(CollectionRenderer) }
         };
 
         private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
@@ -277,6 +279,7 @@
         /// <summary>
         /// Adds renderable classes from the specified assembly to the application.
         /// Only adds public valid renderable classes.
+        /// Generic classes will not be added, unless fully defined in operation ResponseType or in configuration.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClassesFrom(Assembly assembly)
         {
@@ -289,6 +292,7 @@
         /// <summary>
         /// Adds renderable classes from the specified assemblies to the application.
         /// Only adds public valid renderable types classes.
+        /// Generic classes will not be added, unless fully defined in operation ResponseType or in configuration.
         /// </summary>
         public MagicOperationsBuilder AddRenderableClassesFrom(IEnumerable<Assembly> operationAssemblies)
         {
@@ -337,7 +341,11 @@
             _anyPropertyRenderer ??= typeof(AnyRenderer<>);
 
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
-            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes.Distinct());
+
+            IEnumerable<Type> responseTypes = resolvedOperations.OperationTypeToSchemaMap.Values.Select(x => x.ResponseType).Where(x => x is not null)!;
+            IEnumerable<Type> allRenderableTypes = _renderableClassesTypes.Union(responseTypes).Distinct();
+
+            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(allRenderableTypes);
 
             MagicOperationsConfiguration configuration = new(_baseUri,
                                                              _operationTypes,

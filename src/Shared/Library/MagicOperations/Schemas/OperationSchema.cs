@@ -44,7 +44,7 @@
         public string HttpMethod { get; }
 
         /// <summary>
-        /// Type of response. When null, no response.
+        /// Type of response. When null, no response. Response type is assumed to be renderable even if does not have a RenderableClassAttribute.
         /// </summary>
         public Type? ResponseType { get; init; }
 

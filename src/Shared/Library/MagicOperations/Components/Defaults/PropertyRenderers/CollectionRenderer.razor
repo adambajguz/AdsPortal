@@ -1,0 +1,35 @@
+﻿@using System.Collections
+
+@inherits OperationPropertyRenderer<IEnumerable>
+
+<p>@PropertySchema.DisplayName</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Value is null)
+        {
+            <tr>
+                <td>Empty collection</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Value)
+            {
+                <tr>
+                    <td>
+                        <MagicModel Model="item" IsWrite="IsWrite" />
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+

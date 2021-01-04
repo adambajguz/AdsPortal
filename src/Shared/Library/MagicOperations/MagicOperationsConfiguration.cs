@@ -13,7 +13,7 @@
         public IEnumerable<OperationSchema> OperationSchemas => OperationTypeToSchemaMap.Values;
         public IReadOnlyDictionary<Type, OperationSchema> OperationTypeToSchemaMap { get; }
 
-        public IReadOnlyDictionary<Type, RenderableClassSchema> RenderabeTypeToSchemaMap { get; }
+        public IReadOnlyDictionary<Type, RenderableClassSchema> RenderableTypeToSchemaMap { get; }
 
         public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
@@ -27,7 +27,7 @@
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
                                             IReadOnlyDictionary<Type, OperationSchema> operationTypeToSchemaMap,
 
-                                            IReadOnlyDictionary<Type, RenderableClassSchema> renderabeTypeToSchemaMap,
+                                            IReadOnlyDictionary<Type, RenderableClassSchema> renderableTypeToSchemaMap,
 
                                             Type? operationListingRenderer,
                                             Type errorRenderer,
@@ -43,7 +43,7 @@
             OperationGroups = operationGroups;
             OperationTypeToSchemaMap = operationTypeToSchemaMap;
 
-            RenderabeTypeToSchemaMap = renderabeTypeToSchemaMap;
+            RenderableTypeToSchemaMap = renderableTypeToSchemaMap;
 
             OperationListingRenderer = operationListingRenderer;
             ErrorRenderer = errorRenderer;

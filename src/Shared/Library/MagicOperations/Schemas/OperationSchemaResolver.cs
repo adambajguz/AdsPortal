@@ -54,8 +54,21 @@ namespace MagicOperations.Schemas
 
             _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName} attribute.");
 
-            if (operationAttr.ResponseType is not null && !KnownTypesHelpers.IsRenderableClassType(operationAttr.ResponseType))
-                throw new MagicOperationsException($"Operation response type {operationAttr.ResponseType} is not a renderable type.");
+            Type? responseType = operationAttr.ResponseType;
+            if (responseType?.IsGenericType ?? false)
+            {
+                foreach (var paramType in responseType.GetGenericArguments())
+                {
+                    if (!KnownTypesHelpers.IsRenderableClassType(paramType))
+                    {
+                        throw new MagicOperationsException($"Operation response type {responseType} is not a renderable type.");
+                    }
+                }
+            }
+            else if (responseType is not null && !KnownTypesHelpers.IsRenderableClassType(responseType))
+            {
+                throw new MagicOperationsException($"Operation response type {responseType} is not a renderable type.");
+            }
 
             RenderablePropertySchema[] propertySchemas = operationModelType.GetProperties()
                                                                           .Select(RenderablePropertySchemaResolver.TryResolve)
@@ -70,7 +83,7 @@ namespace MagicOperations.Schemas
                                        operationAttr.Action,
                                        operationAttr.DisplayName ?? $"[{operationAttr.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
                                        operationAttr.HttpMethod ?? HttpMethods.Post,
-                                       operationAttr.ResponseType,
+                                       responseType,
                                        propertySchemas);
         }
     }
