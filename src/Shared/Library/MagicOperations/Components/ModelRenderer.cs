@@ -1,6 +1,8 @@
 ﻿namespace MagicOperations.Components
 {
     using System;
+    using System.Collections.Generic;
+    using MagicOperations.Components.Defaults.PropertyRenderers;
     using MagicOperations.Schemas;
     using Microsoft.AspNetCore.Components;
 
@@ -26,7 +28,10 @@
                 foreach (RenderablePropertySchema propertySchema in Schema.PropertySchemas)
                 {
                     Type propertyType = propertySchema.Property.PropertyType;
-                    Type operationPropertyRendererType = propertySchema.Renderer ?? Configuration.DefaultPropertyRenderers[propertyType];
+
+                    Type? operationPropertyRendererType = propertySchema.Renderer ??
+                                                          Configuration.DefaultPropertyRenderers.GetValueOrDefault(propertyType) ??
+                                                          Configuration.AnyPropertyRenderer.MakeGenericType(propertyType);
 
                     builder.OpenComponent(i++, operationPropertyRendererType);
                     builder.AddAttribute(i++, nameof(OperationPropertyRenderer<object>.Model), Model);

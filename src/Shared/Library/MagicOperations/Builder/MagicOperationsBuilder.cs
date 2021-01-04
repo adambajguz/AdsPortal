@@ -34,8 +34,6 @@
         {
             { typeof(int), typeof(IntRenderer) },
             { typeof(bool), typeof(BoolRenderer) },
-            { typeof(Guid), typeof(GuidRenderer) },
-            { typeof(Guid?), typeof(NullableGuidRenderer) },
             { typeof(DateTime), typeof(DateTimeRenderer) },
             { typeof(string), typeof(StringRenderer) }
         };
@@ -47,6 +45,7 @@
         private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
         private Type? _errorRenderer;
         private Type? _modelRenderer;
+        private Type? _anyPropertyRenderer;
 
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
@@ -157,6 +156,18 @@
             where TRenderer : OperationPropertyRenderer<TPropety>
         {
             return UseDefaultPropertyRenderer(typeof(TPropety), typeof(TRenderer));
+        }
+        #endregion
+
+        #region Any property renderer
+        public MagicOperationsBuilder UseAnyPropertyRenderer(Type rendererType)
+        {
+            if (!rendererType.IsGenericType || !rendererType.IsSubclassOf(typeof(OperationPropertyRenderer<>)))
+                throw new MagicOperationsException($"{rendererType.FullName} is not a valid any operation property renderer type.");
+
+            _anyPropertyRenderer = rendererType;
+
+            return this;
         }
         #endregion
 
@@ -323,6 +334,7 @@
 
             _errorRenderer ??= typeof(DefaultErrorRenderer);
             _modelRenderer ??= typeof(DefaultModelRenderer<>);
+            _anyPropertyRenderer ??= typeof(AnyRenderer<>);
 
             var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
             IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes.Distinct());
@@ -335,6 +347,7 @@
                                                              _operationListingRenderer,
                                                              _errorRenderer,
                                                              _modelRenderer,
+                                                             _anyPropertyRenderer,
                                                              _defaultOperationRenderers,
                                                              _defaultPropertyRenderers);
 

@@ -26,7 +26,6 @@
         public string Surname { get; init; } = default!;
         public string Description { get; init; } = default!;
 
-        [RenderablePropertyIgnore]
         public Roles Role { get; init; }
     }
 }
