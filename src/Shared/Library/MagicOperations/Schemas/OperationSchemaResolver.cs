@@ -51,7 +51,6 @@ namespace MagicOperations.Schemas
         private static OperationSchema ResolveOperation(Type operationModelType, OperationGroupSchema groupSchema)
         {
             OperationAttribute? operationAttr = operationModelType.GetCustomAttribute<OperationAttribute>(true);
-            RenderableClassAttribute? renderableClassAttr = operationModelType.GetCustomAttribute<RenderableClassAttribute>(true);
 
             _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationModelType.FullName} does not have {typeof(OperationAttribute).FullName} attribute.");
 
@@ -65,13 +64,13 @@ namespace MagicOperations.Schemas
                                                                           .ToArray()!;
 
             return new OperationSchema(groupSchema,
-                                       renderableClassAttr?.Renderer,
+                                       operationAttr.OperationRenderer,
+                                       operationAttr.BaseOperationRenderer,
                                        operationModelType,
                                        operationAttr.Action,
                                        operationAttr.DisplayName ?? $"[{operationAttr.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
                                        operationAttr.HttpMethod ?? HttpMethods.Post,
                                        operationAttr.ResponseType,
-                                       operationAttr.OperationType,
                                        propertySchemas);
         }
     }

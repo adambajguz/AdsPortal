@@ -1,6 +1,9 @@
 namespace MagicOperations.Attributes
 {
     using System;
+    using MagicOperations.Components;
+    using MagicOperations.Components.OperationRenderers;
+    using MagicOperations.Extensions;
     using Microsoft.AspNetCore.Http;
 
     /// <summary>
@@ -13,6 +16,16 @@ namespace MagicOperations.Attributes
         /// Operation action relative to base URI and group path (if set).
         /// </summary>
         public string Action { get; init; }
+
+        /// <summary>
+        /// Operation type.
+        /// </summary>
+        public Type? OperationRenderer { get; protected init; }
+
+        /// <summary>
+        /// Operation type.
+        /// </summary>
+        public Type BaseOperationRenderer { get; protected init; }
 
         /// <summary>
         /// Operation display name. Defaults to uppercase action with group name.
@@ -29,13 +42,22 @@ namespace MagicOperations.Attributes
         /// </summary>
         public Type? ResponseType { get; init; }
 
-        /// <summary>
-        /// Operation type.
-        /// </summary>
-        public MagicOperationTypes OperationType { get; protected init; }
-
-        public OperationAttribute(string defaultAction)
+        public OperationAttribute(string defaultAction, Type baseOperationRenderer)
         {
+            BaseOperationRenderer = baseOperationRenderer;
+
+            if (OperationRenderer is not null)
+            {
+                if (baseOperationRenderer == OperationRenderer)
+                    throw new MagicOperationsException($"Operation type cannot be equal to renderer type ({OperationRenderer.FullName}).");
+
+                if (!baseOperationRenderer.IsSubclassOf(typeof(OperationRenderer<,>)))
+                    throw new MagicOperationsException($"{baseOperationRenderer.FullName} is not a valid operation renderer type.");
+
+                if (!OperationRenderer.IsSubclassOf(baseOperationRenderer))
+                    throw new MagicOperationsException($"{OperationRenderer.FullName} is not a valid {baseOperationRenderer.FullName} operation renderer type.");
+            }
+
             if (string.IsNullOrWhiteSpace(Action))
                 Action = defaultAction;
         }
@@ -47,9 +69,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="CreateOperationAttribute"/>.
         /// Default values: Action = "create"; HttpMethod = HttpMethods.Post
         /// </summary>
-        public CreateOperationAttribute() : base("create")
+        public CreateOperationAttribute() : base("create", typeof(CreateOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.Create;
             HttpMethod ??= HttpMethods.Post;
         }
     }
@@ -60,9 +81,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="UpdateOperationAttribute"/>.
         /// Default values: Action = "update"; HttpMethod = HttpMethods.Put
         /// </summary>
-        public UpdateOperationAttribute() : base("update")
+        public UpdateOperationAttribute() : base("update", typeof(UpdateOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.Update;
             HttpMethod ??= HttpMethods.Put;
         }
     }
@@ -73,9 +93,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="DeleteOperationAttribute"/>.
         /// Default values: Action = "delete/{id}"; HttpMethod = HttpMethods.Delete
         /// </summary>
-        public DeleteOperationAttribute() : base("delete/{Id}")
+        public DeleteOperationAttribute() : base("delete/{Id}", typeof(DeleteOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.Delete;
             HttpMethod ??= HttpMethods.Delete;
         }
     }
@@ -86,9 +105,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="DetailsOperationAttribute"/>.
         /// Default values: Action = "get/{Id}"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public DetailsOperationAttribute() : base("get/{Id}")
+        public DetailsOperationAttribute() : base("get/{Id}", typeof(DetailsOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.Details;
             HttpMethod ??= HttpMethods.Get;
         }
     }
@@ -99,9 +117,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="GetAllOperationAttribute"/>.
         /// Default values: Route = "get-all"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetAllOperationAttribute() : base("get-all")
+        public GetAllOperationAttribute() : base("get-all", typeof(GetAllOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.GetAll;
             HttpMethod ??= HttpMethods.Get;
         }
     }
@@ -112,9 +129,8 @@ namespace MagicOperations.Attributes
         /// Initializes an instance of <see cref="GetPagedOperationAttribute"/>.
         /// Default values: Action = "get-paged"; HttpMethod = HttpMethods.Get
         /// </summary>
-        public GetPagedOperationAttribute() : base("get-paged")
+        public GetPagedOperationAttribute() : base("get-paged", typeof(GetPagedOperationRenderer<,>))
         {
-            OperationType = MagicOperationTypes.GetPaged;
             HttpMethod ??= HttpMethods.Get;
         }
     }

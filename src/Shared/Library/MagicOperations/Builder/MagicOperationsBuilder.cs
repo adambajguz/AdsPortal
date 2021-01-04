@@ -6,8 +6,10 @@
     using System.Reflection;
     using MagicOperations;
     using MagicOperations.Components;
-    using MagicOperations.Components.DefaultOperationRenderers;
-    using MagicOperations.Components.DefaultPropertyRenderers;
+    using MagicOperations.Components.Defaults;
+    using MagicOperations.Components.Defaults.OperationRenderers;
+    using MagicOperations.Components.Defaults.PropertyRenderers;
+    using MagicOperations.Components.OperationRenderers;
     using MagicOperations.Extensions;
     using MagicOperations.Schemas;
 
@@ -18,14 +20,14 @@
     {
         private string? _baseUri;
 
-        private readonly Dictionary<MagicOperationTypes, Type> _defaultOperationRenderers = new()
+        private readonly Dictionary<Type, Type> _defaultOperationRenderers = new()
         {
-            { MagicOperationTypes.Create, typeof(CreateDefaultRenderer<,>) },
-            { MagicOperationTypes.Update, typeof(UpdateDefaultRenderer<,>) },
-            { MagicOperationTypes.Delete, typeof(DeleteDefaultRenderer<,>) },
-            { MagicOperationTypes.Details, typeof(DetailsDefaultRenderer<,>) },
-            { MagicOperationTypes.GetAll, typeof(GetAllDefaultRenderer<,>) },
-            { MagicOperationTypes.GetPaged, typeof(GetPagedDefaultRenderer<,>) }
+            { typeof(CreateOperationRenderer<,>), typeof(CreateDefaultRenderer<,>) },
+            { typeof(UpdateOperationRenderer<,>), typeof(UpdateDefaultRenderer<,>) },
+            { typeof(DeleteOperationRenderer<,>), typeof(DeleteDefaultRenderer<,>) },
+            { typeof(DetailsOperationRenderer<,>), typeof(DetailsDefaultRenderer<,>) },
+            { typeof(GetAllOperationRenderer<,>), typeof(GetAllDefaultRenderer<,>) },
+            { typeof(GetPagedOperationRenderer<,>), typeof(GetPagedDefaultRenderer<,>) }
         };
 
         private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
@@ -123,19 +125,20 @@
         #endregion
 
         #region Default operation renderers
-        public MagicOperationsBuilder UseDefaultOperationRenderer(MagicOperationTypes operation, Type type)
+        public MagicOperationsBuilder UseDefaultOperationRenderer(Type baseOperation, Type renderer)
         {
-            if (!type.IsSubclassOf(typeof(OperationRenderer<,>)))
-                throw new MagicOperationsException($"{type.FullName} is not a valid operation renderer type.");
+            if (baseOperation == renderer)
+                throw new MagicOperationsException($"Operation type cannot be equal to renderer type ({renderer.FullName}).");
 
-            _defaultOperationRenderers[operation] = type;
+            if (!baseOperation.IsSubclassOf(typeof(OperationRenderer<,>)))
+                throw new MagicOperationsException($"{baseOperation.FullName} is not a valid operation renderer type.");
+
+            if (!renderer.IsSubclassOf(baseOperation))
+                throw new MagicOperationsException($"{renderer.FullName} is not a valid {baseOperation.FullName} operation renderer type.");
+
+            _defaultOperationRenderers[baseOperation] = renderer;
 
             return this;
-        }
-
-        public MagicOperationsBuilder UseDefaultOperationRenderer<TRenderer>(MagicOperationTypes operation)
-        {
-            return UseDefaultOperationRenderer(operation, typeof(TRenderer));
         }
         #endregion
 

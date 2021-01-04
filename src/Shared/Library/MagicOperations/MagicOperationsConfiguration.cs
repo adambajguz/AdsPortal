@@ -18,7 +18,7 @@
         public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
         public Type DefaultModelRenderer { get; }
-        public IReadOnlyDictionary<MagicOperationTypes, Type> DefaultOperationRenderers { get; }
+        public IReadOnlyDictionary<Type, Type> DefaultOperationRenderers { get; }
         public IReadOnlyDictionary<Type, Type> DefaultPropertyRenderers { get; }
 
         public MagicOperationsConfiguration(string baseApiPath,
@@ -32,7 +32,7 @@
                                             Type errorRenderer,
                                             Type defaultModelRenderer,
 
-                                            IReadOnlyDictionary<MagicOperationTypes, Type> defaultOperationRenderers,
+                                            IReadOnlyDictionary<Type, Type> defaultOperationRenderers,
                                             IReadOnlyDictionary<Type, Type> defaultPropertyRenderers)
         {
             BaseApiPath = baseApiPath;

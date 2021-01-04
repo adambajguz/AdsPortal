@@ -16,7 +16,12 @@
         /// <summary>
         /// Renderer component type. When null, default renderer will be used.
         /// </summary>
-        public Type? Renderer { get; }
+        public Type? OperationRenderer { get; }
+
+        /// <summary>
+        /// Base operation renderer type.
+        /// </summary>
+        public Type BaseOperationRenderer { get; }
 
         /// <summary>
         /// Operation model type.
@@ -48,51 +53,26 @@
         /// </summary>
         public IReadOnlyList<RenderablePropertySchema> PropertySchemas { get; }
 
-        /// <summary>
-        /// Operation type.
-        /// </summary>
-        public MagicOperationTypes OperationType { get; }
-
-        /// <summary>
-        /// Whether operation is Create or Update.
-        /// </summary>
-        public bool IsCreateOrUpdate => OperationType == MagicOperationTypes.Create || OperationType == MagicOperationTypes.Update;
-
-        /// <summary>
-        /// Whether operation is GetAll or GetPaged.
-        /// </summary>
-        public bool IsList => OperationType == MagicOperationTypes.GetAll || OperationType == MagicOperationTypes.GetPaged;
-
-        /// <summary>
-        /// Whether operation is Details.
-        /// </summary>
-        public bool IsDetails => OperationType == MagicOperationTypes.Details;
-
-        /// <summary>
-        /// Whether operation is Delete.
-        /// </summary>
-        public bool IsDelete => OperationType == MagicOperationTypes.Delete;
-
         private Lazy<StringTemplate> ActionTemplate { get; }
 
         public OperationSchema(OperationGroupSchema group,
-                               Type? renderer,
+                               Type? operationRenderer,
+                               Type baseRenderer,
                                Type operationModelType,
                                string action,
                                string displayName,
                                string httpMethod,
                                Type? responseType,
-                               MagicOperationTypes operationType,
                                IReadOnlyList<RenderablePropertySchema> propertySchemas)
         {
             Group = group;
-            Renderer = renderer;
             OperationModelType = operationModelType;
+            OperationRenderer = operationRenderer;
+            BaseOperationRenderer = baseRenderer;
             Action = action;
             DisplayName = displayName;
             HttpMethod = httpMethod;
             ResponseType = responseType;
-            OperationType = operationType;
             PropertySchemas = propertySchemas;
 
             ActionTemplate = new Lazy<StringTemplate>(() => StringTemplate.Parse(GetFullPath()));

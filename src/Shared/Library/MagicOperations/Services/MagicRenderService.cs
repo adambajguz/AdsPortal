@@ -82,10 +82,13 @@
                 {
                     object model = _modelFactory.CreateInstanceAndBindData(schema!.OperationModelType, arguments);
 
-                    Type operationRendererType = schema.Renderer ?? _configuration.DefaultOperationRenderers[schema.OperationType];
+                    Type operationRendererType = schema.OperationRenderer ?? _configuration.DefaultOperationRenderers[schema.BaseOperationRenderer];
+
                     if (operationRendererType.IsGenericType)
                     {
-                        operationRendererType = operationRendererType.MakeGenericType(schema.OperationModelType, schema.ResponseType ?? typeof(object));
+                        Type typeParam0 = schema.OperationModelType;
+                        Type typeParam1 = schema.ResponseType ?? typeof(object);
+                        operationRendererType = operationRendererType.MakeGenericType(typeParam0, typeParam1);
                     }
 
                     return (builder) =>

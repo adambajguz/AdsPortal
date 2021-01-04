@@ -35,7 +35,7 @@ else if (ResponseModel is IEnumerable enumerableList)
                 <tr>
                     <td>Base API path</td>
                     <td>
-                        @System.Text.Json.JsonSerializer.Serialize(item)
+                        <MagicModel Model="item" />
                     </td>
                 </tr>
             }

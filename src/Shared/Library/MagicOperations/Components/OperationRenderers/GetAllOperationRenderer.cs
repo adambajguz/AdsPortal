@@ -1,7 +1,6 @@
 ﻿namespace MagicOperations.Components.OperationRenderers
 {
     using System.Threading.Tasks;
-    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
     public abstract class GetAllOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>

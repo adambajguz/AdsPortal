@@ -2,7 +2,6 @@
 {
     using System;
     using System.Threading.Tasks;
-    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
     public abstract class CreateOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
