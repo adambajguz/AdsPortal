@@ -20,9 +20,7 @@ else
         return;
     }
 
-    <EditForm Model="OperationModel">
-        @RenderItem()
-    </EditForm>
+    <MagicModel Model="OperationModel" IsWrite="true" />
 }
 
 <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>

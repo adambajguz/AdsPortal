@@ -4,7 +4,7 @@
     using MagicOperations.Schemas;
     using Microsoft.AspNetCore.Components;
 
-    public abstract class SingleItemOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
+    public abstract class Single45ItemOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
         protected RenderFragment RenderItem()

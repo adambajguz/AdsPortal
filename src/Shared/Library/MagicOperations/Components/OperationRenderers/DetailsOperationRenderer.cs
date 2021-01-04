@@ -2,7 +2,7 @@
 {
     using MagicOperations.Components.OperationRenderers.Base;
 
-    public abstract class DetailsOperationRenderer<TOperation, TResponse> : SingleItemOperationRenderer<TOperation, TResponse>
+    public abstract class DetailsOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
 

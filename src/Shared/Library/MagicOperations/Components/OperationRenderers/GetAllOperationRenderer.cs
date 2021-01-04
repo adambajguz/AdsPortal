@@ -4,7 +4,7 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class GetAllOperationRenderer<TOperation, TResponse> : MultiItemOperationRenderer<TOperation, TResponse>
+    public abstract class GetAllOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
         protected override async Task OnInitializedAsync()

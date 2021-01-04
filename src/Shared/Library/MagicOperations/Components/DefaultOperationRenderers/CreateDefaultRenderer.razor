@@ -21,9 +21,7 @@ else
         return;
     }
 
-    <EditForm Model="OperationModel">
-        @RenderItem()
-    </EditForm>
+    <MagicModel Model="OperationModel" IsWrite="true" />
 
     <button @onclick="CreateAsync">Create</button>
 }

@@ -5,7 +5,7 @@
     using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class DeleteOperationRenderer<TOperation, TResponse> : SingleItemOperationRenderer<TOperation, TResponse>
+    public abstract class DeleteOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
         protected bool IsDeleted { get; private set; }

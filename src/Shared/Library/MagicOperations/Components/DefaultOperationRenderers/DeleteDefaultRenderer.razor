@@ -22,7 +22,7 @@ else
 
     <p>Are you sure to delete this object?</p>
 
-    @RenderItem()
+    <MagicModel Model="OperationModel" />
 
     <button @onclick="DeleteAsync">Delete</button>
     <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>

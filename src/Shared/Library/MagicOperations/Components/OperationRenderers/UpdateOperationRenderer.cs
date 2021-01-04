@@ -2,10 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using MagicOperations.Components.OperationRenderers.Base;
     using MagicOperations.Extensions;
 
-    public abstract class UpdateOperationRenderer<TOperation, TResponse> : SingleItemOperationRenderer<TOperation, TResponse>
+    public abstract class UpdateOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
         protected bool IsUpdated { get; private set; }
