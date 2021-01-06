@@ -1,10 +1,10 @@
-﻿namespace MagicOperations.Components
+﻿namespace MagicModels.Components
 {
     using System;
-    using MagicOperations.Schemas;
+    using MagicModels.Schemas;
     using Microsoft.AspNetCore.Components;
 
-    public abstract class OperationPropertyRenderer<T> : ComponentBase
+    public abstract class PropertyRenderer<T> : ComponentBase
     {
         private Func<T>? _getter;
         private Action<T?>? _setter;

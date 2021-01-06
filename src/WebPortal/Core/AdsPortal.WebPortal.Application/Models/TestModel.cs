@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using MagicOperations.Attributes;
+    using MagicModels.Attributes;
 
     [RenderableClass]
     public class TestModel

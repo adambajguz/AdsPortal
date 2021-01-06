@@ -1,9 +1,10 @@
-﻿namespace MagicOperations.Schemas
+﻿namespace MagicModels.Internal.Schemas
 {
     using System.Reflection;
-    using MagicOperations.Attributes;
+    using MagicModels.Attributes;
+    using MagicModels.Schemas;
 
-    public static class RenderablePropertySchemaResolver
+    internal static class RenderablePropertySchemaResolver
     {
         public static RenderablePropertySchema? TryResolve(PropertyInfo renderablePropertyInfo)
         {

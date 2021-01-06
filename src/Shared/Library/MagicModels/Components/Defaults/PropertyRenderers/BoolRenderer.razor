@@ -1,10 +1,10 @@
-﻿@inherits OperationPropertyRenderer<int>
+﻿@inherits PropertyRenderer<bool>
 
 @if (IsWrite)
 {
     <label>
         @PropertySchema.DisplayName
-        <InputNumber @bind-Value="Value" />
+        <InputCheckbox @bind-Value="Value" />
     </label>
 }
 else

@@ -1,13 +1,14 @@
-﻿@inherits OperationPropertyRenderer<string>
+﻿@inherits PropertyRenderer<int>
 
 @if (IsWrite)
 {
     <label>
         @PropertySchema.DisplayName
-        <InputText @bind-Value="Value" />
+        <InputNumber @bind-Value="Value" />
     </label>
 }
 else
 {
     <p>@PropertySchema.DisplayName: @Value</p>
 }
+

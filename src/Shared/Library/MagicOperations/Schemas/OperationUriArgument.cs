@@ -1,5 +1,7 @@
 ﻿namespace MagicOperations.Schemas
 {
+    using MagicModels.Schemas;
+
     public sealed class OperationUriArgument
     {
         public RenderablePropertySchema Schema { get; }

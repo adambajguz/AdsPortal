@@ -1,17 +1,19 @@
 ﻿namespace MagicOperations.Builder
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using MagicModels;
+    using MagicModels.Builder;
     using MagicOperations;
+    using MagicOperations.Attributes;
     using MagicOperations.Components;
     using MagicOperations.Components.Defaults;
     using MagicOperations.Components.Defaults.OperationRenderers;
-    using MagicOperations.Components.Defaults.PropertyRenderers;
     using MagicOperations.Components.OperationRenderers;
     using MagicOperations.Extensions;
+    using MagicOperations.Internal.Schemas;
     using MagicOperations.Schemas;
 
     /// <summary>
@@ -19,6 +21,8 @@
     /// </summary>
     public sealed class MagicOperationsBuilder
     {
+        public MagicModelsBuilder ModelsBuilder { get; }
+
         private string? _baseUri;
 
         private readonly Dictionary<Type, Type> _defaultOperationRenderers = new()
@@ -31,30 +35,18 @@
             { typeof(GetPagedOperationRenderer<,>), typeof(GetPagedDefaultRenderer<,>) }
         };
 
-        private readonly Dictionary<Type, Type> _defaultPropertyRenderers = new()
-        {
-            { typeof(int), typeof(IntRenderer) },
-            { typeof(bool), typeof(BoolRenderer) },
-            { typeof(DateTime), typeof(DateTimeRenderer) },
-            { typeof(string), typeof(StringRenderer) },
-            { typeof(IEnumerable), typeof(CollectionRenderer) }
-        };
-
         private readonly Dictionary<string, MagicOperationGroupConfiguration> _groupConfigurations = new();
-        private readonly List<Type> _operationTypes = new List<Type>();
-        private readonly List<Type> _renderableClassesTypes = new List<Type>();
+        private readonly List<Func<Type>> _operationTypes = new List<Func<Type>>();
 
         private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
         private Type? _errorRenderer;
-        private Type? _modelRenderer;
-        private Type? _anyPropertyRenderer;
 
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
         /// </summary>
-        public MagicOperationsBuilder()
+        public MagicOperationsBuilder(MagicModelsBuilder? modelsBuilder = null)
         {
-
+            ModelsBuilder = modelsBuilder ?? new();
         }
 
         public MagicOperationsBuilder UseBaseUri(string baseUri)
@@ -63,8 +55,6 @@
 
             return this;
         }
-
-        //TODO: rebuild builder - only methods related with auto resling from assembly and Model renderer for classes that cannot be decorated with RenderableClassAttribute
 
         #region Operation listing renderer
         public MagicOperationsBuilder UseOperationListing(Type operationListingRenderer)
@@ -109,24 +99,6 @@
         }
         #endregion
 
-        #region Model renderer
-        public MagicOperationsBuilder UseModelRenderer(Type modelRender)
-        {
-            if (!modelRender.IsSubclassOf(typeof(OperationErrorRenderer)))
-                throw new MagicOperationsException($"{modelRender.FullName} is not a valid operation error renderer type.");
-
-            _modelRenderer = modelRender;
-
-            return this;
-        }
-
-        public MagicOperationsBuilder UseModelRenderer<T>()
-            where T : OperationErrorRenderer
-        {
-            return UseModelRenderer(typeof(T));
-        }
-        #endregion
-
         #region Default operation renderers
         public MagicOperationsBuilder UseDefaultOperationRenderer(Type baseOperation, Type renderer)
         {
@@ -145,36 +117,6 @@
         }
         #endregion
 
-        #region Default property renderers
-        public MagicOperationsBuilder UseDefaultPropertyRenderer(Type propertyType, Type rendererType)
-        {
-            if (!rendererType.IsSubclassOf(typeof(OperationPropertyRenderer<>).MakeGenericType(propertyType)))
-                throw new MagicOperationsException($"{rendererType.FullName} is not a valid operation property renderer type.");
-
-            _defaultPropertyRenderers[propertyType] = rendererType;
-
-            return this;
-        }
-
-        public MagicOperationsBuilder UseDefaultPropertyRenderer<TPropety, TRenderer>()
-            where TRenderer : OperationPropertyRenderer<TPropety>
-        {
-            return UseDefaultPropertyRenderer(typeof(TPropety), typeof(TRenderer));
-        }
-        #endregion
-
-        #region Any property renderer
-        public MagicOperationsBuilder UseAnyPropertyRenderer(Type rendererType)
-        {
-            if (!rendererType.IsGenericType || !rendererType.IsSubclassOf(typeof(OperationPropertyRenderer<>)))
-                throw new MagicOperationsException($"{rendererType.FullName} is not a valid any operation property renderer type.");
-
-            _anyPropertyRenderer = rendererType;
-
-            return this;
-        }
-        #endregion
-
         #region Operations
         /// <summary>
         /// Adds an operation of specified type to the application.
@@ -184,8 +126,18 @@
             if (!KnownTypesHelpers.IsOperationType(operationType))
                 throw new MagicOperationsException($"{operationType.FullName} is not a valid operation type.");
 
-            _operationTypes.Add(operationType);
-            _renderableClassesTypes.Add(operationType);
+            _operationTypes.Add(() =>
+            {
+                ModelsBuilder.AddRenderableClass(operationType);
+
+                OperationAttribute? operationAttr = operationType.GetCustomAttribute<OperationAttribute>(true);
+                _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationType.FullName} does not have {typeof(OperationAttribute).FullName} attribute.");
+
+                if (operationAttr.ResponseType is not null)
+                    ModelsBuilder.AddRenderableClass(operationAttr.ResponseType);
+
+                return operationType;
+            });
 
             return this;
         }
@@ -244,76 +196,6 @@
         }
         #endregion
 
-        #region Renderable class
-        /// <summary>
-        /// Adds a renderable class to the application.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClass(Type type)
-        {
-            if (!KnownTypesHelpers.IsRenderableClassType(type))
-                throw new MagicOperationsException($"{type.FullName} is not a valid renderable class type.");
-
-            _renderableClassesTypes.Add(type);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds a renderable class to the application.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClass<T>()
-            where T : class
-        {
-            return AddRenderableClass(typeof(T));
-        }
-
-        /// <summary>
-        /// Adds multiple renderable classes to the application.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClasses(IEnumerable<Type> types)
-        {
-            foreach (Type type in types)
-                AddRenderableClass(type);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds renderable classes from the specified assembly to the application.
-        /// Only adds public valid renderable classes.
-        /// Generic classes will not be added, unless fully defined in operation ResponseType or in configuration.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClassesFrom(Assembly assembly)
-        {
-            foreach (Type type in assembly.ExportedTypes.Where(KnownTypesHelpers.IsRenderableClassType))
-                AddRenderableClass(type);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds renderable classes from the specified assemblies to the application.
-        /// Only adds public valid renderable types classes.
-        /// Generic classes will not be added, unless fully defined in operation ResponseType or in configuration.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClassesFrom(IEnumerable<Assembly> operationAssemblies)
-        {
-            foreach (Assembly assembly in operationAssemblies)
-                AddRenderableClassesFrom(assembly);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds renderable classes from the calling assembly to the application.
-        /// Only adds public valid renderable classes.
-        /// </summary>
-        public MagicOperationsBuilder AddRenderableClassesFromThisAssembly()
-        {
-            return AddRenderableClassesFrom(Assembly.GetCallingAssembly());
-        }
-        #endregion
-
         #region Group configurations
         public MagicOperationsBuilder AddGroupConfiguration(string groupKey, Action<MagicOperationGroupConfiguration> configuration)
         {
@@ -326,12 +208,7 @@
         }
         #endregion
 
-        /// <summary>
-        /// Creates an instance of <see cref="CliApplication"/> using configured parameters.
-        /// Default values are used in place of parameters that were not specified.
-        /// A scope is defined as a lifetime of a command execution pipeline that includes directives handling.
-        /// </summary>
-        public MagicOperationsConfiguration Build()
+        public (MagicModelsConfiguration, MagicOperationsConfiguration) Build()
         {
             _ = _baseUri ?? throw new MagicOperationsException($"Base URI not set.");
 
@@ -339,29 +216,21 @@
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
 
             _errorRenderer ??= typeof(DefaultErrorRenderer);
-            _modelRenderer ??= typeof(DefaultModelRenderer<>);
-            _anyPropertyRenderer ??= typeof(AnyRenderer<>);
 
-            var resolvedOperations = OperationSchemaResolver.Resolve(_operationTypes, _groupConfigurations);
+            IReadOnlyList<Type> operationTypes = _operationTypes.Select(x => x()).ToList();
+            MagicModelsConfiguration modelsConfiguration = ModelsBuilder.Build();
 
-            IEnumerable<Type> responseTypes = resolvedOperations.OperationTypeToSchemaMap.Values.Select(x => x.ResponseType).Where(x => x is not null)!;
-            IEnumerable<Type> allRenderableTypes = _renderableClassesTypes.Union(responseTypes).Distinct();
-
-            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(allRenderableTypes);
+            var resolvedOperations = OperationSchemaResolver.Resolve(operationTypes, _groupConfigurations, modelsConfiguration);
 
             MagicOperationsConfiguration configuration = new(_baseUri,
-                                                             _operationTypes,
+                                                             operationTypes,
                                                              resolvedOperations.Groups,
                                                              resolvedOperations.OperationTypeToSchemaMap,
-                                                             resolvedRenderableClasses,
                                                              _operationListingRenderer,
                                                              _errorRenderer,
-                                                             _modelRenderer,
-                                                             _anyPropertyRenderer,
-                                                             _defaultOperationRenderers,
-                                                             _defaultPropertyRenderers);
+                                                             _defaultOperationRenderers);
 
-            return configuration;
+            return (modelsConfiguration, configuration);
         }
     }
 }

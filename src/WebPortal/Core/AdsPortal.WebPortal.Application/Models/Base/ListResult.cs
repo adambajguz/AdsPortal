@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.WebPortal.Application.Models.Base
 {
     using System.Collections.Generic;
-    using MagicOperations.Attributes;
+    using MagicModels.Attributes;
     using Newtonsoft.Json;
 
     [JsonObject]

@@ -110,8 +110,8 @@
 
             foreach (string t in tokens)
             {
-                PropertyInfo propertyInfo = schema.PropertySchemas.Where(x => string.Equals(t, x.Property.Name, StringComparison.Ordinal))
-                                                                  .First().Property;
+                PropertyInfo propertyInfo = schema.OperationModelSchema.PropertySchemas.Where(x => string.Equals(t, x.Property.Name, StringComparison.Ordinal))
+                                                                                       .First().Property;
 
                 string value = propertyInfo.GetValue(model)?.ToString() ?? string.Empty;
 

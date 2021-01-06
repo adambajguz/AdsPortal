@@ -13,29 +13,19 @@
         public IEnumerable<OperationSchema> OperationSchemas => OperationTypeToSchemaMap.Values;
         public IReadOnlyDictionary<Type, OperationSchema> OperationTypeToSchemaMap { get; }
 
-        public IReadOnlyDictionary<Type, RenderableClassSchema> RenderableTypeToSchemaMap { get; }
-
         public Type? OperationListingRenderer { get; }
         public Type ErrorRenderer { get; }
-        public Type DefaultModelRenderer { get; }
-        public Type AnyPropertyRenderer { get; }
         public IReadOnlyDictionary<Type, Type> DefaultOperationRenderers { get; }
-        public IReadOnlyDictionary<Type, Type> DefaultPropertyRenderers { get; }
 
         public MagicOperationsConfiguration(string baseApiPath,
                                             IReadOnlyList<Type> operationTypes,
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
                                             IReadOnlyDictionary<Type, OperationSchema> operationTypeToSchemaMap,
 
-                                            IReadOnlyDictionary<Type, RenderableClassSchema> renderableTypeToSchemaMap,
-
                                             Type? operationListingRenderer,
                                             Type errorRenderer,
-                                            Type defaultModelRenderer,
-                                            Type anyPropertyRendererr,
 
-                                            IReadOnlyDictionary<Type, Type> defaultOperationRenderers,
-                                            IReadOnlyDictionary<Type, Type> defaultPropertyRenderers)
+                                            IReadOnlyDictionary<Type, Type> defaultOperationRenderers)
         {
             BaseApiPath = baseApiPath;
 
@@ -43,15 +33,10 @@
             OperationGroups = operationGroups;
             OperationTypeToSchemaMap = operationTypeToSchemaMap;
 
-            RenderableTypeToSchemaMap = renderableTypeToSchemaMap;
-
             OperationListingRenderer = operationListingRenderer;
             ErrorRenderer = errorRenderer;
-            DefaultModelRenderer = defaultModelRenderer;
-            AnyPropertyRenderer = anyPropertyRendererr;
 
             DefaultOperationRenderers = defaultOperationRenderers;
-            DefaultPropertyRenderers = defaultPropertyRenderers;
         }
     }
 }

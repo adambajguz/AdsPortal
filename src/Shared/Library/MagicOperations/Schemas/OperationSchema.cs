@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using MagicModels.Schemas;
     using StringUnformatter;
 
     public sealed class OperationSchema
@@ -48,10 +49,9 @@
         /// </summary>
         public Type? ResponseType { get; init; }
 
-        /// <summary>
-        /// Property schemas.
-        /// </summary>
-        public IReadOnlyList<RenderablePropertySchema> PropertySchemas { get; }
+        public RenderableClassSchema OperationModelSchema { get; }
+
+        public RenderableClassSchema? ResponseModelSchema { get; }
 
         private Lazy<StringTemplate> ActionTemplate { get; }
 
@@ -63,7 +63,8 @@
                                string displayName,
                                string httpMethod,
                                Type? responseType,
-                               IReadOnlyList<RenderablePropertySchema> propertySchemas)
+                               RenderableClassSchema operationModelSchema,
+                               RenderableClassSchema? responseModelSchema)
         {
             Group = group;
             OperationModelType = operationModelType;
@@ -73,7 +74,8 @@
             DisplayName = displayName;
             HttpMethod = httpMethod;
             ResponseType = responseType;
-            PropertySchemas = propertySchemas;
+            OperationModelSchema = operationModelSchema;
+            ResponseModelSchema = responseModelSchema;
 
             ActionTemplate = new Lazy<StringTemplate>(() => StringTemplate.Parse(GetFullPath()));
         }
@@ -95,7 +97,7 @@
         {
             Dictionary<string, string>? arguments = ActionTemplate.Value.Unformat(path);
 
-            return arguments?.Join(PropertySchemas,
+            return arguments?.Join(OperationModelSchema.PropertySchemas,
                                    x => x.Key,
                                    x => x.Property.Name,
                                    (arg, schema) => new OperationUriArgument(schema, arg.Value));

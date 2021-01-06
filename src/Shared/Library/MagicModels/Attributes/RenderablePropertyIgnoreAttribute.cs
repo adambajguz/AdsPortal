@@ -1,4 +1,4 @@
-﻿namespace MagicOperations.Attributes
+﻿namespace MagicModels.Attributes
 {
     using System;
 

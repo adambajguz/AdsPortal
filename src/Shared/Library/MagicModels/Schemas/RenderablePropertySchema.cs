@@ -1,4 +1,4 @@
-﻿namespace MagicOperations.Schemas
+﻿namespace MagicModels.Schemas
 {
     using System;
     using System.Reflection;

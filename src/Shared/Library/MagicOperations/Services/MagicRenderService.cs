@@ -29,54 +29,6 @@
             _logger = logger;
         }
 
-        public RenderFragment RenderModel(object? model, bool isWrite = false)
-        {
-            if (model is null)
-                return (builder) => { };
-
-            Type type = model.GetType();
-            RenderableClassSchema? schema = _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(type);
-
-            //Fallback to base types other than object
-            if (schema is null)
-            {
-                foreach (Type baseType in type.GetBaseTypesOtherThanObject())
-                {
-                    schema ??= _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(baseType);
-                }
-            }
-
-            //Fallback to interfaces
-            if (schema is null)
-            {
-                foreach (Type interafaceType in type.GetInterfaces())
-                {
-                    schema ??= _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(interafaceType);
-                }
-            }
-
-            if (schema is null)
-            {
-                _logger.LogError("Invalid model. Either model is not renderable or was not registered {Type}.", type.AssemblyQualifiedName);
-                return RenderError($"Invalid model. Either model is not renderable or was not registered {type.AssemblyQualifiedName}.");
-            }
-
-            Type operationRendererType = schema.Renderer ?? _configuration.DefaultModelRenderer;
-            if (operationRendererType.IsGenericType)
-            {
-                operationRendererType = operationRendererType.MakeGenericType(type);
-            }
-
-            return (builder) =>
-            {
-                builder.OpenComponent(0, operationRendererType);
-                builder.AddAttribute(1, nameof(ModelRenderer<object>.Model), model);
-                builder.AddAttribute(2, nameof(ModelRenderer<object>.Schema), schema);
-                builder.AddAttribute(3, nameof(ModelRenderer<object>.IsWrite), isWrite);
-                builder.CloseComponent();
-            };
-        }
-
         public RenderFragment RenderOperationRouter(string? basePath, string? argsFallback)
         {
             string path = _navigationManager.GetCurrentPageUriWithQuery()

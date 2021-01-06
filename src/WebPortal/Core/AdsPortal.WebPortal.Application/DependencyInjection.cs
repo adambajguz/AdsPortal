@@ -23,9 +23,10 @@
 
             services.AddMagicOperations((builder) =>
             {
+                builder.ModelsBuilder.AddRenderableClassesFromThisAssembly();
+
                 builder.UseBaseUri(applicationConfiguration.ApiUrl ?? string.Empty);
                 builder.AddOperationsFromThisAssembly();
-                builder.AddRenderableClassesFromThisAssembly();
 
                 builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
                 {

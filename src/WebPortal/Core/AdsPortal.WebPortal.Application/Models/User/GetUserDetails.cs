@@ -2,6 +2,7 @@
 {
     using System;
     using AdsPortal.WebPortal.Application.Models;
+    using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]

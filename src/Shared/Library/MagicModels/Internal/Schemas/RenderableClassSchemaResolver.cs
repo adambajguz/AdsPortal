@@ -1,13 +1,13 @@
-namespace MagicOperations.Schemas
+namespace MagicModels.Internal.Schemas
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using MagicOperations.Attributes;
-    using MagicOperations.Extensions;
+    using MagicModels.Attributes;
+    using MagicModels.Schemas;
 
-    public static class RenderableClassSchemaResolver
+    internal static class RenderableClassSchemaResolver
     {
         public static IReadOnlyDictionary<Type, RenderableClassSchema> Resolve(IEnumerable<Type> renderableTypes)
         {
@@ -24,11 +24,8 @@ namespace MagicOperations.Schemas
 
         private static RenderableClassSchema ResolveRenderableClass(Type type)
         {
-            OperationAttribute? operationAttr = type.GetCustomAttribute<OperationAttribute>(true);
+            //OperationAttribute? operationAttr = type.GetCustomAttribute<OperationAttribute>(true);
             RenderableClassAttribute? renderableClassAttr = type.GetCustomAttribute<RenderableClassAttribute>(true);
-
-            if (operationAttr is null && renderableClassAttr is null)
-                throw new MagicOperationsException($"Operation {type.FullName} does not have {typeof(RenderableClassAttribute).FullName} and/or {typeof(OperationAttribute).FullName} attributes.");
 
             RenderablePropertySchema[] propertySchemas = type.GetProperties()
                                                              .Select(RenderablePropertySchemaResolver.TryResolve)

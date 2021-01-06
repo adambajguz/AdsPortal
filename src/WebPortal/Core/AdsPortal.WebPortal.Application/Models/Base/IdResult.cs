@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.WebPortal.Application.Models.Base
 {
     using System;
-    using MagicOperations.Attributes;
+    using MagicModels.Attributes;
 
     [RenderableClass]
     public class IdResult

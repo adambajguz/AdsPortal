@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AdsPortal.WebPortal.Application.Models;
+    using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]

@@ -3,6 +3,7 @@
     using System;
     using AdsPortal.WebPortal.Application.Models;
     using AdsPortal.WebPortal.Application.Models.Base;
+    using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
