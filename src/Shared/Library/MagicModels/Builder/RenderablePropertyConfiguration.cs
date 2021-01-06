@@ -1,13 +1,14 @@
-﻿namespace MagicModels.Attributes
+﻿namespace MagicModels.Builder
 {
     using System;
 
-    /// <summary>
-    /// Renderable property attribute that can be used to customize property rendering (by default all properties in renderable class are rendered using default settings).
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public sealed class RenderablePropertyAttribute : Attribute
+    public sealed class RenderablePropertyConfiguration
     {
+        /// <summary>
+        /// Whether property is ignored during rendering.
+        /// </summary>
+        public bool Ignore { get; init; }
+
         /// <summary>
         /// Renderer component type. When null, default renderer will be used.
         /// </summary>

@@ -222,7 +222,8 @@
 
             var resolvedOperations = OperationSchemaResolver.Resolve(operationTypes, _groupConfigurations, modelsConfiguration);
 
-            MagicOperationsConfiguration configuration = new(_baseUri,
+            MagicOperationsConfiguration configuration = new(modelsConfiguration,
+                                                             _baseUri,
                                                              operationTypes,
                                                              resolvedOperations.Groups,
                                                              resolvedOperations.OperationTypeToSchemaMap,

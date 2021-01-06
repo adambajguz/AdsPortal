@@ -1,9 +1,11 @@
 ﻿namespace AdsPortal.WebPortal.Application
 {
+    using System.Collections.Generic;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebPortal.Application.Configurations;
     using AdsPortal.WebPortal.Application.Models;
     using AdsPortal.WebPortal.Application.Services;
+    using MagicModels.Builder;
     using MagicOperations;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,11 @@
             services.AddMagicOperations((builder) =>
             {
                 builder.ModelsBuilder.AddRenderableClassesFromThisAssembly();
+
+                builder.ModelsBuilder.AddRenderableClass<TestModel>(null, new Dictionary<string, RenderablePropertyConfiguration>
+                {
+                    { nameof(TestModel.Id), new RenderablePropertyConfiguration { Ignore = true} }
+                });
 
                 builder.UseBaseUri(applicationConfiguration.ApiUrl ?? string.Empty);
                 builder.AddOperationsFromThisAssembly();

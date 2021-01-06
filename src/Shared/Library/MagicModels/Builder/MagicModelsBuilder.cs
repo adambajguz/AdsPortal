@@ -27,7 +27,7 @@
             { typeof(IEnumerable), typeof(CollectionRenderer) }
         };
 
-        private readonly List<Type> _renderableClassesTypes = new List<Type>();
+        private readonly List<(Type, Type?, Dictionary<string, RenderablePropertyConfiguration>?)> _renderableClassesTypes = new();
 
         private Type? _defaultModelRenderer;
         private Type? _anyPropertyRenderer;
@@ -85,18 +85,20 @@
         #region Renderable class
         /// <summary>
         /// Adds a renderable class to the application.
+        /// Options is a dictionary where the key is a property name.
         /// </summary>
-        public MagicModelsBuilder AddRenderableClass(Type type, Type? renderer = null, Dictionary<string, RenderablePropertyAttribute>? options = null)
+        public MagicModelsBuilder AddRenderableClass(Type type, Type? renderer = null, Dictionary<string, RenderablePropertyConfiguration>? options = null)
         {
-            _renderableClassesTypes.Add(type);
+            _renderableClassesTypes.Add((type, renderer, options));
 
             return this;
         }
 
         /// <summary>
         /// Adds a renderable class to the application.
+        /// Options is a dictionary where the key is a property name.
         /// </summary>
-        public MagicModelsBuilder AddRenderableClass<TModel>(Type? renderer = null, Dictionary<string, RenderablePropertyAttribute>? options = null)
+        public MagicModelsBuilder AddRenderableClass<TModel>(Type? renderer = null, Dictionary<string, RenderablePropertyConfiguration>? options = null)
             where TModel : class
         {
             return AddRenderableClass(typeof(TModel), renderer, options);
@@ -104,8 +106,9 @@
 
         /// <summary>
         /// Adds a renderable class to the application.
+        /// Options is a dictionary where the key is a property name.
         /// </summary>
-        public MagicModelsBuilder AddRenderableClass<TModel, TModelRenderer>(Dictionary<string, RenderablePropertyAttribute>? options = null)
+        public MagicModelsBuilder AddRenderableClass<TModel, TModelRenderer>(Dictionary<string, RenderablePropertyConfiguration>? options = null)
             where TModel : class
         {
             return AddRenderableClass(typeof(TModel), typeof(TModelRenderer), options);
@@ -137,7 +140,7 @@
         public MagicModelsBuilder AddRenderableClassesFrom(Assembly assembly)
         {
             foreach (Type type in assembly.ExportedTypes.Where(RenderableClassSchema.IsRenderableClassType))
-                _renderableClassesTypes.Add(type);
+                _renderableClassesTypes.Add((type, null, null));
 
             return this;
         }
@@ -173,7 +176,7 @@
             _defaultModelRenderer ??= typeof(DefaultModelRenderer<>);
             _anyPropertyRenderer ??= typeof(AnyRenderer<>);
 
-            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes.Distinct());
+            IReadOnlyDictionary<Type, RenderableClassSchema> resolvedRenderableClasses = RenderableClassSchemaResolver.Resolve(_renderableClassesTypes);
 
             MagicModelsConfiguration configuration = new(resolvedRenderableClasses,
                                                          _defaultPropertyRenderers,

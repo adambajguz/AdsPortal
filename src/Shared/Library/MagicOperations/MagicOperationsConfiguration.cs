@@ -2,10 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using MagicModels;
     using MagicOperations.Schemas;
 
     public sealed class MagicOperationsConfiguration
     {
+        public MagicModelsConfiguration ModelsConfiguration { get; }
+
         public string BaseApiPath { get; }
 
         public IReadOnlyList<Type> OperationTypes { get; }
@@ -17,7 +20,8 @@
         public Type ErrorRenderer { get; }
         public IReadOnlyDictionary<Type, Type> DefaultOperationRenderers { get; }
 
-        public MagicOperationsConfiguration(string baseApiPath,
+        public MagicOperationsConfiguration(MagicModelsConfiguration modelsConfiguration,
+                                            string baseApiPath,
                                             IReadOnlyList<Type> operationTypes,
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
                                             IReadOnlyDictionary<Type, OperationSchema> operationTypeToSchemaMap,
