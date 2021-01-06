@@ -12,10 +12,10 @@
     <ul>
         @foreach (var schema in schemaGroup.Operations)
         {
-            string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetFullPath());
+            string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetDefaultPath());
 
             <li>
-                <NavLink href="@uri">@uri</NavLink>
+                @schema.GetFullPath() <br /> <NavLink href="@uri">@uri</NavLink>
             </li>
         }
     </ul>

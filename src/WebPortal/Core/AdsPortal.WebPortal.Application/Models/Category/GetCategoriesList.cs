@@ -14,7 +14,9 @@
     }
 
     [OperationGroup(OperationGroups.Category)]
-    [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", ResponseType = typeof(PagedListResult<CategoriesListItem>))]
+    [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}",
+                       ResponseType = typeof(PagedListResult<CategoriesListItem>),
+                       DefaultParameters = new[] { "0", "10" })]
     public class GetPagedCategoriesList : GetPagedListQuery
     {
 

@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using MagicModels.Attributes;
     using MagicModels.Components;
     using MagicModels.Components.Defaults;
     using MagicModels.Components.Defaults.PropertyRenderers;

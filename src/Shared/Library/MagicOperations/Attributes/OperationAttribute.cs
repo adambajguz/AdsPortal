@@ -18,6 +18,11 @@ namespace MagicOperations.Attributes
         public string Action { get; init; }
 
         /// <summary>
+        /// Default action parameters.
+        /// </summary>
+        public string[] DefaultParameters { get; init; } = Array.Empty<string>();
+
+        /// <summary>
         /// Operation type.
         /// </summary>
         public Type? OperationRenderer { get; protected init; }
@@ -91,11 +96,12 @@ namespace MagicOperations.Attributes
     {
         /// <summary>
         /// Initializes an instance of <see cref="DeleteOperationAttribute"/>.
-        /// Default values: Action = "delete/{id}"; HttpMethod = HttpMethods.Delete
+        /// Default values: Action = "delete/{Id}"; HttpMethod = HttpMethods.Delete
         /// </summary>
         public DeleteOperationAttribute() : base("delete/{Id}", typeof(DeleteOperationRenderer<,>))
         {
             HttpMethod ??= HttpMethods.Delete;
+            DefaultParameters = new[] { "00000000-0000-0000-0000-000000000000" };
         }
     }
 
@@ -108,6 +114,7 @@ namespace MagicOperations.Attributes
         public DetailsOperationAttribute() : base("get/{Id}", typeof(DetailsOperationRenderer<,>))
         {
             HttpMethod ??= HttpMethods.Get;
+            DefaultParameters = new[] { "00000000-0000-0000-0000-000000000000" };
         }
     }
 

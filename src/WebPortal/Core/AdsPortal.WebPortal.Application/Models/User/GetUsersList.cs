@@ -14,7 +14,9 @@
     }
 
     [OperationGroup(OperationGroups.User)]
-    [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}", ResponseType = typeof(PagedListResult<UsersListItem>))]
+    [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}",
+                       ResponseType = typeof(PagedListResult<UsersListItem>),
+                       DefaultParameters = new[] { "0", "10" })]
     public class Get : GetPagedListQuery
     {
 

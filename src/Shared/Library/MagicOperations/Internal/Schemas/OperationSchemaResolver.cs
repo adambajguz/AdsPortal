@@ -62,6 +62,7 @@ namespace MagicOperations.Internal.Schemas
                                        operationAttr.BaseOperationRenderer,
                                        operationModelType,
                                        operationAttr.Action,
+                                       operationAttr.DefaultParameters,
                                        operationAttr.DisplayName ?? $"[{operationAttr.Action.ToUpperInvariant()}] {groupSchema.DisplayName}",
                                        operationAttr.HttpMethod ?? HttpMethods.Post,
                                        operationAttr.ResponseType,

@@ -3,12 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Net.Http;
     using System.Net.Mime;
-    using System.Reflection;
     using System.Text;
-    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using MagicOperations.Extensions;
@@ -18,8 +15,6 @@
 
     public sealed class MagicApiService : IMagicApiService
     {
-        private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
-
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ISerializer _serializer;
         private readonly MagicOperationsConfiguration _configuration;
@@ -40,7 +35,7 @@
 
             _ = schema ?? throw new MagicOperationsException($"Invalid schema.");
 
-            string route = ReplaceTokens(operationModel, schema);
+            string route = schema.ResolvePath(operationModel);
             string path = Path.Combine(schema.Group.Key ?? string.Empty, route).Replace('\\', '/'); //TODO: add Url.Combine?
 
             HttpResponseMessage response;
@@ -94,31 +89,6 @@
                 default:
                     throw new ApiException("Unknown error");
             }
-        }
-
-        private string ReplaceTokens(object model, OperationSchema schema)
-        {
-            string route = schema.Action ?? string.Empty;
-            MatchCollection matches = _regex.Matches(route);
-
-            List<string> tokens = matches.Cast<Match>()
-                                         .Select(m => m.Value)
-                                         .Distinct()
-                                         .ToList();
-
-            string patchedRoute = route;
-
-            foreach (string t in tokens)
-            {
-                PropertyInfo propertyInfo = schema.OperationModelSchema.PropertySchemas.Where(x => string.Equals(t, x.Property.Name, StringComparison.Ordinal))
-                                                                                       .First().Property;
-
-                string value = propertyInfo.GetValue(model)?.ToString() ?? string.Empty;
-
-                patchedRoute = patchedRoute.Replace($"{{{t}}}", value);
-            }
-
-            return patchedRoute;
         }
     }
 }

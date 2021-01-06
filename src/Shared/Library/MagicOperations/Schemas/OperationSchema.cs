@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
     using MagicModels.Schemas;
     using StringUnformatter;
 
@@ -35,6 +38,11 @@
         public string Action { get; }
 
         /// <summary>
+        /// Default action parameters.
+        /// </summary>
+        public string[] DefaultParameters { get; init; }
+
+        /// <summary>
         /// Operation display name.
         /// </summary>
         public string DisplayName { get; }
@@ -60,6 +68,7 @@
                                Type baseRenderer,
                                Type operationModelType,
                                string action,
+                               string[] defaultParameters,
                                string displayName,
                                string httpMethod,
                                Type? responseType,
@@ -71,6 +80,7 @@
             OperationRenderer = operationRenderer;
             BaseOperationRenderer = baseRenderer;
             Action = action;
+            DefaultParameters = defaultParameters;
             DisplayName = displayName;
             HttpMethod = httpMethod;
             ResponseType = responseType;
@@ -101,6 +111,50 @@
                                    x => x.Key,
                                    x => x.Property.Name,
                                    (arg, schema) => new OperationUriArgument(schema, arg.Value));
+        }
+
+        private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
+
+        public string ResolvePath(object model)
+        {
+            string route = Action ?? string.Empty;
+            MatchCollection matches = _regex.Matches(route);
+
+            List<string> tokens = matches.Cast<Match>()
+                                         .Select(m => m.Value)
+                                         .Distinct()
+                                         .ToList();
+
+            string patchedRoute = route;
+
+            foreach (string t in tokens)
+            {
+                PropertyInfo propertyInfo = OperationModelSchema.PropertySchemas.Where(x => string.Equals(t, x.Property.Name, StringComparison.Ordinal))
+                                                                                .First().Property;
+
+                string value = propertyInfo.GetValue(model)?.ToString() ?? string.Empty;
+
+                patchedRoute = patchedRoute.Replace($"{{{t}}}", value);
+            }
+
+            return patchedRoute;
+        }
+
+        public string GetDefaultPath()
+        {
+            StringBuilder defaultPath = new();
+
+            for (int i = 0, param = 0; i < ActionTemplate.Value.Parts.Count; ++i)
+            {
+                StringTemplatePart part = ActionTemplate.Value.Parts[i];
+
+                string value = part.IsParameter && param < DefaultParameters.Length ?
+                                   DefaultParameters[param++] : part.Value;
+
+                defaultPath.Append(value);
+            }
+
+            return defaultPath.ToString();
         }
     }
 }
