@@ -27,7 +27,7 @@
         }
     }
 
-    public class GetCategoryAdvertisementsDetailsResponse : IIdentifiableOperation, ICustomMapping
+    public sealed record GetCategoryAdvertisementsDetailsResponse : IIdentifiableOperation, ICustomMapping
     {
         public Guid Id { get; init; }
 

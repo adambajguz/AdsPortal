@@ -16,7 +16,7 @@
 
     [Route("api/entity-audit-log")]
     [SwaggerTag("Revert entity and get entity audit log")]
-    public class EntityAuditLogController : BaseController
+    public sealed class EntityAuditLogController : BaseController
     {
         public const string Revert = nameof(RevertEntityUsingAuditLog);
         public const string GetDetails = nameof(GetAuditLogDetails);

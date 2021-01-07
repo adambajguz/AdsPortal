@@ -16,7 +16,7 @@
 
     [Route("api/category")]
     [SwaggerTag("Create, update, and get category")]
-    public class CategoryController : BaseController
+    public sealed class CategoryController : BaseController
     {
         public const string Create = nameof(CreateCategory);
         public const string GetDetails = nameof(GetCategoryDetails);

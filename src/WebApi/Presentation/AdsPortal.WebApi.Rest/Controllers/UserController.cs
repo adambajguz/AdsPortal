@@ -26,7 +26,7 @@
 
     [Route("api/user")]
     [SwaggerTag("Authenticate, create, update, and get user")]
-    public class UserController : BaseController
+    public sealed class UserController : BaseController
     {
         public const string Authenticate = nameof(AuthenticateUser);
         public const string ResetPasswordStep1 = nameof(ResetUserPasswordStep1);

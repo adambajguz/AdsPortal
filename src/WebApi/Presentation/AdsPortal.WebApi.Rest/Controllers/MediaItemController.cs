@@ -21,7 +21,7 @@
 
     [Route("api/media/")]
     [SwaggerTag("Get media")]
-    public class MediaItemController : BaseController
+    public sealed class MediaItemController : BaseController
     {
         public const string Create = nameof(CreateMedia);
         public const string GetFileByPath = nameof(GetMediaFileByPath);

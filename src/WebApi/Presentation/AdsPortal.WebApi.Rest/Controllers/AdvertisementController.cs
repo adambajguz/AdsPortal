@@ -18,7 +18,7 @@
 
     [Route("api/advertisement")]
     [SwaggerTag("Create, update, and get advertisement")]
-    public class AdvertisementController : BaseController
+    public sealed class AdvertisementController : BaseController
     {
         public const string Create = nameof(CreateAdvertisement);
         public const string GetDetails = nameof(GetAdvertisementDetails);
