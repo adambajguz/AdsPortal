@@ -12,7 +12,7 @@
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public class ResetPasswordCommand : IOperation
+    public sealed record ResetPasswordCommand : IOperation
     {
         public string? Token { get; init; }
         public string? Password { get; init; }
@@ -43,7 +43,7 @@
                 await _userManager.SetPassword(user, command.Password ?? string.Empty, cancellationToken);
 
                 _uow.Users.Update(user);
-                await _uow.SaveChangesAsync();
+                await _uow.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
             }

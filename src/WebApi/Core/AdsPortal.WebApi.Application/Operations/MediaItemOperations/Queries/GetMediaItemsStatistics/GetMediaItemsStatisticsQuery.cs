@@ -8,7 +8,7 @@
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public class GetMediaItemsStatisticsQuery : IOperation<GetMediaItemsStatisticsResponse>
+    public sealed record GetMediaItemsStatisticsQuery : IOperation<GetMediaItemsStatisticsResponse>
     {
         private class Handler : IRequestHandler<GetMediaItemsStatisticsQuery, GetMediaItemsStatisticsResponse>
         {

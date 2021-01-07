@@ -3,7 +3,7 @@
     using System;
     using MediatR.GenericOperations.Abstractions;
 
-    public class JwtTokenModel : IOperationResult
+    public sealed record JwtTokenModel : IOperationResult
     {
         public string Token { get; init; } = default!;
         public TimeSpan Lease { get; init; }

@@ -7,7 +7,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetMediaItemChecksumResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed record GetMediaItemChecksumResponse : IIdentifiableOperationResult, ICustomMapping
     {
         public Guid Id { get; init; }
 

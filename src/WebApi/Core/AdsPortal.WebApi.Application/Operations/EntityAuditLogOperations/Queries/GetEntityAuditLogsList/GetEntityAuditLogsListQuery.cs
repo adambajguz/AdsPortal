@@ -8,7 +8,7 @@
     using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Queries;
 
-    public class GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>
+    public sealed record GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>
     {
         private class Handler : GetListQueryHandler<GetEntityAuditLogsListQuery, EntityAuditLog, GetEntityAuditLogsListResponse>
         {
@@ -17,11 +17,11 @@
 
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
+            protected override ValueTask<GetEntityAuditLogsListQuery> OnInit(GetEntityAuditLogsListQuery command, CancellationToken cancellationToken)
             {
                 OrderBy = (x) => x.OrderByDescending(x => x.CreatedOn);
 
-                return Task.CompletedTask;
+                return base.OnInit(command, cancellationToken);
             }
         }
     }

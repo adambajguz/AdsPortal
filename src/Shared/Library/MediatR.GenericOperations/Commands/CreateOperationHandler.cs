@@ -17,21 +17,24 @@ namespace MediatR.GenericOperations.Commands
     {
         public abstract Task<IdResult> Handle(TCommand command, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(CancellationToken cancellationToken)
+        protected virtual ValueTask<TCommand> OnInit(TCommand command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
         }
 
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask OnValidate(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return default;
         }
 
-        protected virtual Task OnAdded(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask<TEntity> OnMapped(TEntity entity, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(entity);
+        }
+
+        protected virtual ValueTask OnAdded(TEntity entity, CancellationToken cancellationToken)
+        {
+            return default;
         }
     }
 }

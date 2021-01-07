@@ -10,7 +10,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public class ChangeUserPasswordCommand : IOperation
+    public sealed record ChangeUserPasswordCommand : IOperation
     {
         public Guid UserId { get; init; }
         public string? OldPassword { get; init; }

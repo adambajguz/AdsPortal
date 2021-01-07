@@ -19,18 +19,21 @@
     {
         public abstract Task<TResult> Handle(TQuery query, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected abstract Task<TEntity> OnFetch(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask<TQuery> OnInit(TQuery command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
         }
 
-        protected virtual Task OnMapped(TEntity entity, TResult response, CancellationToken cancellationToken)
+        protected abstract ValueTask<TEntity> OnFetch(CancellationToken cancellationToken);
+
+        protected virtual ValueTask OnValidate(TEntity entity, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return default;
+        }
+
+        protected virtual ValueTask<TResult> OnMapped(TEntity entity, TResult response, CancellationToken cancellationToken)
+        {
+            return ValueTask.FromResult(response);
         }
     }
 }

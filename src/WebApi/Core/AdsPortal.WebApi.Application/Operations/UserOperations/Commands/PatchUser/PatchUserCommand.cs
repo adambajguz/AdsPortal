@@ -12,10 +12,12 @@
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
+    using Newtonsoft.Json;
 
     //TODO: add/test patch user
-    public class PatchUserCommand : IUpdateCommand
+    public sealed record PatchUserCommand : IUpdateCommand
     {
+        [JsonIgnore]
         public Guid Id { get; init; }
 
         public PatchProperty<string?>? Email { get; init; }
@@ -61,12 +63,7 @@
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task OnValidate(User entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
                 await _drs.IsOwnerOrAdminElseThrow(Command.Id);
 

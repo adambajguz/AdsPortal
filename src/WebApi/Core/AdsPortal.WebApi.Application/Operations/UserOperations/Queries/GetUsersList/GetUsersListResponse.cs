@@ -6,7 +6,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetUsersListResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed record GetUsersListResponse : IIdentifiableOperationResult, ICustomMapping
     {
         public Guid Id { get; init; }
 

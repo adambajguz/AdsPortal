@@ -7,7 +7,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetUserDetailsResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed record GetUserDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {
         public Guid Id { get; init; }
         public DateTime CreatedOn { get; init; }

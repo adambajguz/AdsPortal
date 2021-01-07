@@ -84,11 +84,12 @@ namespace MagicOperations.Attributes
     {
         /// <summary>
         /// Initializes an instance of <see cref="UpdateOperationAttribute"/>.
-        /// Default values: Action = "update"; HttpMethod = HttpMethods.Put
+        /// Default values: Action = "update/{Id}"; HttpMethod = HttpMethods.Put
         /// </summary>
-        public UpdateOperationAttribute() : base("update", typeof(UpdateOperationRenderer<,>))
+        public UpdateOperationAttribute() : base("update/{Id}", typeof(UpdateOperationRenderer<,>))
         {
             HttpMethod ??= HttpMethods.Put;
+            DefaultParameters = new[] { "00000000-0000-0000-0000-000000000000" };
         }
     }
 

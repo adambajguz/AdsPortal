@@ -3,9 +3,9 @@
     using AdsPortal.Application.Constants;
     using FluentValidation;
 
-    public class UpdateAdvertisementrValidator : AbstractValidator<UpdateAdvertisementCommand>
+    public class UpdateAdvertisementValidator : AbstractValidator<UpdateAdvertisementCommand>
     {
-        public UpdateAdvertisementrValidator()
+        public UpdateAdvertisementValidator()
         {
             RuleFor(x => x.Id).NotEmpty()
                               .WithMessage(ValidationMessages.General.IsIncorrectId);

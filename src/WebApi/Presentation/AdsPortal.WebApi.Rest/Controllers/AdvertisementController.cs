@@ -52,16 +52,16 @@
         }
 
         [CustomAuthorize(Roles.User)]
-        [HttpPut("update")]
+        [HttpPut("update/{id:guid}")]
         [SwaggerOperation(
             Summary = "Update advertisement details",
             Description = "Updates advertisement details")]
         [SwaggerResponse(StatusCodes.Status200OK, "Advertisement details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> UpdateAdvertisement([FromBody] UpdateAdvertisementCommand request)
+        public async Task<IActionResult> UpdateAdvertisement([FromRoute] Guid id, [FromBody] UpdateAdvertisementCommand request)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(request with { Id = id }));
         }
 
         [CustomAuthorize(Roles.User)]

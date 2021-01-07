@@ -36,8 +36,7 @@
 
         public override async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
-            Query = query;
-            await OnInit(cancellationToken);
+            Query = query = await OnInit(query, cancellationToken);
 
             await new GetPagedListQueryValidator<TResultEntry>().ValidateAndThrowAsync(query, cancellationToken: cancellationToken);
             await OnValidate(cancellationToken);
@@ -45,17 +44,17 @@
             int entriesPerPage = query.EntiresPerPage;
             int pageNumber = query.Page;
             int skip = entriesPerPage * pageNumber;
-            int total = await Repository.GetCountAsync(Filter);
+            int total = await Repository.GetCountAsync(Filter, cancellationToken);
 
             List<TResultEntry> list = await OnFetch(skip, entriesPerPage, total, cancellationToken);
 
-            PagedListResult<TResultEntry> getPagedListResponse = new PagedListResult<TResultEntry>(pageNumber, query.EntiresPerPage, total, list);
-            await OnFetched(getPagedListResponse, cancellationToken);
+            PagedListResult<TResultEntry> response = new PagedListResult<TResultEntry>(pageNumber, query.EntiresPerPage, total, list);
+            response = await OnFetched(response, cancellationToken);
 
-            return getPagedListResponse;
+            return response;
         }
 
-        protected override async Task<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken)
+        protected override async ValueTask<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken)
         {
             return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
                                                                  orderBy: OrderBy,

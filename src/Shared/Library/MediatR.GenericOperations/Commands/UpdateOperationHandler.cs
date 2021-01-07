@@ -3,6 +3,13 @@
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
+    using MediatR.GenericOperations.Abstractions;
+    using MediatR.GenericOperations.Mapping;
+
+    public interface IUpdateCommand : IIdentifiableOperation, ICustomMapping
+    {
+
+    }
 
     public abstract class UpdateOperationHandler<TCommand, TEntity> : IRequestHandler<TCommand, Unit>
         where TCommand : class, IUpdateCommand
@@ -10,21 +17,24 @@
     {
         public abstract Task<Unit> Handle(TCommand command, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask<TCommand> OnInit(TCommand command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
         }
 
-        protected virtual Task OnMapped(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask OnValidate(TEntity entity, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return default;
         }
 
-        protected virtual Task OnUpdated(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask<TEntity> OnMapped(TEntity entity, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(entity);
+        }
+
+        protected virtual ValueTask OnUpdated(TEntity entity, CancellationToken cancellationToken)
+        {
+            return default;
         }
     }
 }

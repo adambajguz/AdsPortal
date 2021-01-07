@@ -1,8 +1,6 @@
 namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogDetails
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
@@ -10,7 +8,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetR
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetEntityAuditLogDetailsQuery : IGetDetailsQuery<GetEntityAuditLogDetailsResponse>, IIdentifiableOperation<GetEntityAuditLogDetailsResponse>
+    public sealed record GetEntityAuditLogDetailsQuery : IGetDetailsQuery<GetEntityAuditLogDetailsResponse>, IIdentifiableOperation<GetEntityAuditLogDetailsResponse>
     {
         public Guid Id { get; init; }
 
@@ -19,11 +17,6 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetR
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {
 
-            }
-
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
             }
         }
     }

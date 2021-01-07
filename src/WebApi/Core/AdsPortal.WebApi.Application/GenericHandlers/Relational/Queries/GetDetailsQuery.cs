@@ -1,6 +1,7 @@
 namespace AdsPortal.Application.GenericHandlers.Relational.Queries
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
@@ -30,16 +31,16 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Queries
             Mapper = mapper;
         }
 
+        [SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value")]
         public override async Task<TResult> Handle(TQuery query, CancellationToken cancellationToken)
         {
-            Query = query;
-            await OnInit(cancellationToken);
+            Query = query = await OnInit(query, cancellationToken);
 
             TEntity entity = await OnFetch(cancellationToken);
             await OnValidate(entity, cancellationToken);
 
             TResult response = Mapper.Map<TResult>(entity); //TODO: Consider using ProjectTo in repository instead of Map
-            await OnMapped(entity, response, cancellationToken);
+            response = await OnMapped(entity, response, cancellationToken);
 
             return response;
         }

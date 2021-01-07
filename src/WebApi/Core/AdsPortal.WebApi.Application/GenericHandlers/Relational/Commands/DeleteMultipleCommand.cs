@@ -31,8 +31,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
         public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            Command = command;
-            await OnInit(cancellationToken);
+            Command = command = await OnInit(command, cancellationToken);
 
             List<TEntity> entitiesToRemove = await Repository.AllAsync(Filter, cancellationToken: cancellationToken);
 
@@ -42,7 +41,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             }
 
             Repository.RemoveMultiple(entitiesToRemove);
-            await Uow.SaveChangesAsync();
+            await Uow.SaveChangesAsync(cancellationToken);
             await OnRemoved(cancellationToken);
 
             return await Unit.Task;

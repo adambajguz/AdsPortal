@@ -13,14 +13,14 @@
             Seed = 4978123U,
         });
 
-        public static long CalculatePathHashCode(string path)
+        public static long CalculatePathHash(string path)
         {
             IHashValue? hashValue = _hasher.ComputeHash(path);
 
             return BitConverter.ToInt64(hashValue.Hash);
         }
 
-        public static long CalculatePathHashCode(string virtualDirectory, string fileName)
+        public static long CalculatePathHash(string virtualDirectory, string fileName)
         {
             string path = string.Concat(virtualDirectory, "/", fileName);
             IHashValue? hashValue = _hasher.ComputeHash(path);
@@ -28,7 +28,7 @@
             return BitConverter.ToInt64(hashValue.Hash);
         }
 
-        public static long CalculatePathHashCode(this MediaItem mediaItem)
+        public static long CalculatePathHash(this MediaItem mediaItem)
         {
             string path = string.Concat(mediaItem.VirtualDirectory, "/", mediaItem.FileName);
             IHashValue? hashValue = _hasher.ComputeHash(path);

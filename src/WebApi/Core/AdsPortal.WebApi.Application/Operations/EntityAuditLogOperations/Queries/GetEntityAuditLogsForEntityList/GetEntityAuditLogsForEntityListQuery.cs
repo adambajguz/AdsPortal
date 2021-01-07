@@ -9,7 +9,7 @@
     using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Queries;
 
-    public class GetEntityAuditLogsForEntityListQuery : IGetListQuery<GetEntityAuditLogsForEntityListResponse>
+    public sealed record GetEntityAuditLogsForEntityListQuery : IGetListQuery<GetEntityAuditLogsForEntityListResponse>
     {
         public Guid Id { get; init; }
 
@@ -20,12 +20,12 @@
 
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
+            protected override ValueTask<GetEntityAuditLogsForEntityListQuery> OnInit(GetEntityAuditLogsForEntityListQuery command, CancellationToken cancellationToken)
             {
                 Filter = x => x.Key == Query.Id;
                 OrderBy = (x) => x.OrderByDescending(x => x.CreatedOn);
 
-                return Task.CompletedTask;
+                return base.OnInit(command, cancellationToken);
             }
         }
     }

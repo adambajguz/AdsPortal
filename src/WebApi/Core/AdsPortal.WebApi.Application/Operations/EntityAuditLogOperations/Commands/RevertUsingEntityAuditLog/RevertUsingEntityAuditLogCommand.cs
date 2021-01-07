@@ -8,7 +8,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cre
     using MediatR;
     using MediatR.GenericOperations.Models;
 
-    public class RevertUsingEntityAuditLogCommand : IRequest<IdResult>
+    public sealed record RevertUsingEntityAuditLogCommand : IRequest<IdResult>
     {
         public Guid EntityId { get; init; }
         public Guid ToId { get; init; }

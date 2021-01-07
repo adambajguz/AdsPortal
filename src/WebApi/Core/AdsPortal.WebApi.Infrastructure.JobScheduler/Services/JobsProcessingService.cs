@@ -123,16 +123,20 @@
             }
 
             int nextTaskIndex = -1;
-            Action<Task> continuation = completed =>
-            {
-                Interlocked.Decrement(ref _processing);
-
-                var bucket = buckets[Interlocked.Increment(ref nextTaskIndex)];
-                bucket.TrySetResult(completed);
-            };
 
             foreach (Task inputTask in tasks)
-                inputTask.ContinueWith(continuation, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            {
+                inputTask.ContinueWith(completed =>
+                {
+                    Interlocked.Decrement(ref _processing);
+
+                    var bucket = buckets[Interlocked.Increment(ref nextTaskIndex)];
+                    bucket.TrySetResult(completed);
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+            }
 
             return results;
         }

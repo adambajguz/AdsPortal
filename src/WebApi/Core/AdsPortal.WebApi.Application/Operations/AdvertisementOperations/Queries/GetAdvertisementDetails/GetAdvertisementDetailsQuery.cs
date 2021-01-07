@@ -10,7 +10,7 @@ namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAd
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetAdvertisementDetailsQuery : IGetDetailsQuery<GetAdvertisementDetailsResponse>, IIdentifiableOperation<GetAdvertisementDetailsResponse>
+    public sealed record GetAdvertisementDetailsQuery : IGetDetailsQuery<GetAdvertisementDetailsResponse>, IIdentifiableOperation<GetAdvertisementDetailsResponse>
     {
         public Guid Id { get; init; }
 
@@ -21,12 +21,7 @@ namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAd
 
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task<Advertisement> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<Advertisement> OnFetch(CancellationToken cancellationToken)
             {
                 return await Repository.SingleByIdWithRelatedAsync(Query.Id,
                                                                    noTracking: true,

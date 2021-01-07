@@ -32,15 +32,14 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
         public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            Command = command;
-            await OnInit(cancellationToken);
+            Command = command = await OnInit(command, cancellationToken);
 
             TEntity entity = await Repository.SingleByIdAsync(command.Id, cancellationToken: cancellationToken);
             await new TCommandValidator().ValidateAndThrowAsync(command, cancellationToken: cancellationToken);
             await OnValidate(entity, cancellationToken);
 
             Mapper.Map(command, entity);
-            await OnMapped(entity, cancellationToken);
+            entity = await OnMapped(entity, cancellationToken);
 
             Repository.Update(entity);
             await Uow.SaveChangesAsync(cancellationToken);
@@ -70,14 +69,13 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
         public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            Command = command;
-            await OnInit(cancellationToken);
+            Command = command = await OnInit(command, cancellationToken);
 
             TEntity entity = await Repository.SingleByIdAsync(command.Id, cancellationToken: cancellationToken);
             await OnValidate(entity, cancellationToken);
 
             Mapper.Map(command, entity);
-            await OnMapped(entity, cancellationToken);
+            entity = await OnMapped(entity, cancellationToken);
 
             Repository.Update(entity);
             await Uow.SaveChangesAsync(cancellationToken);

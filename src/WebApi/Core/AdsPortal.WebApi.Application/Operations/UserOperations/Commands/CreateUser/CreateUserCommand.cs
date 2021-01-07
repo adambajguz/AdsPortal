@@ -14,7 +14,7 @@
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;
 
-    public class CreateUserCommand : ICreateCommand
+    public sealed record CreateUserCommand : ICreateCommand
     {
         public string? Email { get; init; }
         public string? Password { get; init; }
@@ -42,12 +42,7 @@
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task OnValidate(CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(CancellationToken cancellationToken)
             {
                 //TODO: add more generic approach
                 if (Command.Role.HasFlag(Roles.Admin))
@@ -64,10 +59,12 @@
                 }
             }
 
-            protected override async Task OnMapped(User entity, CancellationToken cancellationToken)
+            protected override async ValueTask<User> OnMapped(User entity, CancellationToken cancellationToken)
             {
-                entity.IsActive = true;
                 await _userManager.SetPassword(entity, Command.Password ?? string.Empty, cancellationToken);
+                entity.IsActive = true;
+
+                return entity;
             }
         }
     }

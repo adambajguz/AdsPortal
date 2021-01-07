@@ -81,18 +81,23 @@
                 if (state == EntityState.Detached || state == EntityState.Unchanged || entity is IAuditLog || IsEntityIgnored(entity))
                     continue;
 
+                AuditActions auditAction = state switch
+                {
+                    EntityState.Added => AuditActions.Added,
+                    EntityState.Deleted => AuditActions.Deleted,
+                    EntityState.Modified => AuditActions.Modified,
+                    _ => throw new NotImplementedException()
+                };
+
+                string? changedProperties = GetChangedProperties(entry, auditAction, out Guid primaryKey) is Dictionary<string, object> v ? JsonConvert.SerializeObject(v) : null;
+
                 EntityAuditLog auditEntry = new EntityAuditLog
                 {
                     TableName = context.Model.GetTableName(entity.GetType()),
-                    Action = state switch
-                    {
-                        EntityState.Added => AuditActions.Added,
-                        EntityState.Deleted => AuditActions.Deleted,
-                        EntityState.Modified => AuditActions.Modified,
-                        _ => throw new NotImplementedException()
-                    },
+                    Action = auditAction,
+                    Values = changedProperties,
+                    Key = primaryKey
                 };
-                auditEntry.Values = GetChangedProperties(entry, auditEntry) is Dictionary<string, object> v ? JsonConvert.SerializeObject(v) : null;
 
                 auditLogsToAdd.Add(auditEntry);
             }
@@ -100,9 +105,10 @@
             return auditLogsToAdd;
         }
 
-        private static Dictionary<string, object>? GetChangedProperties(EntityEntry entry, EntityAuditLog auditEntry)
+        private static Dictionary<string, object>? GetChangedProperties(EntityEntry entry, AuditActions action, out Guid primaryKey)
         {
-            AuditActions action = auditEntry.Action;
+            primaryKey = Guid.Empty;
+
             if (action == AuditActions.Deleted)
                 return null;
 
@@ -113,7 +119,7 @@
                 IProperty metadata = property.Metadata;
                 if (metadata.IsPrimaryKey())
                 {
-                    auditEntry.Key = (Guid)property.CurrentValue;
+                    primaryKey = (Guid)property.CurrentValue;
 
                     if (action == AuditActions.Added)
                         newValues[metadata.Name] = property.CurrentValue;

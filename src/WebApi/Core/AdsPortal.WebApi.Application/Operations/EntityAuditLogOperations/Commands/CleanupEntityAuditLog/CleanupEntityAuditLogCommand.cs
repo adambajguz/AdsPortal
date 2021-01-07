@@ -8,7 +8,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public class CleanupEntityAuditLogCommand : IOperation
+    public sealed record CleanupEntityAuditLogCommand : IOperation
     {
         public DateTime CreatedOn { get; init; }
         public string? TableName { get; init; }
@@ -30,7 +30,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
                 await new CleanupEntityAuditLogValidator().ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
                 //_uow.EntityAuditLogsRepository.Remove(routeLog);
-                //await _uow.SaveChangesAsync();
+                //await _uow.SaveChangesAsync(cancellationToken);
 
                 return await Unit.Task;
             }

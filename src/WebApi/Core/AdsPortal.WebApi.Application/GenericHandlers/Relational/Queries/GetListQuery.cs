@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading;
@@ -34,25 +35,25 @@
             Repository = Uow.GetRepository<TEntity>();
         }
 
+        [SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value")]
         public override async Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
-            Query = query;
-            await OnInit(cancellationToken);
+            Query = query = await OnInit(query, cancellationToken);
 
             List<TResultEntry> list = await OnFetch(cancellationToken);
 
-            ListResult<TResultEntry> getListResponse = new ListResult<TResultEntry>(list);
-            await OnFetched(getListResponse, cancellationToken);
+            ListResult<TResultEntry> response = new ListResult<TResultEntry>(list);
+            response = await OnFetched(response, cancellationToken);
 
-            return getListResponse;
+            return response;
         }
 
-        protected override async Task<List<TResultEntry>> OnFetch(CancellationToken cancellationToken)
+        protected override async ValueTask<List<TResultEntry>> OnFetch(CancellationToken cancellationToken)
         {
             return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
-                                                              orderBy: OrderBy,
-                                                              noTracking: true,
-                                                              cancellationToken: cancellationToken);
+                                                                 orderBy: OrderBy,
+                                                                 noTracking: true,
+                                                                 cancellationToken: cancellationToken);
         }
     }
 }

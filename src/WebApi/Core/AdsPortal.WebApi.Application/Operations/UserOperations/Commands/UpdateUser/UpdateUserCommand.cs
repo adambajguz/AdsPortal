@@ -14,9 +14,11 @@
     using FluentValidation;
     using MediatR.GenericOperations.Commands;
     using MediatR.GenericOperations.Mapping;
+    using Newtonsoft.Json;
 
-    public class UpdateUserCommand : IUpdateCommand
+    public sealed record UpdateUserCommand : IUpdateCommand
     {
+        [JsonIgnore]
         public Guid Id { get; init; }
 
         public string? Email { get; init; }
@@ -42,12 +44,7 @@
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task OnValidate(User entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
                 await _drs.IsOwnerOrAdminElseThrow(Command.Id);
 

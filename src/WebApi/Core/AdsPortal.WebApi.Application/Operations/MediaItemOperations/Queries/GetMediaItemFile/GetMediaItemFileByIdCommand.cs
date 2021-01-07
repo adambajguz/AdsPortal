@@ -12,7 +12,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetMediaItemFileByIdCommand : IGetDetailsQuery<GetMediaItemFileResponse>, IIdentifiableOperation<GetMediaItemFileResponse>
+    public sealed record GetMediaItemFileByIdCommand : IGetDetailsQuery<GetMediaItemFileResponse>, IIdentifiableOperation<GetMediaItemFileResponse>
     {
         public Guid Id { get; init; }
 
@@ -25,19 +25,14 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override Task OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
             {
                 if (entity.OwnerId != null)
                     _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
 
                 _drs.HasRoleElseThrow(entity.Role);
 
-                return Task.CompletedTask;
+                return default;
             }
         }
     }

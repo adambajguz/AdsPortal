@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetMediaItemChecksumFileByIdCommand : IGetDetailsQuery<GetMediaItemChecksumResponse>, IIdentifiableOperation<GetMediaItemChecksumResponse>
+    public sealed record GetMediaItemChecksumFileByIdCommand : IGetDetailsQuery<GetMediaItemChecksumResponse>, IIdentifiableOperation<GetMediaItemChecksumResponse>
     {
         public Guid Id { get; init; }
 
@@ -27,29 +27,24 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override Task OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
             {
                 if (entity.OwnerId != null)
                     _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
 
                 _drs.HasRoleElseThrow(entity.Role);
 
-                return Task.CompletedTask;
+                return default;
             }
 
-            protected override Task OnMapped(MediaItem entity, GetMediaItemChecksumResponse response, CancellationToken cancellationToken)
+            protected override ValueTask<GetMediaItemChecksumResponse> OnMapped(MediaItem entity, GetMediaItemChecksumResponse response, CancellationToken cancellationToken)
             {
-                //TODO: remove setter; add init
-                response.FileName += ".sha512";
-                response.ContentType = MediaTypeNames.Text.Plain;
-                response.FileContent = FileUtils.GetChecksumFileContent(entity.Hash, entity.FileName);
-
-                return Task.CompletedTask;
+                return ValueTask.FromResult(response with
+                {
+                    FileName = response.FileName + ".sha512",
+                    ContentType = MediaTypeNames.Text.Plain,
+                    FileContent = FileUtils.GetChecksumFileContent(entity.Hash, entity.FileName)
+                });
             }
         }
     }

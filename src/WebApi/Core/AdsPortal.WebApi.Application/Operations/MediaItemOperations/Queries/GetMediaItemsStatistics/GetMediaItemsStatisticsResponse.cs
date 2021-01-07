@@ -5,7 +5,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetMediaItemsStatisticsResponse : IOperationResult, ICustomMapping
+    public sealed record GetMediaItemsStatisticsResponse : IOperationResult, ICustomMapping
     {
         public int Count { get; init; }
         public long TotalByteSize { get; init; }

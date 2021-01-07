@@ -14,7 +14,7 @@
     using MediatR.GenericOperations.Abstractions;
     using Microsoft.AspNetCore.Http;
 
-    public class SendResetPasswordTokenQuery : IOperation
+    public sealed record SendResetPasswordTokenQuery : IOperation
     {
         public string? Email { get; init; }
 

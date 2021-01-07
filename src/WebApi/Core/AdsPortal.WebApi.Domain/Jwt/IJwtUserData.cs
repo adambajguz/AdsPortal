@@ -4,14 +4,14 @@
 
     public interface IJwtUserData
     {
-        Guid Id { get; set; }
+        Guid Id { get; }
 
-        DateTime CreatedOn { get; set; }
-        Guid? CreatedBy { get; set; }
+        DateTime CreatedOn { get; }
+        Guid? CreatedBy { get; }
 
-        string Email { get; set; }
+        string Email { get; }
 
-        Roles Role { get; set; }
-        bool IsActive { get; set; }
+        Roles Role { get; }
+        bool IsActive { get; }
     }
 }

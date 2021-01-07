@@ -10,7 +10,7 @@
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public class AuthenticateUserQuery : IOperation<JwtTokenModel>
+    public sealed record AuthenticateUserQuery : IOperation<JwtTokenModel>
     {
         public string? Email { get; init; }
         public string? Password { get; init; }

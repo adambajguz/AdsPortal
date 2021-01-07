@@ -10,7 +10,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategor
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
 
-    public class GetCategoryDetailsQuery : IGetDetailsQuery<GetCategoryDetailsResponse>, IIdentifiableOperation<GetCategoryDetailsResponse>
+    public sealed record GetCategoryDetailsQuery : IGetDetailsQuery<GetCategoryDetailsResponse>, IIdentifiableOperation<GetCategoryDetailsResponse>
     {
         public Guid Id { get; init; }
 
@@ -21,12 +21,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategor
 
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task<Category> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<Category> OnFetch(CancellationToken cancellationToken)
             {
                 return await Repository.SingleByIdWithRelatedAsync(Query.Id, relatedSelector0: x => x.Advertisements, noTracking: true, cancellationToken);
             }

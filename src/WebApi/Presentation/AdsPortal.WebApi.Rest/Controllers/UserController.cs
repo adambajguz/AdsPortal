@@ -115,7 +115,7 @@
         }
 
         [CustomAuthorize(Roles.User)]
-        [HttpPut("update")]
+        [HttpPut("update/{id:guid}")]
         [SwaggerOperation(
             Summary = "Update user details",
             Description = "Updates user details (requires Admin role to update to admin account)")]
@@ -123,13 +123,13 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand request)
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserCommand request)
         {
             return Ok(await Mediator.Send(request));
         }
 
         [CustomAuthorize(Roles.User)]
-        [HttpPatch("patch")]
+        [HttpPatch("patch/{id:guid}")]
         [SwaggerOperation(
             Summary = "Patch user details",
             Description = "Patch user details (requires Admin role to update to admin account)")]
@@ -137,7 +137,7 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> PatchUser([FromBody] PatchUserCommand request)
+        public async Task<IActionResult> PatchUser([FromRoute] Guid id, [FromBody] PatchUserCommand request)
         {
             return Ok(await Mediator.Send(request));
         }

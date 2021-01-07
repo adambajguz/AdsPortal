@@ -15,7 +15,7 @@
     using MediatR.GenericOperations.Mapping;
     using Microsoft.AspNetCore.Http;
 
-    public class CreateMediaItemCommand : ICreateCommand
+    public sealed record CreateMediaItemCommand : ICreateCommand
     {
         public IFormFile? File { get; init; }
 
@@ -63,16 +63,13 @@
 
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task OnMapped(MediaItem entity, CancellationToken cancellationToken)
+            protected override async ValueTask<MediaItem> OnMapped(MediaItem entity, CancellationToken cancellationToken)
             {
                 entity.Data = await Command.File.GetBytesAsync();
-                entity.Hash = HashingUtils.GetSHA512Hex(entity.Data);
-                entity.PathHashCode = entity.CalculatePathHashCode();
+                entity.Hash = HashingUtils.GetSHA512Hex(entity.Data ?? Array.Empty<byte>());
+                entity.PathHashCode = entity.CalculatePathHash();
+
+                return entity;
             }
         }
     }

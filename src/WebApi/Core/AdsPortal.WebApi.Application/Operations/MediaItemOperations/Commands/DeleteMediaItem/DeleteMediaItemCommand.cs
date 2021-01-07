@@ -10,7 +10,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.DeleteUs
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 
-    public class DeleteMediaItemCommand : IDeleteCommand, IIdentifiableOperation
+    public sealed record DeleteMediaItemCommand : IDeleteCommand, IIdentifiableOperation
     {
         public Guid Id { get; init; }
 
@@ -23,19 +23,14 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.DeleteUs
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override Task OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
             {
                 if (entity.OwnerId != null)
                     _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
 
                 _drs.HasRoleElseThrow(entity.Role);
 
-                return Task.CompletedTask;
+                return default;
             }
         }
     }

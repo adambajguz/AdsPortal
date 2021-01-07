@@ -10,7 +10,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 
-    public class DeleteUserCommand : IDeleteCommand, IIdentifiableOperation
+    public sealed record DeleteUserCommand : IDeleteCommand, IIdentifiableOperation
     {
         public Guid Id { get; init; }
 
@@ -23,12 +23,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
                 _drs = drs;
             }
 
-            protected override Task OnInit(CancellationToken cancellationToken)
-            {
-                return Task.CompletedTask;
-            }
-
-            protected override async Task OnValidate(User entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
                 await _drs.IsOwnerOrAdminElseThrow(Command.Id);
             }

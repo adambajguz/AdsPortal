@@ -21,13 +21,16 @@
     {
         public abstract Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected abstract Task<List<TResultEntry>> OnFetch(CancellationToken cancellationToken);
-
-        protected virtual Task OnFetched(ListResult<TResultEntry> response, CancellationToken cancellationToken)
+        protected virtual ValueTask<TQuery> OnInit(TQuery command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
+        }
+
+        protected abstract ValueTask<List<TResultEntry>> OnFetch(CancellationToken cancellationToken);
+
+        protected virtual ValueTask<ListResult<TResultEntry>> OnFetched(ListResult<TResultEntry> response, CancellationToken cancellationToken)
+        {
+            return ValueTask.FromResult(response);
         }
     }
 }

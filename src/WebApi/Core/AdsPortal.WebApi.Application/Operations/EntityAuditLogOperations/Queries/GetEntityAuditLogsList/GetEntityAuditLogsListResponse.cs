@@ -7,7 +7,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetEntityAuditLogsListResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed record GetEntityAuditLogsListResponse : IIdentifiableOperationResult, ICustomMapping
     {
         public Guid Id { get; init; }
         public DateTime CreatedOn { get; init; }

@@ -28,15 +28,14 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
 
         public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            Command = command;
-            await OnInit(cancellationToken);
+            Command = command = await OnInit(command, cancellationToken);
 
             Guid id = command.Id;
             TEntity entity = await Repository.SingleByIdAsync(id, cancellationToken: cancellationToken);
             await OnValidate(entity, cancellationToken);
 
             Repository.Remove(entity);
-            await Uow.SaveChangesAsync();
+            await Uow.SaveChangesAsync(cancellationToken);
             await OnRemoved(cancellationToken);
 
             return await Unit.Task;

@@ -50,14 +50,14 @@
         }
 
         //[CustomAuthorize(Roles.Admin)]
-        [HttpPut("update")]
+        [HttpPut("update/{id:guid}")]
         [SwaggerOperation(
             Summary = "Update category details",
             Description = "Updates category details")]
         [SwaggerResponse(StatusCodes.Status200OK, "Category details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryCommand request)
+        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryCommand request)
         {
             return Ok(await Mediator.Send(request));
         }

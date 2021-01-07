@@ -22,18 +22,21 @@
     {
         public abstract Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(CancellationToken cancellationToken)
+        protected virtual ValueTask<TQuery> OnInit(TQuery command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
         }
 
-        protected abstract Task<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken);
-
-        protected virtual Task OnFetched(PagedListResult<TResultEntry> response, CancellationToken cancellationToken)
+        protected virtual ValueTask OnValidate(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return default;
+        }
+
+        protected abstract ValueTask<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken);
+
+        protected virtual ValueTask<PagedListResult<TResultEntry>> OnFetched(PagedListResult<TResultEntry> response, CancellationToken cancellationToken)
+        {
+            return ValueTask.FromResult(response);
         }
     }
 }

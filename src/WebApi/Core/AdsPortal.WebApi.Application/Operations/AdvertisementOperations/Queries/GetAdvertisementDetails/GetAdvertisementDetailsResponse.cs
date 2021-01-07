@@ -6,7 +6,7 @@
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
 
-    public class GetAdvertisementDetailsResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed record GetAdvertisementDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {
         public Guid Id { get; init; }
 

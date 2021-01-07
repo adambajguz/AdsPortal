@@ -16,16 +16,19 @@
     {
         public abstract Task<Unit> Handle(TCommand command, CancellationToken cancellationToken);
 
-        protected abstract Task OnInit(CancellationToken cancellationToken);
-
-        protected virtual Task OnValidate(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask<TCommand> OnInit(TCommand command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return ValueTask.FromResult(command);
         }
 
-        protected virtual Task OnRemoved(CancellationToken cancellationToken)
+        protected virtual ValueTask OnValidate(TEntity entity, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return default;
+        }
+
+        protected virtual ValueTask OnRemoved(CancellationToken cancellationToken)
+        {
+            return default;
         }
     }
 }
