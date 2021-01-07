@@ -7,7 +7,7 @@
 
     public sealed record GetMediaItemsListQuery : IGetListQuery<GetMediaItemsListResponse>
     {
-        private class Handler : GetListQueryHandler<GetMediaItemsListQuery, MediaItem, GetMediaItemsListResponse>
+        private sealed class Handler : GetListQueryHandler<GetMediaItemsListQuery, MediaItem, GetMediaItemsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

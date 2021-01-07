@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     {
         public string Path { get; init; } = string.Empty;
 
-        private class Handler : GetDetailsQueryHandler<GetMediaItemDetailsByPathQuery, MediaItem, GetMediaItemDetailsResponse>
+        private sealed class Handler : GetDetailsQueryHandler<GetMediaItemDetailsByPathQuery, MediaItem, GetMediaItemDetailsResponse>
         {
             private readonly IDataRightsService _drs;
 

@@ -2,7 +2,7 @@
 {
     using FluentValidation;
 
-    public class CleanupEntityAuditLogValidator : AbstractValidator<CleanupEntityAuditLogCommand>
+    public sealed class CleanupEntityAuditLogValidator : AbstractValidator<CleanupEntityAuditLogCommand>
     {
         public CleanupEntityAuditLogValidator()
         {

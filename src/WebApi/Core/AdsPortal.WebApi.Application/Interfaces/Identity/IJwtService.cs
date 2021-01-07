@@ -6,8 +6,8 @@
 
     public interface IJwtService
     {
-        JwtTokenModel GenerateJwtToken(IJwtUserData user);
-        JwtTokenModel GenerateJwtToken(IJwtUserData user, Roles roles);
+        AuthenticateUserResponse GenerateJwtToken(IJwtUserData user);
+        AuthenticateUserResponse GenerateJwtToken(IJwtUserData user, Roles roles);
 
         void ValidateStringToken(string? token);
         bool IsTokenStringValid(string? token);

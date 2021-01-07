@@ -15,7 +15,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaI
     {
         public Guid Id { get; init; }
 
-        private class Handler : GetDetailsByIdQueryHandler<GetMediaItemDetailsByIdQuery, MediaItem, GetMediaItemDetailsResponse>
+        private sealed class Handler : GetDetailsByIdQueryHandler<GetMediaItemDetailsByIdQuery, MediaItem, GetMediaItemDetailsResponse>
         {
             private readonly IDataRightsService _drs;
 

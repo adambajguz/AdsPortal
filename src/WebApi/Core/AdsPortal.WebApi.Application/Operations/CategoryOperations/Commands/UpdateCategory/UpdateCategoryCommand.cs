@@ -22,7 +22,7 @@
             configuration.CreateMap<UpdateCategoryCommand, Category>();
         }
 
-        private class Handler : UpdateCommandHandler<UpdateCategoryCommand, UpdateCategoryValidator, Category>
+        private sealed class Handler : UpdateCommandHandler<UpdateCategoryCommand, UpdateCategoryValidator, Category>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

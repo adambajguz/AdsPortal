@@ -12,7 +12,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetR
     {
         public Guid Id { get; init; }
 
-        private class Handler : GetDetailsByIdQueryHandler<GetEntityAuditLogDetailsQuery, EntityAuditLog, GetEntityAuditLogDetailsResponse>
+        private sealed class Handler : GetDetailsByIdQueryHandler<GetEntityAuditLogDetailsQuery, EntityAuditLog, GetEntityAuditLogDetailsResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

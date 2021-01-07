@@ -7,7 +7,7 @@
 
     public sealed record GetAdvertisementsListQuery : IGetListQuery<GetAdvertisementsListResponse>
     {
-        private class Handler : GetListQueryHandler<GetAdvertisementsListQuery, Advertisement, GetAdvertisementsListResponse>
+        private sealed class Handler : GetListQueryHandler<GetAdvertisementsListQuery, Advertisement, GetAdvertisementsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

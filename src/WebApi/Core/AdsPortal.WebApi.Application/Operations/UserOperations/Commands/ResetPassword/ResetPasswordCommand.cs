@@ -17,7 +17,7 @@
         public string? Token { get; init; }
         public string? Password { get; init; }
 
-        private class Handler : IRequestHandler<ResetPasswordCommand>
+        private sealed class Handler : IRequestHandler<ResetPasswordCommand>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IJwtService _jwt;

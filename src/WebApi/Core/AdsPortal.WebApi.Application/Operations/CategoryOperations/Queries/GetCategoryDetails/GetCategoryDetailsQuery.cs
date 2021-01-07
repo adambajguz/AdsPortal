@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategor
     {
         public Guid Id { get; init; }
 
-        private class Handler : GetDetailsByIdQueryHandler<GetCategoryDetailsQuery, Category, GetCategoryDetailsResponse>
+        private sealed class Handler : GetDetailsByIdQueryHandler<GetCategoryDetailsQuery, Category, GetCategoryDetailsResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

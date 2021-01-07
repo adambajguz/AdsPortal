@@ -4,7 +4,7 @@
     using Application.Constants;
     using FluentValidation;
 
-    public class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
+    public sealed class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
     {
         public UpdateUserValidator()
         {

@@ -11,7 +11,7 @@ namespace AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCat
     {
         public Guid Id { get; init; }
 
-        private class Handler : DeleteByIdHandler<DeleteCategoryCommand, Category>
+        private sealed class Handler : DeleteByIdHandler<DeleteCategoryCommand, Category>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

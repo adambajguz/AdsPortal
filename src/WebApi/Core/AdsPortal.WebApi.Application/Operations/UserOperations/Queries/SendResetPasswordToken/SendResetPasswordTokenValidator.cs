@@ -3,7 +3,7 @@
     using Application.Constants;
     using FluentValidation;
 
-    public class SendResetPasswordTokenValidator : AbstractValidator<SendResetPasswordTokenQuery>
+    public sealed class SendResetPasswordTokenValidator : AbstractValidator<SendResetPasswordTokenQuery>
     {
         public SendResetPasswordTokenValidator()
         {

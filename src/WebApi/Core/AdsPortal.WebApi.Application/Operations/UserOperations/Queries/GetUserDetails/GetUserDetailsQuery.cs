@@ -15,7 +15,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
     {
         public Guid Id { get; init; }
 
-        private class Handler : GetDetailsByIdQueryHandler<GetUserDetailsQuery, User, GetUserDetailsResponse>
+        private sealed class Handler : GetDetailsByIdQueryHandler<GetUserDetailsQuery, User, GetUserDetailsResponse>
         {
             private readonly IDataRightsService _drs;
 

@@ -31,7 +31,7 @@
             configuration.CreateMap<CreateUserCommand, User>();
         }
 
-        private class Handler : CreateCommandHandler<CreateUserCommand, User>
+        private sealed class Handler : CreateCommandHandler<CreateUserCommand, User>
         {
             private readonly IUserManagerService _userManager;
             private readonly IDataRightsService _drs;

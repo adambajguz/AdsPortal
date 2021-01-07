@@ -16,7 +16,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
         public string? OldPassword { get; init; }
         public string? NewPassword { get; init; }
 
-        private class Handler : IRequestHandler<ChangeUserPasswordCommand>
+        private sealed class Handler : IRequestHandler<ChangeUserPasswordCommand>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IDataRightsService _drs;

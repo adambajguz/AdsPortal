@@ -7,7 +7,7 @@
 
     public sealed record GetCategoriesListQuery : IGetListQuery<GetCategoriesListResponse>
     {
-        private class Handler : GetListQueryHandler<GetCategoriesListQuery, Category, GetCategoriesListResponse>
+        private sealed class Handler : GetListQueryHandler<GetCategoriesListQuery, Category, GetCategoriesListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cle
         public string? TableName { get; init; }
         public Guid? Key { get; init; }
 
-        private class Handler : IRequestHandler<CleanupEntityAuditLogCommand>
+        private sealed class Handler : IRequestHandler<CleanupEntityAuditLogCommand>
         {
             private readonly IAppRelationalUnitOfWork _uow;
 

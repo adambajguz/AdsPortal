@@ -54,7 +54,7 @@
             //  .ForAllMembersTryPatchProperty();
         }
 
-        private class Handler : UpdateCommandHandler<PatchUserCommand, User>
+        private sealed class Handler : UpdateCommandHandler<PatchUserCommand, User>
         {
             private readonly IDataRightsService _drs;
 

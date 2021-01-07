@@ -3,7 +3,7 @@
     using AdsPortal.Application.Constants;
     using FluentValidation;
 
-    public class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>
+    public sealed class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>
     {
         public CreateCategoryValidator()
         {

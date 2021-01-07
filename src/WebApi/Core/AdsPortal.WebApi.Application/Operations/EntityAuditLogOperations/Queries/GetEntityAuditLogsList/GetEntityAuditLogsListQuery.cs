@@ -10,7 +10,7 @@
 
     public sealed record GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>
     {
-        private class Handler : GetListQueryHandler<GetEntityAuditLogsListQuery, EntityAuditLog, GetEntityAuditLogsListResponse>
+        private sealed class Handler : GetListQueryHandler<GetEntityAuditLogsListQuery, EntityAuditLog, GetEntityAuditLogsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

@@ -11,7 +11,7 @@ namespace AdsPortal.Application.Operations.AdvertisementOperations.Commands.Dele
     {
         public Guid Id { get; init; }
 
-        private class Handler : DeleteByIdHandler<DeleteAdvertisementCommand, Advertisement>
+        private sealed class Handler : DeleteByIdHandler<DeleteAdvertisementCommand, Advertisement>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

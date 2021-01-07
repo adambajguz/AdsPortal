@@ -4,7 +4,7 @@
     using Application.Constants;
     using FluentValidation;
 
-    public class CreateUserValidator : AbstractValidator<CreateUserCommand>
+    public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
     {
         public CreateUserValidator()
         {

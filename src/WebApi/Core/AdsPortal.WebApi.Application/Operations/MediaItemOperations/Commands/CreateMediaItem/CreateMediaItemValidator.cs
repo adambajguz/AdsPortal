@@ -3,7 +3,7 @@
     using AdsPortal.Application.Constants;
     using FluentValidation;
 
-    public class CreateMediaItemValidator : AbstractValidator<CreateMediaItemCommand>
+    public sealed class CreateMediaItemValidator : AbstractValidator<CreateMediaItemCommand>
     {
         public CreateMediaItemValidator()
         {

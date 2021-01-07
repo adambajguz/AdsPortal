@@ -10,7 +10,7 @@
 
     public sealed record GetMediaItemsStatisticsQuery : IOperation<GetMediaItemsStatisticsResponse>
     {
-        private class Handler : IRequestHandler<GetMediaItemsStatisticsQuery, GetMediaItemsStatisticsResponse>
+        private sealed class Handler : IRequestHandler<GetMediaItemsStatisticsQuery, GetMediaItemsStatisticsResponse>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IMapper _mapper;

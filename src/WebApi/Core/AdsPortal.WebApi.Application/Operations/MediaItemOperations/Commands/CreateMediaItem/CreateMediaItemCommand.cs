@@ -38,7 +38,7 @@
                          .ForMember(dest => dest.ByteSize, opt => opt.MapFrom(src => src.File == null ? 0 : src.File.Length));
         }
 
-        private class FileNameResolver : IValueResolver<CreateMediaItemCommand, MediaItem, string>
+        private sealed class FileNameResolver : IValueResolver<CreateMediaItemCommand, MediaItem, string>
         {
             public string Resolve(CreateMediaItemCommand source, MediaItem destination, string member, ResolutionContext context)
             {
@@ -56,7 +56,7 @@
             }
         }
 
-        private class Handler : CreateCommandHandler<CreateMediaItemCommand, CreateMediaItemValidator, MediaItem>
+        private sealed class Handler : CreateCommandHandler<CreateMediaItemCommand, CreateMediaItemValidator, MediaItem>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

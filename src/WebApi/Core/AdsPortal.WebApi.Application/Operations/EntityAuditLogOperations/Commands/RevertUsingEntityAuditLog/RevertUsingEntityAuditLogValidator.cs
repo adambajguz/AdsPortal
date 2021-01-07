@@ -2,7 +2,7 @@
 {
     using FluentValidation;
 
-    public class RevertUsingEntityAuditLogValidator : AbstractValidator<RevertUsingEntityAuditLogCommand>
+    public sealed class RevertUsingEntityAuditLogValidator : AbstractValidator<RevertUsingEntityAuditLogCommand>
     {
         public RevertUsingEntityAuditLogValidator()
         {

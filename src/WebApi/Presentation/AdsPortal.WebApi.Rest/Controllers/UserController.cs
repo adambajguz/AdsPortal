@@ -45,7 +45,7 @@
         [SwaggerOperation(
             Summary = "Login a user",
             Description = "Authenticates a user")]
-        [SwaggerResponse(StatusCodes.Status200OK, "User authenticated", typeof(JwtTokenModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "User authenticated", typeof(AuthenticateUserResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserQuery request)
         {

@@ -13,7 +13,7 @@ namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.Cre
         public Guid EntityId { get; init; }
         public Guid ToId { get; init; }
 
-        private class Handler : IRequestHandler<RevertUsingEntityAuditLogCommand, IdResult>
+        private sealed class Handler : IRequestHandler<RevertUsingEntityAuditLogCommand, IdResult>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IMapper _mapper;

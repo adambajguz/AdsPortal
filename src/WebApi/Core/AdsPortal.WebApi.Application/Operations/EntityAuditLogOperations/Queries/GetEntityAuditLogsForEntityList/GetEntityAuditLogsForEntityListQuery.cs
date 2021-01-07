@@ -13,7 +13,7 @@
     {
         public Guid Id { get; init; }
 
-        private class Handler : GetListQueryHandler<GetEntityAuditLogsForEntityListQuery, EntityAuditLog, GetEntityAuditLogsForEntityListResponse>
+        private sealed class Handler : GetListQueryHandler<GetEntityAuditLogsForEntityListQuery, EntityAuditLog, GetEntityAuditLogsForEntityListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.DeleteUs
     {
         public Guid Id { get; init; }
 
-        private class Handler : DeleteByIdHandler<DeleteMediaItemCommand, MediaItem>
+        private sealed class Handler : DeleteByIdHandler<DeleteMediaItemCommand, MediaItem>
         {
             private readonly IDataRightsService _drs;
 

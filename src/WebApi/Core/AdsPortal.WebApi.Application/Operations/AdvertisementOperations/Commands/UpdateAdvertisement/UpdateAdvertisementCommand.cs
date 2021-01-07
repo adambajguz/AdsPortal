@@ -28,7 +28,7 @@
             configuration.CreateMap<UpdateAdvertisementCommand, Advertisement>();
         }
 
-        private class Handler : UpdateCommandHandler<UpdateAdvertisementCommand, UpdateAdvertisementValidator, Advertisement>
+        private sealed class Handler : UpdateCommandHandler<UpdateAdvertisementCommand, UpdateAdvertisementValidator, Advertisement>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

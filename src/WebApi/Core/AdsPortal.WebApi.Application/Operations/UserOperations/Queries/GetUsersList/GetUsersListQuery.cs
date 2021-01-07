@@ -7,7 +7,7 @@
 
     public sealed record GetUsersListQuery : IGetListQuery<GetUsersListResponse>
     {
-        private class Handler : GetListQueryHandler<GetUsersListQuery, User, GetUsersListResponse>
+        private sealed class Handler : GetListQueryHandler<GetUsersListQuery, User, GetUsersListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

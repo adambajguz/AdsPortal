@@ -10,12 +10,12 @@
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public sealed record AuthenticateUserQuery : IOperation<JwtTokenModel>
+    public sealed record AuthenticateUserQuery : IOperation<AuthenticateUserResponse>
     {
         public string? Email { get; init; }
         public string? Password { get; init; }
 
-        private class Handler : IRequestHandler<AuthenticateUserQuery, JwtTokenModel>
+        private sealed class Handler : IRequestHandler<AuthenticateUserQuery, AuthenticateUserResponse>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IJwtService _jwt;
@@ -28,12 +28,12 @@
                 _userManager = userManager;
             }
 
-            public async Task<JwtTokenModel> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
+            public async Task<AuthenticateUserResponse> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
             {
                 User user = await _uow.Users.SingleAsync(x => x.Email.Equals(query.Email), noTracking: true, cancellationToken);
-                AutheniticateUserValidator.Model validationModel = new AutheniticateUserValidator.Model(query, user);
+                AuthenticateUserValidator.Model validationModel = new AuthenticateUserValidator.Model(query, user);
 
-                await new AutheniticateUserValidator(_userManager).ValidateAndThrowAsync(validationModel, cancellationToken: cancellationToken);
+                await new AuthenticateUserValidator(_userManager).ValidateAndThrowAsync(validationModel, cancellationToken: cancellationToken);
 
                 return _jwt.GenerateJwtToken(user);
             }

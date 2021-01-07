@@ -18,7 +18,7 @@
     {
         public string? Email { get; init; }
 
-        private class SendResetPasswordTokenHandler : IRequestHandler<SendResetPasswordTokenQuery>
+        private sealed class SendResetPasswordTokenHandler : IRequestHandler<SendResetPasswordTokenQuery>
         {
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IHttpContextAccessor _context;

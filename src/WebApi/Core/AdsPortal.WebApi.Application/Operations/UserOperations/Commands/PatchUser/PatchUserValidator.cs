@@ -3,7 +3,7 @@
     using FluentValidation;
 
     //TODO: add patch user validator
-    public class PatchUserValidator : AbstractValidator<PatchUserCommand>
+    public sealed class PatchUserValidator : AbstractValidator<PatchUserCommand>
     {
         public PatchUserValidator()
         {

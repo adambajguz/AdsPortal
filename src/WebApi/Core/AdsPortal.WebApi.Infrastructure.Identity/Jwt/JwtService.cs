@@ -42,12 +42,12 @@
             _handler = new JwtSecurityTokenHandler();
         }
 
-        public JwtTokenModel GenerateJwtToken(IJwtUserData user)
+        public AuthenticateUserResponse GenerateJwtToken(IJwtUserData user)
         {
             return GenerateJwtToken(user, user.Role);
         }
 
-        public JwtTokenModel GenerateJwtToken(IJwtUserData user, Roles roles)
+        public AuthenticateUserResponse GenerateJwtToken(IJwtUserData user, Roles roles)
         {
             if (!user.IsActive)
                 throw new ForbiddenException();
@@ -82,7 +82,7 @@
             };
             SecurityToken result = _handler.CreateToken(tokenDescriptor);
 
-            return new JwtTokenModel
+            return new AuthenticateUserResponse
             {
                 Token = _handler.WriteToken(result),
                 Lease = _settings.Lease,

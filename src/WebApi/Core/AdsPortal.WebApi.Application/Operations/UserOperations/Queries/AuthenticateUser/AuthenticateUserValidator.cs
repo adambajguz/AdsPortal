@@ -5,9 +5,9 @@
     using Application.Constants;
     using FluentValidation;
 
-    public class AutheniticateUserValidator : AbstractValidator<AutheniticateUserValidator.Model>
+    public sealed class AuthenticateUserValidator : AbstractValidator<AuthenticateUserValidator.Model>
     {
-        public AutheniticateUserValidator(IUserManagerService _userManager)
+        public AuthenticateUserValidator(IUserManagerService _userManager)
         {
             RuleFor(x => x.Data.Email).NotEmpty()
                                       .WithMessage(ValidationMessages.Email.IsEmpty);

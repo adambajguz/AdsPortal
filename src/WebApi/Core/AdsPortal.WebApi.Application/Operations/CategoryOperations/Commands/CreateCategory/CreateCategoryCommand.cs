@@ -17,7 +17,7 @@
             configuration.CreateMap<CreateCategoryCommand, Category>();
         }
 
-        private class Handler : CreateCommandHandler<CreateCategoryCommand, CreateCategoryValidator, Category>
+        private sealed class Handler : CreateCommandHandler<CreateCategoryCommand, CreateCategoryValidator, Category>
         {
             public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
             {

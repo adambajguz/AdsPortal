@@ -6,7 +6,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
     using FluentValidation;
 
     //TODO: remove (this should not be in validator as is complex)
-    public class ChangeUserPasswordCommandValidator : AbstractValidator<ChangeUserPasswordCommandValidator.Model>
+    public sealed class ChangeUserPasswordCommandValidator : AbstractValidator<ChangeUserPasswordCommandValidator.Model>
     {
         public ChangeUserPasswordCommandValidator(IUserManagerService _userManager)
         {

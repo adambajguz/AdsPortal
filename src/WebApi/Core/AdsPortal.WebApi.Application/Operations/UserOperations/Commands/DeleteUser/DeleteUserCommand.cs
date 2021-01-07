@@ -14,7 +14,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.DeleteUser
     {
         public Guid Id { get; init; }
 
-        private class Handler : DeleteByIdHandler<DeleteUserCommand, User>
+        private sealed class Handler : DeleteByIdHandler<DeleteUserCommand, User>
         {
             private readonly IDataRightsService _drs;
 

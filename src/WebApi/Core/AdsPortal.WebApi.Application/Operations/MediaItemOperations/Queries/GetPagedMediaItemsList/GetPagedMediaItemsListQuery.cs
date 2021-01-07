@@ -10,7 +10,7 @@
         public int Page { get; init; }
         public int EntiresPerPage { get; init; }
 
-        private class Handler : GetPagedListQueryHandler<GetPagedMediaItemsListQuery, MediaItem, GetMediaItemsListResponse>
+        private sealed class Handler : GetPagedListQueryHandler<GetPagedMediaItemsListQuery, MediaItem, GetMediaItemsListResponse>
         {
             public Handler(IAppRelationalUnitOfWork uow) : base(uow)
             {

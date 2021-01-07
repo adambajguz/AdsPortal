@@ -35,7 +35,7 @@
             configuration.CreateMap<UpdateUserCommand, User>();
         }
 
-        private class Handler : UpdateCommandHandler<UpdateUserCommand, User>
+        private sealed class Handler : UpdateCommandHandler<UpdateUserCommand, User>
         {
             private readonly IDataRightsService _drs;
 
