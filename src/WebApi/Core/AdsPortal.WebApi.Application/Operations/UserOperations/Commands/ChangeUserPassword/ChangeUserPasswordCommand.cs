@@ -3,6 +3,8 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using AdsPortal.Application.Constants;
+    using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
@@ -32,11 +34,14 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
             public async Task<Unit> Handle(ChangeUserPasswordCommand command, CancellationToken cancellationToken)
             {
                 await _drs.IsOwnerOrAdminElseThrow(command.UserId);
+                await new ChangeUserPasswordCommandValidator().ValidateAndThrowAsync(command, cancellationToken: cancellationToken);
 
-                User user = await _uow.Users.SingleByIdAsync(command.UserId);
+                User user = await _uow.Users.SingleByIdAsync(command.UserId, cancellationToken: cancellationToken);
 
-                ChangeUserPasswordCommandValidator.Model validationModel = new ChangeUserPasswordCommandValidator.Model(command, user);
-                await new ChangeUserPasswordCommandValidator(_userManager).ValidateAndThrowAsync(validationModel, cancellationToken: cancellationToken);
+                if (!await _userManager.ValidatePassword(user, command.OldPassword ?? string.Empty, cancellationToken))
+                {
+                    throw new ValidationFailedException(nameof(command.OldPassword), ValidationMessages.Password.OldIsIncorrect);
+                }
 
                 await _userManager.SetPassword(user, command.NewPassword ?? string.Empty, cancellationToken);
                 _uow.Users.Update(user);

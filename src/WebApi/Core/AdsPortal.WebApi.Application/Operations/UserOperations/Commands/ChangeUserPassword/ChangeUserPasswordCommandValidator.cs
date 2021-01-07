@@ -1,29 +1,17 @@
 namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPassword
 {
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Domain.Entities;
     using Application.Constants;
     using FluentValidation;
 
-    //TODO: remove (this should not be in validator as is complex)
-    public sealed class ChangeUserPasswordCommandValidator : AbstractValidator<ChangeUserPasswordCommandValidator.Model>
+    public sealed class ChangeUserPasswordCommandValidator : AbstractValidator<ChangeUserPasswordCommand>
     {
-        public ChangeUserPasswordCommandValidator(IUserManagerService _userManager)
+        public ChangeUserPasswordCommandValidator()
         {
-            RuleFor(x => x.Data.OldPassword).MustAsync(async (request, val, token) => await _userManager.ValidatePassword(request.User, val ?? string.Empty))
-                                            .WithMessage(ValidationMessages.Password.OldIsIncorrect);
-        }
+            RuleFor(x => x.OldPassword).NotEmpty()
+                                       .WithMessage(ValidationMessages.General.IsNullOrEmpty);
 
-        public class Model
-        {
-            public ChangeUserPasswordCommand Data { get; init; }
-            public User User { get; init; }
-
-            public Model(ChangeUserPasswordCommand data, User user)
-            {
-                Data = data;
-                User = user;
-            }
+            RuleFor(x => x.NewPassword).NotEmpty()
+                                       .WithMessage(ValidationMessages.General.IsNullOrEmpty);
         }
     }
 }
