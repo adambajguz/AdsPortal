@@ -16,15 +16,15 @@
     [RenderableClass]
     public class CategoryDetails
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
-        public DateTime CreatedOn { get; init; }
-        public Guid? CreatedBy { get; init; }
-        public DateTime LastSavedOn { get; init; }
-        public Guid? LastSavedBy { get; init; }
+        public DateTime CreatedOn { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public DateTime LastSavedOn { get; set; }
+        public Guid? LastSavedBy { get; set; }
 
-        public string Name { get; init; } = string.Empty;
-        public string Description { get; init; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         public IList<CategoryAdvertisementsDetails> Advertisements { get; set; } = default!;
     }
@@ -32,8 +32,8 @@
     [RenderableClass]
     public class CategoryAdvertisementsDetails
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
-        public string Title { get; init; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
     }
 }

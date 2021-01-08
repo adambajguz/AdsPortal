@@ -8,14 +8,14 @@
     [CreateOperation(ResponseType = typeof(IdResult))]
     public class CreateUser
     {
-        public string? Email { get; init; }
-        public string? Password { get; init; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
 
-        public string? Name { get; init; }
-        public string? Surname { get; init; }
-        public string? PhoneNumber { get; init; }
-        public string? Address { get; init; }
+        public string? Name { get; set; }
+        public string? Surname { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
 
-        public Roles Role { get; init; }
+        public Roles Role { get; set; }
     }
 }

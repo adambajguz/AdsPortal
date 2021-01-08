@@ -8,6 +8,6 @@ namespace AdsPortal.WebPortal.Application.Models.User
     [DeleteOperation]
     public class DeleteUser
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
     }
 }

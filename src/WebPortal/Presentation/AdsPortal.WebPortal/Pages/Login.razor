@@ -1,5 +1,7 @@
 ﻿@page "/login"
 
+@using Application.Models.User
+
 <section>
     <div class="row">
         <div class="col-12">
@@ -7,17 +9,10 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <h2>READ</h2>
-            <MagicModel Model="@(new Application.Models.TestModel())" />
-        </div>
-    </div>
 
     <div class="row">
         <div class="col">
-            <h2>WRITE</h2>
-            <MagicModel Model="@(new Application.Models.TestModel())" IsWrite="true" />
+            <MagicModel Model="@(new AuthenticateUser())" IsWrite="true" />
         </div>
     </div>
 

@@ -15,18 +15,18 @@
     [RenderableClass]
     public class UserDetails
     {
-        public Guid Id { get; init; }
-        public DateTime CreatedOn { get; init; }
-        public Guid? CreatedBy { get; init; }
-        public DateTime LastSavedOn { get; init; }
-        public Guid? LastSavedBy { get; init; }
+        public Guid Id { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public DateTime LastSavedOn { get; set; }
+        public Guid? LastSavedBy { get; set; }
 
-        public string Email { get; init; } = default!;
+        public string Email { get; set; } = default!;
 
-        public string Name { get; init; } = default!;
-        public string Surname { get; init; } = default!;
-        public string Description { get; init; } = default!;
+        public string Name { get; set; } = default!;
+        public string Surname { get; set; } = default!;
+        public string Description { get; set; } = default!;
 
-        public Roles Role { get; init; }
+        public Roles Role { get; set; }
     }
 }

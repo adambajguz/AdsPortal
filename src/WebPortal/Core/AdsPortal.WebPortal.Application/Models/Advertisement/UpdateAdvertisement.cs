@@ -8,15 +8,15 @@
     [UpdateOperation]
     public class UpdateAdvertisement
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
-        public string? Title { get; init; } = string.Empty;
-        public string? Description { get; init; } = string.Empty;
-        public bool IsPublished { get; init; }
-        public DateTime VisibleTo { get; init; }
+        public string? Title { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
+        public bool IsPublished { get; set; }
+        public DateTime VisibleTo { get; set; }
 
-        public Guid? CoverImageId { get; init; }
-        public Guid CategoryId { get; init; }
-        public Guid AuthorId { get; init; }
+        public Guid? CoverImageId { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid AuthorId { get; set; }
     }
 }

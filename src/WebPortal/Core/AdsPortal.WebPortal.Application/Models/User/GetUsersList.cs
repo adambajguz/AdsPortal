@@ -25,9 +25,9 @@
     [RenderableClass]
     public class UsersListItem
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
-        public string Name { get; init; } = default!;
-        public string Surname { get; init; } = default!;
+        public string Name { get; set; } = default!;
+        public string Surname { get; set; } = default!;
     }
 }
