@@ -67,7 +67,7 @@ namespace AdsPortal.WebApi
                     .AddMailing(Configuration, emailTemplatesRootFolder);
 
             services.AddPersistenceLayer(Configuration)
-                    .AddApplicationLayer(LoggerFactory)
+                    .AddApplicationLayer(LoggerFactory, Configuration)
                     .AddWebApi()
                     .AddRestApi()
                     .AddGrpcApi();

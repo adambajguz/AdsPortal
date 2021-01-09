@@ -81,12 +81,11 @@
 
             string roleName = role.ToString();
 
-            if (roleName == Roles.None.ToString())
-                return;
+            if (role == Roles.None)
+                throw new ForbiddenException();
 
             if (_context.HttpContext is null)
-#if DEBUG
-                return; // This might be from CLI
+                throw new ForbiddenException();
 
             ClaimsIdentity? identity = _context.HttpContext.User.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)

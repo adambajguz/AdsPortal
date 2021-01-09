@@ -10,6 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.Identity.json" />
+    <None Remove="appsettings.JobScheduler.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Identity.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>appsettings.Identity.json</DependentUpon>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.Identity.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
   </ItemGroup>
