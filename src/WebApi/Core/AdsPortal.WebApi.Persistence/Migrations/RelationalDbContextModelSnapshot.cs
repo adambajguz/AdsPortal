@@ -15,11 +15,11 @@ namespace AdsPortal.WebApi.Persistence.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.HasSequence("Job_JobNo_Sequence");
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.Advertisement", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Advertisement", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("Advertisements");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.Category", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.EntityAuditLog", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.EntityAuditLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("EntityAuditLogs");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.Job", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Job", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,7 +194,7 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("Jobs");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.MediaItem", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.MediaItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,7 +258,7 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("MediaItems");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.User", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -307,21 +307,21 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.Advertisement", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Advertisement", b =>
                 {
-                    b.HasOne("AdsPortal.Domain.Entities.User", "Author")
+                    b.HasOne("AdsPortal.WebApi.Domain.Entities.User", "Author")
                         .WithMany("Advertisements")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AdsPortal.Domain.Entities.Category", "Category")
+                    b.HasOne("AdsPortal.WebApi.Domain.Entities.Category", "Category")
                         .WithMany("Advertisements")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AdsPortal.Domain.Entities.MediaItem", "CoverImage")
+                    b.HasOne("AdsPortal.WebApi.Domain.Entities.MediaItem", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -333,12 +333,12 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.Navigation("CoverImage");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.Category", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Advertisements");
                 });
 
-            modelBuilder.Entity("AdsPortal.Domain.Entities.User", b =>
+            modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.User", b =>
                 {
                     b.Navigation("Advertisements");
                 });

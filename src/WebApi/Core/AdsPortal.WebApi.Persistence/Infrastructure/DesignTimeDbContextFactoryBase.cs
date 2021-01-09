@@ -14,7 +14,7 @@
 
         public TContext CreateDbContext(string[] args)
         {
-            string basePath = Directory.GetCurrentDirectory() + string.Format("{0}..{0}../Presentation/AdsPortal", Path.DirectorySeparatorChar);
+            string basePath = Directory.GetCurrentDirectory() + string.Format("{0}..{0}..{0}Presentation{0}AdsPortal.WebApi", Path.DirectorySeparatorChar);
             string currentPath = Directory.GetCurrentDirectory();
 
             return Create(basePath, currentPath, Environment.GetEnvironmentVariable(AspNetCoreEnvironment) ?? "Production");

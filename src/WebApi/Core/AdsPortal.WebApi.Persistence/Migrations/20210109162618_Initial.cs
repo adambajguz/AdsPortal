@@ -49,17 +49,19 @@
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    JobNo = table.Column<long>(type: "bigint", nullable: false, defaultValueSql: "NEXT VALUE FOR Job_JobNo_Sequence"),
+                    JobNo = table.Column<decimal>(type: "decimal(20,0)", nullable: false, defaultValueSql: "NEXT VALUE FOR Job_JobNo_Sequence"),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StartedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FinishedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    Instance = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Operation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     PostponeTo = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OperationArguments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OperationResult = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TimeoutAfter = table.Column<TimeSpan>(type: "time", nullable: true),
+                    Arguments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,6 +175,22 @@
                 name: "IX_EntityAuditLogs_Key",
                 table: "EntityAuditLogs",
                 column: "Key");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_JobNo",
+                table: "Jobs",
+                column: "JobNo",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_Priority",
+                table: "Jobs",
+                column: "Priority");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_Status",
+                table: "Jobs",
+                column: "Status");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MediaItems_PathHashCode",
