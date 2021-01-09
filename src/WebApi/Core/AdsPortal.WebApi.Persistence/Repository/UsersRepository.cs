@@ -24,7 +24,9 @@
             User? user = await DbSet.Where(x => x.Email.Equals(email)).SingleOrDefaultAsync();
 
             if (user == null)
+            {
                 return false;
+            }
 
             return true;
         }

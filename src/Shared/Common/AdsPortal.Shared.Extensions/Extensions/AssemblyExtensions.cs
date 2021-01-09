@@ -14,9 +14,11 @@
         {
             List<Assembly> assemblies = new List<Assembly>();
             foreach (string assemblyFilter in assemblyFilters)
+            {
                 assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies()
                                                            .Where(assembly => IsWildcardMatch(assembly?.GetName()?.Name ?? string.Empty, assemblyFilter))
                                                            .ToArray());
+            }
 
             return assemblies.ToArray();
         }
@@ -61,7 +63,9 @@
         private static bool IsWildcardMatch(string input, string wildcard)
         {
             if (input == string.Empty)
+            {
                 return false;
+            }
 
             return input == wildcard || Regex.IsMatch(input, "^" + Regex.Escape(wildcard).Replace("\\*", ".*").Replace("\\?", ".") + "$", RegexOptions.IgnoreCase);
         }

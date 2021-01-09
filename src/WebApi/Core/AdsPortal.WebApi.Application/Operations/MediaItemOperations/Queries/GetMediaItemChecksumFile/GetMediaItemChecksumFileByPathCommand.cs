@@ -28,7 +28,9 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
             protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
             {
                 if (entity.OwnerId != null)
+                {
                     _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
+                }
 
                 _drs.HasRoleElseThrow(entity.Role);
 

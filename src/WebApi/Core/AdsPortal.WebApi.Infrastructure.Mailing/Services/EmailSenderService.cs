@@ -27,9 +27,13 @@
                                              .SendAsync(cancellationToken);
 
             if (response.Successful)
+            {
                 _logger.LogInformation("Successfully send email ({MessageId}, {Subject}).", response.MessageId, subject);
+            }
             else
+            {
                 _logger.LogError("Failed to send email ({Subject}). {Response}", subject, response);
+            }
         }
 
         public async Task SendEmailAsync<T>(string emailAddress, T template, CancellationToken cancellationToken = default)
@@ -41,9 +45,13 @@
                                              .SendAsync(cancellationToken);
 
             if (response.Successful)
+            {
                 _logger.LogInformation("Successfully send email ({MessageId}, {Subject}, {ViewPath}).", response.MessageId, template.Subject, template.ViewPath);
+            }
             else
+            {
                 _logger.LogError("Failed to send email ({Subject}, {ViewPath}). {Response}", template.Subject, template.ViewPath, response);
+            }
         }
     }
 }

@@ -30,11 +30,15 @@
 
             int specificationsLength = _specifications.Length;
             if (specificationsLength == 0)
+            {
                 throw new ArgumentException("At least one specification should be defined");
+            }
 
             int entriesLength = settings.Entries?.Length ?? 0;
             if (_specifications.Length != entriesLength)
+            {
                 throw new ArgumentException("Specifications and entries length should be equal");
+            }
 
             for (int i = 0; i < entriesLength; ++i)
             {
@@ -48,7 +52,9 @@
             byte[] saltPepperSteak = GetSaltPepperSteak(_lastSpecification, out Span<byte> saltSpan);
 
             using (RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider())
+            {
                 csprng.GetNonZeroBytes(saltSpan);
+            }
 
             byte[] hash = PBKDF2(password, saltPepperSteak, _lastSpecification);
 

@@ -10,7 +10,9 @@
         public static async Task<byte[]> GetBytesAsync(this IFormFile? formFile)
         {
             if (formFile is null)
+            {
                 return Array.Empty<byte>();
+            }
 
             using (MemoryStream? memoryStream = new MemoryStream())
             {

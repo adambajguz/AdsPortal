@@ -12,11 +12,15 @@
         public static IApplicationBuilder ConfigureSpecialPages(this IApplicationBuilder app, IWebHostEnvironment environment, IServiceCollection? services)
         {
             if (services is null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             // Register Development pages
             if (environment.IsDevelopment())
+            {
                 app.AddSpecialPage<RegisteredServicesPage>(environment, services);
+            }
 
             // Register Development and Production pages
 

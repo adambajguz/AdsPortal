@@ -37,7 +37,9 @@
         public object CreateInstance(Type type)
         {
             if (_cachedFunctions.TryGetValue(type, out Func<object>? cachedFunction))
+            {
                 return cachedFunction();
+            }
 
             ConstructorInfo constructor = type.GetConstructor(Array.Empty<Type>()) ?? throw new NullReferenceException($"Parameterless constructor not found in type {type.AssemblyQualifiedName}.");
             NewExpression newExpression = Expression.New(constructor);

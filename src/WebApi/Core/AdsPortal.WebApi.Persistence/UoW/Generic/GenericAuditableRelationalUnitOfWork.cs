@@ -60,7 +60,9 @@
         private void OnBeforeSaveChanges()
         {
             if (!Provider.ChangeTracker.AutoDetectChangesEnabled)
+            {
                 Provider.ChangeTracker.DetectChanges();
+            }
 
             IEnumerable<EntityEntry> entries = Provider.ChangeTracker.Entries();
 
@@ -79,7 +81,9 @@
                 EntityState state = entry.State;
 
                 if (state == EntityState.Detached || state == EntityState.Unchanged || entity is IAuditLog || IsEntityIgnored(entity))
+                {
                     continue;
+                }
 
                 AuditActions auditAction = state switch
                 {
@@ -110,7 +114,9 @@
             primaryKey = Guid.Empty;
 
             if (action == AuditActions.Deleted)
+            {
                 return null;
+            }
 
             Dictionary<string, object> newValues = new Dictionary<string, object>();
 
@@ -122,13 +128,17 @@
                     primaryKey = (Guid)property.CurrentValue;
 
                     if (action == AuditActions.Added)
+                    {
                         newValues[metadata.Name] = property.CurrentValue;
+                    }
 
                     continue;
                 }
 
                 if ((property.IsModified || action == AuditActions.Added) && !IsPropertyIgnored(metadata))
+                {
                     newValues[metadata.Name] = property.CurrentValue;
+                }
             }
 
             return newValues.Count == 0 ? null : newValues;

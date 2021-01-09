@@ -37,7 +37,9 @@
         public static bool IsRenderableClassType(Type type)
         {
             if (type.IsAbstract || type.IsInterface || type.IsGenericType)
+            {
                 return false;
+            }
 
             return type.IsDefined(typeof(RenderableClassAttribute));
         }

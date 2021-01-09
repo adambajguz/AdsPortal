@@ -70,7 +70,9 @@
             int count = await DbSet.CountAsync(cancellationToken);
 
             if (count == 0)
+            {
                 return new StatisticsModel<long>();
+            }
 
             Expression<Func<MediaItem, long>> selector = x => x.ByteSize;
             long sum = await DbSet.SumAsync(selector, cancellationToken);
@@ -94,7 +96,9 @@
             int count = await DbSet.CountAsync(cancellationToken);
 
             if (count == 0)
+            {
                 return new StatisticsModel<long>();
+            }
 
             Expression<Func<MediaItem, long>> selector = x => x.ByteSize;
             long sum = await DbSet.SumAsync(selector, cancellationToken);

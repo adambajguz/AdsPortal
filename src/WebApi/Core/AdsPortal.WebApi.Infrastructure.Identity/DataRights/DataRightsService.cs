@@ -45,16 +45,22 @@
             where T : class, IEntityCreation
         {
             if (model is null)
+            {
                 throw new NotFoundException(nameof(model));
+            }
 
             if (model.CreatedBy != null)
+            {
                 await IsOwnerOrAdminElseThrow((Guid)model.CreatedBy);
+            }
 
             Func<T, Guid?> func = userIdFieldExpression.Compile();
             Guid? userId = func(model);
 
             if (userId != null)
+            {
                 await IsOwnerOrAdminElseThrow((Guid)userId);
+            }
         }
 
         public async Task IsOwnerOrAdminElseThrow(Guid userIdToValidate)
@@ -62,11 +68,15 @@
             Guid userId = _currentUser.UserId ?? throw new ForbiddenException();
 
             if (!_currentUser.IsAdmin && userIdToValidate != userId)
+            {
                 throw new ForbiddenException();
+            }
 
             User? user = await _uow.Users.SingleByIdOrDefaultAsync(userIdToValidate, noTracking: true);
             if (user is null)
+            {
                 throw new NotFoundException(nameof(User), userIdToValidate);
+            }
         }
 
         public void IsAdminElseThrow()
@@ -77,15 +87,21 @@
         public void HasRoleElseThrow(Roles role)
         {
             if (!role.IsDefined())
+            {
                 throw new ForbiddenException();
+            }
 
             string roleName = role.ToString();
 
             if (role == Roles.None)
+            {
                 throw new ForbiddenException();
+            }
 
             if (_context.HttpContext is null)
+            {
                 throw new ForbiddenException();
+            }
 
             ClaimsIdentity? identity = _context.HttpContext.User.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)
@@ -93,7 +109,9 @@
                                      .FirstOrDefault();
 
             if (result == null)
+            {
                 throw new ForbiddenException();
+            }
         }
     }
 }

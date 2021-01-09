@@ -54,17 +54,25 @@ namespace MagicOperations.Attributes
             if (OperationRenderer is not null)
             {
                 if (baseOperationRenderer == OperationRenderer)
+                {
                     throw new MagicOperationsException($"Operation type cannot be equal to renderer type ({OperationRenderer.FullName}).");
+                }
 
                 if (!baseOperationRenderer.IsSubclassOf(typeof(OperationRenderer<,>)))
+                {
                     throw new MagicOperationsException($"{baseOperationRenderer.FullName} is not a valid operation renderer type.");
+                }
 
                 if (!OperationRenderer.IsSubclassOf(baseOperationRenderer))
+                {
                     throw new MagicOperationsException($"{OperationRenderer.FullName} is not a valid {baseOperationRenderer.FullName} operation renderer type.");
+                }
             }
 
             if (string.IsNullOrWhiteSpace(Action))
+            {
                 Action = defaultAction;
+            }
         }
     }
 

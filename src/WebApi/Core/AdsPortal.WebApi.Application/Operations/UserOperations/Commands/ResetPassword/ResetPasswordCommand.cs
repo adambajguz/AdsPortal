@@ -35,7 +35,9 @@
                 await new ResetPasswordValidator().ValidateAndThrowAsync(command, cancellationToken: cancellationToken);
 
                 if (!_jwt.IsTokenStringValid(command.Token) || !_jwt.IsRoleInToken(command.Token, Roles.ResetPassword))
+                {
                     throw new ForbiddenException();
+                }
 
                 Guid userId = _jwt.GetUserIdFromToken(command.Token!);
                 User user = await _uow.Users.FirstAsync(x => x.Id.Equals(userId), cancellationToken: cancellationToken);

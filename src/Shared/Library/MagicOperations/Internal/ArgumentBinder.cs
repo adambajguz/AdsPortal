@@ -40,42 +40,58 @@
             {
                 // No conversion necessary
                 if (targetType == typeof(object) || targetType == typeof(string))
+                {
                     return value;
+                }
 
                 // Bool conversion (special case)
                 if (targetType == typeof(bool))
+                {
                     return string.IsNullOrWhiteSpace(value) || bool.Parse(value);
+                }
 
                 // Primitive conversion
                 Func<string, object?>? primitiveConverter = PrimitiveConverters.GetValueOrDefault(targetType);
                 if (primitiveConverter is not null && !string.IsNullOrWhiteSpace(value))
+                {
                     return primitiveConverter(value);
+                }
 
                 // Enum conversion conversion
                 if (targetType.IsEnum && !string.IsNullOrWhiteSpace(value))
+                {
                     return Enum.Parse(targetType, value ?? string.Empty, true);
+                }
 
                 // Nullable<T> conversion
                 Type? nullableUnderlyingType = targetType.TryGetNullableUnderlyingType();
                 if (nullableUnderlyingType is not null)
+                {
                     return !string.IsNullOrWhiteSpace(value)
                         ? ConvertScalar(value, nullableUnderlyingType)
                         : null;
+                }
 
                 // String-constructible conversion
                 ConstructorInfo? stringConstructor = targetType.GetConstructor(new[] { typeof(string) });
                 if (stringConstructor is not null)
+                {
                     return stringConstructor.Invoke(new object?[] { value });
+                }
 
                 // String-parseable (with format provider) conversion
                 MethodInfo? parseMethodWithFormatProvider = targetType.TryGetStaticParseMethod(true);
                 if (parseMethodWithFormatProvider is not null)
+                {
                     return parseMethodWithFormatProvider.Invoke(null, new object[] { value!, FormatProvider });
+                }
 
                 // String-parsable (without format provider) conversion
                 MethodInfo? parseMethod = targetType.TryGetStaticParseMethod();
                 if (parseMethod is not null)
+                {
                     return parseMethod.Invoke(null, new object?[] { value });
+                }
             }
             catch (Exception ex)
             {
@@ -94,12 +110,16 @@
 
             // Assignable from an array
             if (targetEnumerableType.IsAssignableFrom(arrayType))
+            {
                 return array;
+            }
 
             // Constructible from an array
             ConstructorInfo? arrayConstructor = targetEnumerableType.GetConstructor(new[] { arrayType });
             if (arrayConstructor is not null)
+            {
                 return arrayConstructor.Invoke(new object[] { array });
+            }
 
             throw new ArgumentBinderException($"Cannot convert provided values to type '{ targetEnumerableType.Name }': { values.Select(v => v.Quote()).JoinToString(' ')}. " +
                                               $"Target type is not assignable from array and doesn't have a public constructor that takes an array.");
@@ -113,7 +133,9 @@
 
             // Short-circuit built-in arguments
             if (property is null)
+            {
                 return null;
+            }
 
             Type targetType = property.PropertyType;
             Type? enumerableUnderlyingType = property.TryGetEnumerableArgumentUnderlyingType();
@@ -127,7 +149,9 @@
             }
             // Non-scalar
             else
+            {
                 return ConvertNonScalar(values, targetType, enumerableUnderlyingType);
+            }
         }
     }
 }

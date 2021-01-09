@@ -36,7 +36,9 @@
                 User user = await _uow.Users.SingleAsync(x => x.Email.Equals(query.Email), noTracking: true, cancellationToken);
 
                 if (!await _userManager.ValidatePassword(user, query.Password ?? string.Empty, cancellationToken))
+                {
                     throw new ValidationFailedException(nameof(query.Email), ValidationMessages.Auth.EmailOrPasswordIsIncorrect);
+                }
 
                 return _jwt.GenerateJwtToken(user);
             }

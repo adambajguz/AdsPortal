@@ -60,7 +60,9 @@
         public virtual void Remove(TEntity entity)
         {
             if (Provider.Entry(entity).State == EntityState.Detached)
+            {
                 DbSet.Attach(entity);
+            }
 
             DbSet.Remove(entity);
         }
@@ -109,7 +111,9 @@
             entities.ForEachInParallel((entity) =>
             {
                 if (Provider.Entry(entity).State == EntityState.Detached)
+                {
                     DbSet.Attach(entity);
+                }
             });
 
             DbSet.RemoveRange(entities);
@@ -122,7 +126,9 @@
         public IBaseRelationalEntity Add(IBaseRelationalEntity entity)
         {
             if (entity is TEntity e)
+            {
                 return Add(e);
+            }
 
             throw new ArgumentException($"Entity is not of type {typeof(TEntity).Name}", nameof(entity));
         }
@@ -130,9 +136,13 @@
         public void Update(IBaseRelationalEntity entity)
         {
             if (entity is TEntity e)
+            {
                 Update(e);
+            }
             else
+            {
                 throw new ArgumentException($"Entity is not of type {typeof(TEntity).Name}", nameof(entity));
+            }
         }
         public virtual async Task RemoveByIdAsync(Guid id)
         {
@@ -143,9 +153,13 @@
         public void Remove(IBaseRelationalEntity entity)
         {
             if (entity is TEntity e)
+            {
                 Remove(e);
+            }
             else
+            {
                 throw new ArgumentException($"Entity is not of type {typeof(TEntity).Name}", nameof(entity));
+            }
         }
         #endregion
 

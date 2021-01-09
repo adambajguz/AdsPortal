@@ -39,7 +39,9 @@ namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.Change
                 User user = await _uow.Users.SingleByIdAsync(command.UserId, cancellationToken: cancellationToken);
 
                 if (!await _userManager.ValidatePassword(user, command.OldPassword ?? string.Empty, cancellationToken))
+                {
                     throw new ValidationFailedException(nameof(command.OldPassword), ValidationMessages.Password.OldIsIncorrect);
+                }
 
                 await _userManager.SetPassword(user, command.NewPassword ?? string.Empty, cancellationToken);
                 _uow.Users.Update(user);

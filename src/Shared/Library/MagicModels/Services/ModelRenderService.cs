@@ -29,7 +29,9 @@
         public RenderFragment RenderModel(object? model, bool isWrite = false)
         {
             if (model is null)
+            {
                 return (builder) => { };
+            }
 
             Type type = model.GetType();
             RenderableClassSchema? schema = _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(type);

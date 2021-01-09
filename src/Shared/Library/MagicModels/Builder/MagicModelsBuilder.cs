@@ -43,7 +43,9 @@
         public MagicModelsBuilder UseModelRenderer(Type modelRender)
         {
             if (!modelRender.IsSubclassOf(typeof(ModelRenderer<>)))
+            {
                 throw new MagicModelsException($"{modelRender.FullName} is not a valid model renderer type.");
+            }
 
             _defaultModelRenderer = modelRender;
 
@@ -55,7 +57,9 @@
         public MagicModelsBuilder UseDefaultPropertyRenderer(Type propertyType, Type rendererType)
         {
             if (!rendererType.IsSubclassOf(typeof(PropertyRenderer<>).MakeGenericType(propertyType)))
+            {
                 throw new MagicModelsException($"{rendererType.FullName} is not a valid property renderer type.");
+            }
 
             _defaultPropertyRenderers[propertyType] = rendererType;
 
@@ -73,7 +77,9 @@
         public MagicModelsBuilder UseAnyPropertyRenderer(Type rendererType)
         {
             if (!rendererType.IsGenericType || !rendererType.IsSubclassOf(typeof(PropertyRenderer<>)))
+            {
                 throw new MagicModelsException($"{rendererType.FullName} is not a valid any property renderer type.");
+            }
 
             _anyPropertyRenderer = rendererType;
 
@@ -123,7 +129,9 @@
             foreach (Type type in types)
             {
                 if (!RenderableClassSchema.IsRenderableClassType(type))
+                {
                     throw new MagicModelsException($"{type.FullName} is not a valid renderable class type.");
+                }
 
                 AddRenderableClass(type);
             }
@@ -139,7 +147,9 @@
         public MagicModelsBuilder AddRenderableClassesFrom(Assembly assembly)
         {
             foreach (Type type in assembly.ExportedTypes.Where(RenderableClassSchema.IsRenderableClassType))
+            {
                 _renderableClassesTypes.Add((type, null, null));
+            }
 
             return this;
         }
@@ -152,7 +162,9 @@
         public MagicModelsBuilder AddRenderableClassesFrom(IEnumerable<Assembly> operationAssemblies)
         {
             foreach (Assembly assembly in operationAssemblies)
+            {
                 AddRenderableClassesFrom(assembly);
+            }
 
             return this;
         }
@@ -170,7 +182,9 @@
         public MagicModelsConfiguration Build()
         {
             if (_renderableClassesTypes.Count == 0)
+            {
                 throw new MagicModelsException("At least one operation must be defined in the application.");
+            }
 
             _defaultModelRenderer ??= typeof(DefaultModelRenderer<>);
             _anyPropertyRenderer ??= typeof(AnyRenderer<>);

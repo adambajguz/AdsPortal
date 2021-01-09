@@ -8,7 +8,9 @@
             where T : class
         {
             if (obj == null)
+            {
                 return System.Array.Empty<byte>();
+            }
 
             CerasSerializer ceras = new CerasSerializer();
 
@@ -19,7 +21,9 @@
             where T : class
         {
             if (byteArray == null)
+            {
                 return default;
+            }
 
             CerasSerializer ceras = new CerasSerializer();
 

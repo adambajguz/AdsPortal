@@ -36,7 +36,9 @@
                                             .TrimStart('/');
 
             if (string.IsNullOrWhiteSpace(path))
+            {
                 path = argsFallback ?? string.Empty;
+            }
 
             OperationSchema? schema = ResolveSchema(path);
 
@@ -116,7 +118,9 @@
         public OperationSchema? ResolveSchema(string route)
         {
             if (string.IsNullOrWhiteSpace(route))
+            {
                 return null;
+            }
 
             //Fast group based match
             OperationGroupSchema? group = _configuration.OperationGroups.Values.Where(x => x.Path is not null && route.StartsWith(x.Path))

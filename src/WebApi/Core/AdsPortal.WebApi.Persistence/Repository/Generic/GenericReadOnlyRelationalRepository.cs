@@ -44,7 +44,9 @@
             IQueryable<TEntity> query = DbSet;
 
             if (filter != null)
+            {
                 query = query.Where(filter);
+            }
 
             return query;
         }
@@ -58,20 +60,29 @@
             IQueryable<TEntity> query = DbSet;
 
             if (noTracking)
+            {
                 query = query.AsNoTracking();
+            }
 
             if (filter != null)
+            {
                 query = query.Where(filter);
+            }
 
             if (orderBy != null)
+            {
                 query = orderBy(query);
+            }
 
             if (skip is int s)
+            {
                 query = query.Skip(s);
+            }
 
             if (take is int t)
+            {
                 query = query.Take(t);
-
+            }
 
             return query;
         }
@@ -104,7 +115,9 @@
             IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
 
             if (filter is null)
+            {
                 return await query.SingleOrDefaultAsync(cancellationToken);
+            }
 
             return await query.SingleOrDefaultAsync(filter, cancellationToken);
         }
@@ -117,9 +130,13 @@
 
             TEntity? entity;
             if (filter is null)
+            {
                 entity = await query.FirstOrDefaultAsync(cancellationToken);
+            }
             else
+            {
                 entity = await query.FirstOrDefaultAsync(filter, cancellationToken);
+            }
 
             return entity ?? throw new NotFoundException(EntityName);
         }
@@ -131,7 +148,9 @@
             IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
 
             if (filter is null)
+            {
                 return await query.FirstOrDefaultAsync(cancellationToken);
+            }
 
             return await query.FirstOrDefaultAsync(filter, cancellationToken);
         }
@@ -189,7 +208,9 @@
             IQueryable<TEntity> query = DbSet.Include(relatedSelector0);
 
             if (noTracking)
+            {
                 query = query.AsNoTracking();
+            }
 
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
@@ -204,7 +225,9 @@
                                              .Include(relatedSelector1);
 
             if (noTracking)
+            {
                 query = query.AsNoTracking();
+            }
 
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
@@ -217,7 +240,9 @@
             IQueryable<TEntity> query = DbSet.AsQueryable();
 
             foreach (Expression<Func<TEntity, object>> relatedExpr in relatedSelectors)
+            {
                 query = query.Include(relatedExpr);
+            }
 
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
@@ -227,7 +252,9 @@
         public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default)
         {
             if (filter is null)
+            {
                 return await DbSet.CountAsync(cancellationToken);
+            }
 
             return await DbSet.CountAsync(filter, cancellationToken);
         }
@@ -235,7 +262,9 @@
         public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default)
         {
             if (filter is null)
+            {
                 return await DbSet.AnyAsync(cancellationToken);
+            }
 
             return await DbSet.AnyAsync(filter, cancellationToken);
         }
@@ -295,7 +324,9 @@
             IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take);
 
             foreach (Expression<Func<TEntity, object>> relatedExpr in relatedSelectors)
+            {
                 query = query.Include(relatedExpr);
+            }
 
             return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
                              .ToListAsync(cancellationToken);
@@ -317,7 +348,9 @@
             IQueryable<TEntity> query = DbSet;
 
             if (noTracking)
+            {
                 query = query.AsNoTracking();
+            }
 
             TEntity? entity = await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
@@ -329,7 +362,9 @@
             IQueryable<TEntity> query = DbSet;
 
             if (noTracking)
+            {
                 query = query.AsNoTracking();
+            }
 
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }

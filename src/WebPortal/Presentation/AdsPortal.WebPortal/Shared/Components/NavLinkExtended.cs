@@ -88,7 +88,9 @@
             // Update computed state
             string? href = null;
             if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("href", out var obj))
+            {
                 href = Convert.ToString(obj, CultureInfo.InvariantCulture);
+            }
 
             _uri = href == null ? null : NavigationManger.ToAbsoluteUri(href);
             _hrefAbsolute = _uri?.AbsoluteUri;
@@ -97,7 +99,9 @@
 
             _class = null;
             if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("class", out obj))
+            {
                 _class = Convert.ToString(obj, CultureInfo.InvariantCulture);
+            }
 
             UpdateCssClass();
         }
@@ -142,15 +146,23 @@
         private bool ShouldMatch(string currentUriAbsolute)
         {
             if (_hrefAbsolute == null || _uri == null)
+            {
                 return false;
+            }
 
             if (EqualsHrefExactlyOrIfTrailingSlashAdded(currentUriAbsolute))
+            {
                 return true;
+            }
 
             if (Match == NavLinkExtendedMatch.Path && IsPathMatch(currentUriAbsolute, _uri))
+            {
                 return true;
+            }
             else if (Match == NavLinkExtendedMatch.Prefix && IsStrictlyPrefixWithSeparator(currentUriAbsolute, _hrefAbsolute))
+            {
                 return true;
+            }
 
             return false;
         }
@@ -160,9 +172,12 @@
             Debug.Assert(_hrefAbsolute != null);
 
             if (string.Equals(currentUriAbsolute, _hrefAbsolute, StringComparison.OrdinalIgnoreCase))
+            {
                 return true;
+            }
 
             if (currentUriAbsolute.Length == _hrefAbsolute.Length - 1)
+            {
                 // Special case: highlight links to http://host/path/ even if you're
                 // at http://host/path (with no trailing slash)
                 //
@@ -173,7 +188,10 @@
                 // good to display a blank page in that case.
                 if (_hrefAbsolute[^1] == '/'
                     && _hrefAbsolute.StartsWith(currentUriAbsolute, StringComparison.OrdinalIgnoreCase))
+                {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -187,6 +205,7 @@
         {
             var prefixLength = prefix.Length;
             if (value.Length > prefixLength)
+            {
                 return value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
                     && (
                         // Only match when there's a separator character either at the end of the
@@ -197,8 +216,11 @@
                         || !char.IsLetterOrDigit(prefix[prefixLength - 1])
                         || !char.IsLetterOrDigit(value[prefixLength])
                     );
+            }
             else
+            {
                 return false;
+            }
         }
 
         private static bool IsPathMatch(string currentUriAbsolute, Uri uri)

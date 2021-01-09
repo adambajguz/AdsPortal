@@ -18,7 +18,9 @@
                                                                         .ToImmutableList();
 
             if (authAttributes is null)
+            {
                 return;
+            }
 
             if (authAttributes.Count > 0)
             {

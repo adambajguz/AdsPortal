@@ -62,10 +62,14 @@
         {
             bool found = TableNameToEntityLookup.TryGetValue(tableName, out Type? type);
             if (!found)
+            {
                 throw new ArgumentException($"Invalid table name '{tableName}'", nameof(tableName));
+            }
 
             if (type is null)
+            {
                 throw new ArgumentNullException(nameof(type));
+            }
 
             return type;
         }
@@ -91,7 +95,9 @@
         {
             Type type = GetEntityTypeFromTableName(name);
             if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            {
                 return (value as IGenericRelationalRepository)!;
+            }
 
             Type constructingType = typeof(GenericRelationalRepository<>).MakeGenericType(type);
             IGenericRelationalRepository repository = (Activator.CreateInstance(constructingType, CurrentUser, Context, Mapper) as IGenericRelationalRepository)!;
@@ -105,7 +111,9 @@
         {
             Type type = typeof(IGenericRelationalRepository<TEntity>);
             if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            {
                 return (value as IGenericRelationalRepository<TEntity>)!;
+            }
 
             IGenericRelationalRepository<TEntity> repository = (Activator.CreateInstance(typeof(GenericRelationalRepository<TEntity>), CurrentUser, Context, Mapper) as IGenericRelationalRepository<TEntity>)!;
             Repositories.Add(type, repository);
@@ -118,7 +126,9 @@
         {
             Type type = typeof(IGenericRelationalReadOnlyRepository<TEntity>);
             if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            {
                 return (value as IGenericRelationalReadOnlyRepository<TEntity>)!;
+            }
 
             IGenericRelationalReadOnlyRepository<TEntity> repository = (Activator.CreateInstance(typeof(GenericReadOnlyRelationalRepository<TEntity>), CurrentUser, Context, Mapper) as IGenericRelationalReadOnlyRepository<TEntity>)!;
             Repositories.Add(type, repository);
@@ -130,7 +140,9 @@
         {
             Type type = GetEntityTypeFromTableName(name);
             if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            {
                 return value!;
+            }
 
             Type constructingType = typeof(GenericReadOnlyRelationalRepository<>).MakeGenericType(type);
             IGenericRelationalReadOnlyRepository repository = (Activator.CreateInstance(constructingType, CurrentUser, Context, Mapper) as IGenericRelationalReadOnlyRepository)!;
@@ -145,7 +157,9 @@
         {
             Type type = typeof(TSpecificRepositoryInterface);
             if (Repositories.ContainsKey(type))
+            {
                 return (TSpecificRepositoryInterface)Repositories[type];
+            }
 
             TSpecificRepositoryInterface repository = (TSpecificRepositoryInterface)Activator.CreateInstance(typeof(TSpecificRepository), CurrentUser, Context, Mapper)!;
             Repositories.Add(type, repository);

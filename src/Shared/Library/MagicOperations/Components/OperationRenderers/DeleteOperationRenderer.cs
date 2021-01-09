@@ -14,7 +14,9 @@
         public async Task DeleteAsync()
         {
             if (OperationModel is null)
+            {
                 return;
+            }
 
             try
             {

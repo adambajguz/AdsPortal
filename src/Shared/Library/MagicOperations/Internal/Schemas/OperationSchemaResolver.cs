@@ -38,7 +38,9 @@ namespace MagicOperations.Internal.Schemas
             string key = groupAttribute?.Key ?? string.Empty;
 
             if (groups.TryGetValue(key, out OperationGroupSchema? ogs))
+            {
                 return ogs;
+            }
 
             groupConfigurations.TryGetValue(key, out MagicOperationGroupConfiguration? groupConfiguration);
 

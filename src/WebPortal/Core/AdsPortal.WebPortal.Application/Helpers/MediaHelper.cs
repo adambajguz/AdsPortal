@@ -44,8 +44,12 @@
             string tmp = AssetsPath + folder + resource.Trim().TrimStart('/', '\\');
 
             if (!GloballyDisabledVersioning)
+            {
                 if (versioned || overrideVersioning is bool b && b)
+                {
                     return tmp + "?v=" + AppVersionTextPlain;
+                }
+            }
 
             return tmp;
         }
@@ -62,8 +66,12 @@
             string tmp = WwwRootPath + resource.Trim().TrimStart('/', '\\');
 
             if (!GloballyDisabledVersioning)
+            {
                 if (versioned)
+                {
                     return tmp + "?v=" + AppVersionTextPlain;
+                }
+            }
 
             return tmp;
         }

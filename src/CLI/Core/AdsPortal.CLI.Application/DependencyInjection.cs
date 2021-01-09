@@ -24,7 +24,9 @@
                 cfg.BaseAddress = new Uri("https://localhost:5002/api/");
 
                 if (tokenHolder.HasToken)
+                {
                     cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenHolder.Token);
+                }
             });
 
             return services;

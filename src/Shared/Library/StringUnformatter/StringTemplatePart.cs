@@ -10,7 +10,9 @@
         public StringTemplatePart(string value, bool isParameter = false)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 throw new ArgumentException($"'{nameof(value)}' cannot be null or whitespace", nameof(value));
+            }
 
             Value = value;
             IsParameter = isParameter;

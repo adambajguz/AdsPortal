@@ -20,13 +20,19 @@
         public HasherSpecification(int saltByteSize, int hashByteSize, HashAlgorithmName algorithm, int iterations, string base64Steak)
         {
             if (saltByteSize < MinimumSaltByteSize)
+            {
                 throw new ArgumentException($"SaltByteSize should be at least {MinimumSaltByteSize} bytes");
+            }
 
             if (hashByteSize < MinimumHashByteSizeMINIMUM_HASH_BYTE_SIZE)
+            {
                 throw new ArgumentException($"HashByteSize should be at least {MinimumHashByteSizeMINIMUM_HASH_BYTE_SIZE} bytes");
+            }
 
             if (algorithm == HashAlgorithmName.MD5 || algorithm == HashAlgorithmName.SHA1)
+            {
                 throw new ArgumentException($"Algorithm should not be {algorithm}");
+            }
 
             SaltByteSize = saltByteSize;
             HashByteSize = hashByteSize;
@@ -40,7 +46,9 @@
             Iterations += entry.IterationsModifier;
 
             if (Iterations < 20000)
+            {
                 throw new ArgumentException("Iterations should be at least 20000");
+            }
 
             Pepper = entry.Pepper?.DecodeBase64() ?? Array.Empty<byte>();
         }

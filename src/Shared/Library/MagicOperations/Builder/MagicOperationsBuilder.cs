@@ -60,7 +60,9 @@
         public MagicOperationsBuilder UseOperationListing(Type operationListingRenderer)
         {
             if (!operationListingRenderer.IsSubclassOf(typeof(OperationListingRenderer)))
+            {
                 throw new MagicOperationsException($"{operationListingRenderer.FullName} is not a valid operation listing renderer type.");
+            }
 
             _operationListingRenderer = operationListingRenderer;
 
@@ -85,7 +87,9 @@
         public MagicOperationsBuilder UseErrorRenderer(Type errorRenderer)
         {
             if (!errorRenderer.IsSubclassOf(typeof(OperationErrorRenderer)))
+            {
                 throw new MagicOperationsException($"{errorRenderer.FullName} is not a valid operation error renderer type.");
+            }
 
             _errorRenderer = errorRenderer;
 
@@ -103,13 +107,19 @@
         public MagicOperationsBuilder UseDefaultOperationRenderer(Type baseOperation, Type renderer)
         {
             if (baseOperation == renderer)
+            {
                 throw new MagicOperationsException($"Operation type cannot be equal to renderer type ({renderer.FullName}).");
+            }
 
             if (!baseOperation.IsSubclassOf(typeof(OperationRenderer<,>)))
+            {
                 throw new MagicOperationsException($"{baseOperation.FullName} is not a valid operation renderer type.");
+            }
 
             if (!renderer.IsSubclassOf(baseOperation))
+            {
                 throw new MagicOperationsException($"{renderer.FullName} is not a valid {baseOperation.FullName} operation renderer type.");
+            }
 
             _defaultOperationRenderers[baseOperation] = renderer;
 
@@ -124,7 +134,9 @@
         public MagicOperationsBuilder AddOperation(Type operationType)
         {
             if (!KnownTypesHelpers.IsOperationType(operationType))
+            {
                 throw new MagicOperationsException($"{operationType.FullName} is not a valid operation type.");
+            }
 
             _operationTypes.Add(() =>
             {
@@ -134,7 +146,9 @@
                 _ = operationAttr ?? throw new MagicOperationsException($"Operation {operationType.FullName} does not have {typeof(OperationAttribute).FullName} attribute.");
 
                 if (operationAttr.ResponseType is not null)
+                {
                     ModelsBuilder.AddRenderableClass(operationAttr.ResponseType);
+                }
 
                 return operationType;
             });
@@ -157,7 +171,9 @@
         public MagicOperationsBuilder AddOperations(IEnumerable<Type> operationTypes)
         {
             foreach (Type commandType in operationTypes)
+            {
                 AddOperation(commandType);
+            }
 
             return this;
         }
@@ -169,7 +185,9 @@
         public MagicOperationsBuilder AddOperationsFrom(Assembly operationAssembly)
         {
             foreach (Type commandType in operationAssembly.ExportedTypes.Where(KnownTypesHelpers.IsOperationType))
+            {
                 AddOperation(commandType);
+            }
 
             return this;
         }
@@ -181,7 +199,9 @@
         public MagicOperationsBuilder AddOperationsFrom(IEnumerable<Assembly> operationAssemblies)
         {
             foreach (Assembly commandAssembly in operationAssemblies)
+            {
                 AddOperationsFrom(commandAssembly);
+            }
 
             return this;
         }
@@ -213,7 +233,9 @@
             _ = _baseUri ?? throw new MagicOperationsException($"Base URI not set.");
 
             if (_operationTypes.Count == 0)
+            {
                 throw new MagicOperationsException("At least one operation must be defined in the application.");
+            }
 
             _errorRenderer ??= typeof(DefaultErrorRenderer);
 

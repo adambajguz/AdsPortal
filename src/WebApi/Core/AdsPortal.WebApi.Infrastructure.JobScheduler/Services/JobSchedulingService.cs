@@ -57,7 +57,9 @@
             string operation = operationType.AssemblyQualifiedName ?? throw new ArgumentException("Invalid type.");
 
             if (await Uow.Jobs.ExistsAsync(x => x.Operation == operation, cancellationToken))
+            {
                 return false;
+            }
 
             await Schedule(operationType, priority, postponeTo, timeoutAfter, operationArguments, cancellationToken);
 

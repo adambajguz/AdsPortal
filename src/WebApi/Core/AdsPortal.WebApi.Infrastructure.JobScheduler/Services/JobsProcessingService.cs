@@ -74,7 +74,9 @@
             int toTake = Math.Min(maxConcurent * concurentBatchSize - _processing, concurentBatchSize);
 
             if (toTake <= 0)
+            {
                 return;
+            }
 
             using (IServiceScope jobScope = _serviceScopeFactory.CreateScope())
             {
@@ -119,7 +121,9 @@
 
                         IEnumerable<Task> tasks = jobs.Select(x => ExecuteJob(x, cancellationToken));
                         foreach (var bucket in Interleaved(tasks))
+                        {
                             await bucket;
+                        }
 
                         //await Task.WhenAll(tasks).ConfigureAwait(false);
                     }
@@ -141,6 +145,7 @@
             int nextTaskIndex = -1;
 
             foreach (Task inputTask in tasks)
+            {
                 inputTask.ContinueWith(completed =>
                 {
                     Interlocked.Decrement(ref _processing);
@@ -151,6 +156,7 @@
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously,
                 TaskScheduler.Default);
+            }
 
             return results;
         }
@@ -187,7 +193,9 @@
                 using (CancellationTokenSource jobCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
                 {
                     if (job.TimeoutAfter is TimeSpan timeout)
+                    {
                         jobCts.CancelAfter(timeout);
+                    }
 
                     JobStatuses finishStatus = JobStatuses.Error;
                     try
@@ -204,9 +212,13 @@
                         finishStatus = timedOut ? JobStatuses.TimedOut : JobStatuses.Cancelled;
 
                         if (timedOut)
+                        {
                             _logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, job.TimeoutAfter);
+                        }
                         else
+                        {
                             _logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -251,18 +263,15 @@
             _cts.Cancel();
 
             // then wait until all is done
-            _sync.WaitAsync();
+            _sync.WaitAsync(CancellationToken.None);
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            // dispose\stop timer here
             Timer?.Dispose();
             Timer = null;
-
-            // dispose cts
             _cts.Dispose();
         }
     }

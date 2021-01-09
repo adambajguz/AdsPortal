@@ -12,7 +12,9 @@
             RenderablePropertyIgnoreAttribute? ignoreAttribute = renderablePropertyInfo.GetCustomAttribute<RenderablePropertyIgnoreAttribute>(true);
 
             if (ignoreAttribute is not null || (options?.Ignore ?? false))
+            {
                 return null;
+            }
 
             RenderablePropertyAttribute? attribute = renderablePropertyInfo.GetCustomAttribute<RenderablePropertyAttribute>(true);
 

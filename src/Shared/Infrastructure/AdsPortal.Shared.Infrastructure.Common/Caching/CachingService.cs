@@ -41,7 +41,9 @@
         public async Task DeleteAsync(string key, object? extendedKey = null, CacheExtendedKeyModes extendedKeyMode = CacheExtendedKeyModes.UseGetHashCode)
         {
             if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             string fullKey = CacheEntryConfig.GetFullKey(key, extendedKey, extendedKeyMode);
 
@@ -51,7 +53,9 @@
         public async Task<ICustomCacheEntry?> GetAsync(string key, object? extendedKey = null, CacheExtendedKeyModes extendedKeyMode = CacheExtendedKeyModes.UseGetHashCode)
         {
             if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             string fullKey = CacheEntryConfig.GetFullKey(key, extendedKey, extendedKeyMode);
 
@@ -61,7 +65,9 @@
         public async Task<ICustomCacheEntry?> GetWithFullKeyAsync(string fullKey)
         {
             if (fullKey is null)
+            {
                 throw new ArgumentNullException(nameof(fullKey));
+            }
 
             return await Provider.GetAsync<CustomCacheEntry>(fullKey);
         }
@@ -144,12 +150,15 @@
             where T : class
         {
             if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             string fullKey = CacheEntryConfig.GetFullKey(key, extendedKey, extendedKeyMode);
 
             CustomCacheEntry? cacheEntry = await Provider.GetAsync<CustomCacheEntry>(fullKey);
             if (!cacheEntry.TryGetValue(out T? value))
+            {
                 if (_locks.TryGetValue(fullKey, out SemaphoreSlim? myLock))
                 {
                     await myLock.WaitAsync(timeout ?? DEFUALT_TIMEOUT);
@@ -157,6 +166,7 @@
                     cacheEntry = await Provider.GetAsync<CustomCacheEntry>(fullKey);
                     value = cacheEntry.GetValue<T>();
                 }
+            }
 
             return value;
         }
@@ -168,10 +178,14 @@
             where T : class
         {
             if (entryConfig is null)
+            {
                 throw new ArgumentNullException(nameof(entryConfig));
+            }
 
             if (createValueAsync is null && createValue is null)
+            {
                 throw new ArgumentNullException(nameof(createValueAsync) + " && " + nameof(createValue));
+            }
 
             string fullKey = entryConfig.GetFullKey();
 
@@ -188,9 +202,13 @@
                     {
                         // Key not in cache, so get data.
                         if (createValueAsync == null)
+                        {
                             value = createValue!();
+                        }
                         else
+                        {
                             value = await createValueAsync();
+                        }
 
                         await SetAsync(entryConfig, value);
                     }

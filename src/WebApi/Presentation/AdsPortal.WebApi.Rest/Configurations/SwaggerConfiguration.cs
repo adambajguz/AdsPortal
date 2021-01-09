@@ -40,7 +40,9 @@
         {
             Assembly? assembly = MethodBase.GetCurrentMethod()?.DeclaringType?.Assembly;
             if (assembly is null)
+            {
                 Log.ForContext(typeof(SwaggerConfiguration)).Error("Custom SwaggerUI index.html cannot be retrived. Using default.");
+            }
             else
             {
                 string? ns = assembly.GetName().Name;
@@ -52,7 +54,9 @@
                     c.IndexStream = () => assembly.GetManifestResourceStream(name);
                 }
                 else
+                {
                     Log.ForContext(typeof(SwaggerConfiguration)).Error("Custom SwaggerUI index.html stream is null for name: {Name}. Using default.", name);
+                }
             }
         }
 

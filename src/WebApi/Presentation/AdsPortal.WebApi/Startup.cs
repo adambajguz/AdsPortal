@@ -141,7 +141,9 @@ namespace AdsPortal.WebApi
                     for (int i = 0; i < 500; ++i)
                     {
                         if (i % 100 == 0)
+                        {
                             Console.WriteLine($"Added {i}");
+                        }
 
                         x.Schedule<TestJob>().Wait();
                     }
@@ -149,7 +151,9 @@ namespace AdsPortal.WebApi
                     for (int i = 0; i < 500; ++i)
                     {
                         if (i % 100 == 0)
+                        {
                             Console.WriteLine($"Added {i}");
+                        }
 
                         x.Schedule<TestJob>(1).Wait();
                     }

@@ -13,14 +13,18 @@
         public static bool IsDefined(this Enum value)
         {
             if (value == null)
+            {
                 return false;
+            }
 
             //TODO: fix
             Array items = Enum.GetValues(value.GetType());
             foreach (Enum? item in items)
             {
                 if (value.HasFlag(item!))
+                {
                     return true;
+                }
             }
 
             return false;

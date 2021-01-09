@@ -18,7 +18,9 @@
         {
             string? value = entry?.Value as string;
             if (!string.IsNullOrWhiteSpace(value))
+            {
                 return null;
+            }
 
             return entry?.Value?.ToString();
         }
@@ -27,7 +29,9 @@
         {
             value = entry?.Value as string;
             if (!string.IsNullOrWhiteSpace(value))
+            {
                 return true;
+            }
 
             value = entry?.Value?.ToString();
             return value != null;

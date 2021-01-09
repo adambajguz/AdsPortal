@@ -11,7 +11,9 @@
             MethodInfo? setMethod = propertyInfo?.SetMethod;
 
             if (setMethod is null)
+            {
                 return false;
+            }
 
             var isExternalInitType = typeof(System.Runtime.CompilerServices.IsExternalInit);
             return setMethod.ReturnParameter.GetRequiredCustomModifiers().Contains(isExternalInitType);

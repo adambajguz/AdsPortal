@@ -47,7 +47,9 @@
             bool inherit = usage != null && usage.Inherited;
 
             if (inherit)
+            {
                 return GetAttributesRecurse(member, attributeType).Any();
+            }
 
             return member.GetCustomAttributes(attributeType, false).Any();
         }
@@ -114,7 +116,9 @@
             // must use Attribute.GetCustomAttribute rather than MemberInfo.GetCustomAttribute as the latter
             // won't retrieve inherited attributes from base *classes*
             foreach (Attribute attribute in Attribute.GetCustomAttributes(member, attributeType, true))
+            {
                 yield return attribute;
+            }
 
             // The most reliable target in the interface map is the property get method.
             // If you have set-only properties, you'll need to handle that case. I generally just ignore that
@@ -129,7 +133,9 @@
 
                 int memberIndex = Array.IndexOf(map.TargetMethods, target); // see target above
                 if (memberIndex < 0)
+                {
                     continue;
+                }
 
                 // To recurse, we still need to hit the property on the parent interface.
                 // Why don't we just use the get method from the start? Because GetCustomAttributes won't work.
@@ -142,7 +148,9 @@
                 if (interfaceMethod != null)
                 {
                     foreach (Attribute attribute in interfaceMethod.GetAttributesUncached(attributeType))
+                    {
                         yield return attribute;
+                    }
                 }
             }
         }

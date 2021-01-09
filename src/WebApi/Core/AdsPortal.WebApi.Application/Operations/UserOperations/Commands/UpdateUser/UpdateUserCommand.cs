@@ -50,15 +50,21 @@
 
                 //TODO: add more generic approach
                 if (Command.Role.HasFlag(Roles.Admin))
+                {
                     _drs.IsAdminElseThrow();
+                }
 
                 if (Command.Role.HasFlag(Roles.User))
+                {
                     _drs.HasRole(Roles.User);
+                }
 
                 await new UpdateUserValidator().ValidateAndThrowAsync(Command, cancellationToken: cancellationToken);
 
                 if (Command.Email != entity.Email && await Uow.Users.IsEmailInUseAsync(Command.Email))
+                {
                     throw new ValidationFailedException(nameof(Command.Email), ValidationMessages.Email.IsInUse);
+                }
             }
         }
     }

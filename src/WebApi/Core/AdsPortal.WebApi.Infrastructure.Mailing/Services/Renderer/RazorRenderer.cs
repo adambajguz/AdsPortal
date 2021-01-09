@@ -53,7 +53,9 @@
                     html = result.Html;
 
                     if (result?.Warnings?.Any() ?? false)
+                    {
                         _logger.LogWarning("PreMailer CSS inline resulted in warnings for {Path}: {Warnings}", path, result.Warnings);
+                    }
                 }
             }
 

@@ -30,7 +30,9 @@
             string key = _settings.Key ?? throw new NullReferenceException("JWT key should not be null");
 
             if (key.Length < MINIMUM_JWT_LENGTH)
+            {
                 throw new ArgumentException($"JWT key should be at least {MINIMUM_JWT_LENGTH} characters in Base64");
+            }
 
             _key = Base64UrlEncoder.DecodeBytes(key);
 
@@ -50,7 +52,9 @@
         public AuthenticateUserResponse GenerateJwtToken(IJwtUserData user, Roles roles)
         {
             if (!user.IsActive)
+            {
                 throw new ForbiddenException();
+            }
 
             ClaimsIdentity claims = new ClaimsIdentity(new Claim[]
                 {
@@ -69,7 +73,9 @@
                                        .Split(", ");
 
             foreach (string role in rolesArray)
+            {
                 claims.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
 
             DateTime utcNow = DateTime.UtcNow;
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
@@ -93,7 +99,9 @@
         public void ValidateStringToken(string? token)
         {
             if (string.IsNullOrWhiteSpace(token))
+            {
                 throw new ArgumentException("Token is null or whitespace", nameof(token));
+            }
 
             _handler.ValidateToken(token, _validationParameters, out _);
         }
@@ -123,7 +131,9 @@
         public bool IsTokenStringValid(string? token)
         {
             if (string.IsNullOrWhiteSpace(token))
+            {
                 return false;
+            }
 
             try
             {
@@ -148,10 +158,14 @@
         public bool IsRoleInToken(string? token, Roles role)
         {
             if (string.IsNullOrWhiteSpace(token))
+            {
                 return false;
+            }
 
             if (!role.IsDefined())
+            {
                 return false;
+            }
 
             JwtSecurityToken jwtToken = _handler.ReadJwtToken(token);
             List<Claim> claims = jwtToken.Claims.Where(x => x.Type.Equals("role") || x.Type.Equals(ClaimTypes.Role)).ToList();
@@ -162,10 +176,14 @@
         public bool IsAnyOfRolesInToken(string? token, Roles roles)
         {
             if (string.IsNullOrWhiteSpace(token))
+            {
                 return false;
+            }
 
             if (!roles.IsDefined())
+            {
                 return false;
+            }
 
             JwtSecurityToken jwtToken = _handler.ReadJwtToken(token);
             List<Claim> claims = jwtToken.Claims.Where(x => x.Type.Equals("role") || x.Type.Equals(ClaimTypes.Role)).ToList();

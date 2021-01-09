@@ -28,7 +28,9 @@
         private static (bool HasParametes, List<StringTemplatePart> Parameters) ParseTemplate(string template)
         {
             if (string.IsNullOrWhiteSpace(template))
+            {
                 throw new ArgumentException($"'{nameof(template)}' cannot be null or whitespace", nameof(template));
+            }
 
             List<StringTemplatePart> parts = new();
             bool hasParameters = false;
@@ -48,7 +50,9 @@
                         string tmp = new string(span[sliceStart..i]);
 
                         if (string.IsNullOrWhiteSpace(tmp))
+                        {
                             throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
+                        }
 
                         parts.Add(new StringTemplatePart(tmp));
                     }
@@ -59,12 +63,16 @@
                 else if (isOpened && ch == '}')
                 {
                     if (parts.Count > 0 && parts[^1].IsParameter)
+                    {
                         throw new FormatException($"String template '{template}' is invalid. Template cannot contain two or more subsequent parameters.");
+                    }
 
                     string tmp = new string(span[sliceStart..i]);
 
                     if (string.IsNullOrWhiteSpace(tmp))
+                    {
                         throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
+                    }
 
                     parts.Add(new StringTemplatePart(tmp, true));
                     hasParameters = true;
@@ -83,7 +91,9 @@
                 string tmp = new string(span[sliceStart..]);
 
                 if (string.IsNullOrWhiteSpace(tmp))
+                {
                     throw new FormatException($"String template '{template}' is invalid. Template cannot contain empty parameters.");
+                }
 
                 parts.Add(new StringTemplatePart(tmp));
             }
@@ -116,12 +126,16 @@
                         int index = formatted.IndexOf(nextPart.Value, searchStartIndex, StringComparison.InvariantCulture);
 
                         if (index < 0)
+                        {
                             return null;
+                        }
 
                         string value0 = formatted[searchStartIndex..index];
 
                         if (string.IsNullOrWhiteSpace(value0))
+                        {
                             return null;
+                        }
 
                         searchStartIndex = index;
 
@@ -142,12 +156,16 @@
                 else
                 {
                     if (searchStartIndex + part.Value.Length > formatted.Length)
+                    {
                         return null;
+                    }
 
                     int index = formatted.IndexOf(part.Value, searchStartIndex, part.Value.Length, StringComparison.InvariantCulture);
 
                     if (index < 0)
+                    {
                         return null;
+                    }
 
                     searchStartIndex = part.Value.Length + index;
                 }

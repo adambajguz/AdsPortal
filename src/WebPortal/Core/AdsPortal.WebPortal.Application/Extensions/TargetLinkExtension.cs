@@ -21,11 +21,15 @@
             {
                 var linkInlineRenderer = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
                 if (linkInlineRenderer != null)
+                {
                     linkInlineRenderer.TryWriters.Add(TryLinkInlineRenderer);
+                }
 
                 var autoLinkInlineRenderer = htmlRenderer.ObjectRenderers.FindExact<AutolinkInlineRenderer>();
                 if (autoLinkInlineRenderer != null)
+                {
                     autoLinkInlineRenderer.TryWriters.Add(TryAutoLinkInlineRenderer);
+                }
             }
         }
 
@@ -43,7 +47,9 @@
         private void TryAddTarget(string url, MarkdownObject obj)
         {
             if (url != null && Uri.TryCreate(url, UriKind.Absolute, out _))
+            {
                 obj.GetAttributes().AddPropertyIfNotExist("target", "_blank");
+            }
         }
     }
 }

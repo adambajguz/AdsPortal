@@ -44,14 +44,20 @@
             public string Resolve(CreateMediaItemCommand source, MediaItem destination, string member, ResolutionContext context)
             {
                 if (source.GenerateFileName)
+                {
                     return FileUtils.GenerateEmptyFileName();
+                }
 
                 bool v = string.IsNullOrWhiteSpace(source.NewFileName);
                 if (v && source.File != null)
+                {
                     return source.File.FileName;
+                }
 
                 if (!v)
+                {
                     return source.NewFileName!.Trim();
+                }
 
                 return FileUtils.GenerateEmptyFileName();
             }

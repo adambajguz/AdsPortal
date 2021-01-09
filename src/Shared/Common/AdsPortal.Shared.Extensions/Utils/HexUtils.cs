@@ -11,7 +11,9 @@
          {
              string s = i.ToString("X2");
              if (BitConverter.IsLittleEndian)
+             {
                  return s[0] + ((uint)s[1] << 16);
+             }
 
              return s[1] + ((uint)s[0] << 16);
          }).ToArray();
@@ -28,7 +30,9 @@
             {
                 uint* resultP2 = (uint*)resultP;
                 for (int i = 0; i < bytes.Length; i++)
+                {
                     resultP2[i] = lookupP[bytesP[i]];
+                }
             }
 
             return result;

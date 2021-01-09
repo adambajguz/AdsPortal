@@ -36,7 +36,9 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands
             List<TEntity> entitiesToRemove = await Repository.AllAsync(Filter, cancellationToken: cancellationToken);
 
             foreach (TEntity entity in entitiesToRemove)
+            {
                 await OnValidate(entity, cancellationToken);
+            }
 
             Repository.RemoveMultiple(entitiesToRemove);
             await Uow.SaveChangesAsync(cancellationToken);

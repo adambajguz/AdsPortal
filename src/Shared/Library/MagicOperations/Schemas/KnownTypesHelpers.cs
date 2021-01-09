@@ -15,7 +15,9 @@
         public static bool IsOperationType(Type type)
         {
             if (type.IsAbstract || type.IsInterface)
+            {
                 return false;
+            }
 
             return type.IsDefined(typeof(CreateOperationAttribute)) ||
                    type.IsDefined(typeof(UpdateOperationAttribute)) ||

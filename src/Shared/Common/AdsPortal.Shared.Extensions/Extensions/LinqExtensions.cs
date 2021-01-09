@@ -8,8 +8,15 @@
     {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source is null) throw new ArgumentNullException(nameof(source));
-            if (action is null) throw new ArgumentNullException(nameof(action));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
 
             foreach (T item in source)
             {
@@ -19,8 +26,15 @@
 
         public static void ForEachInParallel<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source is null) throw new ArgumentNullException(nameof(source));
-            if (action is null) throw new ArgumentNullException(nameof(action));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
 
             Parallel.ForEach(source, action);
         }

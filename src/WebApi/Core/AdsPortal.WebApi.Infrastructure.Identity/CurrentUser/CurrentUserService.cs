@@ -40,12 +40,16 @@ namespace AdsPortal.WebApi.Infrastructure.Identity.CurrentUser
         public bool HasRole(Roles role)
         {
             if (!role.IsDefined())
+            {
                 return false;
+            }
 
             string roleName = role.ToString();
 
             if (_context is null)
+            {
                 throw new ForbiddenException();
+            }
 
             ClaimsIdentity? identity = _context?.User?.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)

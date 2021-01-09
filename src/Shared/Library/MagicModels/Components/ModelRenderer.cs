@@ -33,13 +33,21 @@
 
                     //Fallback to base types other than object
                     if (rendererType is null)
+                    {
                         foreach (Type baseType in propertyType.GetBaseTypesOtherThanObject())
+                        {
                             rendererType ??= Configuration.DefaultPropertyRenderers.GetValueOrDefault(baseType);
+                        }
+                    }
 
                     //Fallback to interfaces
                     if (rendererType is null)
+                    {
                         foreach (Type interafaceType in propertyType.GetInterfaces())
+                        {
                             rendererType ??= Configuration.DefaultPropertyRenderers.GetValueOrDefault(interafaceType);
+                        }
+                    }
 
                     //Fallback to object and any type
                     rendererType ??= Configuration.DefaultPropertyRenderers.GetValueOrDefault(typeof(object)); //TODO: neccessary?

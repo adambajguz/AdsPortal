@@ -59,7 +59,9 @@
 
                 Console.WriteLine("Pending migratons {0}", migrations.Count);
                 foreach (string migration in migrations)
+                {
                     Console.WriteLine($"\t{migration}");
+                }
 
                 return false;
             }
