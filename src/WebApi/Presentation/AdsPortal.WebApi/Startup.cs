@@ -1,21 +1,24 @@
 namespace AdsPortal.WebApi
 {
     using System;
+    using System.IO;
     using System.Net.Mime;
     using System.Reflection;
     using System.Threading.Tasks;
     using AdsPortal.Application;
     using AdsPortal.Application.Interfaces.JobScheduler;
+    using AdsPortal.Infrastructure;
     using AdsPortal.Infrastructure.Identity;
     using AdsPortal.Infrastructure.JobScheduler;
     using AdsPortal.Persistence;
     using AdsPortal.Shared.Extensions.Logging;
     using AdsPortal.WebApi.Exceptions.Handler;
     using AdsPortal.WebApi.Grpc;
+    using AdsPortal.WebApi.Infrastructure;
+    using AdsPortal.WebApi.Infrastructure.Mailing;
     using AdsPortal.WebApi.Rest;
     using AdsPortal.WebApi.SpecialPages.Core;
     using FluentValidation;
-    using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
@@ -55,10 +58,13 @@ namespace AdsPortal.WebApi
         // This method gets called by the runtime. Use it to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string emailTemplatesRootFolder = Path.GetFullPath("EmailTemplates");
+
             services.AddInfrastructureLayer(Configuration)
                     .AddInfrastructureIdentityLayer(Configuration)
                     .AddInfrastructureMediaLayer(Configuration)
-                    .AddInfrastructureJobSchedulerLayer(Configuration);
+                    .AddInfrastructureJobSchedulerLayer(Configuration)
+                    .AddMailing(Configuration, emailTemplatesRootFolder);
 
             services.AddPersistenceLayer(Configuration)
                     .AddApplicationLayer(LoggerFactory)

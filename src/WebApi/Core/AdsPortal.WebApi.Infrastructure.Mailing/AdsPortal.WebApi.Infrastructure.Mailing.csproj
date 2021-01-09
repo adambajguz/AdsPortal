@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Mailing.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>appsettings.Mailing.json</DependentUpon>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.Mailing.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentEmail.Core" Version="2.8.0" />
+    <PackageReference Include="FluentEmail.Smtp" Version="2.8.0" />
+    <PackageReference Include="PreMailer.Net" Version="2.2.0" />
+    <PackageReference Include="RazorLight" Version="2.0.0-rc.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Common\AdsPortal.Shared.Extensions\AdsPortal.Shared.Extensions.csproj" />
+    <ProjectReference Include="..\AdsPortal.WebApi.Application\AdsPortal.WebApi.Application.csproj" />
+  </ItemGroup>
+
+</Project>

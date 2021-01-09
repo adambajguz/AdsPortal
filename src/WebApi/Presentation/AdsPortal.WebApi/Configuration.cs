@@ -18,6 +18,7 @@
                    .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
                    .AddPersistenceConfigs(hostingContext, environmentName)
                    .AddJobSchedulerConfigs(hostingContext, environmentName)
+                   .AddMailingConfigs(hostingContext, environmentName)
                    .AddEnvironmentVariables();
 
             return builder;

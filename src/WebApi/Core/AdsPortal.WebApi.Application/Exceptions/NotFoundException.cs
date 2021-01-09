@@ -8,26 +8,26 @@
         public Guid? Id { get; }
 
         public NotFoundException(string entityName)
-            : base($"Entity '{entityName}' was not found.")
+            : base($"{entityName} not found.")
         {
             EntityName = entityName;
         }
 
         public NotFoundException(string entityName, Exception innerException)
-            : base($"Entity '{entityName}' was not found.", innerException)
+            : base($"{entityName} not found.", innerException)
         {
             EntityName = entityName;
         }
 
         public NotFoundException(string entityName, Guid id)
-            : base($"Entity '{entityName}' ({id}) was not found.")
+            : base($"{entityName} ({id}) not found.")
         {
             EntityName = entityName;
             Id = id;
         }
 
         public NotFoundException(string entityName, Guid id, Exception innerException)
-            : base($"Entity '{entityName}' ({id}) was not found.", innerException)
+            : base($"{entityName} ({id}) not found.", innerException)
         {
             EntityName = entityName;
             Id = id;

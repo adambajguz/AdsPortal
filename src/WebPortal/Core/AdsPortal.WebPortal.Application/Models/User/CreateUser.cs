@@ -16,6 +16,6 @@
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
 
-        public Roles Role { get; set; }
+        public Roles Role { get; } = Roles.User;
     }
 }

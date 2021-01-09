@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
+    <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

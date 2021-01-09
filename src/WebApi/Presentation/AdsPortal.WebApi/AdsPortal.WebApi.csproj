@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
+    <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -15,10 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="EmailTemplates\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +39,7 @@
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Application\AdsPortal.WebApi.Application.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure.Identity\AdsPortal.WebApi.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure.JobScheduler\AdsPortal.WebApi.Infrastructure.JobScheduler.csproj" />
+    <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure.Mailing\AdsPortal.WebApi.Infrastructure.Mailing.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure.Media\AdsPortal.WebApi.Infrastructure.Media.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Infrastructure\AdsPortal.WebApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\AdsPortal.WebApi.Persistence\AdsPortal.WebApi.Persistence.csproj" />

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebApi.Rest.Controllers
+﻿ namespace AdsPortal.WebApi.Rest.Controllers
 {
     using System;
     using System.Threading.Tasks;

@@ -8,6 +8,8 @@
     using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Application.Utils;
+    using AdsPortal.WebApi.Application.Interfaces.Mailing;
+    using AdsPortal.WebApi.Domain.EmailTemplates;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
@@ -33,11 +35,13 @@
 
         private sealed class Handler : CreateCommandHandler<CreateUserCommand, User>
         {
+            private readonly IEmailSenderService _emailSender;
             private readonly IUserManagerService _userManager;
             private readonly IDataRightsService _drs;
 
-            public Handler(IAppRelationalUnitOfWork uow, IMapper mapper, IUserManagerService userManager, IDataRightsService drs) : base(uow, mapper)
+            public Handler(IEmailSenderService emailSender, IAppRelationalUnitOfWork uow, IMapper mapper, IUserManagerService userManager, IDataRightsService drs) : base(uow, mapper)
             {
+                _emailSender = emailSender;
                 _userManager = userManager;
                 _drs = drs;
             }
@@ -65,6 +69,11 @@
                 entity.IsActive = true;
 
                 return entity;
+            }
+
+            protected override async ValueTask OnAdded(User entity, CancellationToken cancellationToken)
+            {
+                await _emailSender.SendEmailAsync(entity.Email, new AccountRegisteredEmail { Name = entity.Name }, cancellationToken);
             }
         }
     }
