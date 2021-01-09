@@ -138,24 +138,24 @@ namespace AdsPortal.WebApi
                 {
                     IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                    for (int i = 0; i < 500; ++i)
+                    for (int i = 0; i < 1000; ++i)
                     {
                         if (i % 100 == 0)
                         {
                             Console.WriteLine($"Added {i}");
                         }
 
-                        x.Schedule<TestJob>().Wait();
+                        x.ScheduleAsync<TestJob>().Wait();
                     }
 
-                    for (int i = 0; i < 500; ++i)
+                    for (int i = 0; i < 1000; ++i)
                     {
                         if (i % 100 == 0)
                         {
                             Console.WriteLine($"Added {i}");
                         }
 
-                        x.Schedule<TestJob>(1).Wait();
+                        x.ScheduleAsync<TestJob>(1).Wait();
                     }
                 }
             }

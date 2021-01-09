@@ -6,8 +6,10 @@
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
     using AdsPortal.WebApi.Application.Interfaces.Mailing;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.EmailTemplates;
     using AdsPortal.WebApi.Domain.Entities;
@@ -35,13 +37,13 @@
 
         private sealed class Handler : CreateCommandHandler<CreateUserCommand, User>
         {
-            private readonly IEmailSenderService _emailSender;
+            private readonly IJobSchedulingService _jobScheduling;
             private readonly IUserManagerService _userManager;
             private readonly IDataRightsService _drs;
 
-            public Handler(IEmailSenderService emailSender, IAppRelationalUnitOfWork uow, IMapper mapper, IUserManagerService userManager, IDataRightsService drs) : base(uow, mapper)
+            public Handler(IJobSchedulingService jobScheduling, IAppRelationalUnitOfWork uow, IMapper mapper, IUserManagerService userManager, IDataRightsService drs) : base(uow, mapper)
             {
-                _emailSender = emailSender;
+                _jobScheduling = jobScheduling;
                 _userManager = userManager;
                 _drs = drs;
             }
@@ -77,7 +79,13 @@
 
             protected override async ValueTask OnAdded(User entity, CancellationToken cancellationToken)
             {
-                await _emailSender.SendEmailAsync(entity.Email, new AccountRegisteredEmail { Name = entity.Name }, cancellationToken);
+                SendEmailJobArguments args = new ()
+                {
+                    Email = entity.Email,
+                    Template = new AccountRegisteredEmail { Name = entity.Name }
+                };
+
+                await _jobScheduling.ScheduleAsync<SendEmailJob>(operationArguments: args, cancellationToken: cancellationToken);
             }
         }
     }

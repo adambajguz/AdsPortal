@@ -15,7 +15,6 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Newtonsoft.Json;
     using TTimer = System.Threading.Timer;
 
     public sealed class JobsProcessingService : IHostedService, IJobSchedulerRunnerService
@@ -29,6 +28,7 @@
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly JobSchedulerConfiguration _configuration;
+        private readonly IArgumentsSerializer _serializer;
         private readonly IHostApplicationLifetime _lifetime;
         private readonly ILogger _logger;
 
@@ -36,11 +36,13 @@
 
         public JobsProcessingService(IServiceScopeFactory serviceProvider,
                                      IOptions<JobSchedulerConfiguration> configuration,
+                                     IArgumentsSerializer serializer,
                                      IHostApplicationLifetime lifetime,
                                      ILogger<JobsProcessingService> logger)
         {
             _serviceScopeFactory = serviceProvider;
             _configuration = configuration.Value;
+            _serializer = serializer;
             _lifetime = lifetime;
             _logger = logger;
         }
@@ -63,6 +65,11 @@
             catch (OperationCanceledException)
             {
                 _logger.LogDebug("{Service} job timer tick cancelled.", nameof(JobsProcessingService));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "Fatal error occured in {Service} while interacting job queue", nameof(JobsProcessingService));
+                _lifetime.StopApplication();
             }
         }
 
@@ -98,7 +105,7 @@
                                                              take: toTake,
                                                              cancellationToken: cancellationToken);
 
-                        Interlocked.Add(ref _processing, toTake);
+                        Interlocked.Add(ref _processing, queuedJobs.Count);
 
                         foreach (var job in queuedJobs)
                         {
@@ -117,24 +124,24 @@
                     //Execute if there are tasks
                     if (queuedJobs is List<Job> jobs && jobs.Count > 0)
                     {
-                        _logger.LogDebug("Executing {Count} new job(s) in batch ({Processing} processing).", toTake, _processing);
+                        Guid batchGuid = Guid.NewGuid();
+                        _logger.LogDebug("Executing {Count} new job(s) in batch {BatchId} ({Processing} processing)", queuedJobs.Count, batchGuid, _processing);
 
-                        IEnumerable<Task> tasks = jobs.Select(x => ExecuteJob(x, cancellationToken));
-                        foreach (var bucket in Interleaved(tasks))
+                        foreach (var bucket in Interleaved(jobs, batchGuid, cancellationToken))
                         {
                             await bucket;
                         }
 
-                        //await Task.WhenAll(tasks).ConfigureAwait(false);
+                        _logger.LogDebug("Finished {Count} job(s) in batch {BatchId} ({Processing} processing)", queuedJobs.Count, batchGuid, _processing);
                     }
                 }
             }
         }
 
         //https://devblogs.microsoft.com/pfxteam/processing-tasks-as-they-complete/
-        private Task<Task>[] Interleaved(IEnumerable<Task> tasks)
+        private Task<Task>[] Interleaved(IReadOnlyList<Job> jobs, Guid batchGuid, CancellationToken cancellationToken)
         {
-            var buckets = new TaskCompletionSource<Task>[tasks.Count()];
+            var buckets = new TaskCompletionSource<Task>[jobs.Count()];
             var results = new Task<Task>[buckets.Length];
             for (int i = 0; i < buckets.Length; i++)
             {
@@ -144,9 +151,9 @@
 
             int nextTaskIndex = -1;
 
-            foreach (Task inputTask in tasks)
+            foreach (Job job in jobs)
             {
-                inputTask.ContinueWith(completed =>
+                ExecuteJob(job, batchGuid, cancellationToken).ContinueWith(completed =>
                 {
                     Interlocked.Decrement(ref _processing);
 
@@ -161,12 +168,12 @@
             return results;
         }
 
-        private async Task ExecuteJob(Job job, CancellationToken cancellationToken)
+        private async Task ExecuteJob(Job job, Guid batchGuid, CancellationToken cancellationToken)
         {
             Type? type = Type.GetType(job.Operation);
             if (type is null)
             {
-                _logger.LogError("Unknown job of type {Type}", job.Operation);
+                _logger.LogError("Unknown job of type {Type} in batch {BatchId}", job.Operation, batchGuid);
                 return;
             }
 
@@ -176,11 +183,11 @@
 
                 if (jobScope.ServiceProvider.GetService(type) is not IJob jobInstance)
                 {
-                    _logger.LogError("Unknown job of type {Type}", job.Operation);
+                    _logger.LogError("Invalid job of type {Type} in batch {BatchId}", job.Operation, batchGuid);
                     return;
                 }
 
-                _logger.LogTrace("Running job {No}", job.JobNo);
+                _logger.LogTrace("Running job {No} in batch {BatchId}", job.JobNo, batchGuid);
 
                 DateTime startTime = DateTime.UtcNow;
                 DateTime? finishTime = null;
@@ -200,8 +207,10 @@
                     JobStatuses finishStatus = JobStatuses.Error;
                     try
                     {
+                        object? args = _serializer.Deserialize(job.Arguments);
+
                         startTime = DateTime.UtcNow;
-                        await jobInstance.Handle(job.Arguments, jobCts.Token);
+                        await jobInstance.Handle(args, jobCts.Token);
                         finishTime = DateTime.UtcNow;
                         finishStatus = JobStatuses.Success;
                     }
@@ -213,18 +222,19 @@
 
                         if (timedOut)
                         {
-                            _logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, job.TimeoutAfter);
+                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} timed out after {Time}, and thus was cancelled", job.Id, job.JobNo, batchGuid, job.TimeoutAfter);
                         }
                         else
                         {
-                            _logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
+                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} was cancelled", job.Id, job.JobNo, batchGuid);
                         }
                     }
                     catch (Exception ex)
                     {
-                        job.Exception = JsonConvert.SerializeObject(ex);
+                        job.Exception = _serializer.Serialize(ex);
+                        finishStatus = JobStatuses.Error;
 
-                        _logger.LogCritical(ex, "Error occured during job {Id} {JobNo} execution.", job.Id, job.JobNo);
+                        _logger.LogError(ex, "Exception occured during job {Id} {JobNo} execution  in batch {BatchId}", job.Id, job.JobNo, batchGuid);
                     }
                     finally
                     {
@@ -237,13 +247,13 @@
                     }
                 }
 
-                _logger.LogTrace("Finished job {No}", job.JobNo);
+                _logger.LogTrace("Finished job {No} in batch {BatchId}", job.JobNo, batchGuid);
             }
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Starting {Service}.", nameof(JobsProcessingService));
+            _logger.LogInformation("Starting {Service}", nameof(JobsProcessingService));
 
             Timer ??= new TTimer(TickTimer!,
                                  _cts.Token,
@@ -255,7 +265,7 @@
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Stopping {Service}.", nameof(JobsProcessingService));
+            _logger.LogInformation("Stopping {Service}", nameof(JobsProcessingService));
 
             Timer?.Change(Timeout.Infinite, 0);
 

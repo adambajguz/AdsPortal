@@ -12,7 +12,7 @@
 
         }
 
-        public async ValueTask Handle(string? args, CancellationToken cancellationToken)
+        public async ValueTask Handle(object? args, CancellationToken cancellationToken)
         {
             int millisecondsDelay = 5 + new Random().Next(0, 2000);
             //Console.WriteLine($"TestJob {millisecondsDelay}");

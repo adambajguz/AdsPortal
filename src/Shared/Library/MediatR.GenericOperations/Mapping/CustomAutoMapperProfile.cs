@@ -20,15 +20,22 @@
 
         private void LoadCustomMappings(Assembly rootAssembly)
         {
-            IEnumerable<Type> types = GetCustomMappings(rootAssembly);
+            IReadOnlyList<Type> types = GetCustomMappings(rootAssembly).ToList();
+
+            if (types.Count == 0)
+            {
+                _logger.LogDebug("Skipping registering mappings in {Assembly}", rootAssembly);
+                return;
+            }
 
             int count = 0;
             bool anyEmpty = false;
             IEnumerable<ITypeMapConfiguration> typeMapConfigs = (this as IProfileConfiguration).TypeMapConfigs;
+
+            _logger.LogDebug("Registering mappings for {Count} types implementing {Interface} in {Assembly} {Types}", types.Count, nameof(ICustomMapping), rootAssembly, types);
+
             foreach (Type type in types)
             {
-                _logger.LogDebug("Registering mappings from configuration in {Type}", type);
-
                 ICustomMapping? map = Activator.CreateInstance(type) as ICustomMapping;
                 map?.CreateMappings(this);
 
@@ -41,10 +48,10 @@
                 count = v;
             }
 
-            _logger.LogInformation($"Registered {{Count}} maps from {{ICustomMappingTypesCount}} classes implementing {nameof(ICustomMapping)} for {{Assembly}}", typeMapConfigs.Count(), types.Count(), rootAssembly);
+            _logger.LogInformation("Registered {Count} maps from {ICustomMappingTypesCount} classes implementing {Interface} for {Assembly}", typeMapConfigs.Count(), types.Count, nameof(ICustomMapping), rootAssembly);
             if (anyEmpty)
             {
-                _logger.LogWarning($"At least one class implementing {nameof(ICustomMapping)} does not contain any mapping definitions in {{Assembly}}.", rootAssembly);
+                _logger.LogWarning("At least one class implementing {Interface} does not contain any mapping definitions in {Assembly}", nameof(ICustomMapping), rootAssembly);
             }
         }
 

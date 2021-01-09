@@ -32,7 +32,7 @@
 
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient<TestJob>();
-            services.AddTransient<IJob, TestJob>();
+            services.AddTransient<SendEmailJob>();
 
             return services;
         }
