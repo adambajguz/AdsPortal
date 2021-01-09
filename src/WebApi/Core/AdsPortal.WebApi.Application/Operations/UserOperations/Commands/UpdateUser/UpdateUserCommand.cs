@@ -1,13 +1,12 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.UpdateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.UpdateUser
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Constants;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Constants;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
@@ -58,9 +57,7 @@
                 await new UpdateUserValidator().ValidateAndThrowAsync(Command, cancellationToken: cancellationToken);
 
                 if (Command.Email != entity.Email && await Uow.Users.IsEmailInUseAsync(Command.Email))
-                {
                     throw new ValidationFailedException(nameof(Command.Email), ValidationMessages.Email.IsInUse);
-                }
             }
         }
     }

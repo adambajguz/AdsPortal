@@ -6,9 +6,8 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;

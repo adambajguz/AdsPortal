@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.PatchUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.PatchUser
 {
     using FluentValidation;
 

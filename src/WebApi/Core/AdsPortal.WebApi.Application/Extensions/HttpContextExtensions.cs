@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Extensions
+﻿namespace AdsPortal.WebApi.Application.Extensions
 {
     using System;
     using Microsoft.AspNetCore.Http;

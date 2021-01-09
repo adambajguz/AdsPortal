@@ -1,14 +1,13 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.CreateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.CreateUser
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Constants;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.Utils;
+    using AdsPortal.WebApi.Application.Constants;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Mailing;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.EmailTemplates;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
@@ -58,9 +57,7 @@
                 await ValidationUtils.ValidateAndThrowAsync<CreateUserValidator, CreateUserCommand>(Command, cancellationToken);
 
                 if (await Uow.Users.IsEmailInUseAsync(Command.Email))
-                {
                     throw new ValidationFailedException(nameof(Command.Email), ValidationMessages.Email.IsInUse);
-                }
             }
 
             protected override async ValueTask<User> OnMapped(User entity, CancellationToken cancellationToken)

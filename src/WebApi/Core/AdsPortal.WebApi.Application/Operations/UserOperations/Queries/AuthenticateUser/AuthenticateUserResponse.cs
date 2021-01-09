@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
     using System;
     using MediatR.GenericOperations.Abstractions;

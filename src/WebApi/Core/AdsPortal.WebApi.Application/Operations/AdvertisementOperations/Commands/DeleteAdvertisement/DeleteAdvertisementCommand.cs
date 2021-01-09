@@ -1,8 +1,8 @@
-namespace AdsPortal.Application.Operations.AdvertisementOperations.Commands.DeleteAdvertisement
+namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.DeleteAdvertisement
 {
     using System;
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;

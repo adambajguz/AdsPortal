@@ -5,10 +5,9 @@
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser;
     using AdsPortal.WebApi.Domain.Jwt;
     using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
     using Microsoft.Extensions.Options;

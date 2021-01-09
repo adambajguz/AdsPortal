@@ -1,10 +1,10 @@
-﻿namespace AdsPortal.Application
+﻿namespace AdsPortal.WebApi.Application
 {
     using System.Reflection;
-    using AdsPortal.Application.Interfaces.JobScheduler;
-    using AdsPortal.Application.Jobs;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Configurations;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Jobs;
     using AutoMapper;
     using MediatR;
     using MediatR.GenericOperations.Mapping;
@@ -21,13 +21,13 @@
             services.AddAutoMapper(cfg =>
                 {
                     cfg.AddProfile(new CustomAutoMapperProfile(typeof(DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
-                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(WebApi.Domain.DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
+                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(Domain.DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
                 });
 
             services.AddMediatR(new Assembly[]
                 {
                     typeof(DependencyInjection).Assembly,
-                    typeof(WebApi.Domain.DependencyInjection).Assembly
+                    typeof(Domain.DependencyInjection).Assembly
                 });
 
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));

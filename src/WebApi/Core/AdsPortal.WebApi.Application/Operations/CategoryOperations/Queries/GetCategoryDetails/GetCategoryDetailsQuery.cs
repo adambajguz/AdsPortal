@@ -1,10 +1,10 @@
-namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoryDetails
+namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoryDetails
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;

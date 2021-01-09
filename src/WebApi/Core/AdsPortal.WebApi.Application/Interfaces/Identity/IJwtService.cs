@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.Interfaces.Identity
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Identity
 {
     using System;
-    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
+    using AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser;
     using AdsPortal.WebApi.Domain.Jwt;
 
     public interface IJwtService

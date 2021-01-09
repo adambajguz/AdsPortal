@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.Infrastructure
 {
-    using AdsPortal.Application.Interfaces.Media;
     using AdsPortal.Infrastructure.Media.QRCode;
+    using AdsPortal.WebApi.Application.Interfaces.Media;
     using Microsoft.Extensions.DependencyInjection;
     using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 

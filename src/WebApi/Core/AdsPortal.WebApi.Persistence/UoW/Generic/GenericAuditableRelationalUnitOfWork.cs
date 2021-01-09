@@ -5,13 +5,13 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.Repository;
-    using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.Infrastructure.Extensions;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Persistence.Repository;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Audit;
     using AdsPortal.WebApi.Domain.Abstractions.Enums;
     using AdsPortal.WebApi.Domain.Entities;

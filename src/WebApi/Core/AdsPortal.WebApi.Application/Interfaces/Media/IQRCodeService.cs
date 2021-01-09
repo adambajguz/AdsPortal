@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Interfaces.Media
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Media
 {
     using System;
 

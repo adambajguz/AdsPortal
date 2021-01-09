@@ -129,7 +129,7 @@
         {
             mvcBuilder.AddFluentValidation(c => c.RegisterValidatorsFromAssemblies(new Assembly[]
                 {
-                    typeof(AdsPortal.Application.DependencyInjection).GetTypeInfo().Assembly,
+                    typeof(Application.DependencyInjection).GetTypeInfo().Assembly,
                     typeof(Domain.DependencyInjection).GetTypeInfo().Assembly
                 }));
 

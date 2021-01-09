@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Constants
+﻿namespace AdsPortal.WebApi.Application.Constants
 {
     public static class ValidationMessages
     {

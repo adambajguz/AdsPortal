@@ -5,11 +5,12 @@ namespace AdsPortal.WebApi
     using System.Net.Mime;
     using System.Reflection;
     using System.Threading.Tasks;
-    using AdsPortal.Application;
-    using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Infrastructure;
     using AdsPortal.Persistence;
     using AdsPortal.Shared.Extensions.Logging;
+    using AdsPortal.WebApi.Application;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Exceptions.Handler;
     using AdsPortal.WebApi.Grpc;
     using AdsPortal.WebApi.Infrastructure;
@@ -141,7 +142,7 @@ namespace AdsPortal.WebApi
                         if (i % 100 == 0)
                             Console.WriteLine($"Added {i}");
 
-                        x.Schedule<AdsPortal.Application.Jobs.TestJob>().Wait();
+                        x.Schedule<TestJob>().Wait();
                     }
 
                     for (int i = 0; i < 500; ++i)
@@ -149,7 +150,7 @@ namespace AdsPortal.WebApi
                         if (i % 100 == 0)
                             Console.WriteLine($"Added {i}");
 
-                        x.Schedule<AdsPortal.Application.Jobs.TestJob>(1).Wait();
+                        x.Schedule<TestJob>(1).Wait();
                     }
                 }
             }

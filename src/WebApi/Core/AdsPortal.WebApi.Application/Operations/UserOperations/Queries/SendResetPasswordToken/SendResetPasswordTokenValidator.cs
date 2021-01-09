@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.SendResetPasswordToken
 {
-    using Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class SendResetPasswordTokenValidator : AbstractValidator<SendResetPasswordTokenQuery>

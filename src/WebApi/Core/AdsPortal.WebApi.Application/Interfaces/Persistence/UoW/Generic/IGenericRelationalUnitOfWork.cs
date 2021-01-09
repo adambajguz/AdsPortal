@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Application.Interfaces.Persistence.UoW.Generic
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
 
     public interface IGenericRelationalUnitOfWork

@@ -5,10 +5,9 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;

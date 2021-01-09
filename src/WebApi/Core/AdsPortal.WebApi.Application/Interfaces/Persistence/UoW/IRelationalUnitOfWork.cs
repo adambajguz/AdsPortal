@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.Interfaces.Persistence.UoW
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.UoW
 {
-    using AdsPortal.Application.Interfaces.Persistence.Repository;
-    using AdsPortal.Application.Interfaces.Persistence.UoW.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic;
 
     public interface IAppRelationalUnitOfWork : IGenericAuditableRelationalUnitOfWork
     {

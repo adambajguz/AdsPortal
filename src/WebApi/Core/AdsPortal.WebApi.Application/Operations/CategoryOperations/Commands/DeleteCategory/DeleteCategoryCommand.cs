@@ -1,8 +1,8 @@
-namespace AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCategory
+namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.DeleteCategory
 {
     using System;
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;

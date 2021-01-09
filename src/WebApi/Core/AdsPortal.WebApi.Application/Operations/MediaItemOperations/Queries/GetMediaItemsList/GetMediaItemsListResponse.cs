@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList
 {
     using System;
     using AdsPortal.WebApi.Domain.Entities;

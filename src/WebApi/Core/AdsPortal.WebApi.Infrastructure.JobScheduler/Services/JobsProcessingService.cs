@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.JobScheduler;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Enums;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Configurations;

@@ -2,11 +2,12 @@
 {
     using System;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CleanupEntityAuditLog;
-    using AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CreateRouteLog;
-    using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogDetails;
-    using AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogsList;
     using AdsPortal.WebApi.Application.Exceptions;
+    using AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Commands.CleanupEntityAuditLog;
+    using AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Commands.RevertUsingEntityAuditLog;
+    using AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queries.GetEntityAuditLogDetails;
+    using AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queries.GetEntityAuditLogsForEntityList;
+    using AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queries.GetEntityAuditLogsList;
     using AdsPortal.WebApi.Attributes;
     using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;

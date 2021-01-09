@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.GenericHandlers.Relational.Queries
+﻿namespace MediatR.GenericOperations.Queries
 {
     using System.Collections.Generic;
     using System.Threading;

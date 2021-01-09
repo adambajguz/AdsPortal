@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CreateRouteLog
+﻿namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Commands.RevertUsingEntityAuditLog
 {
     using FluentValidation;
 

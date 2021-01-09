@@ -1,12 +1,13 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.CreateMediaItem
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Commands.CreateMediaItem
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Extensions;
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Shared.Extensions.Utils;
+    using AdsPortal.WebApi.Application.Extensions;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
     using AdsPortal.WebApi.Domain.Utils;

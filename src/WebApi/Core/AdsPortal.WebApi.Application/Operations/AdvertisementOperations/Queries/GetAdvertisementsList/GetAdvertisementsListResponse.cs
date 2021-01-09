@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList
+﻿namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList
 {
     using System;
     using AdsPortal.WebApi.Domain.Entities;

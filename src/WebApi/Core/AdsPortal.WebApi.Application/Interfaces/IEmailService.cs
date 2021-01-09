@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Interfaces
+﻿namespace AdsPortal.WebApi.Application.Interfaces
 {
     using System.Threading.Tasks;
 

@@ -1,9 +1,9 @@
-namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CreateRouteLog
+namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Commands.RevertUsingEntityAuditLog
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AutoMapper;
     using MediatR;
     using MediatR.GenericOperations.Models;

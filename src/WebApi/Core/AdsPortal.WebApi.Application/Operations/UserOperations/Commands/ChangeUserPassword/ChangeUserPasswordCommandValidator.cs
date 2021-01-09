@@ -1,6 +1,6 @@
-namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPassword
+namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.ChangeUserPassword
 {
-    using Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class ChangeUserPasswordCommandValidator : AbstractValidator<ChangeUserPasswordCommand>

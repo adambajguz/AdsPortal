@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Application.Jobs
+﻿namespace AdsPortal.WebApi.Application.Jobs
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
 
     public class TestJob : IJob
     {

@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.CategoryOperations.Commands.UpdateCategory
+﻿namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.UpdateCategory
 {
-    using AdsPortal.Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>

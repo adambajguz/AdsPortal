@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;

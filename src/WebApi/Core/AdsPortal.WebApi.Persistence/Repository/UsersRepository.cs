@@ -2,10 +2,10 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.Repository;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;

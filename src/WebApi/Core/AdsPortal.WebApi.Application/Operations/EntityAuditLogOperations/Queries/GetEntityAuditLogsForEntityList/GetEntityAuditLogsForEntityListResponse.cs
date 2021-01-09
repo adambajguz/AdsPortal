@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogsList
+﻿namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queries.GetEntityAuditLogsForEntityList
 {
     using System;
     using AdsPortal.WebApi.Domain.Abstractions.Enums;

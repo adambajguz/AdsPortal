@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetPagedAdvertisementsList
+﻿namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList
 {
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using MediatR.GenericOperations.Queries;
 
     public sealed record GetPagedAdvertisementsListQuery : IGetPagedListQuery<GetAdvertisementsListResponse>
     {

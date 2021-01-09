@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.GenericHandlers.Relational.Queries
+﻿namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
 {
     using System;
     using System.Collections.Generic;
@@ -7,8 +7,8 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;

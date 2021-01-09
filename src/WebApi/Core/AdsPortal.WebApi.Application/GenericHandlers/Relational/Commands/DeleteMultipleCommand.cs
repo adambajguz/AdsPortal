@@ -1,12 +1,12 @@
-namespace AdsPortal.Application.GenericHandlers.Relational.Commands
+namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands
 {
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using MediatR;
     using MediatR.GenericOperations.Commands;
@@ -36,9 +36,7 @@ namespace AdsPortal.Application.GenericHandlers.Relational.Commands
             List<TEntity> entitiesToRemove = await Repository.AllAsync(Filter, cancellationToken: cancellationToken);
 
             foreach (TEntity entity in entitiesToRemove)
-            {
                 await OnValidate(entity, cancellationToken);
-            }
 
             Repository.RemoveMultiple(entitiesToRemove);
             await Uow.SaveChangesAsync(cancellationToken);

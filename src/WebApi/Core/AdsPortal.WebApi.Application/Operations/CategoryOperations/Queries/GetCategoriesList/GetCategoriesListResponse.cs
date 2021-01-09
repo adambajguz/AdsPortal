@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoriesList
+﻿namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList
 {
     using System;
     using AdsPortal.WebApi.Domain.Entities;

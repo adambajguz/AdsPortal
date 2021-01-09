@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
-    using Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class AuthenticateUserValidator : AbstractValidator<AuthenticateUserQuery>

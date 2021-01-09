@@ -1,6 +1,6 @@
-namespace AdsPortal.Application.Operations.UserOperations.Commands.ResetPassword
+namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.ResetPassword
 {
-    using Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class ResetPasswordValidator : AbstractValidator<ResetPasswordCommand>

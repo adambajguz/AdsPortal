@@ -1,10 +1,10 @@
-namespace AdsPortal.Application.GenericHandlers.Relational.Commands
+namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

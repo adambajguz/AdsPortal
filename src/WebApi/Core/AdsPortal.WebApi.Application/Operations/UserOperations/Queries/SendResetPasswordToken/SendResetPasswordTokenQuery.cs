@@ -1,12 +1,12 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.SendResetPasswordToken
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.SendResetPasswordToken
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Extensions;
-    using AdsPortal.Application.Interfaces;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
     using FluentValidation;

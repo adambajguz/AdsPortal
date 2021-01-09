@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.GetUserDetails
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.GetUserDetails
 {
     using System;
     using AdsPortal.WebApi.Domain.Entities;

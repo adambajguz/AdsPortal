@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.CategoryOperations.Commands.CreateCategory
+﻿namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.CreateCategory
 {
-    using AdsPortal.Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>

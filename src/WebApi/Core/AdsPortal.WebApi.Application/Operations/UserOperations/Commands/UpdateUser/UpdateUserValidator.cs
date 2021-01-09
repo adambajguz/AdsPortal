@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.UpdateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.UpdateUser
 {
+    using AdsPortal.WebApi.Application.Constants;
     using AdsPortal.WebApi.Domain.Jwt;
-    using Application.Constants;
     using FluentValidation;
 
     public sealed class UpdateUserValidator : AbstractValidator<UpdateUserCommand>

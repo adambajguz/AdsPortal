@@ -2,13 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Commands.CreateAdvertisement;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Commands.DeleteAdvertisement;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Commands.UpdateAdvertisement;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;
-    using AdsPortal.Application.Operations.AdvertisementOperations.Queries.GetPagedAdvertisementsList;
     using AdsPortal.WebApi.Application.Exceptions;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.CreateAdvertisement;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.UpdateAdvertisement;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;
     using AdsPortal.WebApi.Attributes;
     using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;

@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.WebApi.Infrastructure.Identity.UserManager
 {
-    using AdsPortal.Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public class PasswordValidator : AbstractValidator<string>

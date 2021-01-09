@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Commands.CreateMediaItem
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Commands.CreateMediaItem
 {
-    using AdsPortal.Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class CreateMediaItemValidator : AbstractValidator<CreateMediaItemCommand>

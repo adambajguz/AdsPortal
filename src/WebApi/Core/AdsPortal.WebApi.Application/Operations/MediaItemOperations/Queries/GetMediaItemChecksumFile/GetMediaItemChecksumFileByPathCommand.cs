@@ -1,13 +1,12 @@
-namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemChecksumFile
+namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemChecksumFile
 {
     using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Extensions;
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;

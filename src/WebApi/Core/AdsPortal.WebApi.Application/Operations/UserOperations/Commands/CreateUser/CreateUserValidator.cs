@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Commands.CreateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.CreateUser
 {
+    using AdsPortal.WebApi.Application.Constants;
     using AdsPortal.WebApi.Domain.Jwt;
-    using Application.Constants;
     using FluentValidation;
 
     public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>

@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Models;
     using AutoMapper;
     using MediatR;

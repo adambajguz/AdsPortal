@@ -1,8 +1,8 @@
-namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Queries.GetRouteLogDetails
+namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queries.GetEntityAuditLogDetails
 {
     using System;
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;

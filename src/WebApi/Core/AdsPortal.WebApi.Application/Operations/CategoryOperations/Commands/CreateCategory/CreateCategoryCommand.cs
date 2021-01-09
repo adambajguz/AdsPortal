@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Application.Operations.CategoryOperations.Commands.CreateCategory
+﻿namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.CreateCategory
 {
-    using AdsPortal.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
     using MediatR.GenericOperations.Commands;

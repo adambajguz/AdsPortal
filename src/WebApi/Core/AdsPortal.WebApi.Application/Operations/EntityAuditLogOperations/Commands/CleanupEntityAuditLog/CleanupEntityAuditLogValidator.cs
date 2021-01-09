@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.EntityAuditLogOperations.Commands.CleanupEntityAuditLog
+﻿namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Commands.CleanupEntityAuditLog
 {
     using FluentValidation;
 

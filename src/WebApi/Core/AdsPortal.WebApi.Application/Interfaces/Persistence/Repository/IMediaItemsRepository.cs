@@ -1,10 +1,10 @@
-﻿namespace AdsPortal.Application.Interfaces.Persistence.Repository
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.Repository
 {
     using System;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Persistence.Repository.Generic;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Models;
 

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemsStatistics
 {
     using AdsPortal.WebApi.Domain.Models;
     using AutoMapper;

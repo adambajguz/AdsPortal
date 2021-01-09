@@ -3,9 +3,8 @@ namespace AdsPortal.WebApi.Infrastructure.Identity.CurrentUser
     using System;
     using System.Linq;
     using System.Security.Claims;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Domain.Jwt;
     using Microsoft.AspNetCore.Http;
 

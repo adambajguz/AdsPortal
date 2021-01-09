@@ -2,7 +2,7 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
     using AdsPortal.WebApi.Infrastructure.Identity.UserManager.Hasher;

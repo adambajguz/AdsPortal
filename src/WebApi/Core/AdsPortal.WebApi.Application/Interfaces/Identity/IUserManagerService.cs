@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Interfaces.Identity
+﻿namespace AdsPortal.WebApi.Application.Interfaces.Identity
 {
     using System.Threading;
     using System.Threading.Tasks;

@@ -1,6 +1,6 @@
-﻿namespace AdsPortal.Application.Operations.AdvertisementOperations.Commands.CreateAdvertisement
+﻿namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.CreateAdvertisement
 {
-    using AdsPortal.Application.Constants;
+    using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
     public sealed class CreateAdvertisementValidator : AbstractValidator<CreateAdvertisementCommand>

@@ -2,13 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Operations.CategoryOperations.Commands.CreateCategory;
-    using AdsPortal.Application.Operations.CategoryOperations.Commands.DeleteCategory;
-    using AdsPortal.Application.Operations.CategoryOperations.Commands.UpdateCategory;
-    using AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
-    using AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoryDetails;
-    using AdsPortal.Application.Operations.CategoryOperations.Queries.GetPagedCategoriesList;
     using AdsPortal.WebApi.Application.Exceptions;
+    using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.CreateCategory;
+    using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.UpdateCategory;
+    using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
+    using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoryDetails;
     using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

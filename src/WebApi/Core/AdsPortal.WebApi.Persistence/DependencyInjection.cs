@@ -1,11 +1,11 @@
 ﻿namespace AdsPortal.Persistence
 {
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
     using AdsPortal.Persistence.Configurations;
     using AdsPortal.Persistence.DbContext;
     using AdsPortal.Persistence.Interfaces.DbContext;
     using AdsPortal.Persistence.UoW;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

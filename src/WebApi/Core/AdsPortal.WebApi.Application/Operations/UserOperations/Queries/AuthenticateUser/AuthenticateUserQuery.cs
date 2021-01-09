@@ -1,12 +1,10 @@
-﻿namespace AdsPortal.Application.Operations.UserOperations.Queries.AuthenticateUser
+﻿namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Constants;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
+    using AdsPortal.WebApi.Application.Constants;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using FluentValidation;
     using MediatR;
@@ -37,9 +35,7 @@
                 User user = await _uow.Users.SingleAsync(x => x.Email.Equals(query.Email), noTracking: true, cancellationToken);
 
                 if (!await _userManager.ValidatePassword(user, query.Password ?? string.Empty, cancellationToken))
-                {
                     throw new ValidationFailedException(nameof(query.Email), ValidationMessages.Auth.EmailOrPasswordIsIncorrect);
-                }
 
                 return _jwt.GenerateJwtToken(user);
             }

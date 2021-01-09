@@ -2,7 +2,7 @@
 {
     using System;
     using System.Globalization;
-    using AdsPortal.Application.Interfaces.Media;
+    using AdsPortal.WebApi.Application.Interfaces.Media;
     using QRCoder;
     using static QRCoder.PayloadGenerator;
 

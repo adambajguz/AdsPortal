@@ -5,7 +5,6 @@
     using System.Net;
     using System.Net.Mime;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Exceptions;
     using AdsPortal.WebApi.Application.Exceptions;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;

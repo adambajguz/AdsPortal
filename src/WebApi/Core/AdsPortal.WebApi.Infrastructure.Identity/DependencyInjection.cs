@@ -1,7 +1,7 @@
 ﻿namespace AdsPortal.WebApi.Infrastructure.Identity
 {
-    using AdsPortal.Application.Interfaces.Identity;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
     using AdsPortal.WebApi.Infrastructure.Identity.CurrentUser;
     using AdsPortal.WebApi.Infrastructure.Identity.DataRights;

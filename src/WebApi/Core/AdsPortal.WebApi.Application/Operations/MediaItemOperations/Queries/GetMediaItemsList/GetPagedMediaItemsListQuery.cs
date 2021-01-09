@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Application.Operations.MediaItemOperations.Queries.GetPagedMediaItemsList
+﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList
 {
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Application.Operations.MediaItemOperations.Queries.GetMediaItemsList;
+    using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using MediatR.GenericOperations.Queries;
 
     public sealed record GetPagedMediaItemsListQuery : IGetPagedListQuery<GetMediaItemsListResponse>
     {

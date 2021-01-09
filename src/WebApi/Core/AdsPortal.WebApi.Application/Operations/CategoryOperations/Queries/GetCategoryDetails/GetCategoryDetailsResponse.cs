@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Operations.CategoryOperations.Queries.GetCategoryDetails
+﻿namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoryDetails
 {
     using System;
     using System.Collections.Generic;

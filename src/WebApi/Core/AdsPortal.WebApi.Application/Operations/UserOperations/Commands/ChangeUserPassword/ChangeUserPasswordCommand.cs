@@ -1,12 +1,11 @@
-namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPassword
+namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.ChangeUserPassword
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Constants;
-    using AdsPortal.Application.Exceptions;
-    using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Application.Constants;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using FluentValidation;
     using MediatR;
@@ -39,9 +38,7 @@ namespace AdsPortal.Application.Operations.UserOperations.Commands.ChangeUserPas
                 User user = await _uow.Users.SingleByIdAsync(command.UserId, cancellationToken: cancellationToken);
 
                 if (!await _userManager.ValidatePassword(user, command.OldPassword ?? string.Empty, cancellationToken))
-                {
                     throw new ValidationFailedException(nameof(command.OldPassword), ValidationMessages.Password.OldIsIncorrect);
-                }
 
                 await _userManager.SetPassword(user, command.NewPassword ?? string.Empty, cancellationToken);
                 _uow.Users.Update(user);
