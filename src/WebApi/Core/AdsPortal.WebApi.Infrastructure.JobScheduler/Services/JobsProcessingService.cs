@@ -20,6 +20,7 @@
 
     public sealed class JobsProcessingService : IHostedService, IJobSchedulerRunnerService
     {
+        private bool _everTicked;
         private int _processing = 0;
         private readonly SemaphoreSlim _sync = new SemaphoreSlim(1, 1);
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
@@ -28,16 +29,19 @@
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly JobSchedulerConfiguration _configuration;
+        private readonly IHostApplicationLifetime _lifetime;
         private readonly ILogger _logger;
 
         public Guid InstanceId { get; } = Guid.NewGuid();
 
         public JobsProcessingService(IServiceScopeFactory serviceProvider,
                                      IOptions<JobSchedulerConfiguration> configuration,
+                                     IHostApplicationLifetime lifetime,
                                      ILogger<JobsProcessingService> logger)
         {
             _serviceScopeFactory = serviceProvider;
             _configuration = configuration.Value;
+            _lifetime = lifetime;
             _logger = logger;
         }
 
@@ -45,7 +49,21 @@
         {
             CancellationToken cancellationToken = (CancellationToken)state;
 
-            await CheckAndProcessJobs(cancellationToken);
+            if (!_everTicked)
+            {
+                _everTicked = true;
+
+                _logger.LogInformation("{Service} started. Running first iteration...", nameof(JobsProcessingService));
+            }
+
+            try
+            {
+                await CheckAndProcessJobs(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogDebug("{Service} job timer tick cancelled.", nameof(JobsProcessingService));
+            }
         }
 
         private async Task CheckAndProcessJobs(CancellationToken cancellationToken)
@@ -211,38 +229,41 @@
             }
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Starting {Service}.", nameof(JobsProcessingService));
 
             Timer ??= new TTimer(TickTimer!,
                                  _cts.Token,
-                                 _configuration.StartupDelay,
+                                 _configuration.StartupDelay.Add(TimeSpan.FromSeconds(1)),
                                  TimeSpan.FromMilliseconds(_configuration.Tick));
 
             return Task.CompletedTask;
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public Task StopAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Stopping {Service}.", nameof(JobsProcessingService));
+
+            Timer?.Change(Timeout.Infinite, 0);
+
+            // cancel
+            _cts.Cancel();
+
+            // then wait until all is done
+            _sync.WaitAsync();
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            _logger.LogDebug("Disposing {Service}.", nameof(JobsProcessingService));
-
             // dispose\stop timer here
             Timer?.Dispose();
             Timer = null;
 
-            // then cancel
-            _cts.Cancel();
-
-            // then wait until all is done
-            _sync.WaitAsync();
+            // dispose cts
+            _cts.Dispose();
         }
     }
 }

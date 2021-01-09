@@ -31,10 +31,10 @@
         public HashedPassword(string saltedPassword, int saltByteSize) : this(saltByteSize)
         {
             Salt = saltedPassword.Substring(0, SaltIndex);
-            Hash = saltedPassword.Substring(SaltIndex);
+            Hash = saltedPassword[SaltIndex..];
         }
 
-        private int GetBase64EncodedLength(int byteSize)
+        private static int GetBase64EncodedLength(int byteSize)
         {
             return 4 * (int)Math.Ceiling((double)byteSize / 3);
         }

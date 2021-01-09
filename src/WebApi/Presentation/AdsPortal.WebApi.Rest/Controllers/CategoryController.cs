@@ -58,7 +58,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryCommand request)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(request with { Id = id }));
         }
 
         //[CustomAuthorize(Roles.Admin)]

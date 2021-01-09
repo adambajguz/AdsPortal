@@ -17,6 +17,7 @@ namespace AdsPortal.WebApi
     using AdsPortal.WebApi.Infrastructure.Mailing;
     using AdsPortal.WebApi.Infrastructure.Media;
     using AdsPortal.WebApi.Persistence;
+    using AdsPortal.WebApi.Persistence.DbContext;
     using AdsPortal.WebApi.Rest;
     using AdsPortal.WebApi.SpecialPages.Core;
     using FluentValidation;
@@ -154,6 +155,8 @@ namespace AdsPortal.WebApi
                     }
                 }
             }
+
+            AutomaticDbMigrator.MigrateDatabase(app).Wait();
         }
 
         private async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)

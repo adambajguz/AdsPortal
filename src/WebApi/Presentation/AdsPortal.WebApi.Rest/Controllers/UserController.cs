@@ -122,7 +122,7 @@
         [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserCommand request)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(request with { Id = id }));
         }
 
         [CustomAuthorize(Roles.User)]
@@ -136,7 +136,7 @@
         [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> PatchUser([FromRoute] Guid id, [FromBody] PatchUserCommand request)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(request with { Id = id }));
         }
 
         [CustomAuthorize(Roles.User)]

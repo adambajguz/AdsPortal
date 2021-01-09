@@ -35,7 +35,7 @@
             int hashIndex = saltStrLength + VersionByteSize;
 
             _salt = saltedPassword.Substring(VersionByteSize, saltStrLength);
-            _hash = saltedPassword.Substring(hashIndex);
+            _hash = saltedPassword[hashIndex..];
         }
 
         public void CopySaltTo(Span<byte> saltSpan)
