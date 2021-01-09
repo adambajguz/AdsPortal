@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Application.Configurations
+﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler.Configurations
 {
     using System;
 

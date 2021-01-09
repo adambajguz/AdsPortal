@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Identity.Jwt
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.Jwt
 {
     using System;
     using System.Collections.Generic;
@@ -7,10 +7,10 @@
     using System.Security.Claims;
     using AdsPortal.Application.Exceptions;
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Infrastructure.Identity.Configurations;
+    using AdsPortal.Application.Operations.AuthenticationOperations.Queries.GetValidToken;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Domain.Jwt;
-    using Application.Operations.AuthenticationOperations.Queries.GetValidToken;
+    using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
 

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Identity.UserManager.Hasher
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.UserManager.Hasher
 {
     using System;
     using System.Globalization;

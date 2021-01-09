@@ -8,13 +8,13 @@ namespace AdsPortal.WebApi
     using AdsPortal.Application;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Infrastructure;
-    using AdsPortal.Infrastructure.Identity;
-    using AdsPortal.Infrastructure.JobScheduler;
     using AdsPortal.Persistence;
     using AdsPortal.Shared.Extensions.Logging;
     using AdsPortal.WebApi.Exceptions.Handler;
     using AdsPortal.WebApi.Grpc;
     using AdsPortal.WebApi.Infrastructure;
+    using AdsPortal.WebApi.Infrastructure.Identity;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler;
     using AdsPortal.WebApi.Infrastructure.Mailing;
     using AdsPortal.WebApi.Rest;
     using AdsPortal.WebApi.SpecialPages.Core;

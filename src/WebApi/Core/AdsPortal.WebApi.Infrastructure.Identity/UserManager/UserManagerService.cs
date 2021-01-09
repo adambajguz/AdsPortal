@@ -1,11 +1,11 @@
-﻿namespace AdsPortal.Infrastructure.Identity.UserManager
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.UserManager
 {
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Infrastructure.Identity.Configurations;
-    using AdsPortal.Infrastructure.Identity.UserManager.Hasher;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
+    using AdsPortal.WebApi.Infrastructure.Identity.UserManager.Hasher;
     using FluentValidation;
     using Microsoft.Extensions.Options;
 

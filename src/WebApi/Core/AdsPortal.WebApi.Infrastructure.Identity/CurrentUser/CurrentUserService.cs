@@ -1,4 +1,4 @@
-namespace AdsPortal.Infrastructure.Identity.CurrentUser
+namespace AdsPortal.WebApi.Infrastructure.Identity.CurrentUser
 {
     using System;
     using System.Linq;
@@ -45,9 +45,7 @@ namespace AdsPortal.Infrastructure.Identity.CurrentUser
             string roleName = role.ToString();
 
             if (_context is null)
-            {
                 throw new ForbiddenException();
-            }
 
             ClaimsIdentity? identity = _context?.User?.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.JobScheduler
+﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Identity.UserManager.Helpers
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.UserManager.Helpers
 {
     using System;
 

@@ -1,16 +1,16 @@
-﻿namespace AdsPortal.Infrastructure.JobScheduler.Services
+﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.Configurations;
     using AdsPortal.Application.Interfaces.JobScheduler;
     using AdsPortal.Application.Interfaces.Persistence.UoW;
-    using AdsPortal.Infrastructure.JobScheduler.Interfaces;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Enums;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler.Configurations;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
@@ -53,7 +53,7 @@
             int maxConcurent = _configuration.MaxConcurent;
             int concurentBatchSize = _configuration.ConcurentBatchSize;
 
-            int toTake = Math.Min((maxConcurent * concurentBatchSize) - _processing, concurentBatchSize);
+            int toTake = Math.Min(maxConcurent * concurentBatchSize - _processing, concurentBatchSize);
 
             if (toTake <= 0)
                 return;
@@ -101,9 +101,7 @@
 
                         IEnumerable<Task> tasks = jobs.Select(x => ExecuteJob(x, cancellationToken));
                         foreach (var bucket in Interleaved(tasks))
-                        {
                             await bucket;
-                        }
 
                         //await Task.WhenAll(tasks).ConfigureAwait(false);
                     }
@@ -125,7 +123,6 @@
             int nextTaskIndex = -1;
 
             foreach (Task inputTask in tasks)
-            {
                 inputTask.ContinueWith(completed =>
                 {
                     Interlocked.Decrement(ref _processing);
@@ -136,7 +133,6 @@
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously,
                 TaskScheduler.Default);
-            }
 
             return results;
         }
@@ -173,9 +169,7 @@
                 using (CancellationTokenSource jobCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
                 {
                     if (job.TimeoutAfter is TimeSpan timeout)
-                    {
                         jobCts.CancelAfter(timeout);
-                    }
 
                     JobStatuses finishStatus = JobStatuses.Error;
                     try
@@ -192,13 +186,9 @@
                         finishStatus = timedOut ? JobStatuses.TimedOut : JobStatuses.Cancelled;
 
                         if (timedOut)
-                        {
                             _logger.LogError("Job {Id} {JobNo} timed out after {Time}, and thus was cancelled.", job.Id, job.JobNo, job.TimeoutAfter);
-                        }
                         else
-                        {
                             _logger.LogError("Job {Id} {JobNo} was cancelled.", job.Id, job.JobNo);
-                        }
                     }
                     catch (Exception ex)
                     {

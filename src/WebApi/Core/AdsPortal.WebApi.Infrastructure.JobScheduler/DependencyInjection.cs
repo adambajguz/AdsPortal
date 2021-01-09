@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Infrastructure.JobScheduler
+﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler
 {
-    using AdsPortal.Application.Configurations;
     using AdsPortal.Application.Interfaces.JobScheduler;
-    using AdsPortal.Infrastructure.JobScheduler.Services;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler.Configurations;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler.Services;
     using Microsoft.Extensions.DependencyInjection;
     using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 

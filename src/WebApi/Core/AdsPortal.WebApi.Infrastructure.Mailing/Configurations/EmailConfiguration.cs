@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Configurations
+﻿namespace AdsPortal.WebApi.Infrastructure.Mailing.Configurations
 {
     public class EmailConfiguration
     {

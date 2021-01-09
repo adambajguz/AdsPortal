@@ -1,12 +1,12 @@
-﻿namespace AdsPortal.Infrastructure.Identity
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity
 {
     using AdsPortal.Application.Interfaces.Identity;
-    using AdsPortal.Infrastructure.Identity.Configurations;
-    using AdsPortal.Infrastructure.Identity.CurrentUser;
-    using AdsPortal.Infrastructure.Identity.DataRights;
-    using AdsPortal.Infrastructure.Identity.Jwt;
-    using AdsPortal.Infrastructure.Identity.UserManager;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
+    using AdsPortal.WebApi.Infrastructure.Identity.CurrentUser;
+    using AdsPortal.WebApi.Infrastructure.Identity.DataRights;
+    using AdsPortal.WebApi.Infrastructure.Identity.Jwt;
+    using AdsPortal.WebApi.Infrastructure.Identity.UserManager;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
@@ -26,7 +26,7 @@
 
             //jwt authentication configuration
             {
-                services.AddConfiguration<JwtConfiguration>(configuration, out JwtConfiguration jwtSettings);
+                services.AddConfiguration(configuration, out JwtConfiguration jwtSettings);
                 services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

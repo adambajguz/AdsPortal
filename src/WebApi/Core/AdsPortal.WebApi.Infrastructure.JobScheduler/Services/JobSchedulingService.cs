@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.JobScheduler.Services
+﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler.Services
 {
     using System;
     using System.Threading;

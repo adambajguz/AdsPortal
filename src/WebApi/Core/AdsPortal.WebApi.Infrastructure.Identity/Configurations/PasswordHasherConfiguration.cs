@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Identity.Configurations
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.Configurations
 {
     public sealed class PasswordHasherConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Identity.DataRights
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.DataRights
 {
     using System;
     using System.Linq;
@@ -85,13 +85,8 @@
                 return;
 
             if (_context.HttpContext is null)
-            {
 #if DEBUG
                 return; // This might be from CLI
-#else
-                throw new ForbiddenException();
-#endif
-            }
 
             ClaimsIdentity? identity = _context.HttpContext.User.Identity as ClaimsIdentity;
             Claim? result = identity?.FindAll(ClaimTypes.Role)

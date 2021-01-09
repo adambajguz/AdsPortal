@@ -1,8 +1,9 @@
 ﻿namespace AdsPortal.WebApi
 {
     using System;
-    using AdsPortal.Infrastructure.JobScheduler;
     using AdsPortal.Persistence;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler;
+    using AdsPortal.WebApi.Infrastructure.Mailing;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
 

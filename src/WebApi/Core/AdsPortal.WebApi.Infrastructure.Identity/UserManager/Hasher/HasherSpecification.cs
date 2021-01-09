@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Infrastructure.Identity.UserManager.Hasher
+﻿namespace AdsPortal.WebApi.Infrastructure.Identity.UserManager.Hasher
 {
     using System;
     using System.Security.Cryptography;
-    using AdsPortal.Infrastructure.Identity.Configurations;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Infrastructure.Identity.Configurations;
 
     internal sealed class HasherSpecification
     {

@@ -4,9 +4,9 @@
     using System.IO;
     using System.Net;
     using System.Net.Mail;
-    using AdsPortal.Infrastructure.Configurations;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Mailing;
+    using AdsPortal.WebApi.Infrastructure.Mailing.Configurations;
     using AdsPortal.WebApi.Infrastructure.Mailing.Services;
     using AdsPortal.WebApi.Infrastructure.Mailing.Services.Renderer;
     using Microsoft.Extensions.DependencyInjection;
