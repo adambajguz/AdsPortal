@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AdsPortal.Persistence.Migrations
+﻿namespace AdsPortal.WebApi.Persistence.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class JobsIndexes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

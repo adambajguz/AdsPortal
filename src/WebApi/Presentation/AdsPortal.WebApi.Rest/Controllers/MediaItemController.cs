@@ -5,6 +5,7 @@
     using System.Web;
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Operations.MediaItemOperations.Commands.CreateMediaItem;
+    using AdsPortal.WebApi.Application.Operations.MediaItemOperations.Commands.DeleteMediaItem;
     using AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemChecksumFile;
     using AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails;
     using AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemFile;

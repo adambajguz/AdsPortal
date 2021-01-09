@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Infrastructure.Common.StringSimilarityComparer
+﻿namespace AdsPortal.Shared.Infrastructure.Common.StringSimilarityComparer
 {
     using System;
-    using AdsPortal.Common.Interfaces.StringSimilarity;
+    using AdsPortal.Shared.Common.Interfaces.StringSimilarity;
     using F23.StringSimilarity;
     using F23.StringSimilarity.Interfaces;
 

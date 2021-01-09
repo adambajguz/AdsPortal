@@ -6,6 +6,7 @@
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.ChangeUserPassword;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.CreateUser;
+    using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.DeleteUser;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.PatchUser;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.ResetPassword;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Commands.UpdateUser;

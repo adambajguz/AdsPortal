@@ -1,18 +1,18 @@
-﻿namespace AdsPortal.Persistence.UoW.Generic
+﻿namespace AdsPortal.WebApi.Persistence.UoW.Generic
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Infrastructure.Extensions;
-    using AdsPortal.Persistence.Interfaces.DbContext.Generic;
-    using AdsPortal.Persistence.Repository.Generic;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Persistence.Extensions;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 

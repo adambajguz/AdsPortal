@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using AdsPortal.Persistence.Interfaces.DbContext;
-    using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;

@@ -6,6 +6,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;

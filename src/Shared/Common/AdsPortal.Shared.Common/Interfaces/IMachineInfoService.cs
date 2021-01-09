@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Common.Interfaces
+﻿namespace AdsPortal.Shared.Common.Interfaces
 {
     using System;
 

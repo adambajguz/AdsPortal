@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Extensions
+﻿namespace AdsPortal.WebApi.Persistence.Extensions
 {
     using System;
     using Microsoft.EntityFrameworkCore;

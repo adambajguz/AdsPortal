@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Interfaces.DbContext.Generic
+﻿namespace AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic
 {
     using Microsoft.EntityFrameworkCore;
 

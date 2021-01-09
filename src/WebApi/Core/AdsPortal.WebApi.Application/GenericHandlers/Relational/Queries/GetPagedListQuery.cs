@@ -6,7 +6,6 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;

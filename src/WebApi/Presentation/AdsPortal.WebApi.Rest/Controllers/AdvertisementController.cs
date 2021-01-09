@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.CreateAdvertisement;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.DeleteAdvertisement;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.UpdateAdvertisement;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;

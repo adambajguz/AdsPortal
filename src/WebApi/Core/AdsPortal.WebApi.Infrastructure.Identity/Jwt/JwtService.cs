@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Security.Claims;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser;
     using AdsPortal.WebApi.Domain.Jwt;

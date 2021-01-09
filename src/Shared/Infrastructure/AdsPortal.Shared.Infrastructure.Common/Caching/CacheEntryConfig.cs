@@ -1,7 +1,7 @@
-﻿namespace AdsPortal.Infrastructure.Common.Caching
+﻿namespace AdsPortal.Shared.Infrastructure.Common.Caching
 {
     using System;
-    using AdsPortal.Common.Cache;
+    using AdsPortal.Shared.Common.Cache;
 
     public class CacheEntryConfig : ICacheEntryConfig
     {

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Configurations
+﻿namespace AdsPortal.WebApi.Persistence.EntityConfigurations
 {
     using AdsPortal.WebApi.Domain.Entities;
     using Microsoft.EntityFrameworkCore;

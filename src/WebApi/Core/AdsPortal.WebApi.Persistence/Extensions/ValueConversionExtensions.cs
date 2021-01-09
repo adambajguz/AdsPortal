@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Extensions
+﻿namespace AdsPortal.WebApi.Persistence.Extensions
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;

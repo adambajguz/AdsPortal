@@ -1,10 +1,10 @@
-﻿namespace AdsPortal.Infrastructure.Common
+﻿namespace AdsPortal.Shared.Infrastructure.Common
 {
-    using AdsPortal.Common.Interfaces;
-    using AdsPortal.Common.Interfaces.StringSimilarity;
-    using AdsPortal.Infrastructure.Cache;
-    using AdsPortal.Infrastructure.Common.MachineInfo;
-    using AdsPortal.Infrastructure.Common.StringSimilarityComparer;
+    using AdsPortal.Shared.Common.Interfaces;
+    using AdsPortal.Shared.Common.Interfaces.StringSimilarity;
+    using AdsPortal.Shared.Infrastructure.Common.Caching;
+    using AdsPortal.Shared.Infrastructure.Common.MachineInfo;
+    using AdsPortal.Shared.Infrastructure.Common.StringSimilarityComparer;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class DependencyInjection

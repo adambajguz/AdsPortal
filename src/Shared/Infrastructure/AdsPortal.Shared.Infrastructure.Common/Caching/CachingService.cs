@@ -1,13 +1,12 @@
-﻿namespace AdsPortal.Infrastructure.Cache
+﻿namespace AdsPortal.Shared.Infrastructure.Common.Caching
 {
     using System;
     using System.Collections.Concurrent;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Common.Cache;
-    using AdsPortal.Common.Interfaces;
-    using AdsPortal.Infrastructure.Common.Caching;
-    using AdsPortal.Infrastructure.Common.Extensions;
+    using AdsPortal.Shared.Common.Cache;
+    using AdsPortal.Shared.Common.Interfaces;
+    using AdsPortal.Shared.Infrastructure.Common.Extensions;
     using Microsoft.Extensions.Caching.Distributed;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Logging;
@@ -83,7 +82,7 @@
             customCacheEntry.LastSetOn = now;
 
             string fullKey = entry.GetFullKey();
-            await Provider.SetAsync<CustomCacheEntry>(fullKey,
+            await Provider.SetAsync(fullKey,
                                                       customCacheEntry,
                                                       new DistributedCacheEntryOptions
                                                       {

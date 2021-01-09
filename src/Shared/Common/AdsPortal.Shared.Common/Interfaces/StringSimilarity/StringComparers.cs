@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Common.Interfaces.StringSimilarity
+﻿namespace AdsPortal.Shared.Common.Interfaces.StringSimilarity
 {
     public enum StringComparers
     {

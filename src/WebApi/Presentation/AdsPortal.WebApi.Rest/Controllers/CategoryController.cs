@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.CreateCategory;
+    using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.DeleteCategory;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.UpdateCategory;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoryDetails;

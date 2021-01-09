@@ -1,13 +1,10 @@
-﻿namespace AdsPortal.Persistence.UoW.Generic
+﻿namespace AdsPortal.WebApi.Persistence.UoW.Generic
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Infrastructure.Extensions;
-    using AdsPortal.Persistence.Interfaces.DbContext.Generic;
-    using AdsPortal.Persistence.Repository;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
@@ -15,6 +12,9 @@
     using AdsPortal.WebApi.Domain.Abstractions.Audit;
     using AdsPortal.WebApi.Domain.Abstractions.Enums;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Persistence.Extensions;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Persistence.Repository;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -128,9 +128,7 @@
                 }
 
                 if ((property.IsModified || action == AuditActions.Added) && !IsPropertyIgnored(metadata))
-                {
                     newValues[metadata.Name] = property.CurrentValue;
-                }
             }
 
             return newValues.Count == 0 ? null : newValues;

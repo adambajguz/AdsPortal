@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Media.QRCode
+﻿namespace AdsPortal.WebApi.Infrastructure.Media.QRCode
 {
     using System;
     using System.Globalization;

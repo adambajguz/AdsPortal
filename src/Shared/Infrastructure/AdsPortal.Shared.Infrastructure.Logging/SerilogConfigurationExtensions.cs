@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Logging.Helpers
+﻿namespace AdsPortal.Shared.Infrastructure.Logging
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;

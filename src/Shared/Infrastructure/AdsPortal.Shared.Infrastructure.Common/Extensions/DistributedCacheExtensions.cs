@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Infrastructure.Common.Extensions
+﻿namespace AdsPortal.Shared.Infrastructure.Common.Extensions
 {
     using System.Threading;
     using System.Threading.Tasks;

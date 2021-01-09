@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AdsPortal.Persistence.Migrations
+﻿namespace AdsPortal.WebApi.Persistence.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class JobInstanceId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

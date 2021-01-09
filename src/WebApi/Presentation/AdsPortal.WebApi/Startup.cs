@@ -5,8 +5,6 @@ namespace AdsPortal.WebApi
     using System.Net.Mime;
     using System.Reflection;
     using System.Threading.Tasks;
-    using AdsPortal.Infrastructure;
-    using AdsPortal.Persistence;
     using AdsPortal.Shared.Extensions.Logging;
     using AdsPortal.WebApi.Application;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
@@ -17,6 +15,8 @@ namespace AdsPortal.WebApi
     using AdsPortal.WebApi.Infrastructure.Identity;
     using AdsPortal.WebApi.Infrastructure.JobScheduler;
     using AdsPortal.WebApi.Infrastructure.Mailing;
+    using AdsPortal.WebApi.Infrastructure.Media;
+    using AdsPortal.WebApi.Persistence;
     using AdsPortal.WebApi.Rest;
     using AdsPortal.WebApi.SpecialPages.Core;
     using FluentValidation;

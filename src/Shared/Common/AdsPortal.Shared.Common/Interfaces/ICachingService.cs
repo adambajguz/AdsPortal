@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Common.Interfaces
+﻿namespace AdsPortal.Shared.Common.Interfaces
 {
     using System;
     using System.Threading.Tasks;
-    using AdsPortal.Common.Cache;
+    using AdsPortal.Shared.Common.Cache;
 
     public interface ICachingService
     {

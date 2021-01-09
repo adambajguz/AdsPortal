@@ -1,9 +1,9 @@
-﻿namespace AdsPortal.Persistence.Infrastructure
+﻿namespace AdsPortal.WebApi.Persistence.Infrastructure
 {
     using System;
     using System.IO;
-    using AdsPortal.Persistence.Configurations;
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Persistence.Configurations;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
     using Microsoft.Extensions.Configuration;

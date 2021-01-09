@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.Infrastructure.Common.MachineInfo
+﻿namespace AdsPortal.Shared.Infrastructure.Common.MachineInfo
 {
     using System;
     using System.Runtime.InteropServices;
-    using AdsPortal.Common.Interfaces;
+    using AdsPortal.Shared.Common.Interfaces;
 
     public class MachineInfoService : IMachineInfoService
     {

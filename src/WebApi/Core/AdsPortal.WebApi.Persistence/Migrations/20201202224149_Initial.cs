@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Migrations
+﻿namespace AdsPortal.WebApi.Persistence.Migrations
 {
     using System;
     using Microsoft.EntityFrameworkCore.Migrations;

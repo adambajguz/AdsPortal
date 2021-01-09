@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Configurations
+﻿namespace AdsPortal.WebApi.Persistence.Configurations
 {
     public sealed class RelationalDbConfiguration
     {

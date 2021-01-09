@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Common.Cache
+﻿namespace AdsPortal.Shared.Common.Cache
 {
     public static class CacheEntryExtensions
     {

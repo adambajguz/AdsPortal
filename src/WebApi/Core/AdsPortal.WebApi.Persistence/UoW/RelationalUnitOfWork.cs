@@ -1,12 +1,12 @@
-﻿namespace AdsPortal.Persistence.UoW
+﻿namespace AdsPortal.WebApi.Persistence.UoW
 {
     using System;
-    using AdsPortal.Persistence.Interfaces.DbContext;
-    using AdsPortal.Persistence.Repository;
-    using AdsPortal.Persistence.UoW.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Persistence.Repository;
+    using AdsPortal.WebApi.Persistence.UoW.Generic;
     using AutoMapper;
 
     public class RelationalUnitOfWork : GenericAuditableRelationalUnitOfWork, IAppRelationalUnitOfWork

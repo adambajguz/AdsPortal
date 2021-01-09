@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.DbContext
+﻿namespace AdsPortal.WebApi.Persistence.DbContext
 {
     using Microsoft.EntityFrameworkCore;
     using Persistence.Infrastructure;

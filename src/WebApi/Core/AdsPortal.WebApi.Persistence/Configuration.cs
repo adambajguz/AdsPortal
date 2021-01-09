@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence
+﻿namespace AdsPortal.WebApi.Persistence
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

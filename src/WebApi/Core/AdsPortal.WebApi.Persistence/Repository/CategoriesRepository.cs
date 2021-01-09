@@ -1,13 +1,13 @@
-﻿namespace AdsPortal.Persistence.Repository
+﻿namespace AdsPortal.WebApi.Persistence.Repository
 {
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Persistence.Interfaces.DbContext;
-    using AdsPortal.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 

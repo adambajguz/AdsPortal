@@ -1,7 +1,7 @@
 namespace AdsPortal.WebApi
 {
     using System;
-    using AdsPortal.Infrastructure.Logging.Helpers;
+    using AdsPortal.Shared.Infrastructure.Logging;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

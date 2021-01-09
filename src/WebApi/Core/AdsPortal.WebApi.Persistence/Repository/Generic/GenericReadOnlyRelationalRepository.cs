@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.Persistence.Repository.Generic
+﻿namespace AdsPortal.WebApi.Persistence.Repository.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +6,10 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Persistence.Interfaces.DbContext.Generic;
+    using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;

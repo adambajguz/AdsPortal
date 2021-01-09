@@ -3,6 +3,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Constants;
+    using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Mailing;
