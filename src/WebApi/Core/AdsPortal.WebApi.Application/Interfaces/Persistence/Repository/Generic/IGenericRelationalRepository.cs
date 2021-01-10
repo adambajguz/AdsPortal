@@ -22,10 +22,12 @@
         where TEntity : class, IBaseRelationalEntity
     {
         TEntity Add(TEntity entity);
-        void Update(TEntity entity);
+        void EnsureTracked(TEntity entity);
+        void Update(TEntity entity, bool force = false);
         void Remove(TEntity entity);
 
         void AddMultiple(IEnumerable<TEntity> entities);
+        void EnsureTrackedMultiple(IEnumerable<TEntity> entities);
         void UpdateMultiple(IEnumerable<TEntity> entities);
         void RemoveMultiple(IEnumerable<TEntity> entities);
     }

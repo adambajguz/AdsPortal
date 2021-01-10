@@ -2,7 +2,7 @@
 {
     public interface IArgumentsSerializer
     {
-        string Serialize(object? obj);
+        string? Serialize(object? obj);
 
         object? Deserialize(string? json);
     }

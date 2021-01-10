@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdsPortal.WebApi.Persistence.Migrations
 {
     [DbContext(typeof(RelationalDbContext))]
-    [Migration("20210109162618_Initial")]
+    [Migration("20210110131047_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,9 @@ namespace AdsPortal.WebApi.Persistence.Migrations
 
                     b.Property<TimeSpan?>("TimeoutAfter")
                         .HasColumnType("time");
+
+                    b.Property<int>("Tries")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

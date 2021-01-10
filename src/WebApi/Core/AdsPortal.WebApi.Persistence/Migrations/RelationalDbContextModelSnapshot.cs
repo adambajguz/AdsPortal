@@ -3,6 +3,8 @@ using System;
 using AdsPortal.WebApi.Persistence.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdsPortal.WebApi.Persistence.Migrations
 {
@@ -181,6 +183,9 @@ namespace AdsPortal.WebApi.Persistence.Migrations
 
                     b.Property<TimeSpan?>("TimeoutAfter")
                         .HasColumnType("time");
+
+                    b.Property<int>("Tries")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

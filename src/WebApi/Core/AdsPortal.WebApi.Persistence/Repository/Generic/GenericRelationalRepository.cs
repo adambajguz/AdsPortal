@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
@@ -9,7 +10,6 @@
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using AutoMapper;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     public class GenericRelationalRepository<TEntity> : GenericReadOnlyRelationalRepository<TEntity>, IGenericRelationalRepository<TEntity>
@@ -46,7 +46,17 @@
             return createdEntity.Entity;
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual void EnsureTracked(TEntity entity)
+        {
+            bool tracking = Provider.ChangeTracker.Entries<TEntity>().Any(x => x.Entity.Id == entity.Id);
+
+            if (!tracking)
+            {
+                DbSet.Attach(entity);
+            }
+        }
+
+        public virtual void Update(TEntity entity, bool force = false)
         {
             if (entity is IEntityLastSaved entityModification)
             {
@@ -54,16 +64,29 @@
                 entityModification.LastSavedBy = _currentUser.UserId;
             }
 
-            DbSet.Attach(entity);
+            //Entity may not be tracked so we need to check that
+            bool tracking = Provider.ChangeTracker.Entries<TEntity>().Any(x => x.Entity.Id == entity.Id);
+
+            if (!tracking)
+            {
+                //For untracked entity there are two approches:
+                // 1. DbSet.Update(entity) can be called to ensure an update will be performed.
+                // 2. exception can be thrown because if we don't trust the programmer that the entity we could attach is valid, i.e. won't revert columns to default values.
+
+                if (force)
+                {
+                    DbSet.Update(entity);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Cannot update untracked {typeof(TEntity).FullName} with id {entity.Id}. " +
+                                                        $"You can use {nameof(force)} parameter if you realy want to update entity with all properties override method.");
+                }
+            }
         }
 
         public virtual void Remove(TEntity entity)
         {
-            if (Provider.Entry(entity).State == EntityState.Detached)
-            {
-                DbSet.Attach(entity);
-            }
-
             DbSet.Remove(entity);
         }
         #endregion
@@ -92,6 +115,14 @@
             DbSet.AddRange(entities);
         }
 
+        public virtual void EnsureTrackedMultiple(IEnumerable<TEntity> entities)
+        {
+            foreach (TEntity entity in entities)
+            {
+                EnsureTracked(entity);
+            }
+        }
+
         public void UpdateMultiple(IEnumerable<TEntity> entities)
         {
             entities.ForEachInParallel((entity) =>
@@ -101,21 +132,15 @@
                     entityModification.LastSavedOn = DateTime.UtcNow;
                     entityModification.LastSavedBy = _currentUser.UserId;
                 }
+
+                Update(entity);
             });
 
-            DbSet.UpdateRange(entities);
+            //DbSet.UpdateRange(entities);
         }
 
         public void RemoveMultiple(IEnumerable<TEntity> entities)
         {
-            entities.ForEachInParallel((entity) =>
-            {
-                if (Provider.Entry(entity).State == EntityState.Detached)
-                {
-                    DbSet.Attach(entity);
-                }
-            });
-
             DbSet.RemoveRange(entities);
         }
         #endregion

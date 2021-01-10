@@ -19,11 +19,11 @@
             };
         }
 
-        public string Serialize(object? obj)
+        public string? Serialize(object? obj)
         {
             try
             {
-                return JsonConvert.SerializeObject(obj, _settings);
+                return obj is null ? null : JsonConvert.SerializeObject(obj, _settings);
             }
             catch (JsonSerializationException ex)
             {

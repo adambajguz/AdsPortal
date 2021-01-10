@@ -12,12 +12,12 @@
         {
             builder.HasIndex(x => x.JobNo).IsUnique();
 
+            builder.Property(e => e.JobNo)
+                   .HasDefaultValueSql($"NEXT VALUE FOR {JobNoSequenceName}");
+
             builder.HasIndex(x => x.Priority);
 
             builder.HasIndex(x => x.Status);
-
-            builder.Property(e => e.JobNo)
-                   .HasDefaultValueSql($"NEXT VALUE FOR {JobNoSequenceName}");
         }
     }
 }

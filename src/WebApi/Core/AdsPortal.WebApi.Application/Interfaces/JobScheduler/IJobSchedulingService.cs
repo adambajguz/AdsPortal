@@ -10,7 +10,7 @@
         /// Schedules a job.
         /// </summary>
         Task ScheduleAsync(Type operationType,
-                           ushort priority = 0,
+                           int priority = 0,
                            DateTime? postponeTo = null,
                            TimeSpan? timeoutAfter = null,
                            object? operationArguments = null,
@@ -19,7 +19,7 @@
         /// <summary>
         /// Schedules a job.
         /// </summary>
-        Task ScheduleAsync<T>(ushort priority = 0,
+        Task ScheduleAsync<T>(int priority = 0,
                               DateTime? postponeTo = null,
                               TimeSpan? timeoutAfter = null,
                               object? operationArguments = null,
@@ -30,7 +30,7 @@
         /// Schedules a job if job with same type was not already scheduled.
         /// </summary>
         Task<bool> ScheduleSingleAsync(Type operationType,
-                                       ushort priority = 0,
+                                       int priority = 0,
                                        DateTime? postponeTo = null,
                                        TimeSpan? timeoutAfter = null,
                                        object? operationArguments = null,
@@ -39,7 +39,7 @@
         /// <summary>
         /// Schedules a job if job with same type was not already scheduled.
         /// </summary>
-        Task<bool> ScheduleSingleAsync<T>(ushort priority = 0,
+        Task<bool> ScheduleSingleAsync<T>(int priority = 0,
                                           DateTime? postponeTo = null,
                                           TimeSpan? timeoutAfter = null,
                                           object? operationArguments = null,

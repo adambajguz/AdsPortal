@@ -1,8 +1,8 @@
-﻿namespace AdsPortal.WebApi.Persistence.Migrations
-{
-    using System;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace AdsPortal.WebApi.Persistence.Migrations
+{
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,6 +60,7 @@
                     Priority = table.Column<int>(type: "int", nullable: false),
                     PostponeTo = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TimeoutAfter = table.Column<TimeSpan>(type: "time", nullable: true),
+                    Tries = table.Column<int>(type: "int", nullable: false),
                     Arguments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Exception = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

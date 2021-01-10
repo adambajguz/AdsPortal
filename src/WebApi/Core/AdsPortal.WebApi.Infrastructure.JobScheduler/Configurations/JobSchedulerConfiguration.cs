@@ -10,5 +10,7 @@
 
         public int MaxConcurent { get; init; }
         public int ConcurentBatchSize { get; init; }
+
+        public int MaxTries { get; init; }
     }
 }

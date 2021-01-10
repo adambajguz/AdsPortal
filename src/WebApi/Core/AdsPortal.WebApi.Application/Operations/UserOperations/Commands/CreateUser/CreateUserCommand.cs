@@ -7,7 +7,6 @@
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
-    using AdsPortal.WebApi.Application.Interfaces.Mailing;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Application.Utils;
@@ -79,7 +78,7 @@
 
             protected override async ValueTask OnAdded(User entity, CancellationToken cancellationToken)
             {
-                SendEmailJobArguments args = new ()
+                SendEmailJobArguments args = new()
                 {
                     Email = entity.Email,
                     Template = new AccountRegisteredEmail { Name = entity.Name }

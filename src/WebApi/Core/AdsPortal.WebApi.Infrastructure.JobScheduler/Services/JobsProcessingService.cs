@@ -75,9 +75,10 @@
 
         private async Task CheckAndProcessJobs(CancellationToken cancellationToken)
         {
+            int maxTries = _configuration.MaxTries <= 0 ? 1 : _configuration.MaxTries;
+
             int maxConcurent = _configuration.MaxConcurent;
             int concurentBatchSize = _configuration.ConcurentBatchSize;
-
             int toTake = Math.Min(maxConcurent * concurentBatchSize - _processing, concurentBatchSize);
 
             if (toTake <= 0)
@@ -98,9 +99,12 @@
                     //Only one task can access db
                     try
                     {
-                        queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued || x.Status == JobStatuses.Taken) &&
-                                                                          (x.PostponeTo == null || x.PostponeTo >= now) &&
-                                                                          x.Instance != InstanceId,
+                        queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued ||
+                                                                           x.Status == JobStatuses.Cancelled ||
+                                                                           x.Status == JobStatuses.Error ||
+                                                                           (x.Instance != InstanceId && (x.Status == JobStatuses.Taken || x.Status == JobStatuses.Running))) &&
+                                                                          x.Tries <= maxTries &&
+                                                                          (x.PostponeTo == null || x.PostponeTo <= now),
                                                              orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
                                                              take: toTake,
                                                              cancellationToken: cancellationToken);
@@ -159,6 +163,11 @@
 
                     var bucket = buckets[Interlocked.Increment(ref nextTaskIndex)];
                     bucket.TrySetResult(completed);
+
+                    if (completed.IsFaulted)
+                    {
+                        _logger.LogError(completed.Exception, "Fatal error occured during job processing");
+                    }
                 },
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously,
@@ -189,11 +198,12 @@
 
                 _logger.LogTrace("Running job {No} in batch {BatchId}", job.JobNo, batchGuid);
 
-                DateTime startTime = DateTime.UtcNow;
-                DateTime? finishTime = null;
+                jobUow.Jobs.EnsureTracked(job);
 
-                job.StartedOn = startTime;
+                job.StartedOn = DateTime.UtcNow;
                 job.Status = JobStatuses.Running;
+                ++job.Tries;
+
                 jobUow.Jobs.Update(job);
                 await jobUow.SaveChangesAsync(cancellationToken);
 
@@ -204,21 +214,18 @@
                         jobCts.CancelAfter(timeout);
                     }
 
-                    JobStatuses finishStatus = JobStatuses.Error;
                     try
                     {
                         object? args = _serializer.Deserialize(job.Arguments);
-
-                        startTime = DateTime.UtcNow;
                         await jobInstance.Handle(args, jobCts.Token);
-                        finishTime = DateTime.UtcNow;
-                        finishStatus = JobStatuses.Success;
+
+                        job.Status = JobStatuses.Success;
+                        _logger.LogTrace("Finished job {No} in batch {BatchId} after {TryCount} tries.", job.JobNo, batchGuid, job.Tries);
                     }
                     catch (TaskCanceledException)
                     {
-                        finishTime = DateTime.UtcNow;
                         bool timedOut = !_cts.IsCancellationRequested && jobCts.IsCancellationRequested;
-                        finishStatus = timedOut ? JobStatuses.TimedOut : JobStatuses.Cancelled;
+                        job.Status = timedOut ? JobStatuses.TimedOut : JobStatuses.Cancelled;
 
                         if (timedOut)
                         {
@@ -231,23 +238,23 @@
                     }
                     catch (Exception ex)
                     {
-                        job.Exception = _serializer.Serialize(ex);
-                        finishStatus = JobStatuses.Error;
+                        DateTime retryDate = DateTime.UtcNow.AddSeconds(5 * job.Tries);
 
-                        _logger.LogError(ex, "Exception occured during job {Id} {JobNo} execution  in batch {BatchId}", job.Id, job.JobNo, batchGuid);
+                        job.Exception ??= string.Empty;
+                        job.Exception += $"<{job.Tries}, {job.PostponeTo?.ToString() ?? "null"}>" + _serializer.Serialize(ex);
+                        job.PostponeTo = retryDate;
+                        job.Status = JobStatuses.Error;
+
+                        _logger.LogError(ex, "Exception occured during job {Id} {JobNo} execution in batch {BatchId}. Try no. {TryCount} scheduled for {RetryDate}.", job.Id, job.JobNo, batchGuid, job.Tries + 1, retryDate);
                     }
                     finally
                     {
-                        job.StartedOn = startTime;
-                        job.FinishedOn = finishTime ?? DateTime.UtcNow;
-                        job.Status = finishStatus;
-                        jobUow.Jobs.Update(job);
+                        job.FinishedOn = DateTime.UtcNow;
 
-                        await jobUow.SaveChangesAsync(cancellationToken);
+                        jobUow.Jobs.Update(job);
+                        await jobUow.SaveChangesAsync(CancellationToken.None);
                     }
                 }
-
-                _logger.LogTrace("Finished job {No} in batch {BatchId}", job.JobNo, batchGuid);
             }
         }
 

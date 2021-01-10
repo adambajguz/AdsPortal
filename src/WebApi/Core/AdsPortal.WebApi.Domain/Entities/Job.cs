@@ -21,9 +21,11 @@
         public Guid? Instance { get; set; }
 
         public string Operation { get; set; } = string.Empty;
-        public ushort Priority { get; set; }
+        public int Priority { get; set; }
         public DateTime? PostponeTo { get; set; }
         public TimeSpan? TimeoutAfter { get; set; }
+
+        public int Tries { get; set; }
 
         public string? Arguments { get; set; }
         public string? Exception { get; set; }

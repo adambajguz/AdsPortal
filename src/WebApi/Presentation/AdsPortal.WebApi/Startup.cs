@@ -133,7 +133,16 @@ namespace AdsPortal.WebApi
             app.ConfigureRestApi(env)
                .ConfigureGrpcApi(env);
 
-            if (true)
+            AutomaticDbMigrator.MigrateDatabase(app).Wait();
+
+#if DEBUG
+            DevSandbox(app);
+#endif
+        }
+
+        private void DevSandbox(IApplicationBuilder app)
+        {
+            if (false)
             {
                 using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {
@@ -150,7 +159,7 @@ namespace AdsPortal.WebApi
                 {
                     IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                    for (int p = 0; p <= 1; ++p)
+                    for (int p = 1; p <= 2; ++p)
                     {
                         for (int i = 0; i < 300; ++i)
                         {
@@ -159,13 +168,11 @@ namespace AdsPortal.WebApi
                                 Logger.LogInformation("Added {Count} jobs with priority {Priority}", i + 1, p);
                             }
 
-                            x.ScheduleAsync<TestJob>().Wait();
+                            x.ScheduleAsync<TestJob>(priority: p).Wait();
                         }
                     }
                 }
             }
-
-            AutomaticDbMigrator.MigrateDatabase(app).Wait();
         }
 
         private async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)

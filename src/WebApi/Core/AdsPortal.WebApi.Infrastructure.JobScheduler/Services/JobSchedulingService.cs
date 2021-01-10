@@ -20,7 +20,7 @@
         }
 
         public async Task ScheduleAsync(Type operationType,
-                                        ushort priority = 0,
+                                        int priority = 0,
                                         DateTime? postponeTo = null,
                                         TimeSpan? timeoutAfter = null,
                                         object? operationArguments = null,
@@ -39,7 +39,7 @@
             await _uow.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task ScheduleAsync<T>(ushort priority = 0,
+        public async Task ScheduleAsync<T>(int priority = 0,
                                            DateTime? postponeTo = null,
                                            TimeSpan? timeoutAfter = null,
                                            object? operationArguments = null,
@@ -50,7 +50,7 @@
         }
 
         public async Task<bool> ScheduleSingleAsync(Type operationType,
-                                                    ushort priority = 0,
+                                                    int priority = 0,
                                                     DateTime? postponeTo = null,
                                                     TimeSpan? timeoutAfter = null,
                                                     object? operationArguments = null,
@@ -68,7 +68,7 @@
             return true;
         }
 
-        public async Task<bool> ScheduleSingleAsync<T>(ushort priority = 0,
+        public async Task<bool> ScheduleSingleAsync<T>(int priority = 0,
                                                        DateTime? postponeTo = null,
                                                        TimeSpan? timeoutAfter = null,
                                                        object? operationArguments = null,
