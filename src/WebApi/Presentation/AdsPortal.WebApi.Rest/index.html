@@ -25,6 +25,10 @@
             background: #fafafa;
         }
 
+        .swagger-ui .model-box {
+            padding: 5px 10px;
+        }
+
         /*SwaggerUILoginExtension - Start*/
         .swagger-ui.swagger-container .topbar.login-ex {
             background: #1b1b1b;
@@ -172,6 +176,8 @@
                             password: document.getElementById("login-ex-password").value
                         })
                     };
+
+                    document.getElementById("login-ex-password").value = "";
 
                     fetch("/api/user/auth", options)
                         .then(res => res.json())
