@@ -39,10 +39,7 @@
 
         private TContext Create(string? connectionString)
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentException($"Connection string is null or empty.", nameof(connectionString));
-            }
+            _ = connectionString.GetNullIfNullOrWhitespace() ?? throw new ArgumentException($"Connection string is null or empty.", nameof(connectionString));
 
             DbContextOptionsBuilder<TContext> optionsBuilder = new DbContextOptionsBuilder<TContext>();
             optionsBuilder.UseSqlServer(connectionString);

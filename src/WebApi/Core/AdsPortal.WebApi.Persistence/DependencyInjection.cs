@@ -1,9 +1,11 @@
 ﻿namespace AdsPortal.WebApi.Persistence
 {
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Persistence.Configurations;
     using AdsPortal.WebApi.Persistence.DbContext;
+    using AdsPortal.WebApi.Persistence.FileStorage;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
     using AdsPortal.WebApi.Persistence.UoW;
     using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,9 @@
     {
         public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddConfiguration<FileDiskStorageConfiguration>(configuration);
+            services.AddSingleton<IFileStorageService, FileDiskStorageService>();
+
             services.AddConfiguration(configuration, out RelationalDbConfiguration relationalDbConfiguration);
 
             services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(relationalDbConfiguration.ConnectionString))

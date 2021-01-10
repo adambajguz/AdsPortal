@@ -98,10 +98,7 @@
 
         public void ValidateStringToken(string? token)
         {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new ArgumentException("Token is null or whitespace", nameof(token));
-            }
+            _ = token.GetNullIfNullOrWhitespace() ?? throw new ArgumentException("Token is null or whitespace", nameof(token));
 
             _handler.ValidateToken(token, _validationParameters, out _);
         }
@@ -157,12 +154,7 @@
 
         public bool IsRoleInToken(string? token, Roles role)
         {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                return false;
-            }
-
-            if (!role.IsDefined())
+            if (string.IsNullOrWhiteSpace(token) || !role.IsDefined())
             {
                 return false;
             }
@@ -175,12 +167,7 @@
 
         public bool IsAnyOfRolesInToken(string? token, Roles roles)
         {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                return false;
-            }
-
-            if (!roles.IsDefined())
+            if (string.IsNullOrWhiteSpace(token) || !roles.IsDefined())
             {
                 return false;
             }

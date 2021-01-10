@@ -33,14 +33,9 @@
 
         public object? Deserialize(string? json)
         {
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-
             try
             {
-                return JsonConvert.DeserializeObject<object?>(json, _settings);
+                return string.IsNullOrWhiteSpace(json) ? null : JsonConvert.DeserializeObject<object?>(json, _settings);
             }
             catch (JsonSerializationException ex)
             {

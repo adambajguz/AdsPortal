@@ -16,18 +16,13 @@
 
         public static string? GetStringValue(this ICustomCacheEntry? entry)
         {
-            string? value = entry?.Value as string;
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                return null;
-            }
-
             return entry?.Value?.ToString();
         }
 
         public static bool TryGetStringValue(this ICustomCacheEntry? entry, out string? value)
         {
             value = entry?.Value as string;
+
             if (!string.IsNullOrWhiteSpace(value))
             {
                 return true;

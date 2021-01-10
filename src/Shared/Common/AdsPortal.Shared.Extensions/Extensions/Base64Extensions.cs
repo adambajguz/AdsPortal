@@ -17,10 +17,7 @@
 
         public static async Task<string> EncodeBase64BinaryAsync(this byte[] data)
         {
-            if (data is null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            _ = data ?? throw new ArgumentNullException(nameof(data));
 
             string encodedData = await Task.Run(() => Convert.ToBase64String(data))
                                            .ConfigureAwait(false);
@@ -30,10 +27,7 @@
 
         public static async Task<byte[]> DecodeBase64BinaryAsync(this byte[] base64Data)
         {
-            if (base64Data is null)
-            {
-                throw new ArgumentNullException(nameof(base64Data));
-            }
+            _ = base64Data ?? throw new ArgumentNullException(nameof(base64Data));
 
             byte[] decodedData = await Task.Run(() =>
             {
@@ -47,10 +41,7 @@
 
         public static async Task<byte[]> DecodeBase64Async(this string base64Data)
         {
-            if (string.IsNullOrWhiteSpace(base64Data))
-            {
-                throw new ArgumentException("Cannot be null or whitespace", nameof(base64Data));
-            }
+            _ = base64Data.GetNullIfNullOrWhitespace() ?? throw new ArgumentException("Cannot be null or whitespace", nameof(base64Data));
 
             byte[] decodedData = await Task.Run(() =>
             {
@@ -63,20 +54,14 @@
 
         public static string EncodeBase64Binary(this byte[] data)
         {
-            if (data is null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            _ = data ?? throw new ArgumentNullException(nameof(data));
 
             return Convert.ToBase64String(data);
         }
 
         public static byte[] DecodeBase64Binary(this byte[] base64Data)
         {
-            if (base64Data is null)
-            {
-                throw new ArgumentNullException(nameof(base64Data));
-            }
+            _ = base64Data ?? throw new ArgumentNullException(nameof(base64Data));
 
             string str = System.Text.Encoding.UTF8.GetString(base64Data);
 
@@ -85,10 +70,7 @@
 
         public static byte[] DecodeBase64(this string base64Data)
         {
-            if (string.IsNullOrWhiteSpace(base64Data))
-            {
-                throw new ArgumentException("Cannot be null or whitespace", nameof(base64Data));
-            }
+            _ = base64Data.GetNullIfNullOrWhitespace() ?? throw new ArgumentException("Cannot be null or whitespace", nameof(base64Data));
 
             return Convert.FromBase64String(base64Data);
         }

@@ -8,6 +8,7 @@ namespace AdsPortal.WebApi
     using AdsPortal.Shared.Extensions.Logging;
     using AdsPortal.WebApi.Application;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
     using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Exceptions.Handler;
     using AdsPortal.WebApi.Grpc;
@@ -132,30 +133,34 @@ namespace AdsPortal.WebApi
             app.ConfigureRestApi(env)
                .ConfigureGrpcApi(env);
 
-            if (false)
+            if (true)
+            {
+                using (IServiceScope scope = app.ApplicationServices.CreateScope())
+                {
+                    IFileStorageService x = scope.ServiceProvider.GetRequiredService<IFileStorageService>();
+
+                    var listing = x.GetDirectoryListing(recursive: true);
+                    Logger.LogInformation("File storage listing: {Files}", listing);
+                }
+            }
+
+            if (true)
             {
                 using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {
                     IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                    for (int i = 0; i < 1000; ++i)
+                    for (int p = 0; p <= 1; ++p)
                     {
-                        if (i % 100 == 0)
+                        for (int i = 0; i < 300; ++i)
                         {
-                            Console.WriteLine($"Added {i}");
+                            if ((i + 1) % 100 == 0)
+                            {
+                                Logger.LogInformation("Added {Count} jobs with priority {Priority}", i + 1, p);
+                            }
+
+                            x.ScheduleAsync<TestJob>().Wait();
                         }
-
-                        x.ScheduleAsync<TestJob>().Wait();
-                    }
-
-                    for (int i = 0; i < 1000; ++i)
-                    {
-                        if (i % 100 == 0)
-                        {
-                            Console.WriteLine($"Added {i}");
-                        }
-
-                        x.ScheduleAsync<TestJob>(1).Wait();
                     }
                 }
             }

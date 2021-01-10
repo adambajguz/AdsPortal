@@ -3,7 +3,6 @@
     using System.Reflection;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Configurations;
-    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
     using AdsPortal.WebApi.Application.Jobs;
     using AutoMapper;
     using MediatR;
