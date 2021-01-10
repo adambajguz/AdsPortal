@@ -93,12 +93,6 @@ namespace AdsPortal.WebApi
         // This method gets called by the runtime. Use it to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseExceptionHandler(new ExceptionHandlerOptions
-            {
-                AllowStatusCode404Response = true,
-                ExceptionHandler = async (ctx) => await CustomExceptionHandler.HandleExceptionAsync(ctx)
-            });
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -111,11 +105,19 @@ namespace AdsPortal.WebApi
 
             app.UseSerilogRequestLogging();
 
+            app.UseStatusCodePages(StatusCodePageRespone);
+
+            //app.UseExceptionHandler(new ExceptionHandlerOptions
+            //{
+            //    ExceptionHandlingPath = PathString.Empty,
+            //    AllowStatusCode404Response = true,
+            //    ExceptionHandler = CustomExceptionHandler.HandleExceptionAsync
+            //});
+            app.UseCustomExceptionHandlerMiddleware(); //Custom middleware because UseExceptionHandler is broken - logs exception that was handled
+
             app.UseRouting()
                .UseResponseCompression()
                .UseCors("AllowAll");
-
-            app.UseStatusCodePages(StatusCodePageRespone);
 
             app.UseAuthentication()
                .UseAuthorization();
@@ -153,7 +155,7 @@ namespace AdsPortal.WebApi
                 }
             }
 
-            if (true)
+            if (false)
             {
                 using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {

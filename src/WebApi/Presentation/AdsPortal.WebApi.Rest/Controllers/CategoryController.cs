@@ -43,6 +43,7 @@
             Description = "Gets category details")]
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetCategoryDetailsResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Category not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetCategoryDetails([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new GetCategoryDetailsQuery { Id = id }));
@@ -56,6 +57,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Category details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Category not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryCommand request)
         {
             return Ok(await Mediator.Send(request with { Id = id }));
@@ -69,7 +71,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Category deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Category not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteCategoryCommand { Id = id }));

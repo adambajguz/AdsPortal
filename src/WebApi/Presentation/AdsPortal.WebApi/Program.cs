@@ -6,6 +6,7 @@ namespace AdsPortal.WebApi
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Serilog;
 
     public class Program
@@ -41,11 +42,13 @@ namespace AdsPortal.WebApi
                           })
                           .ConfigureLogging((hostingContext, config) =>
                           {
+                              config.ClearProviders();
+                              config.AddSerilog();
+
                               string appName = hostingContext.Configuration.GetValue<string>("Application:Name");
                               string projectName = typeof(Program).Assembly.GetName().Name ?? string.Empty;
 
                               hostingContext.Configuration.ConfigureSerilog(appName, projectName);
-                              config.AddSerilog();
                           })
                           .UseSerilog()
                           //.ConfigureKestrel(x =>

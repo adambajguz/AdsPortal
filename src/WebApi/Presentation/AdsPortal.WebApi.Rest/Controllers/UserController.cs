@@ -44,6 +44,7 @@
             Description = "Authenticates a user")]
         [SwaggerResponse(StatusCodes.Status200OK, "User authenticated", typeof(AuthenticateUserResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserQuery request)
         {
             return Ok(await Mediator.Send(request));
@@ -106,6 +107,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetUserDetailsResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetUserDetails([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new GetUserDetailsQuery { Id = id }));
@@ -119,7 +121,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "User details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserCommand request)
         {
             return Ok(await Mediator.Send(request with { Id = id }));
@@ -133,7 +135,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "User details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> PatchUser([FromRoute] Guid id, [FromBody] PatchUserCommand request)
         {
             return Ok(await Mediator.Send(request with { Id = id }));
@@ -147,6 +149,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteUserCommand { Id = id }));
@@ -160,7 +163,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Password changed")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> ChangeUserPassword([FromBody] ChangeUserPasswordCommand request)
         {
             return Ok(await Mediator.Send(request));

@@ -54,6 +54,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(FileContentResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaFileByPath([FromRoute] string mediaPath)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
@@ -69,6 +70,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(FileContentResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaFileById([FromRoute] Guid id)
         {
             GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByIdCommand { Id = id });
@@ -84,6 +86,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetMediaItemDetailsResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaDetailsByPath([FromRoute] string mediaPath)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
@@ -98,6 +101,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetMediaItemDetailsResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaDetailsById([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new GetMediaItemDetailsByIdQuery { Id = id }));
@@ -110,6 +114,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(FileContentResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaChecksumByPath([FromRoute] string mediaPath)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
@@ -125,6 +130,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(FileContentResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetMediaChecksumById([FromRoute] Guid id)
         {
             GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByIdCommand { Id = id });
@@ -140,7 +146,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Media item deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteMedia([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteMediaItemCommand { Id = id }));

@@ -3,14 +3,12 @@
     using System;
     using System.Linq;
     using System.Net;
-    using System.Net.Mime;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Exceptions;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
 
     public static class CustomExceptionHandler
     {
@@ -23,7 +21,7 @@
             await HandleExceptionAsync(context, ex);
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception? exception)
+        public static async Task HandleExceptionAsync(HttpContext context, Exception? exception)
         {
             object errorObject = new object();
             HttpStatusCode code = exception switch
@@ -39,11 +37,9 @@
 
             ExceptionResponse response = new ExceptionResponse(code, message, errorObject);
 
-            context.Response.ContentType = MediaTypeNames.Application.Json;
             context.Response.StatusCode = (int)code;
-
-            string responseJson = JsonConvert.SerializeObject(response);
-            await context.Response.WriteAsync(responseJson);
+            await context.Response.WriteAsJsonAsync(response);
+            await context.Response.CompleteAsync();
         }
 
         private static HttpStatusCode HandleValidationException(FluentValidation.ValidationException ex, ref object errors)

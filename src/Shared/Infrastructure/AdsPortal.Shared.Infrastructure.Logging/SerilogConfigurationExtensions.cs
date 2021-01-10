@@ -9,7 +9,6 @@
     {
         public static ILoggingBuilder AddSerilog(this ILoggingBuilder builder)
         {
-            builder.ClearProviders();
             builder.AddSerilog(dispose: true);
 
             return builder;

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebApi.Rest.Controllers
+namespace AdsPortal.WebApi.Rest.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -45,6 +45,7 @@
             Description = "Gets advertisement details")]
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetAdvertisementDetailsResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Advertisement not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> GetAdvertisementDetails([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new GetAdvertisementDetailsQuery { Id = id }));
@@ -58,6 +59,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Advertisement details updated")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Advertisement not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> UpdateAdvertisement([FromRoute] Guid id, [FromBody] UpdateAdvertisementCommand request)
         {
             return Ok(await Mediator.Send(request with { Id = id }));
@@ -71,7 +73,7 @@
         [SwaggerResponse(StatusCodes.Status200OK, "Advertisement deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Advertisement not found", typeof(ExceptionResponse))]
         public async Task<IActionResult> DeleteAdvertisement([FromRoute] Guid id)
         {
             return Ok(await Mediator.Send(new DeleteAdvertisementCommand { Id = id }));
