@@ -18,6 +18,7 @@
         {
             services.AddConfiguration<FileDiskStorageConfiguration>(configuration);
             services.AddSingleton<IFileStorageService, FileDiskStorageService>();
+            services.AddSingleton<IIdentifiableFileStorageService, IdentifiableFileStorageService>();
 
             services.AddConfiguration(configuration, out RelationalDbConfiguration relationalDbConfiguration);
 
