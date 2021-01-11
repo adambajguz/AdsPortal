@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using MagicModels.Extensions;
     using MagicOperations.Extensions;
     using MagicOperations.Internal.Extensions;
     using MagicOperations.Schemas;

@@ -1,5 +1,6 @@
 ﻿@using System.Collections
 @using MagicModels.Interfaces
+@using MagicModels.Extensions
 
 @inherits PropertyRenderer<IEnumerable>
 @inject IModelRenderService RendererService
@@ -7,22 +8,19 @@
 <p>@PropertySchema.DisplayName</p>
 
 <table>
-    @if (Value is not null)
-    {
-        <thead>
-            <tr>
-                @{
-                    var itemType = Value.GetEnumerator().Current.GetType();
-                    var itemSchema = RendererService.GetSchema(itemType);
-                }
+    <thead>
+        <tr>
+            @{
+                var itemType = PropertySchema.Property.TryGetEnumerableArgumentUnderlyingType();
+                var itemSchema = RendererService.GetSchema(itemType!);
+            }
 
-                @foreach (var propertySchema in itemSchema.PropertySchemas)
-                {
-                    <th>@PropertySchema.DisplayName</th>
-                }
-            </tr>
-        </thead>
-    }
+            @foreach (var itemPropertySchema in itemSchema.PropertySchemas)
+            {
+                <th>@itemPropertySchema.DisplayName</th>
+            }
+        </tr>
+    </thead>
     <tbody>
         @if (Value is null)
         {

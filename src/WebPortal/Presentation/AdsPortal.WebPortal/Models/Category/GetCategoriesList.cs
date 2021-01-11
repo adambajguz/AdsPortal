@@ -27,7 +27,7 @@
     [RenderableClass]
     public class CategoriesListItem
     {
-        [RenderableProperty(DisplayName = "Actions", Order = int.MaxValue, Renderer = typeof(ManagementControlsRenderer))]
+        [RenderableProperty(DisplayName = "Actions", Order = int.MaxValue, Renderer = typeof(TableManagementControlsRenderer))]
         public Guid Id { get; set; }
 
         [RenderableProperty(Renderer = typeof(TableStringRenderer))]
