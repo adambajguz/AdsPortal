@@ -1,118 +1,50 @@
 namespace AdsPortal.WebPortal
 {
-    using System;
-    using System.IO.Compression;
-    using System.Net.Mime;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.ResponseCompression;
+    using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebPortal.Configurations;
+    using AdsPortal.WebPortal.Models;
+    using AdsPortal.WebPortal.Services;
+    using MagicOperations;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class DependencyInjection
     {
-        public static IServiceCollection AddWebPortal(this IServiceCollection services)
+        public static IServiceCollection AddWebPortal(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpContextAccessor();
+            services.AddConfiguration<ManagementUIConfiguration>(configuration)
+                    .AddConfiguration<HeaderConfiguration>(configuration)
+                    .AddConfiguration<FooterConfiguration>(configuration)
+                    .AddConfiguration<ApplicationConfiguration>(configuration, out ApplicationConfiguration applicationConfiguration);
 
-            //ReverseProxy configuration
-            services.Configure<ForwardedHeadersOptions>(options =>
+            services.AddScoped<IMarkdownService, MarkdownService>();
+
+            //services.AddHttpClient();
+
+            services.AddMagicOperations((builder) =>
             {
-                //options.KnownProxies.Add(IPAddress.Parse("52.143.144.236"));
-            });
+                builder.ModelsBuilder.AddRenderableClassesFromThisAssembly();
 
-            services.AddHsts(options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(365);
-                //options.ExcludedHosts.Add("example.com");
-                //options.ExcludedHosts.Add("www.example.com");
-            });
+                builder.UseBaseUri(applicationConfiguration.ApiUrl ?? string.Empty);
+                builder.AddOperationsFromThisAssembly();
 
-            //if (GlobalAppConfig.DEV_MODE)//(_env.IsDevelopment())
-            //{
-            //    services.AddHttpsRedirection(options =>
-            //    {
-            //        options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-            //        options.HttpsPort = 5001;
-            //    });
-            //}
-            //else
-            //{
-            //    services.AddHttpsRedirection(options =>
-            //    {
-            //        options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-            //        options.HttpsPort = 443;
-            //    });
-            //}
-
-            //Mvc
-            IMvcBuilder mvcBuilder = services.AddControllers()
-                                             .SetCompatibilityVersion(CompatibilityVersion.Latest);
-
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-
-                options.Providers.Add<BrotliCompressionProvider>();
-                options.Providers.Add<GzipCompressionProvider>();
-
-                options.MimeTypes = new[]
+                builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
                 {
-                    // General
-                    MediaTypeNames.Text.Plain,
+                    g.Path = "advertisement";
+                    g.DisplayName = "Advertisement";
+                });
 
-                    // Static files
-                    "text/css",
-                    "application/javascript",
-                    "font/woff2",
-
-                    // MVC
-                    MediaTypeNames.Text.Html,
-                    MediaTypeNames.Application.Xml,
-                    MediaTypeNames.Text.Xml,
-                    MediaTypeNames.Application.Json,
-                    "text/json",
-
-                    // WebAssembly
-                    "application/wasm",
-
-                    // Images
-                    "image/*"
-
-                    // Other
-                    //MediaTypeNames.Application.Pdf,
-                    //MediaTypeNames.Application.Rtf
-                };
-                options.ExcludedMimeTypes = new[]
+                builder.AddGroupConfiguration(OperationGroups.Category, (g) =>
                 {
-                    "audio/*",
-                    "video/*"
-                };
-            });
+                    g.Path = "category";
+                    g.DisplayName = "Category";
+                });
 
-            services.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Fastest;
-            });
-
-            services.Configure<BrotliCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Fastest;
-            });
-
-            //Cors
-            services.AddCors(options => //TODO: Change cors only to our server
-            {
-                options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder
-                        //  .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                        // .AllowCredentials();
-                    });
+                builder.AddGroupConfiguration(OperationGroups.User, (g) =>
+                {
+                    g.Path = "user";
+                    g.DisplayName = "User";
+                });
             });
 
             return services;

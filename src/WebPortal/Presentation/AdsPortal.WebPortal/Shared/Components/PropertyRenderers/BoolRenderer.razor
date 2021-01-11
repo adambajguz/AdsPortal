@@ -1,0 +1,14 @@
+﻿@inherits PropertyRenderer<bool>
+
+@if (IsWrite)
+{
+    <label>
+        @PropertySchema.DisplayName
+        <InputCheckbox @bind-Value="Value" />
+    </label>
+}
+else
+{
+    <p>@PropertySchema.DisplayName: @Value</p>
+}
+

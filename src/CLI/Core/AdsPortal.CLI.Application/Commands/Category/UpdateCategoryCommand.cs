@@ -33,7 +33,7 @@
         public async ValueTask ExecuteAsync(IConsole console)
         {
             HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.PutAsJsonAsync($"category/update/{id}", this, console.GetCancellationToken());
+            var response = await client.PutAsJsonAsync($"category/update/{Id}", this, console.GetCancellationToken());
 
             await response.PrintResponse(console);
         }
