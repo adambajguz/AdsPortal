@@ -36,6 +36,8 @@ namespace AdsPortal.WebPortal
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
             services.AddWebPortal(Configuration);
 
             services.AddRazorPages();

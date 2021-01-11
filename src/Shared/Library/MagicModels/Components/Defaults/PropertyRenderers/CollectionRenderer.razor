@@ -1,15 +1,28 @@
 ﻿@using System.Collections
+@using MagicModels.Interfaces
 
 @inherits PropertyRenderer<IEnumerable>
+@inject IModelRenderService RendererService
 
 <p>@PropertySchema.DisplayName</p>
 
 <table>
-    <thead>
-        <tr>
-            <th>Value</th>
-        </tr>
-    </thead>
+    @if (Value is not null)
+    {
+        <thead>
+            <tr>
+                @{
+                    var itemType = Value.GetEnumerator().Current.GetType();
+                    var itemSchema = RendererService.GetSchema(itemType);
+                }
+
+                @foreach (var propertySchema in itemSchema.PropertySchemas)
+                {
+                    <th>@PropertySchema.DisplayName</th>
+                }
+            </tr>
+        </thead>
+    }
     <tbody>
         @if (Value is null)
         {
@@ -22,9 +35,7 @@
             @foreach (var item in Value)
             {
                 <tr>
-                    <td>
-                        <MagicModel Model="item" IsWrite="IsWrite" />
-                    </td>
+                    <MagicModel Model="item" IsWrite="IsWrite" />
                 </tr>
             }
         }

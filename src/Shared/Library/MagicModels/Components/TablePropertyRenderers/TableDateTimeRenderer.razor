@@ -1,0 +1,16 @@
+﻿@inherits PropertyRenderer<DateTime>
+
+@if (IsWrite)
+{
+    <td>
+    <label>
+        @PropertySchema.DisplayName
+        <InputDate @bind-Value="Value" />
+    </label>
+        </td>
+}
+else
+{
+    <td>@Value.ToLongDateString() @Value.ToLongTimeString()</td>
+}
+

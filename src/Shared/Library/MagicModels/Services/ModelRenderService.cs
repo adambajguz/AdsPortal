@@ -13,15 +13,12 @@
 
     public class ModelRenderService : IModelRenderService
     {
-        private NavigationManager _navigationManager { get; init; } = default!;
         private MagicModelsConfiguration _configuration { get; init; } = default!;
         private ILogger _logger { get; init; } = default!;
 
-        public ModelRenderService(NavigationManager navigationManager,
-                                  MagicModelsConfiguration configuration,
+        public ModelRenderService(MagicModelsConfiguration configuration,
                                   ILogger<ModelRenderService> logger)
         {
-            _navigationManager = navigationManager;
             _configuration = configuration;
             _logger = logger;
         }
@@ -34,6 +31,26 @@
             }
 
             Type type = model.GetType();
+            RenderableClassSchema? schema = GetSchema(type);
+
+            Type operationRendererType = schema.Renderer ?? _configuration.DefaultModelRenderer;
+            if (operationRendererType.IsGenericType)
+            {
+                operationRendererType = operationRendererType.MakeGenericType(type);
+            }
+
+            return (builder) =>
+            {
+                builder.OpenComponent(0, operationRendererType);
+                builder.AddAttribute(1, nameof(ModelRenderer<object>.Model), model);
+                builder.AddAttribute(2, nameof(ModelRenderer<object>.Schema), schema);
+                builder.AddAttribute(3, nameof(ModelRenderer<object>.IsWrite), isWrite);
+                builder.CloseComponent();
+            };
+        }
+
+        public RenderableClassSchema GetSchema(Type type)
+        {
             RenderableClassSchema? schema = _configuration.RenderableTypeToSchemaMap.GetValueOrDefault(type);
 
             //Fallback to base types other than object
@@ -59,20 +76,7 @@
                 throw new MagicModelsException($"Invalid model. Either model is not renderable or was not registered {type.AssemblyQualifiedName}.");
             }
 
-            Type operationRendererType = schema.Renderer ?? _configuration.DefaultModelRenderer;
-            if (operationRendererType.IsGenericType)
-            {
-                operationRendererType = operationRendererType.MakeGenericType(type);
-            }
-
-            return (builder) =>
-            {
-                builder.OpenComponent(0, operationRendererType);
-                builder.AddAttribute(1, nameof(ModelRenderer<object>.Model), model);
-                builder.AddAttribute(2, nameof(ModelRenderer<object>.Schema), schema);
-                builder.AddAttribute(3, nameof(ModelRenderer<object>.IsWrite), isWrite);
-                builder.CloseComponent();
-            };
+            return schema;
         }
     }
 }

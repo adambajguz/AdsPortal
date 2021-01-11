@@ -1,0 +1,16 @@
+﻿@inherits PropertyRenderer<int>
+
+@if (IsWrite)
+{
+    <td>
+        <label>
+            @PropertySchema.DisplayName
+            <InputNumber @bind-Value="Value" />
+        </label>
+    </td>
+}
+else
+{
+    <td>@Value</td>
+}
+
