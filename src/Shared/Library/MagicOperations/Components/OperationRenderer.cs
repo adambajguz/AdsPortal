@@ -25,7 +25,7 @@
         [Inject] protected IMagicApiService Api { get; init; } = default!;
         [Inject] protected MagicOperationsConfiguration Configuration { get; init; } = default!;
 
-        public string GetRouteToOperation(Type operationType, IReadOnlyDictionary<string, string> arguments)
+        public string GetRouteToRealtedOperation(Type operationType, IReadOnlyDictionary<string, string>? arguments = null)
         {
             string v = OperationSchema.Group.GetRouteToOperation(operationType, arguments);
 

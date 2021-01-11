@@ -29,7 +29,7 @@
             }
         }
 
-        object? IPropertyRenderer.Value { get => Value; }
+        object? IPropertyRenderer.Value => Value;
 
         [Parameter]
         public object Model { get; init; } = default!;

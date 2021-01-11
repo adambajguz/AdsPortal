@@ -8,9 +8,9 @@
 
         if (Context is IOperationRenderer operationRenderer)
         {
-            detailsPath = operationRenderer.GetRouteToOperation(typeof(DetailsOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
-            updatePath = operationRenderer.GetRouteToOperation(typeof(UpdateOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
-            deletePath = operationRenderer.GetRouteToOperation(typeof(DeleteOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            detailsPath = operationRenderer.GetRouteToRealtedOperation(typeof(DetailsOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            updatePath = operationRenderer.GetRouteToRealtedOperation(typeof(UpdateOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            deletePath = operationRenderer.GetRouteToRealtedOperation(typeof(DeleteOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
         }
     }
 

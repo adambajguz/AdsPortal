@@ -18,10 +18,12 @@ else
     if (IsDeleted)
     {
         <p>Deleted @(ResponseModel?.ToString() ?? string.Empty)</p>
+
+        NavigationManager.NavigateTo(GetRouteToRealtedOperation(typeof(GetAllOperationRenderer<,>)));
         return;
     }
 
-    <p>Are you sure to delete this object?</p>
+    <p>Are you sure to delete this @(OperationSchema.Group.DisplayName)?</p>
 
     <MagicModel Model="OperationModel" Context="this"/>
 

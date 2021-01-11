@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AdsPortal.WebPortal.Models;
+    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
@@ -16,6 +17,7 @@
     [RenderableClass]
     public class CategoryDetails
     {
+        [RenderableProperty(DisplayName = "Actions", Renderer = typeof(DetailsControlsRenderer))]
         public Guid Id { get; set; }
 
         public DateTime CreatedOn { get; set; }

@@ -41,7 +41,7 @@
             _operations.Add(operationSchema);
         }
 
-        public string GetRouteToOperation(Type operationType, IReadOnlyDictionary<string, string> arguments)
+        public string GetRouteToOperation(Type operationType, IReadOnlyDictionary<string, string>? arguments = null)
         {
             if (!KnownTypesHelpers.IsOperationRenderer(operationType))
             {

@@ -12,6 +12,6 @@
         OperationSchema OperationSchema { get; }
         object? ResponseModel { get; }
 
-        string GetRouteToOperation(Type operationType, IReadOnlyDictionary<string, string> arguments);
+        string GetRouteToRealtedOperation(Type operationType, IReadOnlyDictionary<string, string>? arguments = null);
     }
 }

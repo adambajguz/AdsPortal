@@ -2,6 +2,7 @@
 {
     using System;
     using AdsPortal.WebPortal.Models;
+    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
@@ -15,6 +16,7 @@
     [RenderableClass]
     public class UserDetails
     {
+        [RenderableProperty(DisplayName = "Actions", Renderer = typeof(DetailsControlsRenderer))]
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public Guid? CreatedBy { get; set; }

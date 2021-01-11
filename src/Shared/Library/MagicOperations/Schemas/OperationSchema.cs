@@ -146,7 +146,7 @@
             return Path.Join(Group.Path ?? string.Empty, patchedRoute).Replace('\\', '/');
         }
 
-        public string GetFullPathFromDictionary(IReadOnlyDictionary<string, string> arguments)
+        public string GetFullPathFromDictionary(IReadOnlyDictionary<string, string>? arguments = null)
         {
             MatchCollection matches = _regex.Matches(Action);
 
@@ -157,9 +157,20 @@
 
             string patchedRoute = Action;
 
+
+            if (tokens.Count > OperationModelSchema.PropertySchemas.Count) //TODO: what if more properties in operation rendering?
+            {
+                throw new MagicOperationsException("All action arguments must be bound from dictionary."); //TODO: add validation on app start
+            }
+
+            if (tokens.Count > (arguments?.Count ?? 0))
+            {
+                throw new MagicOperationsException("All action arguments must be bound from dictionary."); //TODO: add validation on app start
+            }
+
             foreach (string t in tokens)
             {
-                string value = arguments.GetValueOrDefault(t) ?? t;
+                string value = arguments!.GetValueOrDefault(t) ?? t;
 
                 patchedRoute = patchedRoute.Replace($"{{{t}}}", value);
             }
