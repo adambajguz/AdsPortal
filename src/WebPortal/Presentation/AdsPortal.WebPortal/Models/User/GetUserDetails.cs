@@ -9,7 +9,7 @@
     [DetailsOperation(ResponseType = typeof(UserDetails))]
     public class GetUserDetails
     {
-
+        public Guid Id { get; set; }
     }
 
     [RenderableClass]

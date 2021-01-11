@@ -10,6 +10,9 @@
         where TModel : notnull
     {
         [Parameter]
+        public object? Context { get; init; }
+
+        [Parameter]
         public TModel Model { get; init; } = default!;
 
         [Parameter]
@@ -56,6 +59,7 @@
                     //Build render tree
                     builder.OpenComponent(i++, rendererType);
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.Model), Model);
+                    builder.AddAttribute(i++, nameof(PropertyRenderer<object>.Context), Context);
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.PropertySchema), propertySchema);
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.IsWrite), IsWrite);
                     builder.CloseComponent();

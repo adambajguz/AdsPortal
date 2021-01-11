@@ -10,7 +10,7 @@
     [DetailsOperation(ResponseType = typeof(CategoryDetails))]
     public class GetCategoryDetails
     {
-
+        public Guid Id { get; set; }
     }
 
     [RenderableClass]

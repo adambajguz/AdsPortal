@@ -42,7 +42,7 @@
         #region Model renderer
         public MagicModelsBuilder UseModelRenderer(Type modelRender)
         {
-            if (!modelRender.IsSubclassOf(typeof(ModelRenderer<>)))
+            if (!modelRender.IsSubclassOfGeneric(typeof(ModelRenderer<>)))
             {
                 throw new MagicModelsException($"{modelRender.FullName} is not a valid model renderer type.");
             }
@@ -76,7 +76,7 @@
         #region Any property renderer
         public MagicModelsBuilder UseAnyPropertyRenderer(Type rendererType)
         {
-            if (!rendererType.IsGenericType || !rendererType.IsSubclassOf(typeof(PropertyRenderer<>)))
+            if (!rendererType.IsGenericType || !rendererType.IsSubclassOfGeneric(typeof(PropertyRenderer<>)))
             {
                 throw new MagicModelsException($"{rendererType.FullName} is not a valid any property renderer type.");
             }

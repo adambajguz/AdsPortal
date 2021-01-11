@@ -2,13 +2,20 @@
 {
     using System;
     using System.Reflection;
+    using MagicModels.Extensions;
     using MagicOperations.Attributes;
+    using MagicOperations.Components;
 
     /// <summary>
     /// Known types helpers.
     /// </summary>
     public static class KnownTypesHelpers
     {
+        public static bool IsOperationRenderer(Type operationType)
+        {
+            return operationType.IsSubclassOfGeneric(typeof(OperationRenderer<,>));
+        }
+
         /// <summary>
         /// Checks whether type is a valid operation class. Every operation class is a valid renderable class.
         /// </summary>

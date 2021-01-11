@@ -1,6 +1,9 @@
 ﻿namespace MagicOperations.Schemas
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using MagicOperations.Extensions;
 
     public sealed class OperationGroupSchema
     {
@@ -36,6 +39,18 @@
         internal void AddOperation(OperationSchema operationSchema)
         {
             _operations.Add(operationSchema);
+        }
+
+        public string GetRouteToOperation(Type operationType, IReadOnlyDictionary<string, string> arguments)
+        {
+            if (!KnownTypesHelpers.IsOperationRenderer(operationType))
+            {
+                throw new MagicOperationsException($"{operationType.FullName} is not a valid base operation renderer type.");
+            }
+
+            var operationSchema = Operations.FirstOrDefault(x => x.BaseOperationRenderer.IsEquivalentTo(operationType)) ?? throw new MagicOperationsException($"Base operation of type {operationType.FullName} not found in group with key {Key}.");
+
+            return operationSchema.GetFullPathFromDictionary(arguments);
         }
     }
 }

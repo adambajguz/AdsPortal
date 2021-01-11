@@ -8,6 +8,19 @@
 
     public static class TypeExtensions
     {
+        public static bool IsSubclassOfGeneric(this Type current, Type genericBase)
+        {
+            Type? tmp = current;
+            do
+            {
+                if (tmp.IsGenericType && tmp.GetGenericTypeDefinition() == genericBase)
+                    return true;
+            }
+            while ((tmp = tmp?.BaseType) is not null);
+
+            return false;
+        }
+
         public static Type? TryGetEnumerableArgumentUnderlyingType(this PropertyInfo? property)
         {
             return property != null && property.PropertyType != typeof(string)

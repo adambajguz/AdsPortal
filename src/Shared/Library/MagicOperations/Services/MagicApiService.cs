@@ -35,12 +35,10 @@
 
             _ = schema ?? throw new MagicOperationsException($"Invalid schema.");
 
-            string route = schema.ResolvePath(operationModel);
-            string path = Path.Combine(schema.Group.Key ?? string.Empty, route).Replace('\\', '/'); //TODO: add Url.Combine?
-
             HttpResponseMessage response;
             try
             {
+                string path = schema.GetFullPathFromModel(operationModel);
                 string serializedModel = _serializer.Serialize(operationModel);
 
                 HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");

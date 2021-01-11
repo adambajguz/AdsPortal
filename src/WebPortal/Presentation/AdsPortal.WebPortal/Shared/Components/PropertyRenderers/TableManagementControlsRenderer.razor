@@ -1,7 +1,20 @@
 ﻿@inherits PropertyRenderer<Guid>
 
 <td>
-    <NavLink class="button primary" href="@($"panel/category/details/{Value}")">Details</NavLink>
-    <NavLink class="button secondary" href="@($"panel/category/update/{Value}")"><i class="fas fa-pencil-alt"></i></NavLink>
-    <NavLink class="button error" href="@($"panel/category/delete/{Value}")"><i class="fas fa-trash"></i></NavLink>
+    @{
+        string detailsPath = string.Empty;
+        string updatePath = string.Empty;
+        string deletePath = string.Empty;
+
+        if (Context is IOperationRenderer operationRenderer)
+        {
+            detailsPath = operationRenderer.GetRouteToOperation(typeof(DetailsOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            updatePath = operationRenderer.GetRouteToOperation(typeof(UpdateOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            deletePath = operationRenderer.GetRouteToOperation(typeof(DeleteOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+        }
+    }
+
+    <NavLink class="button primary is-medium icon-only" title="Details" href="@detailsPath">Details <i class="fas fa-info-circle"></i></NavLink>
+    <NavLink class="button secondary is-medium icon-only" title="Edit" href="@updatePath">Edit <i class="fas fa-pencil-alt"></i></NavLink>
+    <NavLink class="button error is-medium icon-only" title="Delete" href="@deletePath"><i class="fas fa-trash"></i></NavLink>
 </td>

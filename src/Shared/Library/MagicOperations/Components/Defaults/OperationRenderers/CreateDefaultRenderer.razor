@@ -22,7 +22,7 @@ else
         return;
     }
 
-    <MagicModel Model="OperationModel" IsWrite="true" />
+    <MagicModel Model="OperationModel" Context="this" IsWrite="true" />
 
     <button @onclick="CreateAsync">Create</button>
 }

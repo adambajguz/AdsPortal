@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Components;
     using Microsoft.Extensions.Logging;
 
-    public abstract class PropertyRenderer<T> : ComponentBase
+    public abstract class PropertyRenderer<T> : ComponentBase, IPropertyRenderer
     {
         private Func<T>? _getter;
         private Action<T?>? _setter;
@@ -29,8 +29,13 @@
             }
         }
 
+        object? IPropertyRenderer.Value { get => Value; }
+
         [Parameter]
         public object Model { get; init; } = default!;
+
+        [Parameter]
+        public object? Context { get; init; }
 
         [Parameter]
         public RenderablePropertySchema PropertySchema { get; init; } = default!;

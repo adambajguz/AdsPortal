@@ -2,11 +2,14 @@
 
 @inject IModelRenderService RenderService
 
-@RenderService.RenderModel(Model, IsWrite)
+@RenderService.RenderModel(Model, Context, IsWrite)
 
 @code {
     [Parameter]
     public object? Model { get; init; }
+
+    [Parameter]
+    public object? Context { get; init; }
 
     [Parameter]
     public bool IsWrite { get; init; }

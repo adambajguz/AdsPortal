@@ -9,7 +9,7 @@
     [DetailsOperation(ResponseType = typeof(AdvertisementDetails))]
     public class GetAdvertisementDetails
     {
-
+        public Guid Id { get; set; }
     }
 
     [RenderableClass]

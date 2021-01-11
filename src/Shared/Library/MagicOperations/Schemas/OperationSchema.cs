@@ -8,6 +8,7 @@
     using System.Text;
     using System.Text.RegularExpressions;
     using MagicModels.Schemas;
+    using MagicOperations.Extensions;
     using StringUnformatter;
 
     public sealed class OperationSchema
@@ -115,29 +116,55 @@
 
         private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
 
-        public string ResolvePath(object model)
+        public string GetFullPathFromModel(object model)
         {
-            string route = Action ?? string.Empty;
-            MatchCollection matches = _regex.Matches(route);
+            MatchCollection matches = _regex.Matches(Action);
 
             List<string> tokens = matches.Cast<Match>()
                                          .Select(m => m.Value)
                                          .Distinct()
                                          .ToList();
 
-            string patchedRoute = route;
+            string patchedRoute = Action;
+
+            if (tokens.Count > OperationModelSchema.PropertySchemas.Count) //TODO: what if more properties in operation rendering?
+            {
+                throw new MagicOperationsException("All action arguments must be bound from model properties."); //TODO: add validation on app start
+            }
 
             foreach (string t in tokens)
             {
                 PropertyInfo propertyInfo = OperationModelSchema.PropertySchemas.Where(x => string.Equals(t, x.Property.Name, StringComparison.Ordinal))
-                                                                                .First().Property;
+                                                                                .FirstOrDefault()?.Property ??
+                                            throw new MagicOperationsException($"Cannot bind argument '{t}'.");
 
                 string value = propertyInfo.GetValue(model)?.ToString() ?? string.Empty;
 
                 patchedRoute = patchedRoute.Replace($"{{{t}}}", value);
             }
 
-            return patchedRoute;
+            return Path.Join(Group.Path ?? string.Empty, patchedRoute).Replace('\\', '/');
+        }
+
+        public string GetFullPathFromDictionary(IReadOnlyDictionary<string, string> arguments)
+        {
+            MatchCollection matches = _regex.Matches(Action);
+
+            List<string> tokens = matches.Cast<Match>()
+                                         .Select(m => m.Value)
+                                         .Distinct()
+                                         .ToList();
+
+            string patchedRoute = Action;
+
+            foreach (string t in tokens)
+            {
+                string value = arguments.GetValueOrDefault(t) ?? t;
+
+                patchedRoute = patchedRoute.Replace($"{{{t}}}", value);
+            }
+
+            return Path.Join(Group.Path ?? string.Empty, patchedRoute).Replace('\\', '/');
         }
 
         public string GetDefaultPath()

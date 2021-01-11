@@ -6,7 +6,7 @@
 
     public interface IModelRenderService
     {
-        RenderFragment RenderModel(object? model, bool isWrite = false);
+        RenderFragment RenderModel(object? model, object? context = null, bool isWrite = false);
         RenderableClassSchema GetSchema(Type type);
     }
 }

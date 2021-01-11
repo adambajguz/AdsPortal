@@ -6,6 +6,7 @@
     using System.Reflection;
     using MagicModels;
     using MagicModels.Builder;
+    using MagicModels.Extensions;
     using MagicOperations;
     using MagicOperations.Attributes;
     using MagicOperations.Components;
@@ -111,14 +112,14 @@
                 throw new MagicOperationsException($"Operation type cannot be equal to renderer type ({renderer.FullName}).");
             }
 
-            if (!baseOperation.IsSubclassOf(typeof(OperationRenderer<,>)))
+            if (!baseOperation.IsSubclassOfGeneric(typeof(OperationRenderer<,>)))
             {
-                throw new MagicOperationsException($"{baseOperation.FullName} is not a valid operation renderer type.");
+                throw new MagicOperationsException($"{baseOperation.FullName} is not a valid base operation renderer type.");
             }
 
             if (!renderer.IsSubclassOf(baseOperation))
             {
-                throw new MagicOperationsException($"{renderer.FullName} is not a valid {baseOperation.FullName} operation renderer type.");
+                throw new MagicOperationsException($"{renderer.FullName} is not a valid {baseOperation.FullName} base operation renderer type.");
             }
 
             _defaultOperationRenderers[baseOperation] = renderer;

@@ -23,7 +23,7 @@
             _logger = logger;
         }
 
-        public RenderFragment RenderModel(object? model, bool isWrite = false)
+        public RenderFragment RenderModel(object? model, object? context = null, bool isWrite = false)
         {
             if (model is null)
             {
@@ -41,10 +41,13 @@
 
             return (builder) =>
             {
-                builder.OpenComponent(0, operationRendererType);
-                builder.AddAttribute(1, nameof(ModelRenderer<object>.Model), model);
-                builder.AddAttribute(2, nameof(ModelRenderer<object>.Schema), schema);
-                builder.AddAttribute(3, nameof(ModelRenderer<object>.IsWrite), isWrite);
+                int i = 0;
+
+                builder.OpenComponent(i++, operationRendererType);
+                builder.AddAttribute(i++, nameof(ModelRenderer<object>.Context), context);
+                builder.AddAttribute(i++, nameof(ModelRenderer<object>.Model), model);
+                builder.AddAttribute(i++, nameof(ModelRenderer<object>.Schema), schema);
+                builder.AddAttribute(i++, nameof(ModelRenderer<object>.IsWrite), isWrite);
                 builder.CloseComponent();
             };
         }

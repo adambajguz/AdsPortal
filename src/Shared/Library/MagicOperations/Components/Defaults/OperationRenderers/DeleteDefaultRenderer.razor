@@ -23,7 +23,7 @@ else
 
     <p>Are you sure to delete this object?</p>
 
-    <MagicModel Model="OperationModel" />
+    <MagicModel Model="OperationModel" Context="this"/>
 
     <button @onclick="DeleteAsync">Delete</button>
     <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>
