@@ -12,6 +12,8 @@
     [Command("ad update", Description = "Update advertisement details.")]
     public class UpdateAdvertisementCommand : ICommand
     {
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         [CommandOption("id")]
         public Guid Id { get; init; }
 
@@ -46,7 +48,7 @@
         public async ValueTask ExecuteAsync(IConsole console)
         {
             HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.PutAsJsonAsync("advertisement/update", this, console.GetCancellationToken());
+            var response = await client.PutAsJsonAsync($"advertisement/update/{Id}", this, console.GetCancellationToken());
 
             await response.PrintResponse(console);
         }

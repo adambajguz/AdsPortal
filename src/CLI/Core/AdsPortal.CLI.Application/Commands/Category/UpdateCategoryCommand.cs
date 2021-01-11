@@ -12,6 +12,8 @@
     [Command("category update", Description = "Update category details.")]
     public class UpdateCategoryCommand : ICommand
     {
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         [CommandOption("id")]
         public Guid Id { get; init; }
 
@@ -31,7 +33,7 @@
         public async ValueTask ExecuteAsync(IConsole console)
         {
             HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.PutAsJsonAsync("category/update", this, console.GetCancellationToken());
+            var response = await client.PutAsJsonAsync($"category/update/{id}", this, console.GetCancellationToken());
 
             await response.PrintResponse(console);
         }
