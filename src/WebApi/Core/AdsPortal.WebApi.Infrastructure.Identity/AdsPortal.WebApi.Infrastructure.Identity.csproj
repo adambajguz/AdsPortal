@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.Identity.json" />
-    <None Remove="appsettings.JobScheduler.Development.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Content Include="appsettings.Identity.Test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>appsettings.Identity.json</DependentUpon>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="appsettings.Identity.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>appsettings.Identity.json</DependentUpon>
