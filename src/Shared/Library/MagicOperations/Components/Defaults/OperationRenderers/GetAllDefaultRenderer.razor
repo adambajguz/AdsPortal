@@ -1,5 +1,4 @@
-﻿@using System.Collections
-@using Components.OperationRenderers
+﻿@using Components.OperationRenderers
 @using MagicOperations.Interfaces
 @using MagicModels.Components
 
@@ -7,11 +6,10 @@
 @typeparam TResponse
 @inherits GetAllOperationRenderer<TOperation, TResponse>
 
-@inject NavigationManager NavigationManager
 @inject ISerializer Serializer
 
 <h2>@OperationSchema.DisplayName</h2>
-<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
+<a href="@BasePath">Go back</a>
 
 @if (ErrorModel is not null)
 {
@@ -23,5 +21,5 @@ else if (ResponseModel is null)
 }
 else
 {
-    <MagicModel Model="ResponseModel" Context="this"/>
+    <MagicModel Model="ResponseModel" Context="this" />
 }

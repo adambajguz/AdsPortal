@@ -5,10 +5,8 @@
 @typeparam TResponse
 @inherits GetPagedOperationRenderer<TOperation, TResponse>
 
-@inject NavigationManager NavigationManager
-
 <h2>@OperationSchema.DisplayName</h2>
-<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
+<a href="@BasePath">Go back</a>
 
 @if (ErrorModel is not null)
 {

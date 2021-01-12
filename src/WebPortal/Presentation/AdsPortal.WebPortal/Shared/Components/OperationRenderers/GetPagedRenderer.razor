@@ -21,31 +21,38 @@ else
 {
     <MagicModel Model="ResponseModel" Context="this" />
 
-    if (ResponseModel is IPagedListResult query && query.LastPage != 0)
+    if (ResponseModel is IPagedListResult info && info.LastPage != 0)
     {
-        <p>@query.EntiresPerPage</p>
+        <p>@info.EntiresPerPage</p>
 
-        <NavLink class="button" href="@(GetPageRoute(query, -1))">Previous page</NavLink>
-        <NavLink class="button" href="@(GetPageRoute(query, 1))">Next page</NavLink>
+        if (info.CurrentPageNumber > 0)
+        {
+            <NavLink class="button" href="@(GetPageRoute(info, -1))">Previous page</NavLink>
+        }
+
+        if (info.CurrentPageNumber == info.LastPage)
+        {
+            <NavLink class="button" href="@(GetPageRoute(info, 1))">Next page</NavLink>
+        }
     }
 }
 
 @code{
-    private string GetPageRoute(IPagedListResult query, int modifier)
+    private string GetPageRoute(IPagedListResult info, int modifier)
     {
-        int p = query.CurrentPageNumber + modifier;
+        int p = info.CurrentPageNumber + modifier;
 
-        if (p > query.LastPage)
-            p = query.LastPage;
+        if (p > info.LastPage)
+            p = info.LastPage;
 
         if (p < 0)
             p = 0;
 
         Dictionary<string, string> args = new()
         {
-                { nameof(GetPagedListQuery.EntiresPerPage), query.EntiresPerPage.ToString() },
-                { nameof(GetPagedListQuery.Page), p.ToString() }
-            };
+            { nameof(GetPagedListQuery.EntiresPerPage), info.EntiresPerPage.ToString() },
+            { nameof(GetPagedListQuery.Page), p.ToString() }
+        };
 
         string route = GetRouteToThisOperation(args);
 
