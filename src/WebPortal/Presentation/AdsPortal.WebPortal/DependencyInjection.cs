@@ -4,7 +4,9 @@ namespace AdsPortal.WebPortal
     using AdsPortal.WebPortal.Configurations;
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Services;
+    using AdsPortal.WebPortal.Shared.Components.OperationRenderers;
     using MagicOperations;
+    using MagicOperations.Components.OperationRenderers;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +29,8 @@ namespace AdsPortal.WebPortal
 
                 builder.UseBaseUri(applicationConfiguration.ApiUrl ?? string.Empty);
                 builder.AddOperationsFromThisAssembly();
+
+                builder.UseDefaultOperationRenderer(typeof(GetPagedOperationRenderer<,>), typeof(GetPagedRenderer<,>));
 
                 builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
                 {

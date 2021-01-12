@@ -57,7 +57,7 @@
 
                     Type operationRendererType = schema.OperationRenderer ?? _configuration.DefaultOperationRenderers[schema.BaseOperationRenderer];
 
-                    if (operationRendererType.IsGenericType)
+                    if (operationRendererType.IsGenericTypeDefinition)
                     {
                         Type typeParam0 = schema.OperationModelType;
                         Type typeParam1 = schema.ResponseType ?? typeof(object);

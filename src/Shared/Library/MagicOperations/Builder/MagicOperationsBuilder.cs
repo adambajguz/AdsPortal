@@ -117,7 +117,7 @@
                 throw new MagicOperationsException($"{baseOperation.FullName} is not a valid base operation renderer type.");
             }
 
-            if (!renderer.IsSubclassOf(baseOperation))
+            if (!renderer.IsSubclassOfGeneric(baseOperation))
             {
                 throw new MagicOperationsException($"{renderer.FullName} is not a valid {baseOperation.FullName} base operation renderer type.");
             }

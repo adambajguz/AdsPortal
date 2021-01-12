@@ -1,0 +1,54 @@
+﻿@using MagicModels.Components
+
+@typeparam TOperation
+@typeparam TResponse
+@inherits GetPagedOperationRenderer<TOperation, TResponse>
+
+@inject NavigationManager NavigationManager
+
+<h2>@OperationSchema.DisplayName</h2>
+<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
+
+@if (ErrorModel is not null)
+{
+    <p>@ErrorModel.ToString()</p>
+}
+else if (ResponseModel is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <MagicModel Model="ResponseModel" Context="this" />
+
+    if (ResponseModel is IPagedListResult query && query.LastPage != 0)
+    {
+        <p>@query.EntiresPerPage</p>
+
+        <NavLink class="button" href="@(GetPageRoute(query, -1))">Previous page</NavLink>
+        <NavLink class="button" href="@(GetPageRoute(query, 1))">Next page</NavLink>
+    }
+}
+
+@code{
+    private string GetPageRoute(IPagedListResult query, int modifier)
+    {
+        int p = query.CurrentPageNumber + modifier;
+
+        if (p > query.LastPage)
+            p = query.LastPage;
+
+        if (p < 0)
+            p = 0;
+
+        Dictionary<string, string> args = new()
+        {
+                { nameof(GetPagedListQuery.EntiresPerPage), query.EntiresPerPage.ToString() },
+                { nameof(GetPagedListQuery.Page), p.ToString() }
+            };
+
+        string route = GetRouteToThisOperation(args);
+
+        return route;
+    }
+}

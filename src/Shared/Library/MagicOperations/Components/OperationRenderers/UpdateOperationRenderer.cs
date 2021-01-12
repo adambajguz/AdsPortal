@@ -11,6 +11,25 @@
 
         protected event EventHandler? OnUpdated;
 
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            await GetAsync();
+        }
+
+        public async Task GetAsync()
+        {
+            try
+            {
+                ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);
+            }
+            catch (ApiException ex)
+            {
+                ErrorModel = ex.Message;
+            }
+        }
+
         public async Task UpdateAsync()
         {
             try

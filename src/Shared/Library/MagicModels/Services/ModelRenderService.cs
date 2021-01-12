@@ -34,7 +34,7 @@
             RenderableClassSchema? schema = GetSchema(type);
 
             Type operationRendererType = schema.Renderer ?? _configuration.DefaultModelRenderer;
-            if (operationRendererType.IsGenericType)
+            if (operationRendererType.IsGenericTypeDefinition)
             {
                 operationRendererType = operationRendererType.MakeGenericType(type);
             }

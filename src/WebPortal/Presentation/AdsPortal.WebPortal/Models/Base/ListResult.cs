@@ -4,9 +4,14 @@
     using MagicModels.Attributes;
     using Newtonsoft.Json;
 
+    public interface IListResult
+    {
+        int Count { get; }
+    }
+
     [JsonObject]
     [RenderableClass]
-    public class ListResult<TResultEntry>
+    public class ListResult<TResultEntry> : IListResult
         where TResultEntry : class
     {
         public int Count { get; init; }
