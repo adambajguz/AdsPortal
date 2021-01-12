@@ -8,7 +8,7 @@
     internal sealed class HasherSpecification
     {
         private const int MinimumSaltByteSize = 16;
-        private const int MinimumHashByteSizeMINIMUM_HASH_BYTE_SIZE = 20;
+        private const int MinimumHashByteSize = 20;
 
         public int SaltByteSize { get; }
         public int HashByteSize { get; } //20 for SHA-1, 32 for SHA-256, 64 for SHA-384 and SHA-512 (or more)
@@ -24,9 +24,9 @@
                 throw new ArgumentException($"SaltByteSize should be at least {MinimumSaltByteSize} bytes");
             }
 
-            if (hashByteSize < MinimumHashByteSizeMINIMUM_HASH_BYTE_SIZE)
+            if (hashByteSize < MinimumHashByteSize)
             {
-                throw new ArgumentException($"HashByteSize should be at least {MinimumHashByteSizeMINIMUM_HASH_BYTE_SIZE} bytes");
+                throw new ArgumentException($"HashByteSize should be at least {MinimumHashByteSize} bytes");
             }
 
             if (algorithm == HashAlgorithmName.MD5 || algorithm == HashAlgorithmName.SHA1)
