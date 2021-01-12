@@ -7,7 +7,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [DetailsOperation(ResponseType = typeof(AdvertisementDetails))]
+    [DetailsOperation(ResponseType = typeof(AdvertisementDetails), DisplayName = "Advertisement details")]
     public class GetAdvertisementDetails
     {
         public Guid Id { get; set; }

@@ -8,15 +8,19 @@
 
 @foreach (var schemaGroup in Configuration.OperationGroups.Values.OrderBy(x => x.DisplayName))
 {
-    <p>@schemaGroup.DisplayName</p>
-    <ul>
-        @foreach (var schema in schemaGroup.Operations)
-        {
-            string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetDefaultPath());
+    <details>
+        <summary>@schemaGroup.DisplayName</summary>
+        <p>
+            <ul>
+                @foreach (var schema in schemaGroup.Operations)
+                {
+                    string uri = NavigationManager.BuildCurrentPageRelativeUri(schema.GetDefaultPath());
 
-            <li>
-                @schema.GetFullPath() <br /> <NavLink href="@uri">@uri</NavLink>
-            </li>
-        }
-    </ul>
+                    <li>
+                        <b>@(schema.DisplayName):</b> <NavLink href="@uri">@schema.GetFullPath()</NavLink>
+                    </li>
+                }
+            </ul>
+        </p>
+    </details>
 }

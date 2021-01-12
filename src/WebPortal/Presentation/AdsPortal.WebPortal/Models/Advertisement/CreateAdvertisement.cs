@@ -6,7 +6,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
-    [CreateOperation(ResponseType = typeof(IdResult))]
+    [CreateOperation(ResponseType = typeof(IdResult), DisplayName = "Create advertisement")]
     public class CreateAdvertisement
     {
         public string? Title { get; set; } = string.Empty;

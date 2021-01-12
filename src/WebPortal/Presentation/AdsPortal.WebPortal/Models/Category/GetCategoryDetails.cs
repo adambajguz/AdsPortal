@@ -8,7 +8,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
-    [DetailsOperation(ResponseType = typeof(CategoryDetails))]
+    [DetailsOperation(ResponseType = typeof(CategoryDetails), DisplayName = "Category details")]
     public class GetCategoryDetails
     {
         public Guid Id { get; set; }

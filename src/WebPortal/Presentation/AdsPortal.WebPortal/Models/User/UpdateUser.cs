@@ -5,7 +5,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [UpdateOperation]
+    [UpdateOperation(DisplayName = "Update user")]
     public class UpdateUser
     {
         public Guid Id { get; set; }

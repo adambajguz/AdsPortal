@@ -9,7 +9,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [GetAllOperation(ResponseType = typeof(ListResult<UsersListItem>))]
+    [GetAllOperation(ResponseType = typeof(ListResult<UsersListItem>), DisplayName = "All users")]
     public class GetUsersList
     {
 
@@ -18,7 +18,8 @@
     [OperationGroup(OperationGroups.User)]
     [GetPagedOperation(Action = "get-paged?Page={Page}&EntiresPerPage={EntiresPerPage}",
                        ResponseType = typeof(PagedListResult<UsersListItem>),
-                       DefaultParameters = new[] { "0", "10" })]
+                       DefaultParameters = new[] { "0", "10" },
+                       DisplayName = "All/paged users")]
     public class Get : GetPagedListQuery
     {
 

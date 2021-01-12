@@ -5,7 +5,7 @@ namespace AdsPortal.WebPortal.Models.User
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [DeleteOperation]
+    [DeleteOperation(DisplayName = "Delete user")]
     public class DeleteUser
     {
         public Guid Id { get; set; }

@@ -5,7 +5,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.User)]
-    [CreateOperation(ResponseType = typeof(IdResult))]
+    [CreateOperation(ResponseType = typeof(IdResult), DisplayName = "Create user")]
     public class CreateUser
     {
         public string? Email { get; set; }

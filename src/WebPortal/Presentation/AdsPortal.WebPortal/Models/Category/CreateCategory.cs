@@ -5,7 +5,7 @@
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
-    [CreateOperation(ResponseType = typeof(IdResult))]
+    [CreateOperation(ResponseType = typeof(IdResult), DisplayName = "Create category")]
     public class CreateCategory
     {
         public string? Name { get; set; } = string.Empty;
