@@ -19,12 +19,6 @@
             RuleFor(x => x.Surname).NotNull()
                                    .WithMessage(ValidationMessages.General.IsNull);
 
-            RuleFor(x => x.Address).NotNull()
-                                   .WithMessage(ValidationMessages.General.IsNull);
-
-            RuleFor(x => x.PhoneNumber).NotNull()
-                                       .WithMessage(ValidationMessages.General.IsNull);
-
             RuleFor(x => x.Role).IsInEnum()
                                 .NotEqual(Roles.ResetPassword)
                                 .WithMessage(ValidationMessages.User.InvalidRole);

@@ -19,7 +19,6 @@
 
         public string Name { get; init; } = default!;
         public string Surname { get; init; } = default!;
-        public string Description { get; init; } = default!;
 
         public Roles Role { get; init; }
 

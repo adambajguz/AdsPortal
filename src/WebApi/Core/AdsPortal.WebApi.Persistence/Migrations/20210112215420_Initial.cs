@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AdsPortal.WebApi.Persistence.Migrations
+﻿namespace AdsPortal.WebApi.Persistence.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,7 +108,6 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -156,6 +155,11 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "Email", "IsActive", "LastSavedBy", "LastSavedOn", "Name", "Password", "Role", "Surname" },
+                values: new object[] { new Guid("a76b1435-1fe5-4cec-b1fc-083190fa7ec5"), null, new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc), "admin@adsportal.com", true, null, new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc), "Admin", "00K7UWlOrhhboShjjWT4jSZafPuFHaJDlZxqsxnxfJI5FN4+HPA7r9wlGHQKhIoM2/mfXXWzjVX0aaVo1Uo0JlTQ==co8P2fSN/QYvZSkYBAVanudgRvtXYG3rXNb04AYzR7gbcY4SbWrFFNea9qsaOa+PGDCpW7+fq8rB2uey83mdyQ==", 6L, "AdsPortal" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisements_AuthorId",

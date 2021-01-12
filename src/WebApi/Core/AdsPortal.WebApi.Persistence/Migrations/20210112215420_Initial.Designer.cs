@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdsPortal.WebApi.Persistence.Migrations
 {
     [DbContext(typeof(RelationalDbContext))]
-    [Migration("20210110131047_Initial")]
+    [Migration("20210112215420_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -277,10 +277,6 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -312,6 +308,20 @@ namespace AdsPortal.WebApi.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a76b1435-1fe5-4cec-b1fc-083190fa7ec5"),
+                            CreatedOn = new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@adsportal.com",
+                            IsActive = true,
+                            LastSavedOn = new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Admin",
+                            Password = "00K7UWlOrhhboShjjWT4jSZafPuFHaJDlZxqsxnxfJI5FN4+HPA7r9wlGHQKhIoM2/mfXXWzjVX0aaVo1Uo0JlTQ==co8P2fSN/QYvZSkYBAVanudgRvtXYG3rXNb04AYzR7gbcY4SbWrFFNea9qsaOa+PGDCpW7+fq8rB2uey83mdyQ==",
+                            Role = 6L,
+                            Surname = "AdsPortal"
+                        });
                 });
 
             modelBuilder.Entity("AdsPortal.WebApi.Domain.Entities.Advertisement", b =>

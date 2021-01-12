@@ -24,12 +24,6 @@
         [CommandOption("surname", 's')]
         public string? Surname { get; init; }
 
-        [CommandOption("phone-number")]
-        public string? PhoneNumber { get; init; }
-
-        [CommandOption("address", 'a')]
-        public string? Address { get; init; }
-
         [CommandOption("role", 'r')]
         public Roles Role { get; init; }
 

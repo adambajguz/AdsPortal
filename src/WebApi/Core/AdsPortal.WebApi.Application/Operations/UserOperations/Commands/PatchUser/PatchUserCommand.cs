@@ -24,7 +24,6 @@
 
         public PatchProperty<string?>? Name { get; init; }
         public PatchProperty<string?>? Surname { get; init; }
-        public PatchProperty<string?>? Description { get; init; }
 
         //public PatchProperty<Roles>? Role { get; set; }
 
@@ -45,11 +44,6 @@
                              {
                                  opt.Condition((src, dest) => src.Email?.Include ?? false);
                                  opt.MapFrom(src => src.Surname!.Value.Value);
-                             })
-                         .ForMember(dest => dest.Description, opt =>
-                             {
-                                 opt.Condition((src, dest) => src.Email?.Include ?? false);
-                                 opt.MapFrom(src => src.Description!.Value.Value);
                              });
             //  .ForAllMembersTryPatchProperty();
         }
