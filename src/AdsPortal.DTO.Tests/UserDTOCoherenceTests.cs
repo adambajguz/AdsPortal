@@ -48,7 +48,7 @@ namespace AdsPortal.DTO.Tests
         [Fact]
         public void GetPaged()
         {
-            EnsureCoherent<WebApi.Application.Operations.UserOperations.Queries.GetUsersList.GetUsersListQuery,
+            EnsureCoherent<WebApi.Application.Operations.UserOperations.Queries.GetUsersList.GetPagedUsersListQuery,
                            CLI.Application.Commands.User.GetPagedUsersCommand,
                            WebPortal.Models.User.GetPagedUsersList>();
 

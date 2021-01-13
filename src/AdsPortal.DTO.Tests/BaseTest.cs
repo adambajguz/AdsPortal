@@ -3,10 +3,7 @@
     using System;
     using AutoBogus;
     using FluentAssertions;
-    using MediatR;
-    using MediatR.GenericOperations.Abstractions;
     using Newtonsoft.Json;
-    using Typin;
     using Xunit.Abstractions;
 
     public abstract class BaseTest
@@ -27,57 +24,60 @@
             };
         }
 
-        protected void EnsureCoherent<TApi, TCli, TWeb>()
-            where TApi : class
-            where TCli : class
-            where TWeb : class
+        protected void EnsureCoherent<T0, T1, T2, T3>()
+            where T0 : class
+            where T1 : class
+            where T2 : class
+            where T3 : class
         {
-            typeof(TWeb).Should().NotBe<TApi>("WebPortal DTO cannot be WebApi DTO").And.NotBe<TCli>("WebPortal DTO cannot be CLI DTO");
-
-            TApi api = AutoFaker.Generate<TApi>();
-            string value = JsonConvert.SerializeObject(api, _settings);
-            value.Should().NotBeNullOrWhiteSpace();
-
-            _output.WriteLine($"{typeof(TApi)}:");
-            _output.WriteLine(value);
-
-            TCli? cli = null;
-            Action actionCli = () =>
-            {
-                cli = JsonConvert.DeserializeObject<TCli>(value, _settings);
-            };
-            actionCli.Should().NotThrow<JsonSerializationException>("all DTO classes must match and consume all properties");
-            cli.Should().NotBeNull();
-
-            TWeb? web = null;
-            Action actionWeb = () =>
-            {
-                web = JsonConvert.DeserializeObject<TWeb>(value, _settings);
-            };
-            actionWeb.Should().NotThrow<JsonSerializationException>("all DTO classes must match and consume all properties");
-            web.Should().NotBeNull();
+            EnsureCoherent<T0, T1, T2>();
+            EnsureCoherent<T2, T3>(); //If T0 is coherent with T1 and T2 then T4 must be coherent with T0 and T1 when coherence with T2 is present
         }
 
-        protected void EnsureCoherent<TApi, T>()
-            where TApi : class
-            where T : class
+        protected void EnsureCoherent<T0, T1, T2>()
+            where T0 : class
+            where T1 : class
+            where T2 : class
         {
-            typeof(T).Should().NotBe<TApi>("WebPortal DTO cannot be WebApi DTO");
+            EnsureCoherent<T0, T1>();
+            EnsureCoherent<T1, T0>();
 
-            TApi api = AutoFaker.Generate<TApi>();
-            string value = JsonConvert.SerializeObject(api, _settings);
+            EnsureCoherent<T1, T2>();
+            EnsureCoherent<T2, T1>();
+
+            //If T0 is coherent with T1 then T2 must be coherent with T0 when coherence with T1 is present
+        }
+
+        protected void EnsureCoherent<T0, T1>()
+            where T0 : class
+            where T1 : class
+        {
+            EnsureCoherentOneWay<T0, T1>();
+            EnsureCoherentOneWay<T1, T0>();
+        }
+
+        protected void EnsureCoherentOneWay<T0, T1>()
+            where T0 : class
+            where T1 : class
+        {
+            typeof(T1).Should().NotBe<T0>("cannot check coherence between the same DTO type");
+
+            T0 t0 = AutoFaker.Generate<T0>();
+            string value = JsonConvert.SerializeObject(t0, _settings);
             value.Should().NotBeNullOrWhiteSpace();
 
-            _output.WriteLine($"{typeof(TApi)}:");
+            _output.WriteLine($"{typeof(T0)}:");
             _output.WriteLine(value);
 
-            T? t = null;
+            T1? t1 = null;
             Action action = () =>
             {
-                t = JsonConvert.DeserializeObject<T>(value, _settings);
+                t1 = JsonConvert.DeserializeObject<T1>(value, _settings);
             };
-            action.Should().NotThrow<JsonSerializationException>("all DTO classes must match and consume all properties");
-            t.Should().NotBeNull();
+            action.Should().NotThrow<JsonSerializationException>("DTO classes must match and consume all properties");
+            t1.Should().NotBeNull();
+
+            _output.WriteLine($"Coherence between '{typeof(T0)}' and '{typeof(T1)}' is ensured.{Environment.NewLine}");
         }
     }
 }

@@ -48,7 +48,7 @@ namespace AdsPortal.DTO.Tests
         [Fact]
         public void GetPaged()
         {
-            EnsureCoherent<WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList.GetCategoriesListQuery,
+            EnsureCoherent<WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList.GetPagedCategoriesListQuery,
                            CLI.Application.Commands.Category.GetPagedCategoriesCommand,
                            WebPortal.Models.Category.GetPagedCategoriesList>();
 

@@ -27,7 +27,6 @@
 
         public string Name { get; set; } = default!;
         public string Surname { get; set; } = default!;
-        public string Description { get; set; } = default!;
 
         public Roles Role { get; set; }
     }
