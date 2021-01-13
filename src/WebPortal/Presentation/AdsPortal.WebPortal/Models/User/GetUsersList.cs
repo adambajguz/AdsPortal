@@ -20,7 +20,7 @@
                        ResponseType = typeof(PagedListResult<UsersListItem>),
                        DefaultParameters = new[] { "0", "10" },
                        DisplayName = "All/paged users")]
-    public class Get : GetPagedListQuery
+    public class GetPagedUsersList : GetPagedListQuery
     {
 
     }

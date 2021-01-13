@@ -24,8 +24,6 @@
 
         public string? Name { get; init; }
         public string? Surname { get; init; }
-        public string? PhoneNumber { get; init; }
-        public string? Address { get; init; }
 
         public Roles Role { get; init; }
 
