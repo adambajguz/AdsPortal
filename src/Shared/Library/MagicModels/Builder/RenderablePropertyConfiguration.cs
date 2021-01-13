@@ -1,6 +1,7 @@
 ﻿namespace MagicModels.Builder
 {
     using System;
+    using MagicModels.Attributes;
 
     public sealed class RenderablePropertyConfiguration
     {
@@ -23,5 +24,10 @@
         /// Property order.
         /// </summary>
         public int Order { get; init; }
+
+        /// <summary>
+        /// Property mode override (write when true, read when false, and default from model when null).
+        /// </summary>
+        public PropertyMode Mode { get; init; }
     }
 }

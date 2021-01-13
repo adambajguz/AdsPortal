@@ -18,10 +18,25 @@
 
             RenderablePropertyAttribute? attribute = renderablePropertyInfo.GetCustomAttribute<RenderablePropertyAttribute>(true);
 
+            bool? mode = attribute?.Mode switch
+            {
+                PropertyMode.Read => false,
+                PropertyMode.Write => true,
+                _ => null
+            };
+
+            mode ??= options?.Mode switch
+            {
+                PropertyMode.Read => false,
+                PropertyMode.Write => true,
+                _ => null
+            };
+
             return new RenderablePropertySchema(renderablePropertyInfo,
                                                 attribute?.Renderer ?? options?.Renderer,
                                                 attribute?.DisplayName ?? options?.DisplayName ?? renderablePropertyInfo.Name,
-                                                attribute?.Order ?? options?.Order ?? 0);
+                                                attribute?.Order ?? options?.Order ?? 0,
+                                                mode);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace AdsPortal.WebPortal.Models.User
+﻿namespace AdsPortal.WebPortal.Models.User
 {
     using System;
     using MagicModels.Attributes;
@@ -10,6 +10,7 @@ namespace AdsPortal.WebPortal.Models.User
     public class AuthenticateUser
     {
         [JsonIgnore]
+        [RenderableProperty(Mode = PropertyMode.Read)]
         public string? TestProp { get; set; } = "admin@adsportal.com // Pass123$";
 
         public string? Email { get; set; }

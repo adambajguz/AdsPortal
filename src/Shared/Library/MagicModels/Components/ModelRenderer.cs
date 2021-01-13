@@ -61,7 +61,7 @@
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.Model), Model);
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.Context), Context);
                     builder.AddAttribute(i++, nameof(PropertyRenderer<object>.PropertySchema), propertySchema);
-                    builder.AddAttribute(i++, nameof(PropertyRenderer<object>.IsWrite), IsWrite);
+                    builder.AddAttribute(i++, nameof(PropertyRenderer<object>.IsWrite), propertySchema.IsWrite ?? IsWrite);
                     builder.CloseComponent();
                 }
             };
