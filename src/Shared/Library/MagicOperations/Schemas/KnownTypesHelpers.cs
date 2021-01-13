@@ -26,12 +26,17 @@
                 return false;
             }
 
-            return type.IsDefined(typeof(CreateOperationAttribute)) ||
-                   type.IsDefined(typeof(UpdateOperationAttribute)) ||
-                   type.IsDefined(typeof(DeleteOperationAttribute)) ||
-                   type.IsDefined(typeof(DetailsOperationAttribute)) ||
-                   type.IsDefined(typeof(GetAllOperationAttribute)) ||
-                   type.IsDefined(typeof(GetPagedOperationAttribute));
+            return type.IsDefined(typeof(OperationAttribute));
+        }
+
+        /// <summary>
+        /// Checks whether type is a valid create operation.
+        /// </summary>
+        public static bool IsLoginOperationType(Type type)
+        {
+            return type.IsDefined(typeof(LoginOperationAttribute)) &&
+                   !type.IsAbstract &&
+                   !type.IsInterface;
         }
 
         /// <summary>

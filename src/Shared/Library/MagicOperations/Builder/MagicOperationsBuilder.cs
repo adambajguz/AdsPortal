@@ -28,6 +28,7 @@
 
         private readonly Dictionary<Type, Type> _defaultOperationRenderers = new()
         {
+            { typeof(LoginOperationRenderer<,>), typeof(LoginDefaultRenderer<,>) },
             { typeof(CreateOperationRenderer<,>), typeof(CreateDefaultRenderer<,>) },
             { typeof(UpdateOperationRenderer<,>), typeof(UpdateDefaultRenderer<,>) },
             { typeof(DeleteOperationRenderer<,>), typeof(DeleteDefaultRenderer<,>) },

@@ -1,0 +1,27 @@
+﻿@using Components.OperationRenderers
+@using MagicModels.Components
+
+@typeparam TOperation
+@typeparam TResponse
+@inherits LoginOperationRenderer<TOperation, TResponse>
+
+<h2>@OperationSchema.DisplayName</h2>
+<a href="@BasePath">Go back</a>
+
+@if (ErrorModel is not null)
+{
+    <p>@ErrorModel.ToString()</p>
+    @*<MagicModel Model="ErrorModel" Context="this" />*@
+}
+else
+{
+    if (IsLoggedIn)
+    {
+        <p>Logged in @(ResponseModel?.ToString() ?? string.Empty)</p>
+        return;
+    }
+
+    <MagicModel Model="OperationModel" Context="this" IsWrite="true" />
+
+    <button @onclick="CreateAsync">Login</button>
+}

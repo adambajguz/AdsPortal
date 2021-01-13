@@ -47,7 +47,7 @@ namespace MagicOperations.Attributes
         /// </summary>
         public Type? ResponseType { get; init; }
 
-        public OperationAttribute(string defaultAction, Type baseOperationRenderer)
+        protected OperationAttribute(string defaultAction, Type baseOperationRenderer)
         {
             BaseOperationRenderer = baseOperationRenderer;
 
@@ -73,6 +73,18 @@ namespace MagicOperations.Attributes
             {
                 Action = defaultAction;
             }
+        }
+    }
+
+    public sealed class LoginOperationAttribute : OperationAttribute
+    {
+        /// <summary>
+        /// Initializes an instance of <see cref="CreateOperationAttribute"/>.
+        /// Default values: Action = "create"; HttpMethod = HttpMethods.Post
+        /// </summary>
+        public LoginOperationAttribute() : base("login", typeof(LoginOperationRenderer<,>))
+        {
+            HttpMethod ??= HttpMethods.Post;
         }
     }
 
