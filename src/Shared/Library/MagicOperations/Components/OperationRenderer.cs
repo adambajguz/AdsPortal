@@ -9,6 +9,9 @@
     public abstract class OperationRenderer<TOperation, TResponse> : ComponentBase, IOperationRenderer
     {
         [Parameter]
+        public bool IsBasePath { get; init; }
+
+        [Parameter]
         public string BasePath { get; init; } = string.Empty;
 
         [Parameter]

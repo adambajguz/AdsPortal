@@ -6,7 +6,11 @@
 @inherits CreateOperationRenderer<TOperation, TResponse>
 
 <h2>@OperationSchema.DisplayName</h2>
-<a href="@BasePath">Go back</a>
+
+@if (!IsBasePath)
+{
+    <a href="@BasePath">Go back</a>
+}
 
 @if (ErrorModel is not null)
 {

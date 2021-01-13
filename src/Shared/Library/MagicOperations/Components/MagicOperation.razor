@@ -1,0 +1,24 @@
+﻿@using MagicOperations.Interfaces
+
+@inject IMagicRenderService RenderService
+
+@if (BasePath is not null && Path is not null)
+{
+    @RenderService.RenderOperation(BasePath, Path)
+}
+else if (Path is not null)
+{
+    @RenderService.RenderOperation(Path)
+}
+else
+{
+    throw new MagicOperations.Extensions.MagicOperationsException($"{nameof(BasePath)} and {nameof(Path)} cannot both be set to null");
+}
+
+@code {
+    [Parameter]
+    public string? BasePath { get; init; }
+
+    [Parameter]
+    public string? Path { get; init; }
+}

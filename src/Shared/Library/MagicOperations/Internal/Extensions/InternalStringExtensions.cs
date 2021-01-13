@@ -22,6 +22,15 @@
                 throw new ArgumentNullException(nameof(source));
             }
 
+            if (value.Length == 0)
+            {
+                return source;
+            }
+            else if (value.Length == 1)
+            {
+                return source.TrimStart(value[0]);
+            }
+
             int valueLength = value.Length;
             int startIndex = 0;
             while (source.IndexOf(value, startIndex, comparisonType) == startIndex)
@@ -37,6 +46,15 @@
             if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
+            }
+
+            if (value.Length == 0)
+            {
+                return source;
+            }
+            else if (value.Length == 1)
+            {
+                return source.TrimEnd(value[0]);
             }
 
             int sourceLength = source.Length;

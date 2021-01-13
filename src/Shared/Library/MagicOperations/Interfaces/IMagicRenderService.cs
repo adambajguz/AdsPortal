@@ -5,5 +5,7 @@
     public interface IMagicRenderService
     {
         RenderFragment RenderOperationRouter(string? basePath, string? argsFallback);
+        RenderFragment RenderOperation(string path);
+        RenderFragment RenderOperation(string? basePath, string path);
     }
 }

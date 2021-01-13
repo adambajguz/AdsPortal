@@ -5,8 +5,14 @@
 @typeparam TResponse
 @inherits LoginOperationRenderer<TOperation, TResponse>
 
+@inject MagicOperations.Interfaces.ISerializer Serializer
+
 <h2>@OperationSchema.DisplayName</h2>
-<a href="@BasePath">Go back</a>
+
+@if (!IsBasePath)
+{
+    <a href="@BasePath">Go back</a>
+}
 
 @if (ErrorModel is not null)
 {
@@ -17,7 +23,7 @@ else
 {
     if (IsLoggedIn)
     {
-        <p>Logged in @(ResponseModel?.ToString() ?? string.Empty)</p>
+        <p>Logged in @(Serializer.Serialize(ResponseModel ?? new object()))</p>
         return;
     }
 
