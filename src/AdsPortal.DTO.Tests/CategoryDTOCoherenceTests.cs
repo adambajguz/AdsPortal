@@ -26,7 +26,6 @@ namespace AdsPortal.DTO.Tests
                            WebPortal.Models.Category.UpdateCategory>();
         }
 
-
         [Fact]
         public void GetDetails()
         {

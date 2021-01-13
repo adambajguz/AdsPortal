@@ -16,7 +16,7 @@
 
         }
 
-        public void Set(JwtTokenModel? model)
+        public void Set(AuthenticateUserResponse? model)
         {
             Token = model?.Token;
             Lease = model?.Lease;

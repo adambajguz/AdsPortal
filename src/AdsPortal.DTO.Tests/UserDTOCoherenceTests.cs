@@ -11,6 +11,16 @@ namespace AdsPortal.DTO.Tests
         }
 
         [Fact]
+        public void Authenticate()
+        {
+            EnsureCoherent<WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser.AuthenticateUserQuery,
+                           CLI.Application.Commands.User.AuthenticateCommand>();
+
+            EnsureCoherent<WebApi.Application.Operations.UserOperations.Queries.AuthenticateUser.AuthenticateUserResponse,
+                           CLI.Application.Models.AuthenticateUserResponse>();
+        }
+
+        [Fact]
         public void Create()
         {
             EnsureCoherent<WebApi.Application.Operations.UserOperations.Commands.CreateUser.CreateUserCommand,
@@ -26,6 +36,12 @@ namespace AdsPortal.DTO.Tests
                            WebPortal.Models.User.UpdateUser>();
         }
 
+        [Fact]
+        public void ChangePassword()
+        {
+            EnsureCoherent<WebApi.Application.Operations.UserOperations.Commands.ChangeUserPassword.ChangeUserPasswordCommand,
+                           CLI.Application.Commands.User.ChangeUserPasswordCommand>();
+        }
 
         [Fact]
         public void GetDetails()

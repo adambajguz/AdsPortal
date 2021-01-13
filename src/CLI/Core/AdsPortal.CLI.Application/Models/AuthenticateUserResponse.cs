@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class JwtTokenModel
+    public record AuthenticateUserResponse
     {
         public string Token { get; init; } = default!;
         public TimeSpan Lease { get; init; }

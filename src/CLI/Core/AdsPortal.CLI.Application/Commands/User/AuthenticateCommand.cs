@@ -33,7 +33,7 @@
             HttpClient client = _httpClientFactory.CreateClient("api");
             var response = await client.PostAsJsonAsync("user/auth", this, console.GetCancellationToken());
 
-            JwtTokenModel? model = await response.Content.ReadFromJsonAsync<JwtTokenModel>();
+            AuthenticateUserResponse? model = await response.Content.ReadFromJsonAsync<AuthenticateUserResponse>();
             _authTokenHolder.Set(model);
 
             await response.PrintResponse(console);
