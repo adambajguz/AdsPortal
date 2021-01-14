@@ -3,6 +3,8 @@
     using System;
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Models.Base;
+    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers;
+    using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Advertisement)]
@@ -11,11 +13,20 @@
     {
         public string? Title { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
+
+        [RenderableProperty(DisplayName = "Is published")]
         public bool IsPublished { get; set; }
+
+        [RenderableProperty(DisplayName = "Visible to")]
         public DateTime VisibleTo { get; set; }
 
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromNullableGuidRenderer))]
         public Guid? CoverImageId { get; set; }
+
+        [RenderableProperty(DisplayName = "Category")]
         public Guid CategoryId { get; set; }
+
+        [RenderableProperty(DisplayName = "Author")]
         public Guid AuthorId { get; set; }
     }
 }

@@ -14,6 +14,7 @@
         [RenderableProperty(Mode = PropertyMode.Read)]
         public string? TestProp { get; set; } = "admin@adsportal.com // Pass123$";
 
+        [RenderableProperty(DisplayName = "e-mail")]
         public string? Email { get; set; }
 
         [RenderableProperty(Renderer = typeof(PasswordRenderer))]

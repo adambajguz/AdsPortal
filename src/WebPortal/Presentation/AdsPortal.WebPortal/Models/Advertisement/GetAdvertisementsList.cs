@@ -43,13 +43,13 @@
         [RenderableProperty(Renderer = typeof(TableDateTimeRenderer))]
         public DateTime VisibleTo { get; set; }
 
-        [RenderableProperty(Renderer = typeof(TableAnyRenderer<Guid?>))]
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(TableImageFromNullableGuidRenderer))]
         public Guid? CoverImageId { get; set; }
 
-        [RenderableProperty(Renderer = typeof(TableAnyRenderer<Guid>))]
+        [RenderableProperty(DisplayName = "Category", Renderer = typeof(TableAnyRenderer<Guid>))]
         public Guid CategoryId { get; set; }
 
-        [RenderableProperty(Renderer = typeof(TableAnyRenderer<Guid>))]
+        [RenderableProperty(DisplayName = "Author", Renderer = typeof(TableAnyRenderer<Guid>))]
         public Guid AuthorId { get; set; }
     }
 }

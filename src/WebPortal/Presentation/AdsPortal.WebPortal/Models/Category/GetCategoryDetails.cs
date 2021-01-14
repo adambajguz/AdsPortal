@@ -20,9 +20,16 @@
         [RenderableProperty(DisplayName = "Actions", Renderer = typeof(DetailsControlsRenderer))]
         public Guid Id { get; set; }
 
+        [RenderableProperty(DisplayName = "Created on")]
         public DateTime CreatedOn { get; set; }
+
+        [RenderableProperty(DisplayName = "Created by")]
         public Guid? CreatedBy { get; set; }
+
+        [RenderableProperty(DisplayName = "Last saved on")]
         public DateTime LastSavedOn { get; set; }
+
+        [RenderableProperty(DisplayName = "Last saved by")]
         public Guid? LastSavedBy { get; set; }
 
         public string Name { get; set; } = string.Empty;

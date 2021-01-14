@@ -1,0 +1,9 @@
+﻿@inherits PropertyRenderer<Guid?>
+
+@inject IOptions<ApplicationConfiguration> ApplicationConfiguration
+
+<p>
+    <span>@PropertySchema.DisplayName</span>
+
+    <img src="@($"{ApplicationConfiguration.Value.ApiUrl}{Value}")" alt="Alternate Text" />
+</p>

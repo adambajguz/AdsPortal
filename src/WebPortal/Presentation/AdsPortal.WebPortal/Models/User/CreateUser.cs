@@ -10,6 +10,7 @@
     [CreateOperation(ResponseType = typeof(IdResult), DisplayName = "Create user")]
     public class CreateUser
     {
+        [RenderableProperty(DisplayName = "e-mail")]
         public string? Email { get; set; }
 
         [RenderableProperty(Renderer = typeof(PasswordRenderer))]
