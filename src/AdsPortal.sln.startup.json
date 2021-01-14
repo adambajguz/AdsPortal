@@ -5,24 +5,23 @@
 {
   /*  Configuration File Version  */
   "Version": 3,
-
-  /*  Create an item in the dropdown list for each project in the solution?  */
   "ListAllProjects": false,
 
   "MultiProjectConfigurations": {
-    "[M] WebApi + WebPortal": {
+    "---------------------[ DEV ]---------------------": { "Projects": {} },
+    "[M] WebApi + WebPortal (DEV)": {
       "Projects": {
-        "AdsPortal.WebApi": {},
-        "AdsPortal.WebPortal": {}
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Development)" },
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Development)" }
       }
     },
-    "[M] CLI + WebApi + WebPortal": {
+    "[M] CLI + WebApi + WebPortal (DEV)": {
       "Projects": {
         "AdsPortal.CLI": {
           "CommandLineArguments": "interactive"
         },
-        "AdsPortal.WebApi": {},
-        "AdsPortal.WebPortal": {}
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Development)" },
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Development)" }
       }
     },
     "[S] CLI": {
@@ -32,14 +31,46 @@
         }
       }
     },
-    "[S] WebApi": {
+    "[S] WebApi (DEV)": {
       "Projects": {
-        "AdsPortal.WebApi": { }
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Development)" }
       }
     },
-    "[S] WebPortal": {
+    "[S] WebPortal (DEV)": {
       "Projects": {
-        "AdsPortal.WebPortal": {}
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Development)" }
+      }
+    },
+    "--------------------[ PROD ]--------------------": { "Projects": {} },
+    "[M] WebApi + WebPortal (PROD)": {
+      "Projects": {
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Production)" },
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Production)" }
+      }
+    },
+    "[M] CLI + WebApi + WebPortal (PROD)": {
+      "Projects": {
+        "AdsPortal.CLI": {
+          "CommandLineArguments": "interactive"
+        },
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Production)" },
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Production)" }
+      }
+    },
+    "[S] WebApi (PROD)": {
+      "Projects": {
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Production)" }
+      }
+    },
+    "[S] WebPortal (PROD)": {
+      "Projects": {
+        "AdsPortal.WebPortal": { "ProfileName": "AdsPortal.WebPortal (Production)" }
+      }
+    },
+    "---------------------[ TEST ]---------------------": { "Projects": {} },
+    "[S] WebApi (TEST)": {
+      "Projects": {
+        "AdsPortal.WebApi": { "ProfileName": "AdsPortal.WebApi (Test)" }
       }
     }
   }

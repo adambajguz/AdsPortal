@@ -76,8 +76,8 @@ namespace AdsPortal.WebApi
                     .AddGrpcApi();
 
             services.AddMvc()
-                    .AddMvcSerializer()
-                    .AddValidation();
+                    .AddMvcSerializer();
+                    //.AddValidation();
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();
