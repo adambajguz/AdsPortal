@@ -19,7 +19,7 @@
         [CommandOption("name", 'n', Description = "Database name.", FallbackVariableName = "DB_NAME")]
         public string DatabaseName { get; init; } = "AdsPortal_Test";
 
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public DropDatabaseCommand(ILogger<DropDatabaseCommand> logger)
         {

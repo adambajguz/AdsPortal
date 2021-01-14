@@ -1,8 +1,10 @@
 ﻿namespace MagicModels.Internal.Schemas
 {
+    using System;
     using System.Reflection;
     using MagicModels.Attributes;
     using MagicModels.Builder;
+    using MagicModels.Extensions;
     using MagicModels.Schemas;
 
     internal static class RenderablePropertySchemaResolver
@@ -32,8 +34,15 @@
                 _ => null
             };
 
+            Type? renderer = attribute?.Renderer ?? options?.Renderer;
+
+            if (renderer?.IsGenericTypeDefinition ?? false)
+            {
+                throw new MagicModelsException($"Renderer cannot be generic type definition ('{renderablePropertyInfo.Name}' in '{renderablePropertyInfo.DeclaringType?.AssemblyQualifiedName}').");
+            }
+
             return new RenderablePropertySchema(renderablePropertyInfo,
-                                                attribute?.Renderer ?? options?.Renderer,
+                                                renderer,
                                                 attribute?.DisplayName ?? options?.DisplayName ?? renderablePropertyInfo.Name,
                                                 attribute?.Order ?? options?.Order ?? 0,
                                                 mode);

@@ -46,7 +46,8 @@
             if (value.Length == 0)
             {
                 return source;
-            } else if (value.Length == 1)
+            }
+            else if (value.Length == 1)
             {
                 return source.TrimStart(value[0]);
             }

@@ -6,7 +6,6 @@
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Mapping;
-    using Newtonsoft.Json;
 
     public sealed record GetUserDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {
