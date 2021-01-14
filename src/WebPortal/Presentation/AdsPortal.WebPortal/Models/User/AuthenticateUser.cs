@@ -2,6 +2,7 @@
 {
     using System;
     using MagicModels.Attributes;
+    using MagicModels.Components.Defaults.PropertyRenderers;
     using MagicOperations.Attributes;
     using Newtonsoft.Json;
 
@@ -14,6 +15,8 @@
         public string? TestProp { get; set; } = "admin@adsportal.com // Pass123$";
 
         public string? Email { get; set; }
+
+        [RenderableProperty(Renderer = typeof(PasswordRenderer))]
         public string? Password { get; set; }
     }
 

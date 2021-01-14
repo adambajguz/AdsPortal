@@ -30,7 +30,7 @@ else
             <NavLink class="button" href="@(GetPageRoute(info, -1))">Previous page</NavLink>
         }
 
-        if (info.CurrentPageNumber == info.LastPage)
+        if (info.CurrentPageNumber < info.LastPage)
         {
             <NavLink class="button" href="@(GetPageRoute(info, 1))">Next page</NavLink>
         }
