@@ -1,0 +1,26 @@
+﻿@inherits PropertyRenderer<Guid?>
+
+@inject IOptions<ApplicationConfiguration> ApplicationConfiguration
+@inject IMediaService MediaService
+
+<p>
+    <span>@PropertySchema.DisplayName</span>
+
+    @if (MediaDetails is not null)
+    {
+        <img src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}")" alt="@MediaDetails.Alt" />
+    }
+</p>
+
+@code
+{
+    MediaItemDetails? MediaDetails { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            MediaDetails = await MediaService.GetMediaDetails(Value);
+        }
+    }
+}

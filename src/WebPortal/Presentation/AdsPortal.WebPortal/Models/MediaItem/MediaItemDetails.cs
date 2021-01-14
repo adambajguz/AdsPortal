@@ -1,13 +1,9 @@
-﻿namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemDetails
+﻿namespace AdsPortal.WebPortal.Models.MediaItem
 {
     using System;
-    using AdsPortal.WebApi.Domain.Entities;
-    using AdsPortal.WebApi.Domain.Jwt;
-    using AutoMapper;
-    using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
+    using AdsPortal.WebPortal.Models.User;
 
-    public sealed record GetMediaItemDetailsResponse : IIdentifiableOperationResult, ICustomMapping
+    public sealed class MediaItemDetails
     {
         public Guid Id { get; init; }
 
@@ -22,16 +18,10 @@
 
         public string VirtualDirectory { get; init; } = string.Empty;
 
-        //public byte[]? Data { get; init; }
         public string Hash { get; init; } = string.Empty;
         public long ByteSize { get; init; }
 
         public Guid? OwnerId { get; init; }
         public Roles Role { get; init; }
-
-        void ICustomMapping.CreateMappings(Profile configuration)
-        {
-            configuration.CreateMap<MediaItem, GetMediaItemDetailsResponse>();
-        }
     }
 }

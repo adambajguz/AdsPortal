@@ -20,6 +20,7 @@ namespace AdsPortal.WebPortal
                     .AddConfiguration<ApplicationConfiguration>(configuration, out ApplicationConfiguration applicationConfiguration);
 
             services.AddScoped<IMarkdownService, MarkdownService>();
+            services.AddScoped<IMediaService, MediaService>();
 
             //services.AddHttpClient();
 
