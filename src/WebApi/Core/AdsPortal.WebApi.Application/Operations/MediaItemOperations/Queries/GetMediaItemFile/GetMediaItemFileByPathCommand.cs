@@ -4,6 +4,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Utils;
@@ -18,10 +19,12 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
         private sealed class Handler : GetDetailsQueryHandler<GetMediaItemFileByPathCommand, MediaItem, GetMediaItemFileResponse>
         {
             private readonly IDataRightsService _drs;
+            private readonly IIdentifiableFileStorageService _ifs;
 
-            public Handler(IAppRelationalUnitOfWork uow, IMapper mapper, IDataRightsService drs) : base(uow, mapper)
+            public Handler(IAppRelationalUnitOfWork uow, IMapper mapper, IDataRightsService drs, IIdentifiableFileStorageService ifs) : base(uow, mapper)
             {
                 _drs = drs;
+                _ifs = ifs;
             }
 
             protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)

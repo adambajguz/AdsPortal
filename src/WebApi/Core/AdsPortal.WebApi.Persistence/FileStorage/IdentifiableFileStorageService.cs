@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
 
@@ -15,38 +16,54 @@
             _fileStorage = fileStorage;
         }
 
-        public async Task SaveFileAsync(string rootFolder, Guid id, string extension, string contentType, Stream stream)
+        public async Task SaveFileAsync(string rootFolder, Guid id, string extension, string contentType, byte[] data, CancellationToken cancellationToken = default)
         {
             var location = BuildFileLocation(rootFolder, id, extension);
-            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, stream);
+            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, data, cancellationToken);
         }
 
-        public async Task<Guid> SaveFileAsync(string rootFolder, string extension, string contentType, Stream stream)
+        public async Task<Guid> SaveFileAsync(string rootFolder, string extension, string contentType, byte[] data, CancellationToken cancellationToken = default)
         {
             Guid id = Guid.NewGuid();
 
             var location = BuildFileLocation(rootFolder, id, extension);
-            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, stream);
+            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, data, cancellationToken);
 
             return id;
         }
 
-        public async Task DeleteFileAsync(string rootFolder, Guid id, string extension)
+        public async Task SaveFileAsync(string rootFolder, Guid id, string extension, string contentType, Stream stream, CancellationToken cancellationToken = default)
         {
             var location = BuildFileLocation(rootFolder, id, extension);
-            await _fileStorage.DeleteFileAsync(location.Folder, location.Name);
+            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, stream, cancellationToken);
         }
 
-        public async Task<bool> FileExistsAsync(string rootFolder, Guid id, string extension)
+        public async Task<Guid> SaveFileAsync(string rootFolder, string extension, string contentType, Stream stream, CancellationToken cancellationToken = default)
         {
+            Guid id = Guid.NewGuid();
+
             var location = BuildFileLocation(rootFolder, id, extension);
-            return await _fileStorage.FileExistsAsync(location.Folder, location.Name);
+            await _fileStorage.SaveFileAsync(location.Folder, location.Name, contentType, stream, cancellationToken);
+
+            return id;
         }
 
-        public async Task<byte[]?> GetFileAsync(string rootFolder, Guid id, string extension)
+        public async Task DeleteFileAsync(string rootFolder, Guid id, string extension, CancellationToken cancellationToken = default)
         {
             var location = BuildFileLocation(rootFolder, id, extension);
-            return await _fileStorage.GetFileAsync(location.Folder, location.Name);
+            await _fileStorage.DeleteFileAsync(location.Folder, location.Name, cancellationToken);
+        }
+
+        public async Task<bool> FileExistsAsync(string rootFolder, Guid id, string extension, CancellationToken cancellationToken = default)
+        {
+            var location = BuildFileLocation(rootFolder, id, extension);
+            return await _fileStorage.FileExistsAsync(location.Folder, location.Name, cancellationToken);
+        }
+
+        public async Task<byte[]?> GetFileAsync(string rootFolder, Guid id, string extension, CancellationToken cancellationToken = default)
+        {
+            var location = BuildFileLocation(rootFolder, id, extension);
+            return await _fileStorage.GetFileAsync(location.Folder, location.Name, cancellationToken);
         }
 
         private static (string Folder, string Name) BuildFileLocation(string rootFolder, Guid id, string extensions)
