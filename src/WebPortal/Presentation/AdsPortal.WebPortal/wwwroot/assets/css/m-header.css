@@ -7,7 +7,7 @@
     header > .hero > .logo {
         flex: 1;
         flex-direction: column;
-        margin: 12rem 4rem 12rem 4rem;
+        margin: 6rem 4rem 2rem 4rem;
     }
 
         header > .hero > .logo svg {
