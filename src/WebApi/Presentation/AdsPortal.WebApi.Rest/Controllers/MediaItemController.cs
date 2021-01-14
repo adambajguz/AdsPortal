@@ -55,12 +55,15 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetMediaFileByPath([FromRoute] string mediaPath)
+        public async Task<IActionResult> GetMediaFileByPath([FromRoute] string mediaPath, [FromQuery] bool download = false)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
             GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByPathCommand { Path = decodedMediaPath });
 
-            return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+            if (download)
+                return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+
+            return File(response.Data ?? Array.Empty<byte>(), response.ContentType);
         }
 
         [HttpGet("file-by-id/{id:guid}")]
@@ -71,11 +74,14 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetMediaFileById([FromRoute] Guid id)
+        public async Task<IActionResult> GetMediaFileById([FromRoute] Guid id, [FromQuery] bool download = false)
         {
             GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByIdCommand { Id = id });
 
-            return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+            if (download)
+                return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+
+            return File(response.Data ?? Array.Empty<byte>(), response.ContentType);
         }
 
 
@@ -115,12 +121,15 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetMediaChecksumByPath([FromRoute] string mediaPath)
+        public async Task<IActionResult> GetMediaChecksumByPath([FromRoute] string mediaPath, [FromQuery] bool download = false)
         {
             string decodedMediaPath = HttpUtility.UrlDecode(mediaPath);
             GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByPathCommand { Path = decodedMediaPath });
 
-            return File(response.FileByteContent, response.ContentType, response.FileName);
+            if (download)
+                return File(response.FileByteContent, response.ContentType, response.FileName);
+
+            return File(response.FileByteContent, response.ContentType);
         }
 
         [HttpGet("get-checksum-file-by-id/{id:guid}")]
@@ -131,11 +140,14 @@
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Media item not found", typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetMediaChecksumById([FromRoute] Guid id)
+        public async Task<IActionResult> GetMediaChecksumById([FromRoute] Guid id, [FromQuery] bool download = false)
         {
             GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByIdCommand { Id = id });
 
-            return File(response.FileByteContent, response.ContentType, response.FileName);
+            if (download)
+                return File(response.FileByteContent, response.ContentType, response.FileName);
+
+            return File(response.FileByteContent, response.ContentType);
         }
 
         [CustomAuthorize(Roles.User)]

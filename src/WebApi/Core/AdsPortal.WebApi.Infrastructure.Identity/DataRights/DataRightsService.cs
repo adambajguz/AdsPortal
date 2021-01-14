@@ -95,7 +95,7 @@
 
             if (role == Roles.None)
             {
-                throw new ForbiddenException();
+                return;
             }
 
             if (_context.HttpContext is null)
