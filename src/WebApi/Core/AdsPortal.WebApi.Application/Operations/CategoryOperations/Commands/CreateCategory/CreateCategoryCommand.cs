@@ -4,8 +4,8 @@
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Commands;
-    using MediatR.GenericOperations.Mapping;
 
     public sealed record CreateCategoryCommand : ICreateCommand
     {

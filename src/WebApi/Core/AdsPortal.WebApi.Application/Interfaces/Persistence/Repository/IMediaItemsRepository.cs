@@ -11,21 +11,20 @@
     public interface IMediaItemsRepository : IGenericRelationalRepository<MediaItem>
     {
         #region ByteSize Statistics
-        Task<long> GetTotalByteSizeAsync();
-        Task<long> GetTotalByteSizeAsync(Expression<Func<MediaItem, bool>> filter);
+        Task<long> GetTotalByteSizeAsync(CancellationToken cancellationToken = default);
+        Task<long> GetTotalByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);
 
-        Task<double> GetAverageByteSizeAsync();
-        Task<double> GetAverageByteSizeAsync(Expression<Func<MediaItem, bool>> filter);
+        Task<double> GetAverageByteSizeAsync(CancellationToken cancellationToken = default);
+        Task<double> GetAverageByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);
 
-        Task<long> GetMinByteSizeAsync();
-        Task<long> GetMinByteSizeAsync(Expression<Func<MediaItem, bool>> filter);
+        Task<long> GetMinByteSizeAsync(CancellationToken cancellationToken = default);
+        Task<long> GetMinByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);
 
-        Task<long> GetMaxByteSizeAsync();
-        Task<long> GetMaxByteSizeAsync(Expression<Func<MediaItem, bool>> filter);
+        Task<long> GetMaxByteSizeAsync(CancellationToken cancellationToken = default);
+        Task<long> GetMaxByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);
 
         Task<StatisticsModel<long>> GetByteSizeStatisticsAsync(CancellationToken cancellationToken = default);
-        Task<StatisticsModel<long>> GetByteSizeStatisticsAsync(Expression<Func<MediaItem, bool>> filter,
-                                                               CancellationToken cancellationToken = default);
+        Task<StatisticsModel<long>> GetByteSizeStatisticsAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);
         #endregion
     }
 }

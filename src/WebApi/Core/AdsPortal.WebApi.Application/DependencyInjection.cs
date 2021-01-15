@@ -5,8 +5,8 @@
     using AdsPortal.WebApi.Application.Configurations;
     using AdsPortal.WebApi.Application.Jobs;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR;
-    using MediatR.GenericOperations.Mapping;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;

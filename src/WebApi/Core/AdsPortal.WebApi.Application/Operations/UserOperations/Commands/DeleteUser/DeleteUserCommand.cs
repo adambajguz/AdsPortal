@@ -25,7 +25,7 @@ namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.Delete
 
             protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
-                await _drs.IsOwnerOrAdminElseThrow(Command.Id);
+                await _drs.IsOwnerOrAdminElseThrowAsync(Command.Id);
             }
         }
     }

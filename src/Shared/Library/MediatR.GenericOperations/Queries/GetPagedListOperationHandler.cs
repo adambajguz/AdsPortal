@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper.Extensions;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
 
     public interface IGetPagedListQuery<TResultEntry> : IOperation<PagedListResult<TResultEntry>>

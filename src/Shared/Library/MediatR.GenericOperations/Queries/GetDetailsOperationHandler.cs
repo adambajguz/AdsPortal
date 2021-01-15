@@ -2,9 +2,9 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper.Extensions;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public interface IGetDetailsQuery<TResult> : IOperation<TResult>
         where TResult : class, IIdentifiableOperationResult, ICustomMapping
@@ -24,14 +24,14 @@
             return ValueTask.FromResult(command);
         }
 
-        protected abstract ValueTask<TEntity> OnFetch(CancellationToken cancellationToken);
-
-        protected virtual ValueTask OnValidate(TEntity entity, CancellationToken cancellationToken)
+        protected virtual ValueTask OnValidate(CancellationToken cancellationToken)
         {
             return default;
         }
 
-        protected virtual ValueTask<TResult> OnMapped(TEntity entity, TResult response, CancellationToken cancellationToken)
+        protected abstract ValueTask<TResult> OnFetch(CancellationToken cancellationToken);
+
+        protected virtual ValueTask<TResult> OnFetched(TResult response, CancellationToken cancellationToken)
         {
             return ValueTask.FromResult(response);
         }

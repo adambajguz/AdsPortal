@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Library\AutoMapper.Extensions\AutoMapper.Extensions.csproj" />
     <ProjectReference Include="..\AdsPortal.WebApi.Domain.Abstractions\AdsPortal.WebApi.Domain.Abstractions.csproj" />
   </ItemGroup>
 

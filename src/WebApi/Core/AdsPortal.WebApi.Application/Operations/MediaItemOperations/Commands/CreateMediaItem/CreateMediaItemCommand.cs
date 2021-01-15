@@ -12,8 +12,8 @@
     using AdsPortal.WebApi.Domain.Jwt;
     using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Commands;
-    using MediatR.GenericOperations.Mapping;
     using Microsoft.AspNetCore.Http;
 
     public sealed record CreateMediaItemCommand : ICreateCommand

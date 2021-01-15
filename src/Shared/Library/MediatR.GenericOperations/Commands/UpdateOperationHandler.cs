@@ -2,9 +2,9 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper.Extensions;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public interface IUpdateCommand : IIdentifiableOperation, ICustomMapping
     {

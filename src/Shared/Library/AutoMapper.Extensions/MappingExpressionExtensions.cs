@@ -1,8 +1,7 @@
-﻿namespace MediatR.GenericOperations.Mapping
+﻿namespace AutoMapper.Extensions
 {
     using System;
     using AutoMapper;
-    using MediatR.GenericOperations.Abstractions;
 
     public static class MappingExpressionExtensions
     {

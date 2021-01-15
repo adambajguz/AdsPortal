@@ -9,6 +9,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Models.MediaItem;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
@@ -26,25 +27,25 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
                 _drs = drs;
             }
 
-            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(CancellationToken cancellationToken)
             {
-                if (entity.OwnerId != null)
+                MediaItemAccessConstraintsModel constraints = await Repository.ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(Query.Id, true, cancellationToken);
+
+                if (constraints.OwnerId != null)
                 {
-                    _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
+                    await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(constraints, x => x.OwnerId);
                 }
 
-                _drs.HasRoleElseThrow(entity.Role);
-
-                return default;
+                _drs.HasRoleElseThrow(constraints.Role);
             }
 
-            protected override ValueTask<GetMediaItemChecksumResponse> OnMapped(MediaItem entity, GetMediaItemChecksumResponse response, CancellationToken cancellationToken)
+            protected override ValueTask<GetMediaItemChecksumResponse> OnFetched(GetMediaItemChecksumResponse response, CancellationToken cancellationToken)
             {
                 return ValueTask.FromResult(response with
                 {
                     FileName = response.FileName + ".sha512",
                     ContentType = MediaTypeNames.Text.Plain,
-                    FileContent = FileUtils.GetChecksumFileContent(entity.Hash, entity.FileName)
+                    FileContent = FileUtils.GetChecksumFileContent(response.Hash, response.FileName)
                 });
             }
         }

@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public class PagedListResult<TResultEntry> : ListResult<TResultEntry>
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping

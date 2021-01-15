@@ -10,8 +10,8 @@
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
     using MediatR.GenericOperations.Queries;
 
@@ -36,9 +36,10 @@
         }
 
         [SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value")]
-        public override async Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
+        public sealed override async Task<ListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query = await OnInit(query, cancellationToken);
+            await OnValidate(cancellationToken);
 
             List<TResultEntry> list = await OnFetch(cancellationToken);
 
@@ -50,10 +51,10 @@
 
         protected override async ValueTask<List<TResultEntry>> OnFetch(CancellationToken cancellationToken)
         {
-            return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
-                                                                 orderBy: OrderBy,
-                                                                 noTracking: true,
-                                                                 cancellationToken: cancellationToken);
+            return await Repository.ProjectedAllAsync<TResultEntry>(filter: Filter,
+                                                                    orderBy: OrderBy,
+                                                                    noTracking: true,
+                                                                    cancellationToken: cancellationToken);
         }
     }
 }

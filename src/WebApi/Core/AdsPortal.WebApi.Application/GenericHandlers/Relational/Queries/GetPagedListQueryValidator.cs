@@ -1,9 +1,9 @@
 ﻿namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
 {
     using AdsPortal.WebApi.Application.Constants;
+    using AutoMapper.Extensions;
     using FluentValidation;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Queries;
 
     public class GetPagedListQueryValidator<TResultEntry> : AbstractValidator<IGetPagedListQuery<TResultEntry>>

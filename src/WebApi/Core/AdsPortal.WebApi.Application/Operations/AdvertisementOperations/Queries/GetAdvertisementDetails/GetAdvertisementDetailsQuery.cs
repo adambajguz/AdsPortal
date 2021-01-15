@@ -21,13 +21,13 @@ namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Querie
 
             }
 
-            protected override async ValueTask<Advertisement> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<GetAdvertisementDetailsResponse> OnFetch(CancellationToken cancellationToken)
             {
-                return await Repository.SingleByIdWithRelatedAsync(Query.Id,
-                                                                   noTracking: true,
-                                                                   cancellationToken,
-                                                                   x => x.Category,
-                                                                   x => x.Author);
+                return await Repository.ProjectedSingleByIdWithRelatedAsync<GetAdvertisementDetailsResponse>(Query.Id,
+                                                                                                             noTracking: true,
+                                                                                                             cancellationToken,
+                                                                                                             x => x.Category,
+                                                                                                             x => x.Author);
             }
         }
     }

@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public sealed record GetCategoryDetailsResponse : IIdentifiableOperationResult, ICustomMapping
     {

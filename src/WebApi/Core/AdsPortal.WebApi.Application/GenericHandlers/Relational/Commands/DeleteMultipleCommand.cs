@@ -29,7 +29,7 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
+        public sealed override async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
         {
             Command = command = await OnInit(command, cancellationToken);
 

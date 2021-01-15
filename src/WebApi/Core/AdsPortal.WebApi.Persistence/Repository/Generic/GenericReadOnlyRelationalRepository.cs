@@ -90,20 +90,25 @@
 
         #region IGenericRelationalReadOnlyRepository<TEntity>
         public async Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>>? filter = null,
-                                                         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                         bool noTracking = false,
-                                                         int? skip = null,
-                                                         int? take = null,
-                                                         CancellationToken cancellationToken = default)
+                                                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                  bool noTracking = false,
+                                                  int? skip = null,
+                                                  int? take = null,
+                                                  CancellationToken cancellationToken = default)
         {
             return await GetQueryable(filter, orderBy, noTracking, skip, take).ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> filter,
+        public async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>>? filter = null,
                                                bool noTracking = false,
                                                CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            if (filter is null)
+            {
+                return await query.SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(EntityName);
+            }
 
             return await query.SingleOrDefaultAsync(filter, cancellationToken) ?? throw new NotFoundException(EntityName);
         }
@@ -171,8 +176,6 @@
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        #region Single with Related
-        #region SingleByIdWithRelatedAsync
         public async Task<TEntity> SingleByIdWithRelatedAsync<TProperty0>(Guid id,
                                                                           Expression<Func<TEntity, TProperty0>> relatedSelector0,
                                                                           bool noTracking = false,
@@ -197,9 +200,7 @@
         {
             return await SingleByIdWithRelatedOrDefaultAsync(id, noTracking, cancellationToken, relatedSelectors) ?? throw new NotFoundException(EntityName);
         }
-        #endregion
 
-        #region SingleByIdWithRelatedOrDefaultAsync
         public async Task<TEntity?> SingleByIdWithRelatedOrDefaultAsync<TProperty0>(Guid id,
                                                                                     Expression<Func<TEntity, TProperty0>> relatedSelector0,
                                                                                     bool noTracking = false,
@@ -246,8 +247,6 @@
 
             return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
-        #endregion
-        #endregion
 
         public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default)
         {
@@ -268,70 +267,6 @@
 
             return await DbSet.AnyAsync(filter, cancellationToken);
         }
-
-        #region ProjectTo
-        public async Task<List<T>> ProjectToAsync<T>(Expression<Func<TEntity, bool>>? filter = null,
-                                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                     bool noTracking = false,
-                                                     int? skip = null,
-                                                     int? take = null,
-                                                     CancellationToken cancellationToken = default)
-        {
-            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take);
-
-            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
-                              .ToListAsync(cancellationToken);
-        }
-
-        public async Task<List<T>> ProjectToWithRelatedAsync<T, TProperty0>(Expression<Func<TEntity, TProperty0>> relatedSelector0,
-                                                                            Expression<Func<TEntity, bool>>? filter = null,
-                                                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                                            bool noTracking = false,
-                                                                            int? skip = null,
-                                                                            int? take = null,
-                                                                            CancellationToken cancellationToken = default)
-        {
-            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take).Include(relatedSelector0);
-
-            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
-                              .ToListAsync(cancellationToken);
-        }
-
-        public async Task<List<T>> ProjectToWithRelatedAsync<T, TProperty0, TProperty1>(Expression<Func<TEntity, TProperty0>> relatedSelector0,
-                                                                                        Expression<Func<TEntity, TProperty1>> relatedSelector1,
-                                                                                        Expression<Func<TEntity, bool>>? filter = null,
-                                                                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                                                        bool noTracking = false,
-                                                                                        int? skip = null,
-                                                                                        int? take = null,
-                                                                                        CancellationToken cancellationToken = default)
-        {
-            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take).Include(relatedSelector0)
-                                                                                             .Include(relatedSelector1);
-
-            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
-                              .ToListAsync(cancellationToken);
-        }
-
-        public async Task<List<T>> ProjectToWithRelatedAsync<T>(Expression<Func<TEntity, bool>>? filter = null,
-                                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                                bool noTracking = false,
-                                                                int? skip = null,
-                                                                int? take = null,
-                                                                CancellationToken cancellationToken = default,
-                                                                params Expression<Func<TEntity, object>>[] relatedSelectors)
-        {
-            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take);
-
-            foreach (Expression<Func<TEntity, object>> relatedExpr in relatedSelectors)
-            {
-                query = query.Include(relatedExpr);
-            }
-
-            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
-                             .ToListAsync(cancellationToken);
-        }
-        #endregion
         #endregion
 
         #region IGenericRelationalReadOnlyRepository
@@ -379,5 +314,205 @@
             return await DbSet.AnyAsync(cancellationToken);
         }
         #endregion
+
+        #region ProjectTo
+        public async Task<T> ProjectedSingleAsync<T>(Expression<Func<T, bool>>? filter = null,
+                                                     bool noTracking = false,
+                                                     CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(EntityName);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(filter, cancellationToken) ?? throw new NotFoundException(EntityName);
+        }
+
+        public async Task<T?> ProjectedSingleOrDefaultAsync<T>(Expression<Func<T, bool>>? filter = null,
+                                                               bool noTracking = false,
+                                                               CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(filter, cancellationToken);
+        }
+
+        public async Task<T> ProjectedFirstAsync<T>(Expression<Func<T, bool>>? filter = null,
+                                                    bool noTracking = false,
+                                                    CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            T? entity;
+            if (filter is null)
+            {
+                entity = await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
+            }
+            else
+            {
+                entity = await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(filter, cancellationToken);
+            }
+
+            return entity ?? throw new NotFoundException(EntityName);
+        }
+
+        public async Task<T?> ProjectedFirstOrDefaultAsync<T>(Expression<Func<T, bool>>? filter = null,
+                                                              bool noTracking = false,
+                                                              CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(filter, cancellationToken);
+        }
+
+        public async Task<T> ProjectedSingleAsync<T>(Expression<Func<TEntity, bool>> preFilter,
+                                                     Expression<Func<T, bool>>? filter = null,
+                                                     bool noTracking = false,
+                                                     CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+            query = query.Where(preFilter);
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(EntityName);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(filter, cancellationToken) ?? throw new NotFoundException(EntityName);
+        }
+
+        public async Task<T?> ProjectedSingleOrDefaultAsync<T>(Expression<Func<TEntity, bool>> preFilter,
+                                                               Expression<Func<T, bool>>? filter = null,
+                                                               bool noTracking = false,
+                                                               CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+            query = query.Where(preFilter);
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(filter, cancellationToken);
+        }
+
+        public async Task<T> ProjectedFirstAsync<T>(Expression<Func<TEntity, bool>> preFilter,
+                                                    Expression<Func<T, bool>>? filter = null,
+                                                    bool noTracking = false,
+                                                    CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+            query = query.Where(preFilter);
+
+            T? entity;
+            if (filter is null)
+            {
+                entity = await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
+            }
+            else
+            {
+                entity = await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(filter, cancellationToken);
+            }
+
+            return entity ?? throw new NotFoundException(EntityName);
+        }
+
+        public async Task<T?> ProjectedFirstOrDefaultAsync<T>(Expression<Func<TEntity, bool>> preFilter,
+                                                              Expression<Func<T, bool>>? filter = null,
+                                                              bool noTracking = false,
+                                                              CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+            query = query.Where(preFilter);
+
+            if (filter is null)
+            {
+                return await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider).FirstOrDefaultAsync(filter, cancellationToken);
+        }
+
+        public async Task<T> ProjectedSingleByIdAsync<T>(Guid id, bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return await ProjectedSingleByIdOrDefaultAsync<T>(id, noTracking, cancellationToken) ?? throw new NotFoundException(EntityName, id);
+        }
+
+        public async Task<T?> ProjectedSingleByIdOrDefaultAsync<T>(Guid id, bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = noTracking ? DbSet.AsNoTracking() : DbSet;
+
+            return await query.Where(x => x.Id == id).ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<T> ProjectedSingleByIdWithRelatedAsync<T>(Guid id,
+                                                                    bool noTracking = false,
+                                                                    CancellationToken cancellationToken = default,
+                                                                    params Expression<Func<TEntity, object>>[] relatedSelectors)
+        {
+            return await ProjectedSingleByIdWithRelatedOrDefaultAsync<T>(id, noTracking, cancellationToken, relatedSelectors) ?? throw new NotFoundException(EntityName);
+        }
+
+        public async Task<T?> ProjectedSingleByIdWithRelatedOrDefaultAsync<T>(Guid id,
+                                                                              bool noTracking = false,
+                                                                              CancellationToken cancellationToken = default,
+                                                                              params Expression<Func<TEntity, object>>[] relatedSelectors)
+        {
+            IQueryable<TEntity> query = DbSet.AsQueryable();
+
+            foreach (Expression<Func<TEntity, object>> relatedExpr in relatedSelectors)
+            {
+                query = query.Include(relatedExpr);
+            }
+
+            return await query.Where(x => x.Id == id).ProjectTo<T>(Mapper.ConfigurationProvider).SingleOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<List<T>> ProjectedAllAsync<T>(Expression<Func<TEntity, bool>>? filter = null,
+                                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                        bool noTracking = false,
+                                                        int? skip = null,
+                                                        int? take = null,
+                                                        CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take);
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
+                              .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<T>> ProjectedAllWithRelatedAsync<T>(Expression<Func<TEntity, bool>>? filter = null,
+                                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                                bool noTracking = false,
+                                                                int? skip = null,
+                                                                int? take = null,
+                                                                CancellationToken cancellationToken = default,
+                                                                params Expression<Func<TEntity, object>>[] relatedSelectors)
+        {
+            IQueryable<TEntity> query = GetQueryable(filter, orderBy, noTracking, skip, take);
+
+            foreach (Expression<Func<TEntity, object>> relatedExpr in relatedSelectors)
+            {
+                query = query.Include(relatedExpr);
+            }
+
+            return await query.ProjectTo<T>(Mapper.ConfigurationProvider)
+                             .ToListAsync(cancellationToken);
+        }
+        #endregion
+
     }
 }

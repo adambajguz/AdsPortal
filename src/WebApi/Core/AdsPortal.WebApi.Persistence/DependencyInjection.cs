@@ -22,12 +22,8 @@
 
             services.AddConfiguration(configuration, out RelationalDbConfiguration relationalDbConfiguration);
 
-            services.AddDbContext<RelationalDbContext>(options =>
-            {
-                options.UseSqlServer(relationalDbConfiguration.ConnectionString);
-                options.UseLazyLoadingProxies(true);
-            });
-            services.AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
+            services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(relationalDbConfiguration.ConnectionString))
+                    .AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
 
             services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
 

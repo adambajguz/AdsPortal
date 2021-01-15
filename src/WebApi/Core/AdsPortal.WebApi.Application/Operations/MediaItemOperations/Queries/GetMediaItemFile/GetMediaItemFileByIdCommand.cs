@@ -8,6 +8,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Models.MediaItem;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;
@@ -27,19 +28,19 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
                 _ifs = ifs;
             }
 
-            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(CancellationToken cancellationToken)
             {
-                if (entity.OwnerId != null)
+                MediaItemAccessConstraintsModel constraints = await Repository.ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(Query.Id, true, cancellationToken);
+
+                if (constraints.OwnerId != null)
                 {
-                    _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
+                   await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(constraints, x => x.OwnerId);
                 }
 
-                _drs.HasRoleElseThrow(entity.Role);
-
-                return default;
+                _drs.HasRoleElseThrow(constraints.Role);
             }
 
-            protected override async ValueTask<MediaItem> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<GetMediaItemFileResponse> OnFetch(CancellationToken cancellationToken)
             {
                 byte[]? fileContent = await _ifs.GetFileAsync("MediaItemCache", Query.Id, "file", cancellationToken);
 
@@ -47,7 +48,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
                 if (fileContent is not null)
                 {
-                    mediaItem.Data = fileContent;
+                    mediaItem = mediaItem with { Data = fileContent };
                 }
                 else if (mediaItem.Data is not null)
                 {
@@ -59,11 +60,6 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
                 //https://github.com/dotnet/efcore/issues/11708
 
                 return mediaItem;
-            }
-
-            protected override ValueTask<GetMediaItemFileResponse> OnMapped(MediaItem entity, GetMediaItemFileResponse response, CancellationToken cancellationToken)
-            {
-                return base.OnMapped(entity, response, cancellationToken);
             }
         }
     }

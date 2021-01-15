@@ -8,10 +8,9 @@
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using FluentValidation;
     using MediatR.GenericOperations.Commands;
-    using MediatR.GenericOperations.Mapping;
-    using MediatR.GenericOperations.Models;
     using Newtonsoft.Json;
 
     //TODO: add/test patch user
@@ -59,7 +58,7 @@
 
             protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
-                await _drs.IsOwnerOrAdminElseThrow(Command.Id);
+                await _drs.IsOwnerOrAdminElseThrowAsync(Command.Id);
 
                 ////TODO: add more generic approach
                 //if (data.Role.HasFlag(Roles.Admin))

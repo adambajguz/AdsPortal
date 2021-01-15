@@ -41,7 +41,7 @@
             return _currentUser.GetRoles();
         }
 
-        public async Task IsOwnerOrCreatorOrAdminElseThrow<T>(T? model, Expression<Func<T, Guid?>> userIdFieldExpression)
+        public async Task IsOwnerOrCreatorOrAdminElseThrowAsync<T>(T? model, Expression<Func<T, Guid?>> userIdFieldExpression)
             where T : class, IEntityCreation
         {
             if (model is null)
@@ -51,7 +51,7 @@
 
             if (model.CreatedBy != null)
             {
-                await IsOwnerOrAdminElseThrow((Guid)model.CreatedBy);
+                await IsOwnerOrAdminElseThrowAsync((Guid)model.CreatedBy);
             }
 
             Func<T, Guid?> func = userIdFieldExpression.Compile();
@@ -59,11 +59,11 @@
 
             if (userId != null)
             {
-                await IsOwnerOrAdminElseThrow((Guid)userId);
+                await IsOwnerOrAdminElseThrowAsync((Guid)userId);
             }
         }
 
-        public async Task IsOwnerOrAdminElseThrow(Guid userIdToValidate)
+        public async Task IsOwnerOrAdminElseThrowAsync(Guid userIdToValidate)
         {
             Guid userId = _currentUser.UserId ?? throw new ForbiddenException();
 

@@ -16,7 +16,6 @@
 
     public class MediaItemsRepository : GenericRelationalRepository<MediaItem>, IMediaItemsRepository
     {
-        #region ByteSize Statistics
         //TODO: maybe do not force user to manualy inject di services
         public MediaItemsRepository(ICurrentUserService currentUserService,
                                     IRelationalDbContext context,
@@ -25,44 +24,45 @@
 
         }
 
-        public async Task<long> GetTotalByteSizeAsync()
+        #region ByteSize Statistics
+        public async Task<long> GetTotalByteSizeAsync(CancellationToken cancellationToken = default)
         {
-            return await DbSet.SumAsync(x => x.ByteSize);
+            return await DbSet.SumAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<long> GetTotalByteSizeAsync(Expression<Func<MediaItem, bool>> filter)
+        public async Task<long> GetTotalByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await DbSet.Where(filter).SumAsync(x => x.ByteSize);
+            return await DbSet.Where(filter).SumAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<double> GetAverageByteSizeAsync()
+        public async Task<double> GetAverageByteSizeAsync(CancellationToken cancellationToken = default)
         {
-            return await DbSet.AverageAsync(x => x.ByteSize);
+            return await DbSet.AverageAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<double> GetAverageByteSizeAsync(Expression<Func<MediaItem, bool>> filter)
+        public async Task<double> GetAverageByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await DbSet.Where(filter).AverageAsync(x => x.ByteSize);
+            return await DbSet.Where(filter).AverageAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<long> GetMinByteSizeAsync()
+        public async Task<long> GetMinByteSizeAsync(CancellationToken cancellationToken = default)
         {
-            return await DbSet.MinAsync(x => x.ByteSize);
+            return await DbSet.MinAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<long> GetMinByteSizeAsync(Expression<Func<MediaItem, bool>> filter)
+        public async Task<long> GetMinByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await DbSet.Where(filter).MinAsync(x => x.ByteSize);
+            return await DbSet.Where(filter).MinAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<long> GetMaxByteSizeAsync()
+        public async Task<long> GetMaxByteSizeAsync(CancellationToken cancellationToken = default)
         {
-            return await DbSet.MaxAsync(x => x.ByteSize);
+            return await DbSet.MaxAsync(x => x.ByteSize, cancellationToken);
         }
 
-        public async Task<long> GetMaxByteSizeAsync(Expression<Func<MediaItem, bool>> filter)
+        public async Task<long> GetMaxByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await DbSet.Where(filter).MaxAsync(x => x.ByteSize);
+            return await DbSet.Where(filter).MaxAsync(x => x.ByteSize, cancellationToken);
         }
 
         public async Task<StatisticsModel<long>> GetByteSizeStatisticsAsync(CancellationToken cancellationToken = default)

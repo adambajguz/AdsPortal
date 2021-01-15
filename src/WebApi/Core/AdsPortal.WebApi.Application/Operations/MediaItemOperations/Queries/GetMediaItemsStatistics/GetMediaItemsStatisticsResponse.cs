@@ -2,8 +2,8 @@
 {
     using AdsPortal.WebApi.Domain.Models;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public sealed record GetMediaItemsStatisticsResponse : IOperationResult, ICustomMapping
     {

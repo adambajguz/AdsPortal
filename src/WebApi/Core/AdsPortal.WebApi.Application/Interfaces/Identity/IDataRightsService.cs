@@ -15,10 +15,10 @@
         bool HasRole(Roles role);
         string[] GetRoles();
 
-        Task IsOwnerOrCreatorOrAdminElseThrow<T>(T? model, Expression<Func<T, Guid?>> userIdFieldExpression)
+        Task IsOwnerOrCreatorOrAdminElseThrowAsync<T>(T? model, Expression<Func<T, Guid?>> userIdFieldExpression)
             where T : class, IEntityCreation;
 
-        Task IsOwnerOrAdminElseThrow(Guid userIdToValidate);
+        Task IsOwnerOrAdminElseThrowAsync(Guid userIdToValidate);
 
         void IsAdminElseThrow();
         void HasRoleElseThrow(Roles role);

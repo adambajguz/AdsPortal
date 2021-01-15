@@ -11,9 +11,9 @@
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using FluentValidation;
     using MediatR.GenericOperations.Commands;
-    using MediatR.GenericOperations.Mapping;
     using Newtonsoft.Json;
 
     public sealed record UpdateUserCommand : IUpdateCommand
@@ -44,7 +44,7 @@
 
             protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
             {
-                await _drs.IsOwnerOrAdminElseThrow(Command.Id);
+                await _drs.IsOwnerOrAdminElseThrowAsync(Command.Id);
 
                 //TODO: add more generic approach
                 if (Command.Role.HasFlag(Roles.Admin))

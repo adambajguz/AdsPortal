@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper.Extensions;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
 
     public interface IGetListQuery<TResultEntry> : IOperation<ListResult<TResultEntry>>
@@ -24,6 +24,11 @@
         protected virtual ValueTask<TQuery> OnInit(TQuery command, CancellationToken cancellationToken)
         {
             return ValueTask.FromResult(command);
+        }
+
+        protected virtual ValueTask OnValidate(CancellationToken cancellationToken)
+        {
+            return default;
         }
 
         protected abstract ValueTask<List<TResultEntry>> OnFetch(CancellationToken cancellationToken);

@@ -3,7 +3,6 @@
     using System;
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Models.Base;
-    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers;
     using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Image;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;

@@ -6,6 +6,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Models.MediaItem;
     using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;
     using MediatR.GenericOperations.Queries;
@@ -23,19 +24,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
                 _drs = drs;
             }
 
-            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
-            {
-                if (entity.OwnerId != null)
-                {
-                    _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
-                }
-
-                _drs.HasRoleElseThrow(entity.Role);
-
-                return default;
-            }
-
-            protected override async ValueTask<MediaItem> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<GetMediaItemDetailsResponse> OnFetch(CancellationToken cancellationToken)
             {
                 string path = Query.Path;
                 string fileName = System.IO.Path.GetFileName(path);
@@ -43,11 +32,25 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
                 long pathHashCode = MediaItemPathHasher.CalculatePathHash(path);
 
-                return await Uow.MediaItems.SingleAsync(x => x.PathHashCode == pathHashCode &&
-                                                             x.FileName == fileName &&
-                                                             x.VirtualDirectory == directory,
-                                                        noTracking: true,
-                                                        cancellationToken: cancellationToken);
+                return await Uow.MediaItems.ProjectedSingleAsync<GetMediaItemDetailsResponse>(x => x.PathHashCode == pathHashCode &&
+                                                                                                   x.FileName == fileName &&
+                                                                                                   x.VirtualDirectory == directory,
+                                                                                              noTracking: true,
+                                                                                              cancellationToken: cancellationToken);
+            }
+
+            protected override async ValueTask<GetMediaItemDetailsResponse> OnFetched(GetMediaItemDetailsResponse response, CancellationToken cancellationToken)
+            {
+                MediaItemAccessConstraintsModel constraints = await Repository.ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(response.Id, true, cancellationToken);
+
+                if (constraints.OwnerId != null)
+                {
+                    await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(constraints, x => x.OwnerId);
+                }
+
+                _drs.HasRoleElseThrow(constraints.Role);
+
+                return response;
             }
         }
     }

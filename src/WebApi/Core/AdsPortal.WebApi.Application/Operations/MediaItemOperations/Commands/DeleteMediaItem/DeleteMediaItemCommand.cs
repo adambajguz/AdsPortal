@@ -23,16 +23,14 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Commands.D
                 _drs = drs;
             }
 
-            protected override ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(MediaItem entity, CancellationToken cancellationToken)
             {
                 if (entity.OwnerId != null)
                 {
-                    _drs.IsOwnerOrCreatorOrAdminElseThrow(entity, x => x.OwnerId);
+                    await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(entity, x => x.OwnerId);
                 }
 
                 _drs.HasRoleElseThrow(entity.Role);
-
-                return default;
             }
         }
     }

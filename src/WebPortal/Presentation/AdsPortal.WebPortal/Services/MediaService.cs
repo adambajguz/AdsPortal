@@ -2,14 +2,10 @@
 {
     using System;
     using System.Net.Http;
-    using System.Net.Mime;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebPortal.Configurations;
     using AdsPortal.WebPortal.Models.MediaItem;
-    using Markdig;
-    using Microsoft.AspNetCore.Components;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Newtonsoft.Json;

@@ -12,11 +12,14 @@
     {
         public static IServiceCollection AddInfrastructureJobSchedulerLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddConfiguration<JobSchedulerConfiguration>(configuration);
+            services.AddConfiguration<JobSchedulerConfiguration>(configuration, out JobSchedulerConfiguration jobSchedulerConfiguration);
             services.AddScoped<IJobSchedulingService, JobSchedulingService>();
             services.AddSingleton<IArgumentsSerializer, DefaultArgumentsSerializer>();
 
-            services.AddHostedService<JobsProcessingService>();
+            if (jobSchedulerConfiguration.IsEnabled)
+            {
+                services.AddHostedService<JobsProcessingService>();
+            }
 
             return services;
         }

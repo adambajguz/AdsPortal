@@ -1,4 +1,4 @@
-namespace MediatR.GenericOperations.Mapping
+namespace AutoMapper.Extensions
 {
     using AutoMapper;
 

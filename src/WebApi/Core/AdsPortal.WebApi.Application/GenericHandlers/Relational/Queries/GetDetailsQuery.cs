@@ -8,8 +8,8 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Queries;
 
     public abstract class GetDetailsQueryHandler<TQuery, TEntity, TResult> : GetDetailsOperationHandler<TQuery, TEntity, TResult>
@@ -32,15 +32,15 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
         }
 
         [SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value")]
-        public override async Task<TResult> Handle(TQuery query, CancellationToken cancellationToken)
+        public sealed override async Task<TResult> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query = await OnInit(query, cancellationToken);
 
-            TEntity entity = await OnFetch(cancellationToken);
-            await OnValidate(entity, cancellationToken);
+            await OnValidate(cancellationToken);
+            TResult response = await OnFetch(cancellationToken);
 
-            TResult response = Mapper.Map<TResult>(entity); //TODO: Consider using ProjectTo in repository instead of Map
-            response = await OnMapped(entity, response, cancellationToken);
+            //TResult response = Mapper.Map<TResult>(response);
+            response = await OnFetched(response, cancellationToken);
 
             return response;
         }

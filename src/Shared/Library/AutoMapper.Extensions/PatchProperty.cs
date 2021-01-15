@@ -1,7 +1,6 @@
-﻿namespace MediatR.GenericOperations.Models
+﻿namespace AutoMapper.Extensions
 {
     using System;
-    using MediatR.GenericOperations.Abstractions;
 
     public struct PatchProperty<T> : IPatchProperty
     {

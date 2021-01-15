@@ -3,8 +3,8 @@
     using System;
     using AdsPortal.WebApi.Domain.Entities;
     using AutoMapper;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public sealed record GetUsersListResponse : IIdentifiableOperationResult, ICustomMapping
     {

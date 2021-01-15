@@ -9,9 +9,9 @@
     using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AutoMapper.Extensions;
     using FluentValidation;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
     using MediatR.GenericOperations.Models;
     using MediatR.GenericOperations.Queries;
 
@@ -35,7 +35,7 @@
             Repository = Uow.GetRepository<TEntity>();
         }
 
-        public override async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
+        public sealed override async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
         {
             Query = query = await OnInit(query, cancellationToken);
 
@@ -57,12 +57,12 @@
 
         protected override async ValueTask<List<TResultEntry>> OnFetch(int skip, int entriesPerPage, int total, CancellationToken cancellationToken)
         {
-            return await Repository.ProjectToAsync<TResultEntry>(filter: Filter,
-                                                                 orderBy: OrderBy,
-                                                                 noTracking: true,
-                                                                 skip: skip,
-                                                                 take: entriesPerPage,
-                                                                 cancellationToken: cancellationToken);
+            return await Repository.ProjectedAllAsync<TResultEntry>(filter: Filter,
+                                                                    orderBy: OrderBy,
+                                                                    noTracking: true,
+                                                                    skip: skip,
+                                                                    take: entriesPerPage,
+                                                                    cancellationToken: cancellationToken);
         }
     }
 }

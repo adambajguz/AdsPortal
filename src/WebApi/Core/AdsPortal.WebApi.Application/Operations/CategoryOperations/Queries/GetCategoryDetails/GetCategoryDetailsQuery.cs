@@ -21,9 +21,9 @@ namespace AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.Get
 
             }
 
-            protected override async ValueTask<Category> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<GetCategoryDetailsResponse> OnFetch(CancellationToken cancellationToken)
             {
-                return await Repository.SingleByIdWithRelatedAsync(Query.Id, relatedSelector0: x => x.Advertisements, noTracking: true, cancellationToken);
+                return await Repository.ProjectedSingleByIdWithRelatedAsync<GetCategoryDetailsResponse>(Query.Id, noTracking: true, cancellationToken, x => x.Advertisements);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace MediatR.GenericOperations.Abstractions
+﻿namespace AutoMapper.Extensions
 {
     using System;
 

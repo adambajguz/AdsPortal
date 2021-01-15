@@ -24,9 +24,9 @@ namespace AdsPortal.WebApi.Application.Operations.UserOperations.Queries.GetUser
                 _drs = drs;
             }
 
-            protected override async ValueTask OnValidate(User entity, CancellationToken cancellationToken)
+            protected override async ValueTask OnValidate(CancellationToken cancellationToken)
             {
-                await _drs.IsOwnerOrAdminElseThrow(Query.Id);
+                await _drs.IsOwnerOrAdminElseThrowAsync(Query.Id);
             }
         }
     }

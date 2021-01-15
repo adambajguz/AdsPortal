@@ -1,8 +1,8 @@
 ﻿namespace MediatR.GenericOperations.Models
 {
     using System.Collections.Generic;
+    using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;
-    using MediatR.GenericOperations.Mapping;
 
     public class ListResult<TResultEntry> : IOperationResult
         where TResultEntry : class, IIdentifiableOperationResult, ICustomMapping

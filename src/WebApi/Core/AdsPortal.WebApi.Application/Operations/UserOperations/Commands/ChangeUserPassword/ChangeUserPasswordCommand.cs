@@ -33,7 +33,7 @@ namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.Change
 
             public async Task<Unit> Handle(ChangeUserPasswordCommand command, CancellationToken cancellationToken)
             {
-                await _drs.IsOwnerOrAdminElseThrow(command.UserId);
+                await _drs.IsOwnerOrAdminElseThrowAsync(command.UserId);
                 await new ChangeUserPasswordCommandValidator().ValidateAndThrowAsync(command, cancellationToken: cancellationToken);
 
                 User user = await _uow.Users.SingleByIdAsync(command.UserId, cancellationToken: cancellationToken);
