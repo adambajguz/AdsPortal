@@ -3,7 +3,7 @@ namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Comma
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using FluentValidation;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

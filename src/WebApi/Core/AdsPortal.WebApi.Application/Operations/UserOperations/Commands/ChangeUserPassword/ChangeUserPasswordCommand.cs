@@ -6,8 +6,8 @@ namespace AdsPortal.WebApi.Application.Operations.UserOperations.Commands.Change
     using AdsPortal.WebApi.Application.Constants;
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using FluentValidation;
     using MediatR;
     using MediatR.GenericOperations.Abstractions;

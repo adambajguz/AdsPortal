@@ -4,8 +4,8 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Models.MediaItem;
     using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;
@@ -41,7 +41,7 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
             protected override async ValueTask<GetMediaItemDetailsResponse> OnFetched(GetMediaItemDetailsResponse response, CancellationToken cancellationToken)
             {
-                MediaItemAccessConstraintsModel constraints = await Repository.ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(response.Id, true, cancellationToken);
+                MediaItemAccessConstraintsModel constraints = await Uow.MediaItems.GetConstraintsAsync(response.Id, cancellationToken);
 
                 if (constraints.OwnerId != null)
                 {

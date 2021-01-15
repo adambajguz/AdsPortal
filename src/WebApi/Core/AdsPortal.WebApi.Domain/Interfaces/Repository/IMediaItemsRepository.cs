@@ -1,15 +1,18 @@
-﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.Repository
+﻿namespace AdsPortal.WebApi.Domain.Interfaces.Repository
 {
     using System;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository.Generic;
     using AdsPortal.WebApi.Domain.Models;
+    using AdsPortal.WebApi.Domain.Models.MediaItem;
 
     public interface IMediaItemsRepository : IGenericRelationalRepository<MediaItem>
     {
+        Task<MediaItemAccessConstraintsModel> GetConstraintsAsync(Guid id, CancellationToken cancellationToken);
+
         #region ByteSize Statistics
         Task<long> GetTotalByteSizeAsync(CancellationToken cancellationToken = default);
         Task<long> GetTotalByteSizeAsync(Expression<Func<MediaItem, bool>> filter, CancellationToken cancellationToken = default);

@@ -4,8 +4,8 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Interfaces;
 
     public class JobSchedulingService : IJobSchedulingService

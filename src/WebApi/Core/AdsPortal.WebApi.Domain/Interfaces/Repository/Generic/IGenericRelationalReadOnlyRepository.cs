@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic
+﻿namespace AdsPortal.WebApi.Domain.Interfaces.Repository.Generic
 {
     using System;
     using System.Collections.Generic;

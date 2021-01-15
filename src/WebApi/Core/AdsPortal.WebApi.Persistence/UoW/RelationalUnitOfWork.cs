@@ -2,8 +2,8 @@
 {
     using System;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
     using AdsPortal.WebApi.Persistence.Repository;
     using AdsPortal.WebApi.Persistence.UoW.Generic;

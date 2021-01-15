@@ -7,11 +7,11 @@
     using System.Threading.Tasks;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Audit;
     using AdsPortal.WebApi.Domain.Abstractions.Enums;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW.Generic;
     using AdsPortal.WebApi.Persistence.Extensions;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.WebApi.Persistence.Repository;

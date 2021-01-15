@@ -1,8 +1,8 @@
 ﻿namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList
 {
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using MediatR.GenericOperations.Queries;
 
     public sealed record GetAdvertisementsListQuery : IGetListQuery<GetAdvertisementsListResponse>

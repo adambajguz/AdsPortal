@@ -2,8 +2,8 @@ namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Queri
 {
     using System;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AutoMapper;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Queries;

@@ -2,8 +2,8 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AutoMapper;
     using AutoMapper.Extensions;
     using MediatR.GenericOperations.Abstractions;

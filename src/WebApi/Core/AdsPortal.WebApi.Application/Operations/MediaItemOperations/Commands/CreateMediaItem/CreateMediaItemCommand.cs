@@ -6,9 +6,9 @@
     using AdsPortal.Shared.Extensions.Utils;
     using AdsPortal.WebApi.Application.Extensions;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Jwt;
     using AdsPortal.WebApi.Domain.Utils;
     using AutoMapper;

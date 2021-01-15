@@ -7,9 +7,9 @@
     using System.Threading.Tasks;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW.Generic;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository.Generic;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW.Generic;
     using AdsPortal.WebApi.Persistence.Extensions;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.WebApi.Persistence.Repository.Generic;

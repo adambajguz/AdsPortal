@@ -6,9 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository;
     using AdsPortal.WebApi.Domain.Models;
+    using AdsPortal.WebApi.Domain.Models.MediaItem;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
     using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AutoMapper;
@@ -22,6 +23,13 @@
                                     IMapper mapper) : base(currentUserService, context, mapper)
         {
 
+        }
+
+        public async Task<MediaItemAccessConstraintsModel> GetConstraintsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            MediaItemAccessConstraintsModel constraints = await ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(id, true, cancellationToken);
+
+            return constraints;
         }
 
         #region ByteSize Statistics

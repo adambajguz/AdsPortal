@@ -4,8 +4,8 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using MediatR.GenericOperations.Queries;
 
     public sealed record GetEntityAuditLogsListQuery : IGetListQuery<GetEntityAuditLogsListResponse>

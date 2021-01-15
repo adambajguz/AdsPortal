@@ -2,8 +2,8 @@ namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Comman
 {
     using System;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using MediatR.GenericOperations.Abstractions;
     using MediatR.GenericOperations.Commands;
 

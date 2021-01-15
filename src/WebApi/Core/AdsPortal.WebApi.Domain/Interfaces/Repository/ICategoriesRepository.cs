@@ -1,10 +1,10 @@
-﻿namespace AdsPortal.WebApi.Application.Interfaces.Persistence.Repository
+﻿namespace AdsPortal.WebApi.Domain.Interfaces.Repository
 {
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository.Generic;
 
     public interface ICategoriesRepository : IGenericRelationalRepository<Category>
     {

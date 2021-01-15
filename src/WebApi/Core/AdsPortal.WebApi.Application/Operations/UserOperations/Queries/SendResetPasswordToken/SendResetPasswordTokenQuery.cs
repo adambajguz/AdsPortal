@@ -6,8 +6,8 @@
     using AdsPortal.WebApi.Application.Extensions;
     using AdsPortal.WebApi.Application.Interfaces;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Jwt;
     using FluentValidation;
     using MediatR;

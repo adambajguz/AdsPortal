@@ -2,7 +2,7 @@
 {
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Persistence.Configurations;
     using AdsPortal.WebApi.Persistence.DbContext;
     using AdsPortal.WebApi.Persistence.FileStorage;

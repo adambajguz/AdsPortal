@@ -8,9 +8,9 @@
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Exceptions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Jwt;
     using Microsoft.AspNetCore.Http;
 

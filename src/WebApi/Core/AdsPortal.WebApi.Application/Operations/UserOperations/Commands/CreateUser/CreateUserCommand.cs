@@ -7,11 +7,11 @@
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Commands;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.UoW;
     using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Application.Utils;
     using AdsPortal.WebApi.Domain.EmailTemplates;
     using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Jwt;
     using AutoMapper;
     using AutoMapper.Extensions;
