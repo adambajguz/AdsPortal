@@ -10,6 +10,9 @@
             RuleFor(x => x.File).NotEmpty()
                                 .WithMessage(ValidationMessages.General.IsNullOrEmpty);
 
+            RuleFor(x => x.VirtualDirectory).NotEmpty()
+                                            .WithMessage(ValidationMessages.General.IsNullOrEmpty);
+
             When(x => !string.IsNullOrWhiteSpace(x.NewFileName), () =>
                 {
                     RuleFor(x => x.GenerateFileName).NotEqual(true)

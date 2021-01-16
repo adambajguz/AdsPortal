@@ -15,8 +15,9 @@
         public Guid? LastSavedBy { get; set; }
 
         public string FileName { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Alt { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
+        public string? Alt { get; set; } = string.Empty;
+        public string? Title { get; set; } = string.Empty;
 
         public string VirtualDirectory { get; set; } = string.Empty;
         public long PathHashCode { get; set; }

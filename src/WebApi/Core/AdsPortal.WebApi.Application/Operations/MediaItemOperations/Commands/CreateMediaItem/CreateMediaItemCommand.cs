@@ -20,13 +20,14 @@
     {
         public IFormFile? File { get; init; }
 
-        public string? NewFileName { get; init; } = string.Empty;
+        public string? NewFileName { get; init; }
         public bool GenerateFileName { get; init; }
 
-        public string Description { get; init; } = string.Empty;
-        public string Alt { get; init; } = string.Empty;
+        public string? Description { get; init; }
+        public string? Alt { get; init; }
+        public string? Title { get; set; }
 
-        public string VirtualDirectory { get; init; } = string.Empty;
+        public string? VirtualDirectory { get; init; }
 
         public Guid? OwnerId { get; init; }
         public Roles Role { get; init; }

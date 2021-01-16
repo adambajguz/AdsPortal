@@ -41,11 +41,8 @@
         [RenderableProperty(DisplayName = "Visible to")]
         public DateTime VisibleTo { get; set; }
 
-        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromNullableGuidRenderer))]
-        public Guid? CoverImageId { get; set; }
-
-        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromStringRenderer))]
-        public string? CoverImagePath { get; init; }
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromFileResponseRenderer))]
+        public FileResponse? CoverImage { get; init; }
 
         [RenderableProperty(DisplayName = "Category")]
         public Guid CategoryId { get; set; }

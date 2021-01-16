@@ -1,0 +1,10 @@
+﻿@inherits PropertyRenderer<FileResponse?>
+
+@inject IOptions<ApplicationConfiguration> ApplicationConfiguration
+
+<td>
+    <span>@PropertySchema.DisplayName</span>
+
+    <img id="i-@Value?.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{Value?.Path}")" alt="@Value?.Alt" />
+</td>
+
