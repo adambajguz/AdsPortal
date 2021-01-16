@@ -2,17 +2,17 @@
 
 @inject IMagicRenderService RenderService
 
-@if (BasePath is not null && Path is not null)
+@if (BasePath is not null && Path is not null && PanelPath is not null)
 {
-    @RenderService.RenderOperation(BasePath, Path)
+    @RenderService.RenderOperation(BasePath, Path, PanelPath)
 }
-else if (Path is not null)
+else if (Path is not null && PanelPath is not null)
 {
-    @RenderService.RenderOperation(Path)
+    @RenderService.RenderOperation(Path, PanelPath)
 }
 else
 {
-    throw new MagicOperations.Extensions.MagicOperationsException($"{nameof(BasePath)} and {nameof(Path)} cannot both be set to null");
+    throw new MagicOperations.Extensions.MagicOperationsException($"{nameof(BasePath)}, {nameof(Path)} and {nameof(PanelPath)} cannot be set to null");
 }
 
 @code {
@@ -21,4 +21,7 @@ else
 
     [Parameter]
     public string? Path { get; init; }
+
+    [Parameter]
+    public string? PanelPath { get; init; }
 }

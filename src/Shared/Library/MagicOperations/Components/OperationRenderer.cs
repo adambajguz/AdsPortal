@@ -15,6 +15,9 @@
         public string BasePath { get; init; } = string.Empty;
 
         [Parameter]
+        public string PanelPath { get; init; } = string.Empty;
+
+        [Parameter]
         public TOperation OperationModel { get; init; } = default!;
         object IOperationRenderer.OperationModel => OperationModel!;
 
@@ -32,14 +35,14 @@
         {
             string v = OperationSchema.Group.GetRouteToOperation(OperationSchema.BaseOperationRenderer, arguments);
 
-            return string.IsNullOrWhiteSpace(BasePath) ? v : $"{BasePath}/{v}";
+            return string.IsNullOrWhiteSpace(PanelPath) ? v : $"{PanelPath}/{v}";
         }
 
         public string GetRouteToRealtedOperation(Type operationType, IReadOnlyDictionary<string, string>? arguments = null)
         {
             string v = OperationSchema.Group.GetRouteToOperation(operationType, arguments);
 
-            return string.IsNullOrWhiteSpace(BasePath) ? v : $"{BasePath}/{v}";
+            return string.IsNullOrWhiteSpace(PanelPath) ? v : $"{PanelPath}/{v}";
         }
     }
 }

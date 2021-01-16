@@ -40,17 +40,17 @@
                 path = argsFallback ?? string.Empty;
             }
 
-            return RenderOperation(basePath, path);
+            return RenderOperation(basePath, path, basePath ?? string.Empty);
         }
 
-        public RenderFragment RenderOperation(string path)
+        public RenderFragment RenderOperation(string path, string panelPath)
         {
             string basePath = _navigationManager.GetCurrentPageUri().TrimStart('/');
 
-            return RenderOperation(basePath, path);
+            return RenderOperation(basePath, path, panelPath);
         }
 
-        public RenderFragment RenderOperation(string? basePath, string path)
+        public RenderFragment RenderOperation(string? basePath, string path, string panelPath)
         {
             path = path.TrimStart(basePath ?? string.Empty, StringComparison.InvariantCulture)
                        .TrimStart('/');
@@ -86,8 +86,9 @@
                         builder.OpenComponent(0, operationRendererType);
                         builder.AddAttribute(1, nameof(OperationRenderer<object, object>.IsBasePath), isBasePath);
                         builder.AddAttribute(2, nameof(OperationRenderer<object, object>.BasePath), basePath ?? string.Empty);
-                        builder.AddAttribute(3, nameof(OperationRenderer<object, object>.OperationModel), model);
-                        builder.AddAttribute(4, nameof(OperationRenderer<object, object>.OperationSchema), schema);
+                        builder.AddAttribute(3, nameof(OperationRenderer<object, object>.PanelPath), panelPath);
+                        builder.AddAttribute(4, nameof(OperationRenderer<object, object>.OperationModel), model);
+                        builder.AddAttribute(5, nameof(OperationRenderer<object, object>.OperationSchema), schema);
                         builder.CloseComponent();
                     };
                 }
