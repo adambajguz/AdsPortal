@@ -9,6 +9,7 @@ namespace MagicOperations.Components.OperationRenderers
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
+
             await GetPagedAsync();
         }
 

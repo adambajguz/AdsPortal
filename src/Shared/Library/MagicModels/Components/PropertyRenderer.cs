@@ -31,17 +31,13 @@
 
         object? IPropertyRenderer.Value => Value;
 
-        [Parameter]
-        public object Model { get; init; } = default!;
+        [Parameter] public object Model { get; init; } = default!;
 
-        [Parameter]
-        public object? Context { get; init; }
+        [Parameter] public object? Context { get; init; }
 
-        [Parameter]
-        public RenderablePropertySchema PropertySchema { get; init; } = default!;
+        [Parameter] public RenderablePropertySchema PropertySchema { get; init; } = default!;
 
-        [Parameter]
-        public bool IsWrite { get; init; }
+        [Parameter] public bool IsWrite { get; init; }
 
         [Inject] private ILogger<PropertyRenderer<T>> Logger { get; init; } = default!;
 

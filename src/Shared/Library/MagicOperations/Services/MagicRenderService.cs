@@ -85,8 +85,8 @@
                     };
                 }
 
-                _logger.LogDebug("Unknown route {Route}.", path);
-                return RenderError($"Unknown route {path}.");
+                _logger.LogDebug("Unknown route: {Route}.", path);
+                return RenderError($"Unknown route '{path}'.");
             }
             catch (ArgumentBinderException ex)
             {

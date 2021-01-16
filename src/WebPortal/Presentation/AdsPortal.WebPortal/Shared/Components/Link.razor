@@ -15,7 +15,7 @@
 }
 else
 {
-    <NavLink href="@(string.IsNullOrWhiteSpace(href) ? string.Empty : href)" ActiveClass="active text-primary" Match="NavLinkMatch.Prefix">
+    <NavLinkExtended href="@(string.IsNullOrWhiteSpace(href) ? string.Empty : href)" ActiveClass="active text-primary" Match="NavLinkExtendedMatch.Path">
         @if (IsHtmlTitle)
         {
             @((MarkupString)(Title ?? string.Empty))
@@ -24,21 +24,17 @@ else
         {
             @(Title ?? string.Empty)
         }
-    </NavLink>
+    </NavLinkExtended>
 }
 
 @code
 {
-    [Parameter]
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "This is link href parameter.")]
-    public string? href { get; init; }
+    [Parameter] public string? href { get; init; }
 
-    [Parameter]
-    public string? Title { get; init; }
+    [Parameter] public string? Title { get; init; }
 
-    [Parameter]
-    public bool IsExternal { get; init; }
+    [Parameter] public bool IsExternal { get; init; }
 
-    [Parameter]
-    public bool IsHtmlTitle { get; init; }
+    [Parameter] public bool IsHtmlTitle { get; init; }
 }

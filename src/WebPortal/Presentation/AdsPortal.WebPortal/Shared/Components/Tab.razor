@@ -4,18 +4,14 @@
 
 @code
 {
-    [CascadingParameter]
-    private TabContainer? Parent { get; init; }
+    [CascadingParameter] private TabContainer? Parent { get; init; }
 
-    [Parameter]
-    public RenderFragment? TabContent { get; init; }
+    [Parameter] public RenderFragment? TabContent { get; init; }
 
-    [Parameter]
-    public RenderFragment? ChildContent { get; init; }
+    [Parameter] public RenderFragment? ChildContent { get; init; }
 
 
-    [Parameter]
-    public string Text { get; init; } = string.Empty;
+    [Parameter] public string Text { get; init; } = string.Empty;
 
     protected override void OnInitialized()
     {

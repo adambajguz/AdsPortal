@@ -4,7 +4,6 @@
 
     public abstract class OperationErrorRenderer : ComponentBase
     {
-        [Parameter]
-        public string? Message { get; init; }
+        [Parameter] public string? Message { get; init; }
     }
 }

@@ -7,11 +7,9 @@
 
     public abstract class OperationRenderer<TOperation, TResponse> : ComponentBase, IOperationRenderer
     {
-        [Parameter]
-        public OperationContext Context { get; init; } = default!;
+        [Parameter] public OperationContext Context { get; init; } = default!;
 
-        [Parameter]
-        public TOperation OperationModel { get; init; } = default!;
+        [Parameter] public TOperation OperationModel { get; init; } = default!;
         object IOperationRenderer.OperationModel => OperationModel!;
 
         public object? ErrorModel { get; protected set; }

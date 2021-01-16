@@ -5,6 +5,7 @@
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Shared.Components.PropertyRenderers;
     using MagicModels.Attributes;
+    using MagicModels.Components.TablePropertyRenderers;
     using MagicOperations.Attributes;
 
     [OperationGroup(OperationGroups.Category)]
@@ -41,8 +42,10 @@
     [RenderableClass]
     public class CategoryAdvertisementsDetails
     {
+        [RenderableProperty(DisplayName = "Actions", Order = int.MaxValue, Renderer = typeof(TableManagementControlsRenderer))]
         public Guid Id { get; set; }
 
+        [RenderableProperty(Renderer = typeof(TableStringRenderer))]
         public string Title { get; set; } = string.Empty;
     }
 }

@@ -46,8 +46,7 @@
         /// Gets or sets the CSS class name applied to the NavLink when the
         /// current route matches the NavLink href.
         /// </summary>
-        [Parameter]
-        public string? ActiveClass { get; init; }
+        [Parameter] public string? ActiveClass { get; init; }
 
         /// <summary>
         /// Gets or sets a collection of additional attributes that will be added to the generated
@@ -64,14 +63,12 @@
         /// <summary>
         /// Gets or sets the child content of the component.
         /// </summary>
-        [Parameter]
-        public RenderFragment? ChildContent { get; init; }
+        [Parameter] public RenderFragment? ChildContent { get; init; }
 
         /// <summary>
         /// Gets or sets a value representing the URL matching behavior.
         /// </summary>
-        [Parameter]
-        public NavLinkExtendedMatch Match { get; init; }
+        [Parameter] public NavLinkExtendedMatch Match { get; init; }
 
         [Inject] private NavigationManager NavigationManger { get; init; } = default!;
 

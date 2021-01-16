@@ -10,12 +10,13 @@
         {
             await base.OnParametersSetAsync();
 
-            StateHasChanged();
             await GetAllAsync();
         }
 
         public async Task GetAllAsync()
         {
+            ResponseModel = default;
+
             try
             {
                 ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);

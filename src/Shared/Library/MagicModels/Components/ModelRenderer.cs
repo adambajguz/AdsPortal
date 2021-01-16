@@ -9,17 +9,13 @@
     public abstract class ModelRenderer<TModel> : ComponentBase
         where TModel : notnull
     {
-        [Parameter]
-        public object? Context { get; init; }
+        [Parameter] public object? Context { get; init; }
 
-        [Parameter]
-        public TModel Model { get; init; } = default!;
+        [Parameter] public TModel Model { get; init; } = default!;
 
-        [Parameter]
-        public RenderableClassSchema Schema { get; init; } = default!;
+        [Parameter] public RenderableClassSchema Schema { get; init; } = default!;
 
-        [Parameter]
-        public bool IsWrite { get; init; } = default!;
+        [Parameter] public bool IsWrite { get; init; } = default!;
 
         [Inject] protected MagicModelsConfiguration Configuration { get; init; } = default!;
 

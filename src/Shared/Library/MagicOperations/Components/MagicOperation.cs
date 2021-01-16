@@ -13,12 +13,13 @@
         [Inject] private IMagicRenderService RenderService { get; init; } = default!;
         [Inject] private NavigationManager NavManager { get; init; } = default!;
 
-        [Parameter]
-        public string? Path { get; set; }
+        [Parameter] public string? Path { get; set; }
+        private string? CallLocation { get; set; }
 
         protected override void OnParametersSet()
         {
             NavManager.LocationChanged += LocationChanged;
+            CallLocation = NavManager.GetCurrentPageUri();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -36,8 +37,11 @@
 
         private async void LocationChanged(object? sender, LocationChangedEventArgs args)
         {
-            Path = NavManager.GetCurrentPageUriWithQuery();
-            await InvokeAsync(StateHasChanged);
+            if (CallLocation != NavManager.GetCurrentPageUri())
+            {
+                Path = NavManager.GetCurrentPageUriWithQuery();
+                await InvokeAsync(StateHasChanged);
+            }
         }
 
         public ValueTask DisposeAsync()
