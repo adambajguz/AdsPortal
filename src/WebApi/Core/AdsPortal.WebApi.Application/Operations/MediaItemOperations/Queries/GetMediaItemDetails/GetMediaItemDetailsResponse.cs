@@ -22,7 +22,6 @@
 
         public string VirtualDirectory { get; init; } = string.Empty;
 
-        //public byte[]? Data { get; init; }
         public string Hash { get; init; } = string.Empty;
         public long ByteSize { get; init; }
 

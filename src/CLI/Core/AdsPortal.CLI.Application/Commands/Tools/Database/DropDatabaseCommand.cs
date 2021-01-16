@@ -32,13 +32,13 @@
             {
                 CancellationToken cancellationToken = console.GetCancellationToken();
 
-                using (SqlConnection connection = new (ConnectionString))
+                using (SqlConnection connection = new(ConnectionString))
                 {
                     bool dbExists = await CheckDatabaseExists(connection, cancellationToken);
 
                     if (dbExists)
                     {
-                        using (SqlCommand command = new ($"ALTER DATABASE [{DatabaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{DatabaseName}];", connection))
+                        using (SqlCommand command = new($"ALTER DATABASE [{DatabaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{DatabaseName}];", connection))
                         {
                             await connection.OpenAsync(cancellationToken);
                             await command.ExecuteNonQueryAsync(cancellationToken);
@@ -62,7 +62,7 @@
 
         private async Task<bool> CheckDatabaseExists(SqlConnection connection, CancellationToken cancellationToken = default)
         {
-            using (SqlCommand command = new ($"SELECT database_id FROM sys.databases WHERE Name = '{DatabaseName}';", connection))
+            using (SqlCommand command = new($"SELECT database_id FROM sys.databases WHERE Name = '{DatabaseName}';", connection))
             {
                 await connection.OpenAsync(cancellationToken);
                 object? result = await command.ExecuteScalarAsync(cancellationToken);

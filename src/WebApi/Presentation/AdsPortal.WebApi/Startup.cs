@@ -77,7 +77,7 @@ namespace AdsPortal.WebApi
 
             services.AddMvc()
                     .AddMvcSerializer();
-                    //.AddValidation();
+            //.AddValidation();
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();

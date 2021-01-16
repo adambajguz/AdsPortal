@@ -61,7 +61,9 @@
             GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByPathCommand { Path = decodedMediaPath });
 
             if (download)
+            {
                 return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+            }
 
             return File(response.Data ?? Array.Empty<byte>(), response.ContentType);
         }
@@ -79,7 +81,9 @@
             GetMediaItemFileResponse response = await Mediator.Send(new GetMediaItemFileByIdCommand { Id = id });
 
             if (download)
+            {
                 return File(response.Data ?? Array.Empty<byte>(), response.ContentType, response.FileName);
+            }
 
             return File(response.Data ?? Array.Empty<byte>(), response.ContentType);
         }
@@ -127,7 +131,9 @@
             GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByPathCommand { Path = decodedMediaPath });
 
             if (download)
+            {
                 return File(response.FileByteContent, response.ContentType, response.FileName);
+            }
 
             return File(response.FileByteContent, response.ContentType);
         }
@@ -145,7 +151,9 @@
             GetMediaItemChecksumResponse response = await Mediator.Send(new GetMediaItemChecksumFileByIdCommand { Id = id });
 
             if (download)
+            {
                 return File(response.FileByteContent, response.ContentType, response.FileName);
+            }
 
             return File(response.FileByteContent, response.ContentType);
         }

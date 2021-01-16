@@ -11,6 +11,7 @@
     using AdsPortal.WebApi.Persistence.Extensions;
     using AdsPortal.WebApi.Persistence.FileStorage;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
     using AdsPortal.WebApi.Persistence.Repository;
     using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Persistence.UoW;
@@ -29,11 +30,12 @@
             services.AddConfiguration(configuration, out RelationalDbConfiguration relationalDbConfiguration);
 
             services.AddDbContext<RelationalDbContext>(options => options.UseSqlServer(relationalDbConfiguration.ConnectionString))
-                    .AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
-
-            services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
+                    .AddScoped<IRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>())
+                    .AddScoped<IGenericRelationalDbContext>(c => c.GetRequiredService<RelationalDbContext>());
 
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();
+
+            services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
 
             services.AddRepository<Advertisement, IAdvertisementsRepository, AdvertisementsRepository>();
             services.AddRepository<Category, ICategoriesRepository, CategoriesRepository>();

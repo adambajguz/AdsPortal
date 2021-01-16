@@ -22,12 +22,15 @@
         public DateTime VisibleTo { get; init; }
 
         public Guid? CoverImageId { get; init; }
+        public string? CoverImagePath { get; init; }
+
         public Guid CategoryId { get; init; }
         public Guid AuthorId { get; init; }
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {
-            configuration.CreateMap<Advertisement, GetAdvertisementDetailsResponse>();
+            configuration.CreateMap<Advertisement, GetAdvertisementDetailsResponse>()
+                         .ForMember(dest => dest.CoverImagePath, opt => opt.MapFrom(src => src.CoverImage == null ? null : src.CoverImage.VirtualDirectory + "/" + src.CoverImage.FileName));
         }
     }
 }

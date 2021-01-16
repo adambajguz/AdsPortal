@@ -2,7 +2,6 @@ namespace AdsPortal.WebApi.Persistence.UoW.Generic
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Interfaces.Identity;

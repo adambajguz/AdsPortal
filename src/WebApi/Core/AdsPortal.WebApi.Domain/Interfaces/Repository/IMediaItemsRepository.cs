@@ -12,6 +12,7 @@
     public interface IMediaItemsRepository : IGenericRelationalRepository<MediaItem>
     {
         Task<MediaItemAccessConstraintsModel> GetConstraintsAsync(Guid id, CancellationToken cancellationToken);
+        Task<byte[]?> GetFileData(Guid id, CancellationToken cancellationToken);
 
         #region ByteSize Statistics
         Task<long> GetTotalByteSizeAsync(CancellationToken cancellationToken = default);

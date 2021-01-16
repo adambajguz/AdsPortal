@@ -17,7 +17,6 @@
 
     public class MediaItemsRepository : GenericRelationalRepository<MediaItem>, IMediaItemsRepository
     {
-        //TODO: maybe do not force user to manualy inject di services
         public MediaItemsRepository(ICurrentUserService currentUserService,
                                     IRelationalDbContext context,
                                     IMapper mapper) : base(currentUserService, context, mapper)
@@ -30,6 +29,11 @@
             MediaItemAccessConstraintsModel constraints = await ProjectedSingleByIdAsync<MediaItemAccessConstraintsModel>(id, true, cancellationToken);
 
             return constraints;
+        }
+
+        public async Task<byte[]?> GetFileData(Guid id, CancellationToken cancellationToken)
+        {
+            return await DbSet.Where(x => x.Id == id).Select(x => x.Data).FirstOrDefaultAsync(cancellationToken);
         }
 
         #region ByteSize Statistics

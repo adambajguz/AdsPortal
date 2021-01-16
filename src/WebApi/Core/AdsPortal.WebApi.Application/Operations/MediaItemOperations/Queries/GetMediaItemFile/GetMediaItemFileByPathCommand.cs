@@ -1,7 +1,9 @@
 namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemFile
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
@@ -15,7 +17,6 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
     public sealed record GetMediaItemFileByPathCommand : IGetDetailsQuery<GetMediaItemFileResponse>
     {
         public string Path { get; init; } = string.Empty;
-
 
         private sealed class Handler : GetDetailsQueryHandler<GetMediaItemFileByPathCommand, MediaItem, GetMediaItemFileResponse>
         {
@@ -45,7 +46,8 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
             protected override async ValueTask<GetMediaItemFileResponse> OnFetched(GetMediaItemFileResponse response, CancellationToken cancellationToken)
             {
-                MediaItemAccessConstraintsModel constraints = await Uow.MediaItems.GetConstraintsAsync(response.Id, cancellationToken);
+                Guid id = response.Id;
+                MediaItemAccessConstraintsModel constraints = await Uow.MediaItems.GetConstraintsAsync(id, cancellationToken);
 
                 if (constraints.OwnerId != null)
                 {
@@ -54,7 +56,23 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
                 _drs.HasRoleElseThrow(constraints.Role);
 
-                return response;
+                byte[]? fileContent = await _ifs.GetFileAsync("MediaItemCache", id, "file", cancellationToken);
+                byte[]? hashContent = await _ifs.GetFileAsync("MediaItemCache", id, "sha515", cancellationToken);
+
+                if (fileContent is null || hashContent.AsString() != response.Hash)
+                {
+                    fileContent = await Uow.MediaItems.GetFileData(id, cancellationToken);
+
+                    if (fileContent is not null)
+                    {
+                        await _ifs.SaveFileAsync("MediaItemCache", id, "file", response.ContentType, fileContent, cancellationToken);
+
+                        hashContent = response.Hash.AsByteArray();
+                        await _ifs.SaveFileAsync("MediaItemCache", id, "sha515", response.ContentType, hashContent, cancellationToken);
+                    }
+                }
+
+                return response with { Data = fileContent };
             }
         }
     }

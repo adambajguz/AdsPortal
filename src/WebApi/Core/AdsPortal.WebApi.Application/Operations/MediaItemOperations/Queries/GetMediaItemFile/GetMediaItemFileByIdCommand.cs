@@ -1,8 +1,10 @@
 namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemFile
 {
     using System;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
@@ -34,32 +36,32 @@ namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.Ge
 
                 if (constraints.OwnerId != null)
                 {
-                   await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(constraints, x => x.OwnerId);
+                    await _drs.IsOwnerOrCreatorOrAdminElseThrowAsync(constraints, x => x.OwnerId);
                 }
 
                 _drs.HasRoleElseThrow(constraints.Role);
             }
 
-            protected override async ValueTask<GetMediaItemFileResponse> OnFetch(CancellationToken cancellationToken)
+            protected override async ValueTask<GetMediaItemFileResponse> OnFetched(GetMediaItemFileResponse response, CancellationToken cancellationToken)
             {
-                byte[]? fileContent = await _ifs.GetFileAsync("MediaItemCache", Query.Id, "file", cancellationToken);
+                Guid id = response.Id;
+                byte[]? fileContent = await _ifs.GetFileAsync("MediaItemCache", id, "file", cancellationToken);
+                byte[]? hashContent = await _ifs.GetFileAsync("MediaItemCache", id, "sha515", cancellationToken);
 
-                var mediaItem = await base.OnFetch(cancellationToken);
-
-                if (fileContent is not null)
+                if (fileContent is null || hashContent.AsString() != response.Hash)
                 {
-                    mediaItem = mediaItem with { Data = fileContent };
-                }
-                else if (mediaItem.Data is not null)
-                {
-                    await _ifs.SaveFileAsync("MediaItemCache", Query.Id, "file", mediaItem.ContentType, mediaItem.Data, cancellationToken);
+                    fileContent = await Uow.MediaItems.GetFileData(id, cancellationToken);
+
+                    if (fileContent is not null)
+                    {
+                        await _ifs.SaveFileAsync("MediaItemCache", id, "file", response.ContentType, fileContent, cancellationToken);
+
+                        hashContent = response.Hash.AsByteArray();
+                        await _ifs.SaveFileAsync("MediaItemCache", id, "sha515", response.ContentType, hashContent, cancellationToken);
+                    }
                 }
 
-                //TODO: table splitting or explicit select without Data
-                //https://entityframeworkcore.com/knowledge-base/49470417/ef-core-2-0---2-1---------------------
-                //https://github.com/dotnet/efcore/issues/11708
-
-                return mediaItem;
+                return response with { Data = fileContent };
             }
         }
     }

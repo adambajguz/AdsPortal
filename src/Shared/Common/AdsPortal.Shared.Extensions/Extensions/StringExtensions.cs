@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Text;
 
     public static class StringExtensions
     {
@@ -87,6 +88,16 @@
             }
 
             return source.Substring(0, count);
+        }
+
+        public static byte[] AsByteArray(this string? str)
+        {
+            return str is string s ? Encoding.UTF8.GetBytes(s) : Array.Empty<byte>();
+        }
+
+        public static string? AsString(this byte[]? array)
+        {
+            return array is byte[] b ? Encoding.UTF8.GetString(b) : null;
         }
     }
 }
