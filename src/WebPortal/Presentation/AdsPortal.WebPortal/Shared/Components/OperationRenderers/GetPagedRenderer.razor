@@ -29,17 +29,17 @@ else
     {
         if (info.CurrentPageNumber > 0)
         {
-            <NavLink href="@(GetPageRoute(info, 0))" @onclick="() => ChangePage(query, 0)"><i class="fas fa-angle-double-left"></i> First page</NavLink>
+            <NavLink href="@(GetPageRoute(info, 0))"><i class="fas fa-angle-double-left"></i> First page</NavLink>
             <span> </span>
-            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, -1)))" @onclick="() => ChangePage(query, CalculatePageNumber(info, -1))"><i class="fas fa-angle-left"></i> Previous page</NavLink>
+            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, -1)))"><i class="fas fa-angle-left"></i> Previous page</NavLink>
         }
         <span> [@query.Page / @info.LastPage] </span>
 
         if (info.CurrentPageNumber < info.LastPage)
         {
-            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, 1)))" @onclick="() => ChangePage(query, CalculatePageNumber(info, 1))">Next page <i class="fas fa-angle-right"></i></NavLink>
+            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, 1)))">Next page <i class="fas fa-angle-right"></i></NavLink>
             <span> </span>
-            <NavLink href="@(GetPageRoute(info, info.LastPage))" @onclick="() => ChangePage(query, info.LastPage)">Last page <i class="fas fa-angle-double-right"></i></NavLink>
+            <NavLink href="@(GetPageRoute(info, info.LastPage))">Last page <i class="fas fa-angle-double-right"></i></NavLink>
         }
     }
 }
@@ -53,11 +53,6 @@ else
         string route = GetRouteToThisOperation(args);
 
         return route;
-    }
-
-    private void ChangePage(GetPagedListQuery query, int page)
-    {
-        query.Page = page;
     }
 
     private int CalculatePageNumber(IPagedListResult info, int modifier)

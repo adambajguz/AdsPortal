@@ -44,10 +44,19 @@
                 int i = 0;
 
                 builder.OpenComponent(i++, operationRendererType);
+
                 builder.AddAttribute(i++, nameof(ModelRenderer<object>.Context), context);
+                builder.SetUpdatesAttributeName(nameof(ModelRenderer<object>.Context));
+
                 builder.AddAttribute(i++, nameof(ModelRenderer<object>.Model), model);
+                builder.SetUpdatesAttributeName(nameof(ModelRenderer<object>.Model));
+
                 builder.AddAttribute(i++, nameof(ModelRenderer<object>.Schema), schema);
+                builder.SetUpdatesAttributeName(nameof(ModelRenderer<object>.Schema));
+
                 builder.AddAttribute(i++, nameof(ModelRenderer<object>.IsWrite), isWrite);
+                builder.SetUpdatesAttributeName(nameof(ModelRenderer<object>.IsWrite));
+
                 builder.CloseComponent();
             };
         }

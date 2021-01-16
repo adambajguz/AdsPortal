@@ -74,8 +74,13 @@
                     return (builder) =>
                     {
                         builder.OpenComponent(0, operationRendererType);
+
                         builder.AddAttribute(1, nameof(OperationRenderer<object, object>.Context), operationContext);
+                        builder.SetUpdatesAttributeName(nameof(OperationRenderer<object, object>.Context));
+
                         builder.AddAttribute(2, nameof(OperationRenderer<object, object>.OperationModel), model);
+                        builder.SetUpdatesAttributeName(nameof(OperationRenderer<object, object>.OperationModel));
+
                         builder.CloseComponent();
                     };
                 }
