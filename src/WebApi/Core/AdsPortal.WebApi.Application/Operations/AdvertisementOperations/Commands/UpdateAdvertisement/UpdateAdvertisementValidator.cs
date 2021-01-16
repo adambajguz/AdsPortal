@@ -1,6 +1,5 @@
 ﻿namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.UpdateAdvertisement
 {
-    using System;
     using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 

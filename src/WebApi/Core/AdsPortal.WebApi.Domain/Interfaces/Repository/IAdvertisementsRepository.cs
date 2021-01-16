@@ -8,9 +8,9 @@
 
     public interface IAdvertisementsRepository : IGenericRelationalRepository<Advertisement>
     {
-        public Task<List<Advertisement>> AllAsync_WithRelated(bool noTracking = false,
-                                                              int? skip = null,
-                                                              int? take = null,
-                                                              CancellationToken cancellationToken = default);
+        public Task<List<Advertisement>> AllAsyncWithAllRelated(bool noTracking = false,
+                                                                int? skip = null,
+                                                                int? take = null,
+                                                                CancellationToken cancellationToken = default);
     }
 }

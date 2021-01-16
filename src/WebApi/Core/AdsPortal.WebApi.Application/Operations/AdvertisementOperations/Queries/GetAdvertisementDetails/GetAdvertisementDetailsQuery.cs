@@ -4,6 +4,7 @@ namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Querie
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries;
+    using AdsPortal.WebApi.Application.Interfaces.Identity;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AutoMapper;
@@ -16,9 +17,11 @@ namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Querie
 
         private sealed class Handler : GetDetailsByIdQueryHandler<GetAdvertisementDetailsQuery, Advertisement, GetAdvertisementDetailsResponse>
         {
-            public Handler(IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
-            {
+            private readonly IDataRightsService _drs;
 
+            public Handler(IDataRightsService drs, IAppRelationalUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+            {
+                _drs = drs;
             }
 
             protected override async ValueTask<GetAdvertisementDetailsResponse> OnFetch(CancellationToken cancellationToken)
@@ -28,6 +31,13 @@ namespace AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Querie
                                                                                                              cancellationToken,
                                                                                                              x => x.Category,
                                                                                                              x => x.Author);
+            }
+
+            protected override async ValueTask<GetAdvertisementDetailsResponse> OnFetched(GetAdvertisementDetailsResponse response, CancellationToken cancellationToken)
+            {
+                await _drs.IsOwnerOrAdminElseThrowAsync(response.AuthorId);
+
+                return response;
             }
         }
     }

@@ -21,7 +21,6 @@ namespace AdsPortal.WebApi
     using AdsPortal.WebApi.Persistence.DbContext;
     using AdsPortal.WebApi.Rest;
     using AdsPortal.WebApi.SpecialPages.Core;
-    using FluentValidation;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
@@ -51,11 +50,6 @@ namespace AdsPortal.WebApi
 
             Environment = environment;
             Configuration = configuration;
-
-            ValidatorOptions.Global.LanguageManager.Enabled = false;
-            //ValidatorOptions.LanguageManager.Culture = new CultureInfo("en");
-
-            logger.LogInformation("FluentValidation's support for localization disabled. Default English messages are forced to be used, regardless of the thread's CurrentUICulture.");
         }
 
         // This method gets called by the runtime. Use it to add services to the container.
@@ -76,8 +70,8 @@ namespace AdsPortal.WebApi
                     .AddGrpcApi();
 
             services.AddMvc()
-                    .AddMvcSerializer();
-            //.AddValidation();
+                    .AddMvcSerializer()
+                    .AddValidation();
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();
@@ -159,20 +153,30 @@ namespace AdsPortal.WebApi
             {
                 using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {
-                    IJobSchedulingService x = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
+                    IJobSchedulingService schedulingService = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
 
-                    for (int p = 1; p <= 2; ++p)
+                    for (int priority = 1; priority <= 2; ++priority)
                     {
                         for (int i = 0; i < 300; ++i)
                         {
                             if ((i + 1) % 100 == 0)
                             {
-                                Logger.LogInformation("Added {Count} jobs with priority {Priority}", i + 1, p);
+                                Logger.LogInformation("Added {Count} jobs with priority {Priority}", i + 1, priority);
                             }
 
-                            x.ScheduleAsync<TestJob>(priority: p).Wait();
+                            schedulingService.ScheduleAsync<TestJob>(priority: priority).Wait();
                         }
                     }
+                }
+            }
+
+            if (true)
+            {
+                using (IServiceScope scope = app.ApplicationServices.CreateScope())
+                {
+                    IJobSchedulingService schedulingService = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
+
+                    schedulingService.ScheduleAsync<AdvertisementExpirationNotificationSenderJob>().Wait();
                 }
             }
         }

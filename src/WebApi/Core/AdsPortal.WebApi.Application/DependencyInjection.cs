@@ -29,8 +29,8 @@
                     typeof(Domain.DependencyInjection).Assembly
                 });
 
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient<TestJob>();
+            services.AddTransient<AdvertisementExpirationNotificationSenderJob>();
             services.AddTransient<SendEmailJob>();
 
             return services;

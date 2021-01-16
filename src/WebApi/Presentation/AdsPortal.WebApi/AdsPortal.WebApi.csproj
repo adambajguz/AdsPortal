@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="EmailTemplates\AdvertisementAboutToExpireEmail.cshtml" />
     <Content Remove="EmailTemplates\AdvertisementPublished.cshtml" />
   </ItemGroup>
 

@@ -62,7 +62,9 @@
                 }
 
                 if (advertisement.IsPublished != Command.IsPublished && Command.IsPublished)
+                {
                     WillBePublished = true; //TODO: add OnBeforeMapped
+                }
             }
 
             protected override async ValueTask OnUpdated(Advertisement entity, CancellationToken cancellationToken)

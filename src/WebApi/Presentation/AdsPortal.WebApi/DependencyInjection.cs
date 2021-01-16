@@ -127,11 +127,17 @@
 
         public static IMvcBuilder AddValidation(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.AddFluentValidation(c => c.RegisterValidatorsFromAssemblies(new Assembly[]
+            mvcBuilder.AddFluentValidation(cfg =>
+            {
+                cfg.AutomaticValidationEnabled = false;
+                cfg.LocalizationEnabled = false;
+
+                cfg.RegisterValidatorsFromAssemblies(new Assembly[]
                 {
                     typeof(Application.DependencyInjection).GetTypeInfo().Assembly,
                     typeof(Domain.DependencyInjection).GetTypeInfo().Assembly
-                }));
+                });
+            });
 
             return mvcBuilder;
         }

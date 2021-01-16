@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -56,7 +55,7 @@
             catch (Exception ex)
             {
                 // Throw a more descriptive message containing the name of the assembly.
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Unable to load types from assembly {0}. {1}", assembly.FullName, ex.Message), ex);
+                throw new InvalidOperationException($"Unable to load types from assembly {assembly.FullName}. {ex.Message}", ex);
             }
         }
 

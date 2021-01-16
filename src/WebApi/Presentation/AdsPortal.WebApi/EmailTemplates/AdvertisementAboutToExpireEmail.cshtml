@@ -1,0 +1,6 @@
+﻿@model AdsPortal.WebApi.Domain.EmailTemplates.AdvertisementAboutToExpireEmail
+
+Hi @Model.UserName,
+<br />
+<br />
+Your Ad entitled <b>@Model.AdvertisementTitle</b> published on AdsPortal will expire in less tha a day (<i>@Model.AdvertisementVisibleTo.ToUniversalTime().ToLongDateString() @Model.AdvertisementVisibleTo.ToUniversalTime().ToLongTimeString()</i>)

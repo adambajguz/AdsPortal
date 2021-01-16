@@ -20,7 +20,7 @@
 
         }
 
-        public async Task<List<Advertisement>> AllAsync_WithRelated(bool noTracking = false,
+        public async Task<List<Advertisement>> AllAsyncWithAllRelated(bool noTracking = false,
                                                                     int? skip = null,
                                                                     int? take = null,
                                                                     CancellationToken cancellationToken = default)
