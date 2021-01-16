@@ -1,7 +1,6 @@
 namespace AdsPortal.WebApi.Application.Operations.MediaItemOperations.Queries.GetMediaItemFile
 {
     using System;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.Shared.Extensions.Extensions;

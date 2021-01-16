@@ -4,7 +4,7 @@
 @inject IMediaService MediaService
 
 <td>
-    <img id="i-@MediaDetails?.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{Value}")" alt="@MediaDetails?.Alt" />
+    <img id="i-@MediaDetails?.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{Value}")" alt="@MediaDetails?.Alt" title="@MediaDetails?.Title" />
 </td>
 
 @code

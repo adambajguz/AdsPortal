@@ -8,7 +8,7 @@
 
     @if (MediaDetails is not null)
     {
-        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}")" alt="@MediaDetails.Alt" />
+        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}")" alt="@MediaDetails.Alt" title="@MediaDetails.Title" />
     }
 </p>
 

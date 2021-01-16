@@ -6,7 +6,7 @@
 <td>
     @if (MediaDetails is not null)
     {
-        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}/{MediaDetails.FileName}")" alt="@MediaDetails.Alt" />
+        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}/{MediaDetails.FileName}")" alt="@MediaDetails.Alt" title="@MediaDetails.Title" />
     }
 </td>
 

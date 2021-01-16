@@ -14,6 +14,7 @@
 
         public string FileName { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
+        public string Title { get; init; } = string.Empty;
         public string Alt { get; init; } = string.Empty;
 
         public string VirtualDirectory { get; init; } = string.Empty;
