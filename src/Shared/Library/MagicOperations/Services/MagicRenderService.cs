@@ -19,9 +19,9 @@
         private ILogger _logger { get; init; } = default!;
 
         public MagicRenderService(NavigationManager navigationManager,
-                                      MagicOperationsConfiguration configuration,
-                                      IOperationModelFactory operationModelFactory,
-                                      ILogger<MagicRenderService> logger)
+                                  MagicOperationsConfiguration configuration,
+                                  IOperationModelFactory operationModelFactory,
+                                  ILogger<MagicRenderService> logger)
         {
             _navigationManager = navigationManager;
             _configuration = configuration;
@@ -29,22 +29,10 @@
             _logger = logger;
         }
 
-        public RenderFragment RenderOperationRouter(string? argsFallback)
+        public RenderFragment RenderOperation(string? path = null)
         {
-            string path = _navigationManager.GetCurrentPageUriWithQuery()
-                                            .TrimStart(_configuration.PanelPath, StringComparison.InvariantCulture)
-                                            .TrimStart('/');
+            path ??= string.Empty;
 
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                path = argsFallback ?? string.Empty;
-            }
-
-            return RenderOperation(path);
-        }
-
-        public RenderFragment RenderOperation(string path)
-        {
             string currentPath = _navigationManager.GetCurrentPageUri();
             bool isPanelPath = currentPath.StartsWith(_configuration.PanelPath, StringComparison.InvariantCulture);
 
