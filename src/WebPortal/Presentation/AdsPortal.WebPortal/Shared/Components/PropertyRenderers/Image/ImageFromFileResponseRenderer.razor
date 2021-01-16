@@ -3,8 +3,6 @@
 @inject IOptions<ApplicationConfiguration> ApplicationConfiguration
 
 <td>
-    <span>@PropertySchema.DisplayName</span>
-
     @if (Value is not null)
     {
         <img id="i-@Value.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{Value.Path}")" alt="@Value.Alt" title="@Value.Title" />
