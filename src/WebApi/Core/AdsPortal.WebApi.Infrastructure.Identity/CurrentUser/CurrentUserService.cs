@@ -26,7 +26,11 @@ namespace AdsPortal.WebApi.Infrastructure.Identity.CurrentUser
          * The CurrentUserService class that comes with the template I'm using tried to read the user claims in the constructor, so it did not work.
          */
 
-        public Guid? UserId => IsAuthenticated ? GetUserIdFromContext(_context) : null;
+        public Guid? Id => IsAuthenticated ? GetUserIdFromContext(_context) : null;
+        public string? Email => IsAuthenticated ? GetUserEmailFromContext(_context) : null;
+        public string? Name => IsAuthenticated ? GetUserNameFromContext(_context) : null;
+        public string? Surname => IsAuthenticated ? GetUserSurnameFromContext(_context) : null;
+
         public bool IsAuthenticated => _context?.User?.Identity?.IsAuthenticated ?? false;
         public bool IsAdmin => IsAuthenticated && HasRole(Roles.Admin);
 
@@ -70,17 +74,36 @@ namespace AdsPortal.WebApi.Infrastructure.Identity.CurrentUser
             return roles ?? Array.Empty<string>();
         }
 
-        public static Guid? GetUserIdFromContext(IHttpContextAccessor context)
-        {
-            return GetUserIdFromContext(context.HttpContext);
-        }
-
         public static Guid? GetUserIdFromContext(HttpContext? context)
         {
             ClaimsIdentity? identity = context?.User?.Identity as ClaimsIdentity;
             Claim? claim = identity?.FindFirst(ClaimTypes.NameIdentifier);
 
             return claim == null ? null : (Guid?)Guid.Parse(claim.Value);
+        }
+
+        public static string? GetUserEmailFromContext(HttpContext? context)
+        {
+            ClaimsIdentity? identity = context?.User?.Identity as ClaimsIdentity;
+            Claim? claim = identity?.FindFirst(ClaimTypes.Email);
+
+            return claim?.Value;
+        }
+
+        public static string? GetUserNameFromContext(HttpContext? context)
+        {
+            ClaimsIdentity? identity = context?.User?.Identity as ClaimsIdentity;
+            Claim? claim = identity?.FindFirst(ClaimTypes.Name);
+
+            return claim?.Value;
+        }
+
+        public static string? GetUserSurnameFromContext(HttpContext? context)
+        {
+            ClaimsIdentity? identity = context?.User?.Identity as ClaimsIdentity;
+            Claim? claim = identity?.FindFirst(ClaimTypes.Surname);
+
+            return claim?.Value;
         }
     }
 }

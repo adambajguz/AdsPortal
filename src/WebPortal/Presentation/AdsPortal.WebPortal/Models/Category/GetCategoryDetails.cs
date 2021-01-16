@@ -36,6 +36,7 @@
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
+        //TODO: add linked operation / model / model context
         public IList<CategoryAdvertisementsDetails> Advertisements { get; set; } = default!;
     }
 

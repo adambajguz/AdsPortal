@@ -5,7 +5,11 @@
 
     public interface ICurrentUserService
     {
-        public Guid? UserId { get; }
+        public Guid? Id { get; }
+        string? Email { get; }
+        string? Name { get; }
+        string? Surname { get; }
+
         public bool IsAuthenticated { get; }
         public bool IsAdmin { get; }
 

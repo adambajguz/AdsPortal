@@ -58,6 +58,8 @@
 
             ClaimsIdentity claims = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Surname, user.Surname),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), user.Id.GetType().Name),
                 });
@@ -150,6 +152,30 @@
             Guid userId = Guid.Parse(claim?.Value!);
 
             return userId;
+        }
+
+        public string GetUserEmailFromToken(string token)
+        {
+            JwtSecurityToken secToken = _handler.ReadJwtToken(token);
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("emailaddress") || x.Type.Equals(ClaimTypes.Email));
+
+            return claim?.Value ?? string.Empty;
+        }
+
+        public string GetUserNameFromToken(string token)
+        {
+            JwtSecurityToken secToken = _handler.ReadJwtToken(token);
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("name") || x.Type.Equals(ClaimTypes.Name));
+
+            return claim?.Value ?? string.Empty;
+        }
+
+        public string GetUserSurnameFromToken(string token)
+        {
+            JwtSecurityToken secToken = _handler.ReadJwtToken(token);
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("surname") || x.Type.Equals(ClaimTypes.Surname));
+
+            return claim?.Value ?? string.Empty;
         }
 
         public bool IsRoleInToken(string? token, Roles role)

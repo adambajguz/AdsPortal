@@ -267,6 +267,24 @@
 
             return await DbSet.AnyAsync(filter, cancellationToken);
         }
+
+        public async Task ExistsElseThrowAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default)
+        {
+            bool exists;
+            if (filter is null)
+            {
+                exists = await DbSet.AnyAsync(cancellationToken);
+            }
+            else
+            {
+                exists = await DbSet.AnyAsync(filter, cancellationToken);
+            }
+
+            if (!exists)
+            {
+                throw new NotFoundException(EntityName);
+            }
+        }
         #endregion
 
         #region IGenericRelationalReadOnlyRepository
@@ -312,6 +330,27 @@
         public async Task<bool> ExistsAsync(CancellationToken cancellationToken = default)
         {
             return await DbSet.AnyAsync(cancellationToken);
+        }
+
+        public async Task ExistsElseThrowAsync(CancellationToken cancellationToken = default)
+        {
+            if (!await DbSet.AnyAsync(cancellationToken))
+            {
+                throw new NotFoundException(EntityName);
+            }
+        }
+
+        public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await DbSet.AnyAsync(x => x.Id == id, cancellationToken);
+        }
+
+        public async Task ExistsByIdElseThrowAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (!await DbSet.AnyAsync(x => x.Id == id, cancellationToken))
+            {
+                throw new NotFoundException(EntityName, id);
+            }
         }
         #endregion
 

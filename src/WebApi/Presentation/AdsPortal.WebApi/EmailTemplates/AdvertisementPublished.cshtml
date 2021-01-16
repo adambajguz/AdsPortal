@@ -1,0 +1,6 @@
+﻿@model AdsPortal.WebApi.Domain.EmailTemplates.AdvertisementPublishedEmail
+
+Hi @Model.UserName,
+<br />
+<br />
+Your Ad entitled <b>@Model.AdvertisementTitle</b> was published on AdsPortal and will be visible to <i>@Model.AdvertisementVisibleTo.ToUniversalTime().ToLongDateString() @Model.AdvertisementVisibleTo.ToUniversalTime().ToLongTimeString()</i>

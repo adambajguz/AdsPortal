@@ -94,7 +94,7 @@
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetCurrentUserDetails([FromServices] ICurrentUserService currentUser)
         {
-            Guid userId = currentUser.UserId ?? throw new ForbiddenException();
+            Guid userId = currentUser.Id ?? throw new ForbiddenException();
 
             return Ok(await Mediator.Send(new GetUserDetailsQuery { Id = userId }));
         }

@@ -27,7 +27,7 @@
         public virtual TEntity Add(TEntity entity)
         {
             DateTime time = DateTime.UtcNow;
-            Guid? userGuid = _currentUser.UserId;
+            Guid? userGuid = _currentUser.Id;
 
             if (entity is IEntityCreation entityCreation)
             {
@@ -61,7 +61,7 @@
             if (entity is IEntityLastSaved entityModification)
             {
                 entityModification.LastSavedOn = DateTime.UtcNow;
-                entityModification.LastSavedBy = _currentUser.UserId;
+                entityModification.LastSavedBy = _currentUser.Id;
             }
 
             //Entity may not be tracked so we need to check that
@@ -97,7 +97,7 @@
             entities.ForEachInParallel((entity) =>
             {
                 DateTime time = DateTime.UtcNow;
-                Guid? userGuid = _currentUser.UserId;
+                Guid? userGuid = _currentUser.Id;
 
                 if (entity is IEntityCreation entityCreation)
                 {
@@ -130,7 +130,7 @@
                 if (entity is IEntityLastSaved entityModification)
                 {
                     entityModification.LastSavedOn = DateTime.UtcNow;
-                    entityModification.LastSavedBy = _currentUser.UserId;
+                    entityModification.LastSavedBy = _currentUser.Id;
                 }
 
                 Update(entity);

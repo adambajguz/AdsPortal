@@ -8,9 +8,7 @@
 
     public interface IDataRightsService
     {
-        public Guid? UserId { get; }
-        public bool IsAuthenticated { get; }
-        public bool IsAdmin { get; }
+        ICurrentUserService CurrentUser { get; }
 
         bool HasRole(Roles role);
         string[] GetRoles();

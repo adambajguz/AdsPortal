@@ -23,6 +23,9 @@
 
         Task<int> GetCountAsync(CancellationToken cancellationToken = default);
         Task<bool> ExistsAsync(CancellationToken cancellationToken = default);
+        Task ExistsElseThrowAsync(CancellationToken cancellationToken = default);
+        Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task ExistsByIdElseThrowAsync(Guid id, CancellationToken cancellationToken = default);
 
         #region ProjectTo
         Task<T> ProjectedSingleAsync<T>(Expression<Func<T, bool>>? filter = null,
@@ -101,6 +104,7 @@
 
         Task<int> GetCountAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default);
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default);
+        Task ExistsElseThrowAsync(Expression<Func<TEntity, bool>>? filter = null, CancellationToken cancellationToken = default);
 
         #region ProjectTo
         Task<T> ProjectedSingleAsync<T>(Expression<Func<TEntity, bool>> preFilter,

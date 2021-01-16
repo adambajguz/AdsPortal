@@ -10,6 +10,8 @@
         Guid? CreatedBy { get; }
 
         string Email { get; }
+        string Name { get; }
+        string Surname { get; }
 
         Roles Role { get; }
         bool IsActive { get; }

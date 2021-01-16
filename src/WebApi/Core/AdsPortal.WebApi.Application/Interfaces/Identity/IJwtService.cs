@@ -13,6 +13,10 @@
         bool IsTokenStringValid(string? token);
 
         Guid GetUserIdFromToken(string token);
+        string GetUserEmailFromToken(string token);
+        string GetUserNameFromToken(string token);
+        string GetUserSurnameFromToken(string token);
+
         bool IsRoleInToken(string? token, Roles role);
         bool IsAnyOfRolesInToken(string? token, Roles roles);
     }

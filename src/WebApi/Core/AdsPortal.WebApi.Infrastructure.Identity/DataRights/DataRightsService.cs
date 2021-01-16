@@ -16,29 +16,26 @@
 
     public class DataRightsService : IDataRightsService
     {
-        public Guid? UserId => _currentUser.UserId;
-        public bool IsAuthenticated => _currentUser.IsAuthenticated;
-        public bool IsAdmin => _currentUser.IsAdmin;
+        public ICurrentUserService CurrentUser { get; }
 
         private readonly IHttpContextAccessor _context;
-        private readonly ICurrentUserService _currentUser;
         private readonly IAppRelationalUnitOfWork _uow;
 
         public DataRightsService(IHttpContextAccessor context, ICurrentUserService currentUserService, IAppRelationalUnitOfWork uow)
         {
             _context = context;
-            _currentUser = currentUserService;
+            CurrentUser = currentUserService;
             _uow = uow;
         }
 
         public bool HasRole(Roles role)
         {
-            return _currentUser.HasRole(role);
+            return CurrentUser.HasRole(role);
         }
 
         public string[] GetRoles()
         {
-            return _currentUser.GetRoles();
+            return CurrentUser.GetRoles();
         }
 
         public async Task IsOwnerOrCreatorOrAdminElseThrowAsync<T>(T? model, Expression<Func<T, Guid?>> userIdFieldExpression)
@@ -65,9 +62,9 @@
 
         public async Task IsOwnerOrAdminElseThrowAsync(Guid userIdToValidate)
         {
-            Guid userId = _currentUser.UserId ?? throw new ForbiddenException();
+            Guid userId = CurrentUser.Id ?? throw new ForbiddenException();
 
-            if (!_currentUser.IsAdmin && userIdToValidate != userId)
+            if (!CurrentUser.IsAdmin && userIdToValidate != userId)
             {
                 throw new ForbiddenException();
             }
