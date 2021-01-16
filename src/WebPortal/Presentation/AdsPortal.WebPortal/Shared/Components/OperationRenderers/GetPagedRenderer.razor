@@ -25,42 +25,48 @@ else
 {
     <MagicModel Model="ResponseModel" Context="this" />
 
-    if (ResponseModel is IPagedListResult info && info.LastPage != 0)
+    if (OperationModel is GetPagedListQuery query && ResponseModel is IPagedListResult info && info.LastPage != 0)
     {
-        <p>@info.EntiresPerPage</p>
-
         if (info.CurrentPageNumber > 0)
         {
-            <NavLink class="button" href="@(GetPageRoute(info, -1))">Previous page</NavLink>
+            <NavLink href="@(GetPageRoute(info, 0))" @onclick="() => ChangePage(query, 0)"><i class="fas fa-angle-double-left"></i> First page</NavLink>
+            <span> </span>
+            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, -1)))" @onclick="() => ChangePage(query, CalculatePageNumber(info, -1))"><i class="fas fa-angle-left"></i> Previous page</NavLink>
         }
+        <span> [@query.Page / @info.LastPage] </span>
 
         if (info.CurrentPageNumber < info.LastPage)
         {
-            <NavLink class="button" href="@(GetPageRoute(info, 1))">Next page</NavLink>
+            <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, 1)))" @onclick="() => ChangePage(query, CalculatePageNumber(info, 1))">Next page <i class="fas fa-angle-right"></i></NavLink>
+            <span> </span>
+            <NavLink href="@(GetPageRoute(info, info.LastPage))" @onclick="() => ChangePage(query, info.LastPage)">Last page <i class="fas fa-angle-double-right"></i></NavLink>
         }
     }
 }
 
 @code
 {
-    private string GetPageRoute(IPagedListResult info, int modifier)
+    private string GetPageRoute(IPagedListResult info, int page)
     {
-        int p = info.CurrentPageNumber + modifier;
-
-        if (p > info.LastPage)
-            p = info.LastPage;
-
-        if (p < 0)
-            p = 0;
-
-        Dictionary<string, string> args = new()
-        {
-                { nameof(GetPagedListQuery.EntiresPerPage), info.EntiresPerPage.ToString() },
-                { nameof(GetPagedListQuery.Page), p.ToString() }
-            };
+        Dictionary<string, string> args = new() { { nameof(GetPagedListQuery.EntiresPerPage), info.EntiresPerPage.ToString() }, { nameof(GetPagedListQuery.Page), page.ToString() } };
 
         string route = GetRouteToThisOperation(args);
 
         return route;
+    }
+
+    private void ChangePage(GetPagedListQuery query, int page)
+    {
+        query.Page = page;
+    }
+
+    private int CalculatePageNumber(IPagedListResult info, int modifier)
+    {
+        int p = info.CurrentPageNumber + modifier;
+
+        if (p > info.LastPage)
+            return info.LastPage;
+
+        return p < 0 ? 0 : p;
     }
 }

@@ -15,7 +15,7 @@
 }
 else
 {
-    <NavLinkExtended href="@(string.IsNullOrWhiteSpace(href) ? string.Empty : href)" ActiveClass="active text-primary" Match="NavLinkExtendedMatch.Path">
+    <NavLink href="@(string.IsNullOrWhiteSpace(href) ? string.Empty : href)" ActiveClass="active text-primary" Match="NavLinkMatch.Prefix">
         @if (IsHtmlTitle)
         {
             @((MarkupString)(Title ?? string.Empty))
@@ -24,7 +24,7 @@ else
         {
             @(Title ?? string.Empty)
         }
-    </NavLinkExtended>
+    </NavLink>
 }
 
 @code

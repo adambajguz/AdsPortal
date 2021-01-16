@@ -23,13 +23,14 @@
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            builder.AddContent(0, RenderService.RenderOperation(Path));
+            RenderFragment fragment = RenderService.RenderOperation(Path);
+            builder.AddContent(0, fragment);
         }
 
-        private void LocationChanged(object? sender, LocationChangedEventArgs args)
+        private async void LocationChanged(object? sender, LocationChangedEventArgs args)
         {
             Path = NavManager.GetCurrentPageUriWithQuery();
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         public ValueTask DisposeAsync()

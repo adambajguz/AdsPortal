@@ -7,8 +7,6 @@
 
     public abstract class OperationRenderer<TOperation, TResponse> : ComponentBase, IOperationRenderer
     {
-
-
         [Parameter]
         public OperationContext Context { get; init; } = default!;
 

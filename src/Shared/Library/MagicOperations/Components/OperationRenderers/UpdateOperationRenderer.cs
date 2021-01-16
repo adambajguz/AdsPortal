@@ -11,10 +11,11 @@
 
         protected event EventHandler? OnUpdated;
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            await base.OnInitializedAsync();
+            await base.OnParametersSetAsync();
 
+            StateHasChanged();
             await GetAsync();
         }
 

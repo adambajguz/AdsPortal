@@ -6,10 +6,11 @@
     public abstract class DetailsOperationRenderer<TOperation, TResponse> : OperationRenderer<TOperation, TResponse>
         where TOperation : notnull
     {
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            await base.OnInitializedAsync();
+            await base.OnParametersSetAsync();
 
+            StateHasChanged();
             await GetAsync();
         }
 

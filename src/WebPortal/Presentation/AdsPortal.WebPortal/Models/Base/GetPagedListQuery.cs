@@ -4,9 +4,9 @@
 
     public abstract class GetPagedListQuery
     {
-        public int Page { get; init; }
+        public int Page { get; set; }
 
         [RenderableProperty(DisplayName = "Entires per page")]
-        public int EntiresPerPage { get; init; }
+        public int EntiresPerPage { get; set; }
     }
 }
