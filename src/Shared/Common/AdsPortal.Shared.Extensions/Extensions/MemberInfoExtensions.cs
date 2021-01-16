@@ -12,7 +12,7 @@
         // A static generic class ConcurrentDictionary for attributes caching
         private static class Attributes<T> where T : Attribute
         {
-            private static readonly ConcurrentDictionary<MemberInfo, T[]> _cache = new ConcurrentDictionary<MemberInfo, T[]>();
+            private static readonly ConcurrentDictionary<MemberInfo, T[]> _cache = new();
 
             public static T[] Get(MemberInfo member)
             {

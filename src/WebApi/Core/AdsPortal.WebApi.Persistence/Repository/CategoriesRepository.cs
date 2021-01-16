@@ -15,8 +15,8 @@
     {
         //TODO: maybe do not force user to manualy inject di services
         public CategoriesRepository(ICurrentUserService currentUserService,
-                                   IRelationalDbContext context,
-                                   IMapper mapper) : base(currentUserService, context, mapper)
+                                    IRelationalDbContext context,
+                                    IMapper mapper) : base(currentUserService, context, mapper)
         {
 
         }

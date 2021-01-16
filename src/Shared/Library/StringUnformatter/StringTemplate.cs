@@ -47,7 +47,7 @@
                 {
                     if (i - sliceStart != 0)
                     {
-                        string tmp = new string(span[sliceStart..i]);
+                        string tmp = new(span[sliceStart..i]);
 
                         if (string.IsNullOrWhiteSpace(tmp))
                         {
@@ -67,7 +67,7 @@
                         throw new FormatException($"String template '{template}' is invalid. Template cannot contain two or more subsequent parameters.");
                     }
 
-                    string tmp = new string(span[sliceStart..i]);
+                    string tmp = new(span[sliceStart..i]);
 
                     if (string.IsNullOrWhiteSpace(tmp))
                     {
@@ -88,7 +88,7 @@
 
             if (span.Length != sliceStart)
             {
-                string tmp = new string(span[sliceStart..]);
+                string tmp = new(span[sliceStart..]);
 
                 if (string.IsNullOrWhiteSpace(tmp))
                 {

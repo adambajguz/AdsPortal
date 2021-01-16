@@ -1,12 +1,18 @@
 ﻿namespace AdsPortal.WebApi.Persistence
 {
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence;
     using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
+    using AdsPortal.WebApi.Domain.Entities;
+    using AdsPortal.WebApi.Domain.Interfaces.Repository;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Persistence.Configurations;
     using AdsPortal.WebApi.Persistence.DbContext;
+    using AdsPortal.WebApi.Persistence.Extensions;
     using AdsPortal.WebApi.Persistence.FileStorage;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
+    using AdsPortal.WebApi.Persistence.Repository;
+    using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Persistence.UoW;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -27,6 +33,15 @@
 
             services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
 
+            services.AddTransient<IRepositoryFactory, RepositoryFactory>();
+
+            services.AddRepository<Advertisement, IAdvertisementsRepository, AdvertisementsRepository>();
+            services.AddRepository<Category, ICategoriesRepository, CategoriesRepository>();
+            services.AddRepository<EntityAuditLog, IEntityAuditLogsRepository, EntityAuditLogsRepository>();
+            services.AddRepository<Job, IJobsRepository, JobsRepository>();
+            services.AddRepository<MediaItem, IMediaItemsRepository, MediaItemsRepository>();
+            services.AddRepository<User, IUsersRepository, UsersRepository>();
+
             return services;
         }
 
@@ -36,6 +51,5 @@
 
             return healthChecksBuilder;
         }
-
     }
 }

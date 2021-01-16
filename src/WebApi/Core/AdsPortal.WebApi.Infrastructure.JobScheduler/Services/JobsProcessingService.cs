@@ -21,8 +21,8 @@
     {
         private bool _everTicked;
         private int _processing = 0;
-        private readonly SemaphoreSlim _sync = new SemaphoreSlim(1, 1);
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        private readonly SemaphoreSlim _sync = new(1, 1);
+        private readonly CancellationTokenSource _cts = new();
 
         private TTimer? Timer { get; set; }
 

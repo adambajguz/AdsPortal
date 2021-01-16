@@ -40,15 +40,15 @@
 
         public async Task<string> ParseAsync<T>(string path, T model, bool isHtml = true)
         {
-            dynamic viewBag = (model as IViewBagModel)?.ViewBag;
+            dynamic? viewBag = (model as IViewBagModel)?.ViewBag;
 
             string html = await _engine.CompileRenderAsync<T>(path, model, viewBag);
 
             if (InlineCss)
             {
-                using (var pm = new PreMailer.Net.PreMailer(html))
+                using (PreMailer.Net.PreMailer preMailer = new(html))
                 {
-                    PreMailer.Net.InlineResult result = pm.MoveCssInline(false);
+                    PreMailer.Net.InlineResult result = preMailer.MoveCssInline(false);
 
                     html = result.Html;
 

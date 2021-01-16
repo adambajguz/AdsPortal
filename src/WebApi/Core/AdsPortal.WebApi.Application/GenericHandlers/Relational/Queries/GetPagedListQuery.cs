@@ -24,7 +24,7 @@
         protected TQuery Query { get => query ?? throw new NullReferenceException("Handler not initialized properly"); private set => query = value; }
 
         protected IAppRelationalUnitOfWork Uow { get; }
-        protected IGenericRelationalRepository<TEntity> Repository { get; }
+        protected IGenericRelationalReadOnlyRepository<TEntity> Repository { get; }
 
         protected Expression<Func<TEntity, bool>>? Filter { get; set; } = null;
         protected Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy { get; set; } = null;
@@ -32,7 +32,7 @@
         protected GetPagedListQueryHandler(IAppRelationalUnitOfWork uow)
         {
             Uow = uow;
-            Repository = Uow.GetRepository<TEntity>();
+            Repository = Uow.GetReadOnlyRepository<TEntity>();
         }
 
         public sealed override async Task<PagedListResult<TResultEntry>> Handle(TQuery query, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@
 
             List<TResultEntry> list = await OnFetch(skip, entriesPerPage, total, cancellationToken);
 
-            PagedListResult<TResultEntry> response = new PagedListResult<TResultEntry>(pageNumber, query.EntiresPerPage, total, list);
+            PagedListResult<TResultEntry> response = new(pageNumber, query.EntiresPerPage, total, list);
             response = await OnFetched(response, cancellationToken);
 
             return response;

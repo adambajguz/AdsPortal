@@ -15,7 +15,7 @@
     {
         private readonly TimeSpan DEFUALT_TIMEOUT = TimeSpan.FromMinutes(3);
 
-        private readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new ConcurrentDictionary<string, SemaphoreSlim>();
+        private readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new();
 
         public IDistributedCache Provider { get; }
         public ILogger Logger { get; }

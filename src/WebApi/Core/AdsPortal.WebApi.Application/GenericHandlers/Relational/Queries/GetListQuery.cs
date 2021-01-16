@@ -24,7 +24,7 @@
         protected TQuery Query { get => query ?? throw new NullReferenceException("Handler not initialized properly"); private set => query = value; }
 
         protected IAppRelationalUnitOfWork Uow { get; }
-        protected IGenericRelationalRepository<TEntity> Repository { get; }
+        protected IGenericRelationalReadOnlyRepository<TEntity> Repository { get; }
 
         protected Expression<Func<TEntity, bool>>? Filter { get; set; } = null;
         protected Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy { get; set; } = null;
@@ -32,7 +32,7 @@
         protected GetListQueryHandler(IAppRelationalUnitOfWork uow)
         {
             Uow = uow;
-            Repository = Uow.GetRepository<TEntity>();
+            Repository = Uow.GetReadOnlyRepository<TEntity>();
         }
 
         [SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value")]

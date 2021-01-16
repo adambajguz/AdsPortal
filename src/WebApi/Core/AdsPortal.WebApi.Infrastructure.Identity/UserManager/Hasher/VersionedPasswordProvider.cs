@@ -51,7 +51,7 @@
         {
             byte[] saltPepperSteak = GetSaltPepperSteak(_lastSpecification, out Span<byte> saltSpan);
 
-            using (RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider())
+            using (RNGCryptoServiceProvider csprng = new())
             {
                 csprng.GetNonZeroBytes(saltSpan);
             }
@@ -64,7 +64,7 @@
         [MethodImpl(MethodImplOptions.NoInlining)]
         public bool ValidatePassword(string password, string saltedPassword)
         {
-            HashedPassword correctPassword = new HashedPassword(saltedPassword, _specifications);
+            HashedPassword correctPassword = new(saltedPassword, _specifications);
             HasherSpecification specification = _specifications[correctPassword.Version];
 
             byte[] saltPepperSteak = GetSaltPepperSteak(specification, out Span<byte> saltSpan);
@@ -98,7 +98,7 @@
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static byte[] PBKDF2(string password, byte[] saltPepperSteak, HasherSpecification specification)
         {
-            using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltPepperSteak, specification.Iterations, specification.Algorithm))
+            using (Rfc2898DeriveBytes pbkdf2 = new(password, saltPepperSteak, specification.Iterations, specification.Algorithm))
             {
                 int outputBytes = specification.HashByteSize;
                 return pbkdf2.GetBytes(outputBytes);

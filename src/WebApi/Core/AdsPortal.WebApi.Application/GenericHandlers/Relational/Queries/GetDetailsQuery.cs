@@ -21,13 +21,13 @@ namespace AdsPortal.WebApi.Application.GenericHandlers.Relational.Queries
         protected TQuery Query { get => query ?? throw new NullReferenceException("Handler not initialized properly"); private set => query = value; }
 
         protected IAppRelationalUnitOfWork Uow { get; }
-        protected IGenericRelationalRepository<TEntity> Repository { get; }
+        protected IGenericRelationalReadOnlyRepository<TEntity> Repository { get; }
         protected IMapper Mapper { get; }
 
         protected GetDetailsQueryHandler(IAppRelationalUnitOfWork uow, IMapper mapper)
         {
             Uow = uow;
-            Repository = Uow.GetRepository<TEntity>();
+            Repository = Uow.GetReadOnlyRepository<TEntity>();
             Mapper = mapper;
         }
 

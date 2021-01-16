@@ -21,7 +21,7 @@
     public RenderFragment? ChildContent { get; init; }
 
     public Tab? Active { get; set; }
-    protected List<Tab> Tabs = new List<Tab>();
+    protected List<Tab> Tabs = new();
 
     public void AddTab(Tab tab)
     {

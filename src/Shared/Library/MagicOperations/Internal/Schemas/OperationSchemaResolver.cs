@@ -44,7 +44,7 @@ namespace MagicOperations.Internal.Schemas
 
             groupConfigurations.TryGetValue(key, out MagicOperationGroupConfiguration? groupConfiguration);
 
-            OperationGroupSchema value = new OperationGroupSchema(key, groupConfiguration?.Path, groupConfiguration?.DisplayName);
+            OperationGroupSchema value = new(key, groupConfiguration?.Path, groupConfiguration?.DisplayName);
             groups.TryAdd(key, value);
 
             return value;

@@ -1,77 +1,38 @@
-﻿namespace AdsPortal.WebApi.Persistence.UoW.Generic
+namespace AdsPortal.WebApi.Persistence.UoW.Generic
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence;
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AdsPortal.WebApi.Domain.Interfaces.Repository.Generic;
     using AdsPortal.WebApi.Domain.Interfaces.UoW.Generic;
-    using AdsPortal.WebApi.Persistence.Extensions;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext.Generic;
-    using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class GenericRelationalUnitOfWork : IGenericRelationalUnitOfWork, IDisposable
     {
-        protected ICurrentUserService CurrentUser { get; private set; }
-        protected IGenericRelationalDbContext Context { get; private set; }
+        protected IRepositoryFactory RepositoryFactory { get; }
+        protected ICurrentUserService CurrentUser { get; }
+        protected IGenericRelationalDbContext Context { get; }
         protected DbContext Provider { get; private set; }
         protected IMapper Mapper { get; private set; }
 
         public bool IsDisposed { get; private set; }
 
-        private Dictionary<Type, IGenericRelationalReadOnlyRepository> Repositories { get; } = new Dictionary<Type, IGenericRelationalReadOnlyRepository>();
-        private Dictionary<string, Type> TableNameToEntityLookup { get; } = new Dictionary<string, Type>();
+        protected ConcurrentDictionary<Type, IGenericRelationalReadOnlyRepository> Repositories { get; } = new();
 
-        protected GenericRelationalUnitOfWork(ICurrentUserService currentUserService, IGenericRelationalDbContext context, IMapper mapper)
+        protected GenericRelationalUnitOfWork(IRepositoryFactory repositoryFactory, ICurrentUserService currentUserService, IGenericRelationalDbContext context, IMapper mapper)
         {
+            RepositoryFactory = repositoryFactory;
             CurrentUser = currentUserService;
             Context = context;
-            Provider = context.Provider;// as DbContext ?? throw new InvalidCastException($"{typeof(IGenericRelationalDbContext).FullName} should be castable to {typeof(DbContext).FullName}");
+            Provider = context.Provider;
             Mapper = mapper;
-
-            TableNameToEntityLookup = BuildTableNameToEntityLookup(Provider, "*.Domain*");
-        }
-
-        private static Dictionary<string, Type> BuildTableNameToEntityLookup(DbContext dbContext, params string[] assemblyFilters)
-        {
-            Type[] exportedTypes = AssemblyExtensions.GetAllExportedTypes(assemblyFilters);
-
-            IEnumerable<Type> types = exportedTypes.Where(type => !type.IsAbstract &&
-                                                                  type.Namespace != null &&
-                                                                  !type.IsGenericTypeDefinition &&
-                                                                  typeof(IBaseRelationalEntity).IsAssignableFrom(type));
-
-            Dictionary<string, Type> tableNameToEntityLookup = new Dictionary<string, Type>();
-            foreach (Type type in types)
-            {
-                string tableName = dbContext.Model.GetTableName(type);
-
-                tableNameToEntityLookup.Add(tableName, type);
-            }
-
-            return tableNameToEntityLookup;
-        }
-
-        protected Type GetEntityTypeFromTableName(string tableName)
-        {
-            bool found = TableNameToEntityLookup.TryGetValue(tableName, out Type? type);
-            if (!found)
-            {
-                throw new ArgumentException($"Invalid table name '{tableName}'", nameof(tableName));
-            }
-
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            return type;
         }
 
         public void Dispose()
@@ -91,32 +52,15 @@
             IsDisposed = true;
         }
 
-        public IGenericRelationalRepository GetRepositoryByName(string name)
+        public IGenericRelationalReadOnlyRepository GetReadOnlyRepositoryByName(string tableName)
         {
-            Type type = GetEntityTypeFromTableName(name);
-            if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            Type repositoryType = RepositoryFactory.GetReadOnlyRepositoryType(tableName);
+
+            if (!Repositories.TryGetValue(repositoryType, out IGenericRelationalReadOnlyRepository? repository))
             {
-                return (value as IGenericRelationalRepository)!;
+                repository = RepositoryFactory.CreateReadOnlyRepository(tableName);
+                Repositories.TryAdd(repositoryType, repository);
             }
-
-            Type constructingType = typeof(GenericRelationalRepository<>).MakeGenericType(type);
-            IGenericRelationalRepository repository = (Activator.CreateInstance(constructingType, CurrentUser, Context, Mapper) as IGenericRelationalRepository)!;
-            Repositories.Add(type, repository);
-
-            return repository;
-        }
-
-        public IGenericRelationalRepository<TEntity> GetRepository<TEntity>()
-            where TEntity : class, IBaseRelationalEntity
-        {
-            Type type = typeof(IGenericRelationalRepository<TEntity>);
-            if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
-            {
-                return (value as IGenericRelationalRepository<TEntity>)!;
-            }
-
-            IGenericRelationalRepository<TEntity> repository = (Activator.CreateInstance(typeof(GenericRelationalRepository<TEntity>), CurrentUser, Context, Mapper) as IGenericRelationalRepository<TEntity>)!;
-            Repositories.Add(type, repository);
 
             return repository;
         }
@@ -124,47 +68,64 @@
         public IGenericRelationalReadOnlyRepository<TEntity> GetReadOnlyRepository<TEntity>()
             where TEntity : class, IBaseRelationalEntity
         {
-            Type type = typeof(IGenericRelationalReadOnlyRepository<TEntity>);
-            if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            Type repositoryType = RepositoryFactory.GetReadOnlyRepositoryType<TEntity>();
+
+            if (!Repositories.TryGetValue(repositoryType, out IGenericRelationalReadOnlyRepository? repository))
             {
-                return (value as IGenericRelationalReadOnlyRepository<TEntity>)!;
+                var newRepository = RepositoryFactory.CreateReadOnlyRepository<TEntity>();
+                Repositories.TryAdd(repositoryType, newRepository);
+
+                return newRepository;
             }
 
-            IGenericRelationalReadOnlyRepository<TEntity> repository = (Activator.CreateInstance(typeof(GenericReadOnlyRelationalRepository<TEntity>), CurrentUser, Context, Mapper) as IGenericRelationalReadOnlyRepository<TEntity>)!;
-            Repositories.Add(type, repository);
-
-            return repository;
+            return (IGenericRelationalReadOnlyRepository<TEntity>)repository;
         }
 
-        public IGenericRelationalReadOnlyRepository GetReadOnlyRepositoryByName(string name)
+        public IGenericRelationalRepository GetRepositoryByName(string tableName)
         {
-            Type type = GetEntityTypeFromTableName(name);
-            if (Repositories.TryGetValue(type, out IGenericRelationalReadOnlyRepository? value))
+            Type repositoryType = RepositoryFactory.GetRepositoryType(tableName);
+
+            if (!Repositories.TryGetValue(repositoryType, out IGenericRelationalReadOnlyRepository? repository))
             {
-                return value!;
+                var newRepository = RepositoryFactory.CreateRepository(tableName);
+                Repositories.TryAdd(repositoryType, newRepository);
+
+                return newRepository;
             }
 
-            Type constructingType = typeof(GenericReadOnlyRelationalRepository<>).MakeGenericType(type);
-            IGenericRelationalReadOnlyRepository repository = (Activator.CreateInstance(constructingType, CurrentUser, Context, Mapper) as IGenericRelationalReadOnlyRepository)!;
-            Repositories.Add(type, repository);
-
-            return repository;
+            return (IGenericRelationalRepository)repository;
         }
 
-        protected TSpecificRepositoryInterface GetSpecificRepository<TSpecificRepositoryInterface, TSpecificRepository>()
+        public IGenericRelationalRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IBaseRelationalEntity
+        {
+            Type repositoryType = RepositoryFactory.GetRepositoryType<TEntity>();
+
+            if (!Repositories.TryGetValue(repositoryType, out IGenericRelationalReadOnlyRepository? repository))
+            {
+                var newRepository = RepositoryFactory.CreateRepository<TEntity>();
+                Repositories.TryAdd(repositoryType, newRepository);
+
+                return newRepository;
+            }
+
+            return (IGenericRelationalRepository<TEntity>)repository;
+        }
+
+        public TSpecificRepositoryInterface GetSpecificRepository<TSpecificRepositoryInterface>()
             where TSpecificRepositoryInterface : IGenericRelationalReadOnlyRepository
-            where TSpecificRepository : class, IGenericRelationalReadOnlyRepository
         {
-            Type type = typeof(TSpecificRepositoryInterface);
-            if (Repositories.ContainsKey(type))
+            Type repositoryType = typeof(TSpecificRepositoryInterface);
+
+            if (!Repositories.TryGetValue(repositoryType, out IGenericRelationalReadOnlyRepository? repository))
             {
-                return (TSpecificRepositoryInterface)Repositories[type];
+                var newRepository = RepositoryFactory.CreateSpecificRepository<TSpecificRepositoryInterface>();
+                Repositories.TryAdd(repositoryType, newRepository);
+
+                return newRepository;
             }
 
-            TSpecificRepositoryInterface repository = (TSpecificRepositoryInterface)Activator.CreateInstance(typeof(TSpecificRepository), CurrentUser, Context, Mapper)!;
-            Repositories.Add(type, repository);
-
-            return repository;
+            return (TSpecificRepositoryInterface)repository;
         }
 
         public virtual int SaveChanges()

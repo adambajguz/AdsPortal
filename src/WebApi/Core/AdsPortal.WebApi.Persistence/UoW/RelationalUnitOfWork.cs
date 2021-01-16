@@ -2,10 +2,10 @@
 {
     using System;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.Persistence;
     using AdsPortal.WebApi.Domain.Interfaces.Repository;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Persistence.Interfaces.DbContext;
-    using AdsPortal.WebApi.Persistence.Repository;
     using AdsPortal.WebApi.Persistence.UoW.Generic;
     using AutoMapper;
 
@@ -30,21 +30,21 @@
         private readonly Lazy<IJobsRepository> _jobs;
         public IJobsRepository Jobs => _jobs.Value;
 
-        public RelationalUnitOfWork(ICurrentUserService currentUserService, IRelationalDbContext context, IMapper mapper) :
-            base(currentUserService, context, mapper)
+        public RelationalUnitOfWork(IRepositoryFactory repositoryFactory, ICurrentUserService currentUserService, IRelationalDbContext context, IMapper mapper) :
+            base(repositoryFactory, currentUserService, context, mapper)
         {
             //Data
-            _authors = new Lazy<IAdvertisementsRepository>(() => GetSpecificRepository<IAdvertisementsRepository, AdvertisementsRepository>());
-            _journals = new Lazy<ICategoriesRepository>(() => GetSpecificRepository<ICategoriesRepository, CategoriesRepository>());
+            _authors = new Lazy<IAdvertisementsRepository>(() => GetSpecificRepository<IAdvertisementsRepository>());
+            _journals = new Lazy<ICategoriesRepository>(() => GetSpecificRepository<ICategoriesRepository>());
 
             //Media
-            _mediaItems = new Lazy<IMediaItemsRepository>(() => GetSpecificRepository<IMediaItemsRepository, MediaItemsRepository>());
+            _mediaItems = new Lazy<IMediaItemsRepository>(() => GetSpecificRepository<IMediaItemsRepository>());
 
             //Identity
-            _users = new Lazy<IUsersRepository>(() => GetSpecificRepository<IUsersRepository, UsersRepository>());
+            _users = new Lazy<IUsersRepository>(() => GetSpecificRepository<IUsersRepository>());
 
             //Jobs
-            _jobs = new Lazy<IJobsRepository>(() => GetSpecificRepository<IJobsRepository, JobsRepository>());
+            _jobs = new Lazy<IJobsRepository>(() => GetSpecificRepository<IJobsRepository>());
         }
     }
 }

@@ -12,7 +12,7 @@
                 return System.Array.Empty<byte>();
             }
 
-            CerasSerializer ceras = new CerasSerializer();
+            CerasSerializer ceras = new();
 
             return ceras.Serialize(obj);
         }
@@ -25,7 +25,7 @@
                 return default;
             }
 
-            CerasSerializer ceras = new CerasSerializer();
+            CerasSerializer ceras = new();
 
             return ceras.Deserialize<T>(byteArray);
         }

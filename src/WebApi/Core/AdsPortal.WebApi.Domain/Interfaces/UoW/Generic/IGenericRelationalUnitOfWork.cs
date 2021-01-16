@@ -7,15 +7,17 @@
 
     public interface IGenericRelationalUnitOfWork
     {
-        IGenericRelationalRepository GetRepositoryByName(string name);
-
-        IGenericRelationalRepository<TEntity> GetRepository<TEntity>()
-            where TEntity : class, IBaseRelationalEntity;
-
-        IGenericRelationalReadOnlyRepository GetReadOnlyRepositoryByName(string name);
+        IGenericRelationalReadOnlyRepository GetReadOnlyRepositoryByName(string tableName);
 
         IGenericRelationalReadOnlyRepository<TEntity> GetReadOnlyRepository<TEntity>()
             where TEntity : class, IBaseRelationalEntity;
+
+        IGenericRelationalRepository GetRepositoryByName(string tableName);
+
+        IGenericRelationalRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IBaseRelationalEntity;
+        TSpecificRepositoryInterface GetSpecificRepository<TSpecificRepositoryInterface>()
+            where TSpecificRepositoryInterface : IGenericRelationalReadOnlyRepository;
 
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

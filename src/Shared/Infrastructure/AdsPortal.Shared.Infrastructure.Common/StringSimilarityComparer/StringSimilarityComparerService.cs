@@ -7,11 +7,11 @@
 
     public class StringSimilarityComparerService : IStringSimilarityComparerService
     {
-        private JaroWinkler JaroWinklerComparer { get; } = new JaroWinkler();
-        private NormalizedLevenshtein NormalizedLevenshteinComparer { get; } = new NormalizedLevenshtein();
-        private Cosine CosineComparer { get; } = new Cosine();
-        private Jaccard JaccardComparer { get; } = new Jaccard();
-        private SorensenDice SorensenDiceComparer { get; } = new SorensenDice();
+        private JaroWinkler JaroWinklerComparer { get; } = new();
+        private NormalizedLevenshtein NormalizedLevenshteinComparer { get; } = new();
+        private Cosine CosineComparer { get; } = new();
+        private Jaccard JaccardComparer { get; } = new();
+        private SorensenDice SorensenDiceComparer { get; } = new();
 
         public StringSimilarityComparerService()
         {

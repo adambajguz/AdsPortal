@@ -10,8 +10,8 @@
     public class JobsRepository : GenericRelationalRepository<Job>, IJobsRepository
     {
         public JobsRepository(ICurrentUserService currentUserService,
-                               IRelationalDbContext context,
-                               IMapper mapper) : base(currentUserService, context, mapper)
+                              IRelationalDbContext context,
+                              IMapper mapper) : base(currentUserService, context, mapper)
         {
 
         }

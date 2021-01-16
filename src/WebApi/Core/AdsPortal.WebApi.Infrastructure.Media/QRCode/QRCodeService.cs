@@ -31,7 +31,7 @@
 
         public byte[] CreateWebCode(Uri uri, int pixelsPerModule = 8)
         {
-            Url generator = new Url(uri.AbsoluteUri);
+            Url generator = new(uri.AbsoluteUri);
 
             string payload = generator.ToString();
             QRCodeData qrCodeData = QRGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
@@ -67,12 +67,13 @@
                                          bool allDayEvent = false,
                                          int pixelsPerModule = 8)
         {
-            CalendarEvent generator = new CalendarEvent(subject,
-                                                        description,
-                                                        string.Format(CultureInfo.InvariantCulture, "{0},{1}", latitude, longitude),
-                                                        start,
-                                                        end,
-                                                        allDayEvent);
+            CalendarEvent generator = new(subject,
+                                          description,
+                                          string.Format(CultureInfo.InvariantCulture, "{0},{1}", latitude, longitude),
+                                          start,
+                                          end,
+                                          allDayEvent);
+
             string payload = generator.ToString();
             QRCodeData qrCodeData = QRGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
 
@@ -81,7 +82,7 @@
 
         private static byte[] QRCodeToBitmap(int pixelsPerModule, QRCodeData qrCodeData)
         {
-            BitmapByteQRCode qrCode = new BitmapByteQRCode(qrCodeData);
+            BitmapByteQRCode qrCode = new(qrCodeData);
             byte[] qrCodeAsBitmapByteArr = qrCode.GetGraphic(pixelsPerModule);
 
             return qrCodeAsBitmapByteArr;

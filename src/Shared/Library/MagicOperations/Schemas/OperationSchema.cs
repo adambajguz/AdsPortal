@@ -114,7 +114,7 @@
                                    (arg, schema) => new OperationUriArgument(schema, arg.Value));
         }
 
-        private static readonly Regex _regex = new Regex(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
+        private static readonly Regex _regex = new(@"(?<=\{)[^}{]*(?=\})", RegexOptions.IgnoreCase);
 
         public string GetFullPathFromModel(object model)
         {
