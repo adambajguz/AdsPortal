@@ -44,6 +44,9 @@
         [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromNullableGuidRenderer))]
         public Guid? CoverImageId { get; set; }
 
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromStringRenderer))]
+        public string? CoverImagePath { get; init; }
+
         [RenderableProperty(DisplayName = "Category")]
         public Guid CategoryId { get; set; }
 

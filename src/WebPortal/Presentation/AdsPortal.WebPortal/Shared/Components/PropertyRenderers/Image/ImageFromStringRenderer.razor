@@ -1,14 +1,13 @@
-﻿@inherits PropertyRenderer<Guid?>
+﻿@inherits PropertyRenderer<string>
 
 @inject IOptions<ApplicationConfiguration> ApplicationConfiguration
 @inject IMediaService MediaService
 
-<td>
-    @if (MediaDetails is not null)
-    {
-        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}/{MediaDetails.FileName}")" alt="@MediaDetails.Alt" />
-    }
-</td>
+<p>
+    <span>@PropertySchema.DisplayName</span>
+
+    <img id="i-@MediaDetails?.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{Value}")" alt="@MediaDetails?.Alt" />
+</p>
 
 @code
 {

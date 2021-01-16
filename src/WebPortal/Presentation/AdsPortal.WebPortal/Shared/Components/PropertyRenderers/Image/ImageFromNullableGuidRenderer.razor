@@ -8,7 +8,7 @@
 
     @if (MediaDetails is not null)
     {
-        <img src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}")" alt="@MediaDetails.Alt" />
+        <img id="i-@MediaDetails.Id" src="@($"{ApplicationConfiguration.Value.ApiUrl}media/file/{MediaDetails.VirtualDirectory}")" alt="@MediaDetails.Alt" />
     }
 </p>
 
@@ -16,11 +16,10 @@
 {
     MediaItemDetails? MediaDetails { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            MediaDetails = await MediaService.GetMediaDetails(Value);
-        }
+        await base.OnInitializedAsync();
+
+        MediaDetails = await MediaService.GetMediaDetails(Value);
     }
 }

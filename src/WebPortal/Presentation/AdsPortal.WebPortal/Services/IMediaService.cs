@@ -9,5 +9,7 @@ namespace AdsPortal.WebPortal.Services
     {
         Task<MediaItemDetails?> GetMediaDetails(Guid id, CancellationToken cancellationToken = default);
         Task<MediaItemDetails?> GetMediaDetails(Guid? id, CancellationToken cancellationToken = default);
+
+        Task<MediaItemDetails?> GetMediaDetails(string? path, CancellationToken cancellationToken = default);
     }
 }
