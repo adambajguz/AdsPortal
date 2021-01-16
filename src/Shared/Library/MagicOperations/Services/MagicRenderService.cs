@@ -75,12 +75,19 @@
                         operationRendererType = operationRendererType.MakeGenericType(typeParam0, typeParam1);
                     }
 
+                    OperationContext operationContext = new()
+                    {
+                        IsPanelPath = isPanelPath,
+                        Path = path,
+                        Schema = schema,
+                        OperationRendererType = operationRendererType
+                    };
+
                     return (builder) =>
                     {
                         builder.OpenComponent(0, operationRendererType);
-                        builder.AddAttribute(1, nameof(OperationRenderer<object, object>.IsPanelPath), isPanelPath);
+                        builder.AddAttribute(1, nameof(OperationRenderer<object, object>.Context), operationContext);
                         builder.AddAttribute(2, nameof(OperationRenderer<object, object>.OperationModel), model);
-                        builder.AddAttribute(3, nameof(OperationRenderer<object, object>.OperationSchema), schema);
                         builder.CloseComponent();
                     };
                 }

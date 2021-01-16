@@ -7,7 +7,7 @@
 
 @inject NavigationManager NavigationManager
 
-<h2>@OperationSchema.DisplayName</h2>
+<h2>@Context.Schema.DisplayName</h2>
 
 @if (ErrorModel is not null)
 {
@@ -23,9 +23,9 @@ else
         return;
     }
 
-    <p>Are you sure to delete this @(OperationSchema.Group.DisplayName)?</p>
+    <p>Are you sure to delete this @(Context.Schema.Group.DisplayName)?</p>
 
-    <MagicModel Model="OperationModel" Context="this"/>
+    <MagicModel Model="OperationModel" Context="this" />
 
     <button @onclick="DeleteAsync">Delete</button>
     <button @onclick="() => NavigationManager.NavigateTo(Configuration.PanelPath)">Cancel</button>

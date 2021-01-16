@@ -9,7 +9,7 @@
     public abstract class OperationRenderer<TOperation, TResponse> : ComponentBase, IOperationRenderer
     {
         [Parameter]
-        public bool IsPanelPath { get; init; }
+        public OperationContext Context { get; init; } = default!;
 
         [Parameter]
         public TOperation OperationModel { get; init; } = default!;
@@ -19,22 +19,19 @@
         public TResponse? ResponseModel { get; protected set; }
         object? IOperationRenderer.ResponseModel => ResponseModel;
 
-        [Parameter]
-        public OperationSchema OperationSchema { get; init; } = default!;
-
         [Inject] protected IMagicApiService Api { get; init; } = default!;
         [Inject] protected MagicOperationsConfiguration Configuration { get; init; } = default!;
 
         public string GetRouteToThisOperation(IReadOnlyDictionary<string, string>? arguments = null)
         {
-            string v = OperationSchema.Group.GetRouteToOperation(OperationSchema.BaseOperationRenderer, arguments);
+            string v = Context.Schema.Group.GetRouteToOperation(Context.Schema.BaseOperationRenderer, arguments);
 
             return string.IsNullOrWhiteSpace(Configuration.PanelPath) ? v : $"{Configuration.PanelPath}/{v}";
         }
 
         public string GetRouteToRealtedOperation(Type operationType, IReadOnlyDictionary<string, string>? arguments = null)
         {
-            string v = OperationSchema.Group.GetRouteToOperation(operationType, arguments);
+            string v = Context.Schema.Group.GetRouteToOperation(operationType, arguments);
 
             return string.IsNullOrWhiteSpace(Configuration.PanelPath) ? v : $"{Configuration.PanelPath}/{v}";
         }

@@ -76,6 +76,7 @@
 
             if (schema is null)
             {
+                _logger.LogError("Invalid model. Either model is not renderable or was not registered {Type}", type);
                 throw new MagicModelsException($"Invalid model. Either model is not renderable or was not registered {type.AssemblyQualifiedName}.");
             }
 

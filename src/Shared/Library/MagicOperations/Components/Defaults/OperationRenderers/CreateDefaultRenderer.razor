@@ -5,9 +5,9 @@
 @typeparam TResponse
 @inherits CreateOperationRenderer<TOperation, TResponse>
 
-<h2>@OperationSchema.DisplayName</h2>
+<h2>@Context.Schema.DisplayName</h2>
 
-@if (IsPanelPath)
+@if (Context.IsPanelPath)
 {
     <a href="@Configuration.PanelPath">Go back</a>
 }
