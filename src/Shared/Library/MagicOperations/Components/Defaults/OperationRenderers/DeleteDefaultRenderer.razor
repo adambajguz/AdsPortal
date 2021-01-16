@@ -28,5 +28,5 @@ else
     <MagicModel Model="OperationModel" Context="this"/>
 
     <button @onclick="DeleteAsync">Delete</button>
-    <button @onclick="() => NavigationManager.NavigateTo(BasePath)">Cancel</button>
+    <button @onclick="() => NavigationManager.NavigateTo(Configuration.PanelPath)">Cancel</button>
 }

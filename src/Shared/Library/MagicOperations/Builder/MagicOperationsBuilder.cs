@@ -42,6 +42,7 @@
 
         private Type? _operationListingRenderer = typeof(DefaultOperationListingRenderer);
         private Type? _errorRenderer;
+        private string? _panelPath;
 
         /// <summary>
         /// Initializes an instance of <see cref="MagicOperationsBuilder"/>.
@@ -240,6 +241,7 @@
             }
 
             _errorRenderer ??= typeof(DefaultErrorRenderer);
+            _panelPath ??= "/panel";
 
             IReadOnlyList<Type> operationTypes = _operationTypes.Select(x => x()).ToList();
             MagicModelsConfiguration modelsConfiguration = ModelsBuilder.Build();
@@ -248,6 +250,7 @@
 
             MagicOperationsConfiguration configuration = new(modelsConfiguration,
                                                              _baseUri,
+                                                             _panelPath,
                                                              operationTypes,
                                                              resolvedOperations.Groups,
                                                              resolvedOperations.OperationTypeToSchemaMap,

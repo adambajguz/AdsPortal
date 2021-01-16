@@ -7,7 +7,11 @@
 @inject NavigationManager NavigationManager
 
 <h2>@OperationSchema.DisplayName</h2>
-<button @onclick="() => NavigationManager.NavigateTo(BasePath)">Go back</button>
+
+@if (IsPanelPath)
+{
+    <a href="@Configuration.PanelPath">Go back</a>
+}
 
 @if (ErrorModel is not null)
 {
@@ -37,7 +41,8 @@ else
     }
 }
 
-@code{
+@code
+{
     private string GetPageRoute(IPagedListResult info, int modifier)
     {
         int p = info.CurrentPageNumber + modifier;
@@ -50,9 +55,9 @@ else
 
         Dictionary<string, string> args = new()
         {
-            { nameof(GetPagedListQuery.EntiresPerPage), info.EntiresPerPage.ToString() },
-            { nameof(GetPagedListQuery.Page), p.ToString() }
-        };
+                { nameof(GetPagedListQuery.EntiresPerPage), info.EntiresPerPage.ToString() },
+                { nameof(GetPagedListQuery.Page), p.ToString() }
+            };
 
         string route = GetRouteToThisOperation(args);
 

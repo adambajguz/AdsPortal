@@ -9,9 +9,9 @@
 
 <h2>@OperationSchema.DisplayName</h2>
 
-@if (!IsBasePath)
+@if (IsPanelPath)
 {
-    <a href="@BasePath">Go back</a>
+    <a href="@Configuration.PanelPath">Go back</a>
 }
 
 @if (ErrorModel is not null)

@@ -10,6 +10,7 @@
         public MagicModelsConfiguration ModelsConfiguration { get; }
 
         public string BaseApiPath { get; }
+        public string PanelPath { get; }
 
         public IReadOnlyList<Type> OperationTypes { get; }
         public IReadOnlyDictionary<string, OperationGroupSchema> OperationGroups { get; }
@@ -22,6 +23,7 @@
 
         public MagicOperationsConfiguration(MagicModelsConfiguration modelsConfiguration,
                                             string baseApiPath,
+                                            string panelPath,
                                             IReadOnlyList<Type> operationTypes,
                                             IReadOnlyDictionary<string, OperationGroupSchema> operationGroups,
                                             IReadOnlyDictionary<Type, OperationSchema> operationTypeToSchemaMap,
@@ -31,7 +33,10 @@
 
                                             IReadOnlyDictionary<Type, Type> defaultOperationRenderers)
         {
+            ModelsConfiguration = modelsConfiguration;
+
             BaseApiPath = baseApiPath;
+            PanelPath = panelPath;
 
             OperationTypes = operationTypes;
             OperationGroups = operationGroups;

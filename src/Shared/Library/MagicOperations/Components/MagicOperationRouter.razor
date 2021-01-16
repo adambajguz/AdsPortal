@@ -2,12 +2,10 @@
 
 @inject IMagicRenderService RenderService
 
-@RenderService.RenderOperationRouter(BasePath, ArgsFallback)
+@RenderService.RenderOperationRouter(ArgsFallback)
 
-@code {
-    [Parameter]
-    public string? BasePath { get; init; }
-
+@code 
+{
     [Parameter]
     public string? ArgsFallback { get; init; }
 }

@@ -6,7 +6,6 @@
 
     public interface IOperationRenderer
     {
-        string BasePath { get; }
         object? ErrorModel { get; }
         object OperationModel { get; }
         OperationSchema OperationSchema { get; }

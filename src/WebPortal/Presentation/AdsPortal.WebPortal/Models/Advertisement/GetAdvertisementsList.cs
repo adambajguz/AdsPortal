@@ -44,7 +44,7 @@
         [RenderableProperty(Renderer = typeof(TableDateTimeRenderer))]
         public DateTime VisibleTo { get; set; }
 
-        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromFileResponseRenderer))]
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(TableImageFromFileResponseRenderer))]
         public FileResponse? CoverImage { get; init; }
 
         [RenderableProperty(DisplayName = "Category", Renderer = typeof(TableAnyRenderer<Guid>))]
