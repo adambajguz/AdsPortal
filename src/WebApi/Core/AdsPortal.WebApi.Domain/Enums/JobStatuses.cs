@@ -8,6 +8,7 @@
         Cancelled,
         TimedOut,
         Success,
-        Error
+        Error,
+        MaxRetriesReached
     }
 }

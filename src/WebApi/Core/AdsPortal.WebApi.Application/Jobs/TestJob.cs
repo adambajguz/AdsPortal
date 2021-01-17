@@ -12,12 +12,12 @@
 
         }
 
-        public async ValueTask Handle(object? args, CancellationToken cancellationToken)
+        public async ValueTask Handle(Guid jobId, object? args, CancellationToken cancellationToken)
         {
             int millisecondsDelay = 5 + new Random().Next(0, 2000);
             //Console.WriteLine($"TestJob {millisecondsDelay}");
             await Task.Delay(millisecondsDelay, cancellationToken);
-            //throw new NullReferenceException();
+            throw new NullReferenceException();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebApi.Persistence.EntityConfigurations
+namespace AdsPortal.WebApi.Persistence.EntityConfigurations
 {
     using AdsPortal.WebApi.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
@@ -18,6 +18,14 @@
             builder.HasIndex(x => x.Priority);
 
             builder.HasIndex(x => x.Status);
+
+            builder.Ignore(x => x.HasFinished);
+
+            builder.HasOne(x => x.RunAfter)
+                   .WithOne()
+                   .HasForeignKey<Job>(x => x.RunAfterId)
+                   .HasPrincipalKey<Job>(x => x.Id)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

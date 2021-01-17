@@ -18,12 +18,17 @@
         public DateTime? FinishedOn { get; set; }
         public JobStatuses Status { get; set; }
 
+        public bool HasFinished => Status == JobStatuses.TimedOut || Status == JobStatuses.Success || Status == JobStatuses.MaxRetriesReached;
+
         public Guid? Instance { get; set; }
 
         public string Operation { get; set; } = string.Empty;
         public int Priority { get; set; }
         public DateTime? PostponeTo { get; set; }
         public TimeSpan? TimeoutAfter { get; set; }
+
+        public Guid? RunAfterId { get; set; }
+        public Job? RunAfter { get; set; }
 
         public int Tries { get; set; }
 

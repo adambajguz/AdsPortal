@@ -33,7 +33,11 @@
         private readonly ILogger _logger;
 
         public Guid InstanceId { get; } = Guid.NewGuid();
-        private Guid[]? KnownInstancesIds { get; set; }
+        private Guid?[]? KnownInstancesIds { get; set; }
+
+        private static readonly JobStatuses[] JobFinishedStatuses = new[] { JobStatuses.TimedOut, JobStatuses.Success, JobStatuses.MaxRetriesReached };
+        private static readonly JobStatuses[] JobPendingStatuses = new[] { JobStatuses.Queued, JobStatuses.Cancelled, JobStatuses.Error };
+        private static readonly JobStatuses[] JobAbandonedStatuses = new[] { JobStatuses.Taken, JobStatuses.Running };
 
         public JobsProcessingHostedService(IServiceScopeFactory serviceProvider,
                                            IOptions<JobSchedulerConfiguration> configuration,
@@ -77,7 +81,7 @@
 
         private async Task CheckAndProcessJobs(CancellationToken cancellationToken)
         {
-            int maxTries = _configuration.MaxTries <= 0 ? 1 : _configuration.MaxTries;
+            int maxTries = _configuration.MaxTries <= 0 ? 10 : _configuration.MaxTries;
 
             int maxConcurent = _configuration.MaxConcurent;
             int concurentBatchSize = _configuration.ConcurentBatchSize;
@@ -99,7 +103,7 @@
                     KnownInstancesIds ??= jobScope.ServiceProvider.GetServices<IHostedService>()
                                                                   .Select(x => x as IJobsProcessingHostedService)
                                                                   .Where(x => x is not null)
-                                                                  .Select(x => x!.InstanceId)
+                                                                  .Select(x => (Guid?)x!.InstanceId)
                                                                   .ToArray();
 
                     List<Job>? queuedJobs = null;
@@ -107,12 +111,9 @@
                     //Only one task can access db
                     try
                     {
-                        queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued ||
-                                                                           x.Status == JobStatuses.Cancelled ||
-                                                                           x.Status == JobStatuses.Error ||
-                                                                           (!KnownInstancesIds.Contains(x.Instance ?? Guid.Empty) && (x.Status == JobStatuses.Taken || x.Status == JobStatuses.Running))) &&
-                                                                          x.Tries <= maxTries &&
-                                                                          (x.PostponeTo == null || x.PostponeTo <= now),
+                        queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.PostponeTo == null || x.PostponeTo <= now) &&
+                                                                          (x.RunAfterId == null || JobFinishedStatuses.Contains(x.RunAfter!.Status)) &&
+                                                                          (JobPendingStatuses.Contains(x.Status) || (!KnownInstancesIds.Contains(x.Instance) && JobAbandonedStatuses.Contains(x.Status))),
                                                              orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
                                                              take: toTake,
                                                              cancellationToken: cancellationToken);
@@ -225,7 +226,7 @@
                     try
                     {
                         object? args = _serializer.Deserialize(job.Arguments);
-                        await jobInstance.Handle(args, jobCts.Token);
+                        await jobInstance.Handle(job.Id, args, jobCts.Token);
 
                         job.Status = JobStatuses.Success;
                         _logger.LogTrace("Finished job {No} in batch {BatchId} in {InstanceId} service instance after {TryCount} tries.", job.JobNo, batchGuid, InstanceId, job.Tries);
@@ -234,6 +235,8 @@
                     {
                         bool timedOut = !_cts.IsCancellationRequested && jobCts.IsCancellationRequested;
                         job.Status = timedOut ? JobStatuses.TimedOut : JobStatuses.Cancelled;
+
+                        job.Exception += $"<{job.Tries}, {job.PostponeTo?.ToString() ?? "null"}>{{ {(timedOut ? "TimedOut" : "Cancelled")} }}";
 
                         if (timedOut)
                         {
@@ -258,6 +261,9 @@
                     finally
                     {
                         job.FinishedOn = DateTime.UtcNow;
+
+                        if (job.Tries >= _configuration.MaxTries)
+                            job.Status = JobStatuses.MaxRetriesReached;
 
                         jobUow.Jobs.Update(job);
                         await jobUow.SaveChangesAsync(CancellationToken.None);

@@ -23,7 +23,7 @@
             _logger = logger;
         }
 
-        public async ValueTask Handle(object? args, CancellationToken cancellationToken)
+        public async ValueTask Handle(Guid jobId, object? args, CancellationToken cancellationToken)
         {
             DateTime now = DateTime.UtcNow;
             DateTime maxVisibleTo = now.AddDays(1);
@@ -58,7 +58,10 @@
 
             await _uow.SaveChangesAsync(cancellationToken);
 
-            await _jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(priority: 10, postponeTo: DateTime.UtcNow.AddMinutes(5), cancellationToken: cancellationToken);
+            await _jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(priority: 10,
+                                                                                                   postponeTo: DateTime.UtcNow.AddMinutes(5),
+                                                                                                   runAfter: jobId,
+                                                                                                   cancellationToken: cancellationToken);
         }
     }
 }

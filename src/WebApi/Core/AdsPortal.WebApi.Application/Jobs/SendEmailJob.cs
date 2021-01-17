@@ -1,5 +1,6 @@
 ﻿namespace AdsPortal.WebApi.Application.Jobs
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
@@ -21,7 +22,7 @@
             _emailSender = emailSender;
         }
 
-        public async ValueTask Handle(object? args, CancellationToken cancellationToken)
+        public async ValueTask Handle(Guid jobId, object? args, CancellationToken cancellationToken)
         {
             if (args is SendEmailJobArguments emailArgs && emailArgs.Email is not null && emailArgs.Template is not null)
             {

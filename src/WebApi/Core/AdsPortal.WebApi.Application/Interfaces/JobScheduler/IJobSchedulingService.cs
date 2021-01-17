@@ -13,6 +13,7 @@
                            int priority = 0,
                            DateTime? postponeTo = null,
                            TimeSpan? timeoutAfter = null,
+                           Guid? runAfter = null,
                            object? operationArguments = null,
                            CancellationToken cancellationToken = default);
 
@@ -22,6 +23,7 @@
         Task ScheduleAsync<T>(int priority = 0,
                               DateTime? postponeTo = null,
                               TimeSpan? timeoutAfter = null,
+                              Guid? runAfter = null,
                               object? operationArguments = null,
                               CancellationToken cancellationToken = default)
             where T : class, IJob;
@@ -33,6 +35,7 @@
                                        int priority = 0,
                                        DateTime? postponeTo = null,
                                        TimeSpan? timeoutAfter = null,
+                                       Guid? runAfter = null,
                                        object? operationArguments = null,
                                        CancellationToken cancellationToken = default);
 
@@ -42,6 +45,7 @@
         Task<bool> ScheduleSingleAsync<T>(int priority = 0,
                                           DateTime? postponeTo = null,
                                           TimeSpan? timeoutAfter = null,
+                                          Guid? runAfter = null,
                                           object? operationArguments = null,
                                           CancellationToken cancellationToken = default)
             where T : class, IJob;

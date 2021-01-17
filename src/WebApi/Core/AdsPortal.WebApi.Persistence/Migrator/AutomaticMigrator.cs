@@ -50,14 +50,16 @@
                 IEnumerable<string> initialMigrations = _relationalDbContext.Database.GetMigrations();
                 _logger.LogInformation("Database will be created and {Count} migration(s) will be applied: {PendingMigrations}", initialMigrations.Count(), initialMigrations);
 
-                if (await TryMigrate())
+                try
                 {
-                    _logger.LogInformation("Database created and all migration were applied.");
+                    await _relationalDbContext.Database.MigrateAsync();
                 }
-                else
+                catch (Exception ex)
                 {
-                    _logger.LogInformation("Database creation failed. Application will shutdown.");
+                    _logger.LogCritical(ex, "Database creation failed. Application will shutdown.");
                     _lifetime.StopApplication();
+
+                    throw;
                 }
             }
             else
@@ -69,34 +71,22 @@
 
                 if (count > 0)
                 {
-                    if (await TryMigrate())
+                    try
                     {
-                        _logger.LogInformation("All pending migrations were applied.");
+                        await _relationalDbContext.Database.MigrateAsync();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        _logger.LogInformation("Database migration failed. Application will shutdown.");
+                        _logger.LogCritical(ex, "Database migration failed. Application will shutdown.");
                         _lifetime.StopApplication();
+
+                        throw;
                     }
                 }
                 else
                 {
                     _logger.LogInformation("Database up-to-date.");
                 }
-            }
-        }
-
-        private async Task<bool> TryMigrate()
-        {
-            try
-            {
-                await _relationalDbContext.Database.MigrateAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, "Failed to migrate database.");
-                return false;
             }
         }
 

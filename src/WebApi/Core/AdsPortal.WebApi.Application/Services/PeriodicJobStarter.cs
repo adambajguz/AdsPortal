@@ -29,7 +29,7 @@
             using (IServiceScope scope = _serviceScopeFactory.CreateScope())
             {
                 IJobSchedulingService jobScheduling = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
-                await jobScheduling.ScheduleAsync<AdvertisementExpirationNotificationSenderJob>(priority: 10, cancellationToken: cancellationToken);
+                await jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(priority: 10, cancellationToken: cancellationToken);
             }
 
             _logger.LogInformation("Finished {Name} hosted service", nameof(PeriodicJobStarter));
