@@ -5,11 +5,9 @@ namespace AdsPortal.WebApi
     using System.Net.Mime;
     using System.Reflection;
     using System.Threading.Tasks;
+    using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.Shared.Extensions.Logging;
     using AdsPortal.WebApi.Application;
-    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
-    using AdsPortal.WebApi.Application.Interfaces.Persistence.FileStorage;
-    using AdsPortal.WebApi.Application.Jobs;
     using AdsPortal.WebApi.Exceptions.Handler;
     using AdsPortal.WebApi.Grpc;
     using AdsPortal.WebApi.Infrastructure;
@@ -18,8 +16,8 @@ namespace AdsPortal.WebApi
     using AdsPortal.WebApi.Infrastructure.Mailing;
     using AdsPortal.WebApi.Infrastructure.Media;
     using AdsPortal.WebApi.Persistence;
-    using AdsPortal.WebApi.Persistence.DbContext;
     using AdsPortal.WebApi.Rest;
+    using AdsPortal.WebApi.Services;
     using AdsPortal.WebApi.SpecialPages.Core;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
@@ -30,6 +28,7 @@ namespace AdsPortal.WebApi
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Serilog;
 
@@ -81,6 +80,11 @@ namespace AdsPortal.WebApi
                     .SetCompatibilityVersion(CompatibilityVersion.Latest)
                     .AddApplicationPart(typeof(Rest.DependencyInjection).Assembly).AddControllersAsServices();
 
+            if (Environment.IsDevelopment())
+            {
+                services.AddMultipleInstanceHostedService<DeveloperSandboxHostedService>();
+            }
+
             _services = services;
         }
 
@@ -128,57 +132,6 @@ namespace AdsPortal.WebApi
 
             app.ConfigureRestApi(env)
                .ConfigureGrpcApi(env);
-
-            AutomaticDbMigrator.MigrateDatabase(app).Wait();
-
-#if DEBUG
-            DevSandbox(app);
-#endif
-        }
-
-        private void DevSandbox(IApplicationBuilder app)
-        {
-            if (false)
-            {
-                using (IServiceScope scope = app.ApplicationServices.CreateScope())
-                {
-                    IFileStorageService x = scope.ServiceProvider.GetRequiredService<IFileStorageService>();
-
-                    var listing = x.GetDirectoryListing(recursive: true);
-                    Logger.LogInformation("File storage listing: {Files}", listing);
-                }
-            }
-
-            if (false)
-            {
-                using (IServiceScope scope = app.ApplicationServices.CreateScope())
-                {
-                    IJobSchedulingService schedulingService = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
-
-                    for (int priority = 1; priority <= 2; ++priority)
-                    {
-                        for (int i = 0; i < 300; ++i)
-                        {
-                            if ((i + 1) % 100 == 0)
-                            {
-                                Logger.LogInformation("Added {Count} jobs with priority {Priority}", i + 1, priority);
-                            }
-
-                            schedulingService.ScheduleAsync<TestJob>(priority: priority).Wait();
-                        }
-                    }
-                }
-            }
-
-            if (true)
-            {
-                using (IServiceScope scope = app.ApplicationServices.CreateScope())
-                {
-                    IJobSchedulingService schedulingService = scope.ServiceProvider.GetRequiredService<IJobSchedulingService>();
-
-                    schedulingService.ScheduleAsync<AdvertisementExpirationNotificationSenderJob>().Wait();
-                }
-            }
         }
 
         private async Task StatusCodePageRespone(StatusCodeContext statusCodeContext)

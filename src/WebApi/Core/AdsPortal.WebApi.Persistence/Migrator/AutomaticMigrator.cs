@@ -1,22 +1,23 @@
-﻿namespace AdsPortal.WebApi.Persistence.DbContext
+﻿namespace AdsPortal.WebApi.Persistence.Migrator
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AdsPortal.WebApi.Persistence.DbContext;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
-    public sealed class AutomaticDbMigrator : IDisposable
+    public sealed class AutomaticMigrator : IDisposable
     {
         private readonly RelationalDbContext _relationalDbContext;
         private readonly IHostApplicationLifetime _lifetime;
         private readonly ILogger _logger;
 
-        public AutomaticDbMigrator(RelationalDbContext relationalDbContext, IHostApplicationLifetime lifetime, ILogger<AutomaticDbMigrator> logger)
+        public AutomaticMigrator(RelationalDbContext relationalDbContext, IHostApplicationLifetime lifetime, ILogger<AutomaticMigrator> logger)
         {
             _relationalDbContext = relationalDbContext;
             _lifetime = lifetime;
@@ -29,9 +30,9 @@
             {
                 var relationalDbContext = serviceScope.ServiceProvider.GetRequiredService<RelationalDbContext>();
                 var lifetime = serviceScope.ServiceProvider.GetRequiredService<IHostApplicationLifetime>();
-                var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<AutomaticDbMigrator>>();
+                var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<AutomaticMigrator>>();
 
-                using (AutomaticDbMigrator migrator = new(relationalDbContext, lifetime, logger))
+                using (AutomaticMigrator migrator = new(relationalDbContext, lifetime, logger))
                 {
                     await migrator.MigrateAsync();
                 }

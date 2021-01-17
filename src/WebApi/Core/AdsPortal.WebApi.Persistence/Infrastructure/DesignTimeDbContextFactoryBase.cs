@@ -32,7 +32,7 @@
                 .AddEnvironmentVariables()
                 .Build();
 
-            RelationalDbConfiguration relationalDbConfiguration = configurationRoot.GetValue<RelationalDbConfiguration>();
+            RelationalDbConfiguration relationalDbConfiguration = configurationRoot.GetConfiguration<RelationalDbConfiguration>();
 
             return Create(relationalDbConfiguration.ConnectionString);
         }

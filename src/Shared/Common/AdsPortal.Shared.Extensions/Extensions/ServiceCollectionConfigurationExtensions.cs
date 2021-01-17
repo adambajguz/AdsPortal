@@ -31,7 +31,7 @@
             return services;
         }
 
-        public static TOptions GetValue<TOptions>(this IConfiguration configuration, string? overrideSectionName = null)
+        public static TOptions GetConfiguration<TOptions>(this IConfiguration configuration, string? overrideSectionName = null)
             where TOptions : notnull
         {
             string sectionName = overrideSectionName ?? GetFallbackName<TOptions>();

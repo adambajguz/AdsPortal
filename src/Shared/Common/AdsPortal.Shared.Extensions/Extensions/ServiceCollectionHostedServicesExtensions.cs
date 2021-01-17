@@ -22,7 +22,7 @@
             return services;
         }
 
-        public static IServiceCollection AddSingleInstanceHostedService<TImplementation>(this IServiceCollection services)
+        public static IServiceCollection TryAddHostedService<TImplementation>(this IServiceCollection services)
             where TImplementation : class, IHostedService
         {
             services.TryAddSingleton<IHostedService, TImplementation>();
@@ -30,7 +30,7 @@
             return services;
         }
 
-        public static IServiceCollection AddSingleInstanceHostedService<TService>(this IServiceCollection services, Func<IServiceProvider, IHostedService> implementationFactory)
+        public static IServiceCollection TryAddHostedService<TService>(this IServiceCollection services, Func<IServiceProvider, IHostedService> implementationFactory)
         {
             services.TryAddSingleton<IHostedService>(implementationFactory);
 

@@ -153,7 +153,7 @@
         //https://devblogs.microsoft.com/pfxteam/processing-tasks-as-they-complete/
         private Task<Task>[] Interleaved(IReadOnlyList<Job> jobs, Guid batchGuid, CancellationToken cancellationToken)
         {
-            var buckets = new TaskCompletionSource<Task>[jobs.Count()];
+            var buckets = new TaskCompletionSource<Task>[jobs.Count];
             var results = new Task<Task>[buckets.Length];
             for (int i = 0; i < buckets.Length; i++)
             {

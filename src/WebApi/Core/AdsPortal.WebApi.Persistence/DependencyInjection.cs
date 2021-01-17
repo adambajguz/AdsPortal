@@ -44,6 +44,8 @@
             services.AddRepository<MediaItem, IMediaItemsRepository, MediaItemsRepository>();
             services.AddRepository<User, IUsersRepository, UsersRepository>();
 
+            services.AddAutomaticMigrator();
+
             return services;
         }
 

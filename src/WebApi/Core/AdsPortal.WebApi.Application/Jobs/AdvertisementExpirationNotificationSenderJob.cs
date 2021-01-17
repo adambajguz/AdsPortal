@@ -28,11 +28,18 @@
             DateTime now = DateTime.UtcNow;
             DateTime maxVisibleTo = now.AddDays(1);
 
-            List<Advertisement> adsAboutToExpire = await _uow.Advertisements.AllAsync(filter => filter.IsPublished && filter.VisibleTo <= maxVisibleTo && filter.VisibleTo > now,
-                                                                                      noTracking: true,
+            List<Advertisement> adsAboutToExpire = await _uow.Advertisements.AllAsync(filter => filter.IsPublished &&
+                                                                                                filter.VisibleTo <= maxVisibleTo && filter.VisibleTo > now &&
+                                                                                                (filter.LastExpirationNotification == null || filter.LastExpirationNotification <= maxVisibleTo && filter.LastExpirationNotification > now),
                                                                                       cancellationToken: cancellationToken);
-
-            _logger.LogInformation("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}).", adsAboutToExpire.Count, maxVisibleTo);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}): {Ads}.", adsAboutToExpire.Count, maxVisibleTo, adsAboutToExpire);
+            }
+            else
+            {
+                _logger.LogInformation("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}).", adsAboutToExpire.Count, maxVisibleTo);
+            }
 
             foreach (Advertisement ad in adsAboutToExpire)
             {
@@ -44,8 +51,14 @@
                     Template = new AdvertisementAboutToExpireEmail { UserName = user.Name, AdvertisementTitle = ad.Title, AdvertisementVisibleTo = ad.VisibleTo }
                 };
 
+                ad.LastExpirationNotification = now;
+
                 await _jobScheduling.ScheduleAsync<SendEmailJob>(operationArguments: jobArgs, cancellationToken: cancellationToken);
             }
+
+            await _uow.SaveChangesAsync(cancellationToken);
+
+            await _jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(postponeTo: DateTime.UtcNow.AddMinutes(5), cancellationToken: cancellationToken);
         }
     }
 }

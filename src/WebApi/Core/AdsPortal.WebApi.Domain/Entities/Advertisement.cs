@@ -19,6 +19,8 @@
         public bool IsPublished { get; set; }
         public DateTime VisibleTo { get; set; }
 
+        public DateTime? LastExpirationNotification { get; set; }
+
         public Guid? CoverImageId { get; set; }
         public virtual MediaItem? CoverImage { get; set; } = default!;
 
