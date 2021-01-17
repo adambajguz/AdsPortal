@@ -17,11 +17,11 @@
     using Microsoft.Extensions.Options;
     using TTimer = System.Threading.Timer;
 
-    public sealed class JobsProcessingService : IHostedService, IJobSchedulerRunnerService
+    public sealed class JobsProcessingHostedService : IJobsProcessingHostedService
     {
         private bool _everTicked;
         private int _processing = 0;
-        private readonly SemaphoreSlim _sync = new(1, 1);
+        private static readonly SemaphoreSlim _sync = new(1, 1);
         private readonly CancellationTokenSource _cts = new();
 
         private TTimer? Timer { get; set; }
@@ -33,12 +33,13 @@
         private readonly ILogger _logger;
 
         public Guid InstanceId { get; } = Guid.NewGuid();
+        private Guid[]? KnownInstancesIds { get; set; }
 
-        public JobsProcessingService(IServiceScopeFactory serviceProvider,
-                                     IOptions<JobSchedulerConfiguration> configuration,
-                                     IArgumentsSerializer serializer,
-                                     IHostApplicationLifetime lifetime,
-                                     ILogger<JobsProcessingService> logger)
+        public JobsProcessingHostedService(IServiceScopeFactory serviceProvider,
+                                           IOptions<JobSchedulerConfiguration> configuration,
+                                           IArgumentsSerializer serializer,
+                                           IHostApplicationLifetime lifetime,
+                                           ILogger<JobsProcessingHostedService> logger)
         {
             _serviceScopeFactory = serviceProvider;
             _configuration = configuration.Value;
@@ -55,20 +56,21 @@
             {
                 _everTicked = true;
 
-                _logger.LogInformation("{Service} started. Running first iteration...", nameof(JobsProcessingService));
+                _logger.LogInformation("{Service} ({InstanceId}) started. Running first iteration...", nameof(JobsProcessingHostedService), InstanceId);
             }
 
             try
             {
+                //_logger.LogTrace("{Service} ({InstanceId}) job timer tick.", nameof(JobsProcessingHostedService), InstanceId);
                 await CheckAndProcessJobs(cancellationToken);
             }
             catch (OperationCanceledException)
             {
-                _logger.LogDebug("{Service} job timer tick cancelled.", nameof(JobsProcessingService));
+                _logger.LogWarning("{Service} ({InstanceId}) job timer tick cancelled.", nameof(JobsProcessingHostedService), InstanceId);
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Fatal error occured in {Service} while interacting job queue", nameof(JobsProcessingService));
+                _logger.LogCritical(ex, "Fatal error occured in {Service} ({InstanceId}) while interacting with job queue", nameof(JobsProcessingHostedService), InstanceId);
                 _lifetime.StopApplication();
             }
         }
@@ -94,6 +96,12 @@
 
                 if (await _sync.WaitAsync(_configuration.Tick / 2, cancellationToken))
                 {
+                    KnownInstancesIds ??= jobScope.ServiceProvider.GetServices<IHostedService>()
+                                                                  .Select(x => x as IJobsProcessingHostedService)
+                                                                  .Where(x => x is not null)
+                                                                  .Select(x => x!.InstanceId)
+                                                                  .ToArray();
+
                     List<Job>? queuedJobs = null;
 
                     //Only one task can access db
@@ -102,7 +110,7 @@
                         queuedJobs = await uow.Jobs.AllAsync(filter: x => (x.Status == JobStatuses.Queued ||
                                                                            x.Status == JobStatuses.Cancelled ||
                                                                            x.Status == JobStatuses.Error ||
-                                                                           (x.Instance != InstanceId && (x.Status == JobStatuses.Taken || x.Status == JobStatuses.Running))) &&
+                                                                           (!KnownInstancesIds.Contains(x.Instance ?? Guid.Empty) && (x.Status == JobStatuses.Taken || x.Status == JobStatuses.Running))) &&
                                                                           x.Tries <= maxTries &&
                                                                           (x.PostponeTo == null || x.PostponeTo <= now),
                                                              orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
@@ -129,14 +137,14 @@
                     if (queuedJobs is List<Job> jobs && jobs.Count > 0)
                     {
                         Guid batchGuid = Guid.NewGuid();
-                        _logger.LogDebug("Executing {Count} new job(s) in batch {BatchId} ({Processing} processing)", queuedJobs.Count, batchGuid, _processing);
+                        _logger.LogDebug("Executing {Count} new job(s) in batch {BatchId} in {InstanceId} service instance ({Processing} processing)", queuedJobs.Count, batchGuid, InstanceId, _processing);
 
                         foreach (var bucket in Interleaved(jobs, batchGuid, cancellationToken))
                         {
                             await bucket;
                         }
 
-                        _logger.LogDebug("Finished {Count} job(s) in batch {BatchId} ({Processing} processing)", queuedJobs.Count, batchGuid, _processing);
+                        _logger.LogDebug("Finished {Count} job(s) in batch {BatchId} in {InstanceId} service instance ({Processing} processing)", queuedJobs.Count, batchGuid, InstanceId, _processing);
                     }
                 }
             }
@@ -166,7 +174,7 @@
 
                     if (completed.IsFaulted)
                     {
-                        _logger.LogError(completed.Exception, "Fatal error occured during job processing");
+                        _logger.LogError(completed.Exception, "Fatal error occured during job processing in {InstanceId} service instance", InstanceId);
                     }
                 },
                 CancellationToken.None,
@@ -182,7 +190,7 @@
             Type? type = Type.GetType(job.Operation);
             if (type is null)
             {
-                _logger.LogError("Unknown job of type {Type} in batch {BatchId}", job.Operation, batchGuid);
+                _logger.LogError("Unknown job of type {Type} in batch {BatchId} in {InstanceId} service instance", job.Operation, batchGuid, InstanceId);
                 return;
             }
 
@@ -192,11 +200,11 @@
 
                 if (jobScope.ServiceProvider.GetService(type) is not IJob jobInstance)
                 {
-                    _logger.LogError("Invalid job of type {Type} in batch {BatchId}", job.Operation, batchGuid);
+                    _logger.LogError("Invalid job of type {Type} in batch {BatchId} in {InstanceId} service instance", job.Operation, batchGuid, InstanceId);
                     return;
                 }
 
-                _logger.LogTrace("Running job {No} in batch {BatchId}", job.JobNo, batchGuid);
+                _logger.LogTrace("Running job {No} in batch {BatchId} in {InstanceId} service instance", job.JobNo, batchGuid, InstanceId);
 
                 jobUow.Jobs.EnsureTracked(job);
 
@@ -220,7 +228,7 @@
                         await jobInstance.Handle(args, jobCts.Token);
 
                         job.Status = JobStatuses.Success;
-                        _logger.LogTrace("Finished job {No} in batch {BatchId} after {TryCount} tries.", job.JobNo, batchGuid, job.Tries);
+                        _logger.LogTrace("Finished job {No} in batch {BatchId} in {InstanceId} service instance after {TryCount} tries.", job.JobNo, batchGuid, InstanceId, job.Tries);
                     }
                     catch (TaskCanceledException)
                     {
@@ -229,11 +237,11 @@
 
                         if (timedOut)
                         {
-                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} timed out after {Time}, and thus was cancelled", job.Id, job.JobNo, batchGuid, job.TimeoutAfter);
+                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} in {InstanceId} service instance timed out after {Time}, and thus was cancelled", job.Id, job.JobNo, batchGuid, InstanceId, job.TimeoutAfter);
                         }
                         else
                         {
-                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} was cancelled", job.Id, job.JobNo, batchGuid);
+                            _logger.LogError("Job {Id} {JobNo} in batch {BatchId} in {InstanceId} service instance was cancelled", job.Id, job.JobNo, batchGuid, InstanceId);
                         }
                     }
                     catch (Exception ex)
@@ -245,7 +253,7 @@
                         job.PostponeTo = retryDate;
                         job.Status = JobStatuses.Error;
 
-                        _logger.LogError(ex, "Exception occured during job {Id} {JobNo} execution in batch {BatchId}. Try no. {TryCount} scheduled for {RetryDate}.", job.Id, job.JobNo, batchGuid, job.Tries + 1, retryDate);
+                        _logger.LogError(ex, "Exception occured during job {Id} {JobNo} execution in batch {BatchId} in {InstanceId} service instance. Try no. {TryCount} scheduled for {RetryDate}.", job.Id, job.JobNo, batchGuid, InstanceId, job.Tries + 1, retryDate);
                     }
                     finally
                     {
@@ -260,7 +268,7 @@
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Starting {Service}", nameof(JobsProcessingService));
+            _logger.LogInformation("Starting {Service} with instance id {InstanceId}", nameof(JobsProcessingHostedService), InstanceId);
 
             Timer ??= new TTimer(TickTimer!,
                                  _cts.Token,
@@ -272,7 +280,7 @@
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Stopping {Service}", nameof(JobsProcessingService));
+            _logger.LogInformation("Stopping {Service} with instance id {InstanceId}", nameof(JobsProcessingHostedService), InstanceId);
 
             Timer?.Change(Timeout.Infinite, 0);
 

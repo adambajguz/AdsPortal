@@ -18,7 +18,10 @@
 
             if (jobSchedulerConfiguration.IsEnabled)
             {
-                services.AddHostedService<JobsProcessingService>();
+                for (int i = 0; i < jobSchedulerConfiguration.Workers; ++i)
+                {
+                    services.AddMultipleInstanceHostedService<JobsProcessingHostedService>();
+                }
             }
 
             return services;

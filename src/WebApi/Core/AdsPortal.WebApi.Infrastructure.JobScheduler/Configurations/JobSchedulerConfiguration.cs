@@ -8,6 +8,7 @@
         public TimeSpan StartupDelay { get; init; }
         public int Tick { get; init; }
 
+        public int Workers { get; init; }
         public int MaxConcurent { get; init; }
         public int ConcurentBatchSize { get; init; }
 

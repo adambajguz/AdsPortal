@@ -7,16 +7,19 @@
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Interfaces;
+    using Microsoft.Extensions.Logging;
 
     public class JobSchedulingService : IJobSchedulingService
     {
         private readonly IAppRelationalUnitOfWork _uow;
         private readonly IArgumentsSerializer _serializer;
+        private readonly ILogger _logger;
 
-        public JobSchedulingService(IAppRelationalUnitOfWork uow, IArgumentsSerializer serializer)
+        public JobSchedulingService(IAppRelationalUnitOfWork uow, IArgumentsSerializer serializer, ILogger<JobSchedulingService> logger)
         {
             _uow = uow;
             _serializer = serializer;
+            _logger = logger;
         }
 
         public async Task ScheduleAsync(Type operationType,
@@ -37,6 +40,8 @@
 
             _uow.Jobs.Add(entity);
             await _uow.SaveChangesAsync(cancellationToken);
+
+            _logger.LogDebug("Scheduled job {Id} {No} {Type}", entity.Id, entity.JobNo, entity.Operation);
         }
 
         public async Task ScheduleAsync<T>(int priority = 0,

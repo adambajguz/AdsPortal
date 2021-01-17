@@ -32,7 +32,7 @@
                                                                                       noTracking: true,
                                                                                       cancellationToken: cancellationToken);
 
-            _logger.LogInformation("Sending notificationd for {Count} advertisements that are about to expire (VisibleTo <= {VisibleTo}).", adsAboutToExpire.Count, maxVisibleTo);
+            _logger.LogInformation("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}).", adsAboutToExpire.Count, maxVisibleTo);
 
             foreach (Advertisement ad in adsAboutToExpire)
             {

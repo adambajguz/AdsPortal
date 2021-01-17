@@ -5,7 +5,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    public static class ServiceCollectionExtensions
+    public static class ServiceCollectionConfigurationExtensions
     {
         public static IServiceCollection AddConfiguration<TOptions>(this IServiceCollection services, IConfiguration configuration, string? overrideSectionName = null)
             where TOptions : class

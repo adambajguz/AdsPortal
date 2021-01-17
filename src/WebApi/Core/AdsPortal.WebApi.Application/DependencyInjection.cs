@@ -3,6 +3,7 @@
     using System.Reflection;
     using AdsPortal.Shared.Extensions.Extensions;
     using AdsPortal.WebApi.Application.Configurations;
+    using AdsPortal.WebApi.Application.Extensions;
     using AdsPortal.WebApi.Application.Jobs;
     using AutoMapper;
     using AutoMapper.Extensions;
@@ -29,9 +30,9 @@
                     typeof(Domain.DependencyInjection).Assembly
                 });
 
-            services.AddTransient<TestJob>();
-            services.AddTransient<AdvertisementExpirationNotificationSenderJob>();
-            services.AddTransient<SendEmailJob>();
+            services.AddJob<TestJob>();
+            services.AddJob<AdvertisementExpirationNotificationSenderJob>();
+            services.AddJob<SendEmailJob>();
 
             return services;
         }
