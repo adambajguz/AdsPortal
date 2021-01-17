@@ -58,7 +58,7 @@
 
             await _uow.SaveChangesAsync(cancellationToken);
 
-            await _jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(postponeTo: DateTime.UtcNow.AddMinutes(5), cancellationToken: cancellationToken);
+            await _jobScheduling.ScheduleSingleAsync<AdvertisementExpirationNotificationSenderJob>(priority: 10, postponeTo: DateTime.UtcNow.AddMinutes(5), cancellationToken: cancellationToken);
         }
     }
 }

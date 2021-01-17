@@ -56,14 +56,15 @@ namespace AdsPortal.WebApi
         {
             string emailTemplatesRootFolder = Path.GetFullPath("EmailTemplates");
 
+            services.AddPersistenceLayer(Configuration); //Persistence layer must be always registered first because hosted services (db migration) will be executed at startup in the same order they are added to the DI container
+
             services.AddInfrastructureLayer(Configuration)
                     .AddInfrastructureIdentityLayer(Configuration)
                     .AddInfrastructureMediaLayer(Configuration)
                     .AddInfrastructureJobSchedulerLayer(Configuration)
                     .AddMailing(Configuration, emailTemplatesRootFolder);
 
-            services.AddPersistenceLayer(Configuration)
-                    .AddApplicationLayer(LoggerFactory, Configuration)
+            services.AddApplicationLayer(LoggerFactory, Configuration)
                     .AddWebApi()
                     .AddRestApi()
                     .AddGrpcApi();
@@ -82,7 +83,7 @@ namespace AdsPortal.WebApi
 
             if (Environment.IsDevelopment())
             {
-                services.AddMultipleInstanceHostedService<DeveloperSandboxHostedService>();
+                services.AddMultipleInstanceHostedService<DeveloperSandbox>();
             }
 
             _services = services;

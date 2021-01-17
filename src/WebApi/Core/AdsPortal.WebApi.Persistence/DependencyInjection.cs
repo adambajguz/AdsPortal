@@ -21,6 +21,9 @@
 
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Persistence layer must be always registered first because hosted services (db migration) will be executed at startup in the same order they are added to the DI container.
+        /// </summary>
         public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddConfiguration<FileDiskStorageConfiguration>(configuration);

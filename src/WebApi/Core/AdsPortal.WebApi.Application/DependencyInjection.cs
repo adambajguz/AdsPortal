@@ -5,6 +5,7 @@
     using AdsPortal.WebApi.Application.Configurations;
     using AdsPortal.WebApi.Application.Extensions;
     using AdsPortal.WebApi.Application.Jobs;
+    using AdsPortal.WebApi.Application.Services;
     using AutoMapper;
     using AutoMapper.Extensions;
     using MediatR;
@@ -20,19 +21,21 @@
 
             services.AddAutoMapper(cfg =>
                 {
-                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
-                    cfg.AddProfile(new CustomAutoMapperProfile(typeof(Domain.DependencyInjection).Assembly, loggerFactory.CreateLogger<CustomAutoMapperProfile>()));
+                    cfg.AddCustomMappings(typeof(Application.DependencyInjection).Assembly, loggerFactory);
+                    cfg.AddCustomMappings(typeof(Domain.DependencyInjection).Assembly, loggerFactory);
                 });
 
             services.AddMediatR(new Assembly[]
                 {
-                    typeof(DependencyInjection).Assembly,
+                    typeof(Application.DependencyInjection).Assembly,
                     typeof(Domain.DependencyInjection).Assembly
                 });
 
             services.AddJob<TestJob>();
             services.AddJob<AdvertisementExpirationNotificationSenderJob>();
             services.AddJob<SendEmailJob>();
+
+            services.AddMultipleInstanceHostedService<PeriodicJobStarter>();
 
             return services;
         }
