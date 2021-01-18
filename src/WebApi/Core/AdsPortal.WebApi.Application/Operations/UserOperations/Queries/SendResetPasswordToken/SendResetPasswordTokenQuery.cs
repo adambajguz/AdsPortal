@@ -4,8 +4,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.WebApi.Application.Extensions;
-    using AdsPortal.WebApi.Application.Interfaces;
     using AdsPortal.WebApi.Application.Interfaces.Identity;
+    using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
+    using AdsPortal.WebApi.Application.Jobs;
+    using AdsPortal.WebApi.Domain.EmailTemplates;
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
     using AdsPortal.WebApi.Domain.Jwt;
@@ -20,17 +22,17 @@
 
         private sealed class SendResetPasswordTokenHandler : IRequestHandler<SendResetPasswordTokenQuery>
         {
+            private readonly IJobSchedulingService _jobScheduling;
             private readonly IAppRelationalUnitOfWork _uow;
             private readonly IHttpContextAccessor _context;
             private readonly IJwtService _jwt;
-            private readonly IEmailService _email;
 
-            public SendResetPasswordTokenHandler(IAppRelationalUnitOfWork uow, IHttpContextAccessor context, IJwtService jwt, IEmailService email)
+            public SendResetPasswordTokenHandler(IJobSchedulingService jobScheduling, IAppRelationalUnitOfWork uow, IHttpContextAccessor context, IJwtService jwt)
             {
+                _jobScheduling = jobScheduling;
                 _uow = uow;
                 _context = context;
                 _jwt = jwt;
-                _email = email;
             }
 
             public async Task<Unit> Handle(SendResetPasswordTokenQuery query, CancellationToken cancellationToken)
@@ -41,14 +43,14 @@
 
                 string token = _jwt.GenerateJwtToken(user, Roles.ResetPassword).Token;
                 Uri uri = _context.HttpContext?.GetAbsoluteUri() ?? throw new NullReferenceException("HttpContext is null");
-                await _email.SendEmail(user.Email, "Reset Password", uri.AbsoluteUri + "/" + token);
 
-                //#pragma warning disable CS0162 // Unreachable code detected
-                //                if (GlobalAppConfig.IsDevMode)
-                //                    return uri.AbsoluteUri + "/" + token;
-                //#pragma warning restore CS0162 // Unreachable code detected
+                SendEmailJobArguments args = new()
+                {
+                    Email = user.Email,
+                    Template = new ResetPasswordEmail { Name = user.Name, CallbackUrl = uri.AbsoluteUri + "/" + token }
+                };
 
-                //                return "e-mail sent";
+                await _jobScheduling.ScheduleAsync<SendEmailJob>(operationArguments: args, cancellationToken: cancellationToken);
 
                 return await Unit.Task;
             }

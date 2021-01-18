@@ -263,7 +263,9 @@
                         job.FinishedOn = DateTime.UtcNow;
 
                         if (job.Tries >= _configuration.MaxTries)
+                        {
                             job.Status = JobStatuses.MaxRetriesReached;
+                        }
 
                         jobUow.Jobs.Update(job);
                         await jobUow.SaveChangesAsync(CancellationToken.None);

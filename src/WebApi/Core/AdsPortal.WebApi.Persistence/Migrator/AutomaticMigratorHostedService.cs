@@ -31,6 +31,9 @@
             _logger.LogInformation("Finished automatic database migrator hosted service.");
         }
 
-        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

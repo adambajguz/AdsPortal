@@ -53,7 +53,10 @@
 #pragma warning restore CS0162 // Unreachable code detected
         }
 
-        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
 
         private void FileStorageListingTest(IServiceScope scope, CancellationToken cancellationToken)
         {

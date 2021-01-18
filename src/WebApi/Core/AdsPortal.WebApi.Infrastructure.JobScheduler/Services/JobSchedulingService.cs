@@ -23,7 +23,7 @@
         private readonly ILogger _logger;
         private readonly Lazy<Guid[]> _knownInstancesIds;
 
-        private static readonly JobStatuses[] JobNotFinishedStatuses = new[] { JobStatuses.Queued, JobStatuses.Taken, JobStatuses.Running, JobStatuses.Cancelled, JobStatuses.Error};
+        private static readonly JobStatuses[] JobNotFinishedStatuses = new[] { JobStatuses.Queued, JobStatuses.Taken, JobStatuses.Running, JobStatuses.Cancelled, JobStatuses.Error };
 
         public JobSchedulingService(IAppRelationalUnitOfWork uow,
                                     IArgumentsSerializer serializer,

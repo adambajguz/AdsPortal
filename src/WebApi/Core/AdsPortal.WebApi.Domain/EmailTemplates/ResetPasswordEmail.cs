@@ -7,6 +7,7 @@
         public string Subject => "Reset password";
         public string ViewPath => "ResetPassword.cshtml";
 
+        public string? Name { get; init; }
         public string? CallbackUrl { get; init; }
     }
 }
