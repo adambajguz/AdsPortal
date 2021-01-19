@@ -69,10 +69,11 @@ namespace AdsPortal.WebApi
                     .AddRestApi()
                     .AddGrpcApi();
 
-            services.AddMvc()
-                    .AddControllersAsServices()
-                    .AddMvcSerializer()
-                    .AddValidation();
+            IMvcBuilder mvcBuilder = services.AddMvc()
+                                             .AddControllersAsServices()
+                                             .AddMvcSerializer()
+                                             .AddValidation()
+                                             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddHealthChecks()
                     .AddPersistenceHealthChecks();

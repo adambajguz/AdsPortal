@@ -79,7 +79,10 @@ namespace AdsPortal.WebPortal
             //}
 
             //Mvc
-            IMvcBuilder mvcBuilder = services.AddControllers()
+            IMvcBuilder mvcBuilder = services.AddMvc()
+                                             .AddControllersAsServices()
+                                             .AddTagHelpersAsServices()
+                                             .AddViewComponentsAsServices()
                                              .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddResponseCompression(options =>

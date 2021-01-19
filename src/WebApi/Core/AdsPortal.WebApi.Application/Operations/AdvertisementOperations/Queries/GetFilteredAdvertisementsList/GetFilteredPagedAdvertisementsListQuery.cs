@@ -14,7 +14,7 @@
         public int EntiresPerPage { get; init; }
 
         public string? Title { get; init; }
-        public string? CategoryName { get; init; }
+        public string? Description { get; init; }
 
         private sealed class Handler : GetPagedListQueryHandler<GetFilteredPagedAdvertisementsListQuery, Advertisement, GetAdvertisementsListResponse>
         {
@@ -25,18 +25,18 @@
 
             protected override ValueTask<GetFilteredPagedAdvertisementsListQuery> OnInit(GetFilteredPagedAdvertisementsListQuery query, CancellationToken cancellationToken)
             {
-                if (query.Title is string && query.CategoryName is string)
+                if (query.Title is string && query.Description is string)
                 {
-                    Filter = x => x.Title.Contains(query.Title) && x.Category.Name.Contains(query.CategoryName);
+                    Filter = x => x.Title.Contains(query.Title) && x.Description.Contains(query.Description);
                 }
                 else if (query.Title is string)
                 {
                     Filter = x => x.Title.Contains(query.Title);
 
                 }
-                else if (query.CategoryName is string)
+                else if (query.Description is string)
                 {
-                    Filter = x => x.Category.Name.Contains(query.CategoryName);
+                    Filter = x => x.Description.Contains(query.Description);
                 }
 
                 return base.OnInit(query, cancellationToken);
