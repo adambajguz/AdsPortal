@@ -19,14 +19,14 @@
     public sealed class EntityAuditLogController : BaseApiController
     {
         [CustomAuthorize(Roles.Admin)]
-        [HttpPost("revert")]
+        [HttpPost("rollback")]
         [SwaggerOperation(
-            Summary = "Revert entity using audit log",
-            Description = "Revert entity using entity audit log")]
+            Summary = "Rollback entity using audit log",
+            Description = "Rollback entity using entity audit log")]
         [SwaggerResponse(StatusCodes.Status200OK, "Route log created", typeof(IdResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> RevertEntityUsingAuditLog([FromBody] RevertUsingEntityAuditLogCommand request)
+        public async Task<IActionResult> RevertEntityUsingAuditLog([FromBody] RollbackUsingEntityAuditLogCommand request)
         {
             return Ok(await Mediator.Send(request));
         }
