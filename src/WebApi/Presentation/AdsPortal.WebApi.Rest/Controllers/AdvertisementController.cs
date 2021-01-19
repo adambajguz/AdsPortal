@@ -8,6 +8,7 @@ namespace AdsPortal.WebApi.Rest.Controllers
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Commands.UpdateAdvertisement;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementDetails;
     using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetAdvertisementsList;
+    using AdsPortal.WebApi.Application.Operations.AdvertisementOperations.Queries.GetFilteredAdvertisementsList;
     using AdsPortal.WebApi.Attributes;
     using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;
@@ -97,6 +98,28 @@ namespace AdsPortal.WebApi.Rest.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(PagedListResult<GetAdvertisementsListResponse>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetPagedAdvertisementsList([FromQuery] GetPagedAdvertisementsListQuery request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
+        [HttpGet("get-all/filtered")]
+        [SwaggerOperation(
+            Summary = "Get all advertisements by specifid filters",
+            Description = "Gets a filtered list of all advertisements")]
+        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ListResult<GetAdvertisementsListResponse>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> GetFilteredAdvertisementsList([FromQuery] GetFilteredAdvertisementsListQuery request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
+        [HttpGet("get-paged/filtered")]
+        [SwaggerOperation(
+            Summary = "Get paged advertisements by specifid filters",
+            Description = "Gets a filtered and paged list of advertisements")]
+        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(PagedListResult<GetAdvertisementsListResponse>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> GetFilteredPagedAdvertisementsList([FromQuery] GetFilteredPagedAdvertisementsListQuery request)
         {
             return Ok(await Mediator.Send(request));
         }

@@ -1,4 +1,4 @@
-﻿namespace BlazorApp1.Pages
+﻿namespace AdsPortal.WebPortal.Pages
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
