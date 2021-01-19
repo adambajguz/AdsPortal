@@ -4,9 +4,12 @@ namespace AdsPortal.WebPortal
     using AdsPortal.WebPortal.Configurations;
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Services;
+    using AdsPortal.WebPortal.Services.Auth;
     using AdsPortal.WebPortal.Shared.Components.OperationRenderers;
+    using Blazored.SessionStorage;
     using MagicOperations;
     using MagicOperations.Components.OperationRenderers;
+    using Microsoft.AspNetCore.Components.Authorization;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +35,7 @@ namespace AdsPortal.WebPortal
                 builder.AddOperationsFromThisAssembly();
 
                 builder.UseDefaultOperationRenderer(typeof(GetPagedOperationRenderer<,>), typeof(GetPagedRenderer<,>));
+                builder.UseDefaultOperationRenderer(typeof(LoginOperationRenderer<,>), typeof(LoginRenderer<,>));
 
                 builder.AddGroupConfiguration(OperationGroups.Advertisement, (g) =>
                 {
@@ -51,6 +55,12 @@ namespace AdsPortal.WebPortal
                     g.DisplayName = "User";
                 });
             });
+
+           services.AddScoped<AuthenticationStateProvider, CustomAuthenticationProvider>();
+           services.AddAuthorizationCore();
+           services.AddBlazoredSessionStorage();
+           services.AddScoped<IAccountService, AccountService>();
+           services.AddScoped<ITokenManagerService, TokenManagerService>();
 
             return services;
         }

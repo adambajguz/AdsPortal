@@ -1,0 +1,50 @@
+﻿@using MagicModels.Components
+
+@typeparam TOperation
+@typeparam TResponse
+@inherits LoginOperationRenderer<TOperation, TResponse>
+
+@inject MagicOperations.Interfaces.ISerializer Serializer
+@inject IAccountService AccountService
+
+<h2>@Context.Schema.DisplayName</h2>
+
+@if (Context.IsPanelPath)
+{
+    <a href="@Configuration.PanelPath">Go back</a>
+}
+
+@if (ErrorModel is not null)
+{
+    <p>@ErrorModel.ToString()</p>
+    @*<MagicModel Model="ErrorModel" Context="this" />*@
+}
+else
+{
+    if (IsLoggedIn)
+    {
+        <p>Logged in @(Serializer.Serialize(ResponseModel ?? new object()))</p>
+        return;
+    }
+
+    <MagicModel Model="OperationModel" Context="this" IsWrite="true" />
+
+    <button @onclick="CreateAsync">Login</button>
+}
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        OnLoggedIn += OnLoggedInCallback;
+    }
+
+    private async void OnLoggedInCallback(object? sender, EventArgs args)
+    {
+        if (ResponseModel is AuthenticateUserResponse a)
+        {
+            await AccountService.LoginAsync(new TokenModel { Token = a.Token });
+        }
+    }
+}
