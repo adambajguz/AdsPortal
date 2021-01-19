@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Mime;
+    using System.Reflection;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,6 +12,18 @@
     using MagicOperations.Interfaces;
     using MagicOperations.Schemas;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+
+    public class JsonIgnoreAttributeIgnorerContractResolver : DefaultContractResolver
+    {
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            var property = base.CreateProperty(member, memberSerialization);
+            property.Ignored = false; // Here is the magic
+            return property;
+        }
+    }
 
     public sealed class MagicApiService : IMagicApiService
     {
@@ -27,7 +40,7 @@
             _logger = logger;
         }
 
-        public async Task<TResponse?> ExecuteAsync<TOperation, TResponse>(TOperation operationModel, CancellationToken cancellationToken = default)
+        public async Task<TResponse?> ExecuteAsync<TOperation, TResponse>(TOperation operationModel, bool forceGet = false, CancellationToken cancellationToken = default)
             where TOperation : notnull
         {
             OperationSchema? schema = _configuration.OperationTypeToSchemaMap.GetValueOrDefault(typeof(TOperation));
@@ -38,13 +51,19 @@
             try
             {
                 string path = schema.GetFullPathFromModel(operationModel);
+
+                if (forceGet)
+                {
+                    path = path.Replace("/update/", "/get/");
+                }
+
                 string serializedModel = _serializer.Serialize(operationModel);
 
                 HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
                 HttpRequestMessage request = new HttpRequestMessage
                 {
                     RequestUri = new Uri(path, UriKind.Relative),
-                    Method = new HttpMethod(schema.HttpMethod),
+                    Method = forceGet ? HttpMethod.Get : new HttpMethod(schema.HttpMethod),
                     Content = new StringContent(serializedModel, Encoding.UTF8, MediaTypeNames.Application.Json),
                 };
 
@@ -53,6 +72,9 @@
                 if (response.IsSuccessStatusCode)
                 {
                     string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                    if (forceGet)
+                        return JsonConvert.DeserializeObject<TResponse>(responseString, new JsonSerializerSettings { ContractResolver = new JsonIgnoreAttributeIgnorerContractResolver() });
 
                     return schema.ResponseType is null ? default : _serializer.Deserialize<TResponse>(responseString);
                 }

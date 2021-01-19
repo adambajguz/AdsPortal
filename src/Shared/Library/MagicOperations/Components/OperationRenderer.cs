@@ -9,7 +9,7 @@
     {
         [Parameter] public OperationContext Context { get; init; } = default!;
 
-        [Parameter] public TOperation OperationModel { get; init; } = default!;
+        [Parameter] public TOperation OperationModel { get; set; } = default!; //TODO: should be init only
         object IOperationRenderer.OperationModel => OperationModel!;
 
         public object? ErrorModel { get; protected set; }

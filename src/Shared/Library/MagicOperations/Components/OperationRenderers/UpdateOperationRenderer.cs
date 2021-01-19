@@ -20,11 +20,12 @@
 
         public async Task GetAsync()
         {
-            ResponseModel = default;
+            var tmp = OperationModel;
+            OperationModel = default!;
 
             try
             {
-                ResponseModel = await Api.ExecuteAsync<TOperation, TResponse>(OperationModel);
+                OperationModel = await Api.ExecuteAsync<TOperation, TOperation>(tmp, true); //TODO: remove forceGet. Use RemoteOperationAttribute
             }
             catch (ApiException ex)
             {
