@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Net.Mime;
     using System.Reflection;
     using System.Text;
@@ -11,6 +12,8 @@
     using MagicOperations.Extensions;
     using MagicOperations.Interfaces;
     using MagicOperations.Schemas;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Components.Authorization;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -30,13 +33,22 @@
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ISerializer _serializer;
         private readonly MagicOperationsConfiguration _configuration;
+        private readonly ITokenManagerService _tokenManager;
         private readonly ILogger _logger;
+        private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-        public MagicApiService(IHttpClientFactory httpClientFactory, ISerializer serializer, MagicOperationsConfiguration configuration, ILogger<MagicApiService> logger)
+        public MagicApiService(IHttpClientFactory httpClientFactory,
+                               ISerializer serializer,
+                               MagicOperationsConfiguration configuration,
+                               ITokenManagerService tokenManager,
+                               AuthenticationStateProvider authenticationStateProvider,
+                               ILogger<MagicApiService> logger)
         {
             _httpClientFactory = httpClientFactory;
             _serializer = serializer;
             _configuration = configuration;
+            _tokenManager = tokenManager;
+            _authenticationStateProvider = authenticationStateProvider;
             _logger = logger;
         }
 
@@ -67,6 +79,19 @@
                     Content = new StringContent(serializedModel, Encoding.UTF8, MediaTypeNames.Application.Json),
                 };
 
+                AuthenticationState authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+
+                if (authenticationState.User.Identity.IsAuthenticated)
+                {
+                    //request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, await _tokenManager.GetTokenAsync());
+                }
+
+                var token = await _tokenManager.GetTokenAsync();
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                }
+
                 response = await client.SendAsync(request, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
@@ -74,7 +99,9 @@
                     string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
 
                     if (forceGet)
+                    {
                         return JsonConvert.DeserializeObject<TResponse>(responseString, new JsonSerializerSettings { ContractResolver = new JsonIgnoreAttributeIgnorerContractResolver() });
+                    }
 
                     return schema.ResponseType is null ? default : _serializer.Deserialize<TResponse>(responseString);
                 }

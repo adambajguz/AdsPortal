@@ -31,12 +31,6 @@
             services.AddHttpClient("MagicOperationsAPI", (services, c) =>
             {
                 c.BaseAddress = new Uri(cfg.Item2.BaseApiPath);
-
-                //Why does it throw: System.InvalidOperationException: Cannot resolve scoped service 'MagicOperations.Services.AuthTokenHolder' from root provider.
-                //AuthTokenHolder tokenHolder = services.GetRequiredService<AuthTokenHolder>();
-
-                //if (tokenHolder.HasToken)
-                //    c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenHolder.Token);
             });
 
             return services;

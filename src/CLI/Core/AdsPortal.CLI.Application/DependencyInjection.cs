@@ -3,6 +3,7 @@
     using System;
     using System.Net.Http.Headers;
     using AdsPortal.CLI.Application.Services;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using Typin;
 
@@ -25,7 +26,7 @@
 
                 if (tokenHolder.HasToken)
                 {
-                    cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenHolder.Token);
+                    cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, tokenHolder.Token);
                 }
             });
 

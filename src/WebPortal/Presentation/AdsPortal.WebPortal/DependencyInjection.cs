@@ -9,7 +9,9 @@ namespace AdsPortal.WebPortal
     using Blazored.SessionStorage;
     using MagicOperations;
     using MagicOperations.Components.OperationRenderers;
+    using MagicOperations.Interfaces;
     using Microsoft.AspNetCore.Components.Authorization;
+    using Microsoft.AspNetCore.Components.Server;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +27,7 @@ namespace AdsPortal.WebPortal
             services.AddScoped<IMarkdownService, MarkdownService>();
             services.AddScoped<IMediaService, MediaService>();
 
+            services.AddHttpContextAccessor();
             //services.AddHttpClient();
 
             services.AddMagicOperations((builder) =>
@@ -56,11 +59,22 @@ namespace AdsPortal.WebPortal
                 });
             });
 
-           services.AddScoped<AuthenticationStateProvider, CustomAuthenticationProvider>();
-           services.AddAuthorizationCore();
-           services.AddBlazoredSessionStorage();
-           services.AddScoped<IAccountService, AccountService>();
-           services.AddScoped<ITokenManagerService, TokenManagerService>();
+            services.AddBlazoredSessionStorage();
+
+            //services.AddAuthorizationCore();
+            services.AddAuthentication();
+
+            //services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationProvider>();
+            services.AddScoped<IHostEnvironmentAuthenticationStateProvider>(sp =>
+            {
+                // this is safe because the `RevalidatingIdentityAuthenticationStateProvider` extends the `ServerAuthenticationStateProvider`
+                var provider = (ServerAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>();
+                return provider;
+            });
+
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITokenManagerService, TokenManagerService>();
 
             return services;
         }

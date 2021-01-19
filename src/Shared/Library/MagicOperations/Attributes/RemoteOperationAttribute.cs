@@ -1,10 +1,6 @@
 namespace MagicOperations.Attributes
 {
     using System;
-    using MagicOperations.Components;
-    using MagicOperations.Components.OperationRenderers;
-    using MagicOperations.Extensions;
-    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Marks a class as an operation definition. By default all classes marked with operation attribute are renderable. RenderableClass attribute can be used to change operation renderer component.

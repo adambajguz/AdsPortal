@@ -9,16 +9,20 @@
     using System.Threading.Tasks;
     using AdsPortal.WebPortal.Models;
     using Blazored.SessionStorage;
+    using MagicOperations.Interfaces;
+    using Microsoft.AspNetCore.Http;
 
     public class TokenManagerService : ITokenManagerService
     {
         private readonly HttpClient _httpClient;
         private readonly ISessionStorageService _sessionStorage;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TokenManagerService(HttpClient httpClient, ISessionStorageService sessionStorage)
+        public TokenManagerService(HttpClient httpClient, ISessionStorageService sessionStorage, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _sessionStorage = sessionStorage;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private bool ValidateTokenExpiration(string token)
@@ -28,6 +32,7 @@
             {
                 return false;
             }
+
             string expirationSeconds = claims.Where(_ => _.Type.ToLower() == "exp").Select(_ => _.Value).FirstOrDefault();
             if (string.IsNullOrEmpty(expirationSeconds))
             {
@@ -49,14 +54,24 @@
             {
                 return string.Empty;
             }
+
             TokenModel authResponse = await response.Content.ReadFromJsonAsync<TokenModel>();
+
             await _sessionStorage.SetItemAsync<string>("token", authResponse.Token);
             await _sessionStorage.SetItemAsync<string>("refreshToken", authResponse.RefreshToken);
+
             return authResponse.Token;
         }
 
         public async Task<string> GetTokenAsync()
         {
+            bool isPreRendering = !(_httpContextAccessor.HttpContext?.Response.HasStarted ?? false);
+
+            if (isPreRendering)
+            {
+                return string.Empty;
+            }
+
             string token = await _sessionStorage.GetItemAsync<string>("token");
             if (string.IsNullOrEmpty(token))
             {
@@ -75,6 +90,7 @@
             }
 
             TokenModel tokenModel = new TokenModel { Token = token, RefreshToken = refreshToken };
+
             return await RefreshTokenEndPoint(tokenModel);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.WebPortal.Services.Auth
+﻿namespace MagicOperations.Interfaces
 {
     using System.Threading.Tasks;
 
