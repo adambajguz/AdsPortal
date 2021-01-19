@@ -45,14 +45,27 @@
         }
 
         [CustomAuthorize(Roles.Admin)]
-        [HttpDelete("cleanup")]
+        [HttpDelete("cleanup/by-key")]
         [SwaggerOperation(
-            Summary = "Delete audit log",
-            Description = "Deletes route log")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Route log deleted")]
+            Summary = "Delete audit logs with specified key",
+            Description = "Deletes route log  with specified key")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Logs deleted")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> CleanupAuditLog([FromBody] CleanupEntityAuditLogCommand request)
+        public async Task<IActionResult> CleanupAuditLogByKey([FromBody] CleanupEntityAuditLogByKeyCommand request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
+        [CustomAuthorize(Roles.Admin)]
+        [HttpDelete("cleanup/by-table")]
+        [SwaggerOperation(
+            Summary = "Delete audit log with specified table name",
+            Description = "Deletes route log with specified table name")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Logs deleted")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, null, typeof(ExceptionResponse))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
+        public async Task<IActionResult> CleanupAuditLogByTableName([FromBody] CleanupEntityAuditLogByTableNameCommand request)
         {
             return Ok(await Mediator.Send(request));
         }
