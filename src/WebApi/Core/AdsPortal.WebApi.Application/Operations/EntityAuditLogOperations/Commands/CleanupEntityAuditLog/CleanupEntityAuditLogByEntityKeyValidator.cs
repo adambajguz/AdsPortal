@@ -3,9 +3,9 @@
     using AdsPortal.WebApi.Application.Constants;
     using FluentValidation;
 
-    public sealed class CleanupEntityAuditLogByKeyValidator : AbstractValidator<CleanupEntityAuditLogByKeyCommand>
+    public sealed class CleanupEntityAuditLogByEntityKeyValidator : AbstractValidator<CleanupEntityAuditLogByEntityKeyCommand>
     {
-        public CleanupEntityAuditLogByKeyValidator()
+        public CleanupEntityAuditLogByEntityKeyValidator()
         {
             RuleFor(x => x.Key).NotEmpty()
                                .WithMessage(ValidationMessages.General.IsNullOrEmpty);

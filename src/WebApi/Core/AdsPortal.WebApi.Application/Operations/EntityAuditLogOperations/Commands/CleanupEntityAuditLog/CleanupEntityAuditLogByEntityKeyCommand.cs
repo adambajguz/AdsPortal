@@ -10,11 +10,11 @@ namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Comma
     using MediatR;
     using MediatR.GenericOperations.Abstractions;
 
-    public sealed record CleanupEntityAuditLogByKeyCommand : IOperation
+    public sealed record CleanupEntityAuditLogByEntityKeyCommand : IOperation
     {
         public Guid Key { get; init; }
 
-        private sealed class Handler : IRequestHandler<CleanupEntityAuditLogByKeyCommand>
+        private sealed class Handler : IRequestHandler<CleanupEntityAuditLogByEntityKeyCommand>
         {
             private readonly IAppRelationalUnitOfWork _uow;
 
@@ -23,9 +23,9 @@ namespace AdsPortal.WebApi.Application.Operations.EntityAuditLogOperations.Comma
                 _uow = uow;
             }
 
-            public async Task<Unit> Handle(CleanupEntityAuditLogByKeyCommand request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(CleanupEntityAuditLogByEntityKeyCommand request, CancellationToken cancellationToken)
             {
-                await new CleanupEntityAuditLogByKeyValidator().ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
+                await new CleanupEntityAuditLogByEntityKeyValidator().ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
                 List<EntityAuditLog> logs = await _uow.EntityAuditLogs.AllAsync(x => x.Key == request.Key, cancellationToken: cancellationToken);
 
