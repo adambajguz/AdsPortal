@@ -17,14 +17,8 @@
 
     [Route("api/entity-audit-log")]
     [SwaggerTag("Revert entity and get entity audit log")]
-    public sealed class EntityAuditLogController : BaseController
+    public sealed class EntityAuditLogController : BaseApiController
     {
-        public const string Revert = nameof(RevertEntityUsingAuditLog);
-        public const string GetDetails = nameof(GetAuditLogDetails);
-        public const string Cleanup = nameof(CleanupAuditLog);
-        public const string GetAllForEntity = nameof(GetEntityAuditLogsForEntityList);
-        public const string GetAll = nameof(GetEntityAuditLogsList);
-
         [CustomAuthorize(Roles.Admin)]
         [HttpPost("revert")]
         [SwaggerOperation(

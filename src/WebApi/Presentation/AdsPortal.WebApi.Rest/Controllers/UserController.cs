@@ -23,21 +23,8 @@
 
     [Route("api/user")]
     [SwaggerTag("Authenticate, create, update, and get user")]
-    public sealed class UserController : BaseController
+    public sealed class UserController : BaseApiController
     {
-        public const string Authenticate = nameof(AuthenticateUser);
-        public const string ResetPasswordStep1 = nameof(ResetUserPasswordStep1);
-        public const string ResetPasswordStep2 = nameof(ResetUserPasswordStep2);
-        public const string Create = nameof(CreateUser);
-        public const string GetCurrentDetails = nameof(GetCurrentUserDetails);
-        public const string GetDetails = nameof(GetUserDetails);
-        public const string Update = nameof(UpdateUser);
-        public const string Patch = nameof(PatchUser);
-        public const string Delete = nameof(DeleteUser);
-        public const string ChangePassword = nameof(ChangeUserPassword);
-        public const string GetAll = nameof(GetUsersList);
-        public const string GetPaged = nameof(GetPagedUsersList);
-
         [HttpPost("auth")]
         [SwaggerOperation(
             Summary = "Login a user",
@@ -182,7 +169,7 @@
         }
 
         [CustomAuthorize(Roles.Admin)]
-        [HttpGet("get-paged", Name = GetPaged)]
+        [HttpGet("get-paged")]
         [SwaggerOperation(
          Summary = "Get paged users",
          Description = "Gets a paged list of users")]

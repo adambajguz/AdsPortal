@@ -7,13 +7,13 @@
 
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public abstract class BaseController : ControllerBase
+    public abstract class BaseApiController : ControllerBase
     {
         private readonly Lazy<IMediator> _mediator;
 
         protected IMediator Mediator => _mediator.Value;
 
-        protected BaseController()
+        protected BaseApiController()
         {
             _mediator = new Lazy<IMediator>(() => HttpContext.RequestServices.GetRequiredService<IMediator>());
         }

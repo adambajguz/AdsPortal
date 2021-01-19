@@ -70,6 +70,7 @@ namespace AdsPortal.WebApi
                     .AddGrpcApi();
 
             services.AddMvc()
+                    .AddControllersAsServices()
                     .AddMvcSerializer()
                     .AddValidation();
 

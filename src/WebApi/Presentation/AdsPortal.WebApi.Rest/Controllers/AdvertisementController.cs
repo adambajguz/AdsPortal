@@ -18,15 +18,8 @@ namespace AdsPortal.WebApi.Rest.Controllers
 
     [Route("api/advertisement")]
     [SwaggerTag("Create, update, and get advertisement")]
-    public sealed class AdvertisementController : BaseController
+    public sealed class AdvertisementController : BaseApiController
     {
-        public const string Create = nameof(CreateAdvertisement);
-        public const string GetDetails = nameof(GetAdvertisementDetails);
-        public const string Update = nameof(UpdateAdvertisement);
-        public const string Delete = nameof(DeleteAdvertisement);
-        public const string GetAll = nameof(GetAdvertisementsList);
-        public const string GetPaged = nameof(GetPagedAdvertisementsList);
-
         [CustomAuthorize(Roles.User)]
         [HttpPost("create")]
         [SwaggerOperation(

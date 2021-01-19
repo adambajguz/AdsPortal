@@ -20,20 +20,8 @@
 
     [Route("api/media/")]
     [SwaggerTag("Get media")]
-    public sealed class MediaItemController : BaseController
+    public sealed class MediaItemController : BaseApiController
     {
-        public const string Create = nameof(CreateMedia);
-        public const string GetFileByPath = nameof(GetMediaFileByPath);
-        public const string GetFileById = nameof(GetMediaFileById);
-        public const string GetDetailsByPath = nameof(GetMediaDetailsByPath);
-        public const string GetDetailsById = nameof(GetMediaDetailsById);
-        public const string GetChecksumByPath = nameof(GetMediaChecksumByPath);
-        public const string GetChecksumById = nameof(GetMediaChecksumById);
-        public const string Delete = nameof(DeleteMedia);
-        public const string GetAll = nameof(GetMediaList);
-        public const string GetStatistics = nameof(GetMediaStatistics);
-        public const string GetPaged = nameof(GetPagedMediaList);
-
         [CustomAuthorize(Roles.User)]
         [HttpPost("create")]
         [SwaggerOperation(

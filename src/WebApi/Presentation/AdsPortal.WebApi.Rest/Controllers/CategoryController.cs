@@ -8,6 +8,8 @@
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Commands.UpdateCategory;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoriesList;
     using AdsPortal.WebApi.Application.Operations.CategoryOperations.Queries.GetCategoryDetails;
+    using AdsPortal.WebApi.Attributes;
+    using AdsPortal.WebApi.Domain.Jwt;
     using MediatR.GenericOperations.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -15,16 +17,9 @@
 
     [Route("api/category")]
     [SwaggerTag("Create, update, and get category")]
-    public sealed class CategoryController : BaseController
+    public sealed class CategoryController : BaseApiController
     {
-        public const string Create = nameof(CreateCategory);
-        public const string GetDetails = nameof(GetCategoryDetails);
-        public const string Update = nameof(UpdateCategory);
-        public const string Delete = nameof(DeleteCategory);
-        public const string GetAll = nameof(GetCategorysList);
-        public const string GetPaged = nameof(GetPagedCategorysList);
-
-        //[CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.Admin)]
         [HttpPost("create")]
         [SwaggerOperation(
             Summary = "Create new category",
@@ -37,7 +32,7 @@
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpGet("get/{id:guid}", Name = GetDetails)]
+        [HttpGet("get/{id:guid}")]
         [SwaggerOperation(
             Summary = "Get category details",
             Description = "Gets category details")]
@@ -49,7 +44,7 @@
             return Ok(await Mediator.Send(new GetCategoryDetailsQuery { Id = id }));
         }
 
-        //[CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.Admin)]
         [HttpPut("update/{id:guid}")]
         [SwaggerOperation(
             Summary = "Update category details",
@@ -63,7 +58,7 @@
             return Ok(await Mediator.Send(request with { Id = id }));
         }
 
-        //[CustomAuthorize(Roles.Admin)]
+        [CustomAuthorize(Roles.Admin)]
         [HttpDelete("delete/{id:guid}")]
         [SwaggerOperation(
             Summary = "Delete category",
