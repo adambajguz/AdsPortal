@@ -4,7 +4,7 @@
 
     public class NotFoundException : Exception
     {
-        public string EntityName { get; }
+        public string EntityName { get; } = string.Empty;
         public Guid? Id { get; }
 
         public NotFoundException(string entityName)
@@ -30,6 +30,18 @@
             : base($"{entityName} ({id}) not found.", innerException)
         {
             EntityName = entityName;
+            Id = id;
+        }
+
+        public NotFoundException(Guid id)
+            : base($"{id} not found.")
+        {
+            Id = id;
+        }
+
+        public NotFoundException(Guid id, Exception innerException)
+            : base($"{id} not found.", innerException)
+        {
             Id = id;
         }
     }
