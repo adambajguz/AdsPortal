@@ -1,9 +1,11 @@
 ﻿namespace AdsPortal.WebApi.Infrastructure.JobScheduler
 {
     using AdsPortal.Shared.Extensions.Extensions;
+    using AdsPortal.WebApi.Application.Extensions;
     using AdsPortal.WebApi.Application.Interfaces.JobScheduler;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Configurations;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Interfaces;
+    using AdsPortal.WebApi.Infrastructure.JobScheduler.Jobs;
     using AdsPortal.WebApi.Infrastructure.JobScheduler.Services;
     using Microsoft.Extensions.DependencyInjection;
     using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
@@ -23,6 +25,9 @@
                     services.AddMultipleInstanceHostedService<JobsProcessingHostedService>();
                 }
             }
+
+            services.AddJob<PeriodicCleanupJob>();
+            //services.AddMultipleInstanceHostedService<PeriodicCleanupJobStarter>();
 
             return services;
         }

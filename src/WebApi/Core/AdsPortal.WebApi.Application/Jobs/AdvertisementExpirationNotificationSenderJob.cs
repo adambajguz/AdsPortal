@@ -34,7 +34,7 @@
                                                                                       cancellationToken: cancellationToken);
             if (_logger.IsEnabled(LogLevel.Debug))
             {
-                _logger.LogDebug("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}): {Ads}.", adsAboutToExpire.Count, maxVisibleTo, adsAboutToExpire);
+                _logger.LogInformation("Sending notification for {Count} advertisement(s) that are about to expire (VisibleTo <= {VisibleTo}): {Ads}.", adsAboutToExpire.Count, maxVisibleTo, adsAboutToExpire);
             }
             else
             {
