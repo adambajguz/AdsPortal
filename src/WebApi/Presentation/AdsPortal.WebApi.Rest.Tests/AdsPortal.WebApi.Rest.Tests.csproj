@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -28,9 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CLI\Presentation\AdsPortal.CLI\AdsPortal.CLI.csproj" />
-    <ProjectReference Include="..\WebApi\Presentation\AdsPortal.WebApi\AdsPortal.WebApi.csproj" />
-    <ProjectReference Include="..\WebPortal\Presentation\AdsPortal.WebPortal\AdsPortal.WebPortal.csproj" />
+    <Folder Include="Category\" />
+    <Folder Include="Advertisement\" />
+    <Folder Include="EntityAuditLog\" />
+    <Folder Include="MediaItem\" />
+    <Folder Include="User\" />
   </ItemGroup>
 
 </Project>
