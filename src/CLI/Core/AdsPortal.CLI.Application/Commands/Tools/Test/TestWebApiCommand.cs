@@ -1,5 +1,6 @@
 ﻿namespace AdsPortal.CLI.Application.Commands.Tools.Test
 {
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Diagnostics;
     using System.IO;
@@ -35,42 +36,42 @@
             console.Output.WriteLine("Current directory is: {0}", current);
             console.Output.WriteLine("Current directory is: {0}", Path.GetFullPath(Path.Combine(current, "../../../../../../")));
 
-            var buildResult = await Cli.Wrap("dotnet")
-                                       .WithWorkingDirectory("../../../../../../WebApi/Presentation/AdsPortal.WebApi")
-                                       .WithArguments(@$"build AdsPortal.WebApi.csproj -c Release -v m -o {current}/WebApi_Test")
-                                       .WithEnvironmentVariables(e => e.Set("ASPNETCORE_ENVIRONMENT", "Test"))
-                                       .WithValidation(CommandResultValidation.ZeroExitCode)
-                                       .WithStandardOutputPipe(PipeTarget.ToStream(console.Output.BaseStream))
-                                       .WithStandardErrorPipe(PipeTarget.ToStream(console.Error.BaseStream))
-                                       .ExecuteBufferedAsync();
+            //var buildResult = await Cli.Wrap("dotnet")
+            //                           .WithWorkingDirectory("../../../../../../WebApi/Presentation/AdsPortal.WebApi")
+            //                           .WithArguments(@$"build AdsPortal.WebApi.csproj -c Release -v m -o {current}/WebApi_Test")
+            //                           .WithEnvironmentVariables(e => e.Set("ASPNETCORE_ENVIRONMENT", "Test"))
+            //                           .WithValidation(CommandResultValidation.ZeroExitCode)
+            //                           .WithStandardOutputPipe(PipeTarget.ToStream(console.Output.BaseStream))
+            //                           .WithStandardErrorPipe(PipeTarget.ToStream(console.Error.BaseStream))
+            //                           .ExecuteBufferedAsync();
 
-            Process myProcess = new Process();
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = $"WebApi_Test\\AdsPortal.WebApi.exe",
+                Arguments = "",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = false,
+                CreateNoWindow = false
+            };
+            processStartInfo.EnvironmentVariables.Add("ASPNETCORE_ENVIRONMENT", "Test");
 
-            myProcess.StartInfo.UseShellExecute = true;
-            // You can start any process, HelloWorld is a do-nothing example.
-            myProcess.StartInfo.FileName = $"{current}\\WebApi_Test\\AdsPortal.WebApi.exe";
-            myProcess.Start();
-            // This code assumes the process you are starting will terminate itself.
-            // Given that is is started without a window so you cannot terminate it
-            // on the desktop, it must terminate itself or you can do it programmatically
-            // from this application using the Kill method.
+            var process = new Process
+            {
+                StartInfo = processStartInfo
+            };
 
+            process.Start();
 
-            //using (Process process = new Process())
-            //{
-            //    process.StartInfo.UseShellExecute = false;
-            //    process.StartInfo.UseShellExecute = false;
-            //    process.StartInfo.FileName = $"{current}\\WebApi_Test\\AdsPortal.WebApi.exe";
-            //    process.StartInfo.EnvironmentVariables.Add("ASPNETCORE_ENVIRONMENT", "Test");
-            //    process.Start();
+            await Task.Delay(10000);
+            process.Close();
 
-            //await Task.Delay(10000);
-
-            //    process.Close();
-            //}
+            console.Output.Write(process.StandardOutput.ReadToEnd());
+            console.Output.Write(process.StandardError.ReadToEnd());
 
             await _cliCommandExecutor.ExecuteCommandAsync(@$"tools database drop -c ""{ConnectionString}"" -n ""{DatabaseName}"""); //TODO add command builder
-            //_cliApplicationLifetime.RequestStop();
+            // _cliApplicationLifetime.RequestStop();
         }
     }
 }

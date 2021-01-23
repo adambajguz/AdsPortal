@@ -136,5 +136,141 @@
                     throw new ApiException("Unknown error");
             }
         }
+
+        public async Task<TResponse?> SendAsync<TRequest, TResponse>(TRequest requestData, HttpMethod httpMethod, string path, CancellationToken cancellationToken = default)
+            where TRequest : notnull
+            where TResponse : class
+        {
+            HttpResponseMessage response;
+            try
+            {
+                string serializedModel = _serializer.Serialize(requestData);
+
+                HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(path, UriKind.Relative),
+                    Method = httpMethod,
+                    Content = new StringContent(serializedModel, Encoding.UTF8, MediaTypeNames.Application.Json),
+                };
+
+                AuthenticationState authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+
+                if (authenticationState.User.Identity.IsAuthenticated)
+                {
+                    //request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, await _tokenManager.GetTokenAsync());
+                }
+
+                var token = await _tokenManager.GetTokenAsync();
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                }
+
+                response = await client.SendAsync(request, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                    return _serializer.Deserialize<TResponse>(responseString);
+                }
+            }
+            catch (SerializerException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize response.");
+                throw new ApiException("Server response error", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unknown error.");
+                throw new ApiException("Server response error", ex);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.BadRequest:
+                    string error = await response.Content.ReadAsStringAsync(cancellationToken);
+                    throw new ApiException(error); //TODO: improve
+
+                case System.Net.HttpStatusCode.Unauthorized:
+                    throw new ApiException("Unauthorized");
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    throw new ApiException("Forbidden");
+
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new ApiException("Not found");
+
+                default:
+                    throw new ApiException("Unknown error");
+            }
+        }
+
+        public async Task<TResponse?> SendAsync<TResponse>(HttpMethod httpMethod, string path, CancellationToken cancellationToken = default)
+            where TResponse : class
+        {
+            HttpResponseMessage response;
+            try
+            {
+                HttpClient client = _httpClientFactory.CreateClient("MagicOperationsAPI");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(path, UriKind.Relative),
+                    Method = httpMethod
+                };
+
+                AuthenticationState authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+
+                if (authenticationState.User.Identity.IsAuthenticated)
+                {
+                    //request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, await _tokenManager.GetTokenAsync());
+                }
+
+                var token = await _tokenManager.GetTokenAsync();
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+                }
+
+                response = await client.SendAsync(request, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                    return _serializer.Deserialize<TResponse>(responseString);
+                }
+            }
+            catch (SerializerException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize response.");
+                throw new ApiException("Server response error", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unknown error.");
+                throw new ApiException("Server response error", ex);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.BadRequest:
+                    string error = await response.Content.ReadAsStringAsync(cancellationToken);
+                    throw new ApiException(error); //TODO: improve
+
+                case System.Net.HttpStatusCode.Unauthorized:
+                    throw new ApiException("Unauthorized");
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    throw new ApiException("Forbidden");
+
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new ApiException("Not found");
+
+                default:
+                    throw new ApiException("Unknown error");
+            }
+        }
     }
 }

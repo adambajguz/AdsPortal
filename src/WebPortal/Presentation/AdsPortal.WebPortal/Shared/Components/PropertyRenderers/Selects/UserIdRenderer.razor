@@ -1,0 +1,18 @@
+﻿@inherits PropertyRenderer<Guid>
+
+<p><b>@(PropertySchema.DisplayName):</b> @Value</p>
+
+@code
+{
+    [Inject] IAccountService AccountService { get; init; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (IsWrite)
+        {
+            Value = await AccountService.GetUserIdFromToken();
+        }
+    }
+}

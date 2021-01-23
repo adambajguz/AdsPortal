@@ -4,6 +4,7 @@
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Models.Base;
     using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Image;
+    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Selects;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;
 
@@ -23,10 +24,10 @@
         [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromNullableGuidRenderer))]
         public Guid? CoverImageId { get; set; }
 
-        [RenderableProperty(DisplayName = "Category")]
+        [RenderableProperty(DisplayName = "Category", Renderer = typeof(CategorySelectRenderer))]
         public Guid CategoryId { get; set; }
 
-        [RenderableProperty(DisplayName = "Author")]
+        [RenderableProperty(DisplayName = "Author", Renderer = typeof(UserIdRenderer))]
         public Guid AuthorId { get; set; }
     }
 }
