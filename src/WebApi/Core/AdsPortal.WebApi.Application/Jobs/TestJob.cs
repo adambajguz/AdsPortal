@@ -17,7 +17,7 @@
             int millisecondsDelay = 5 + new Random().Next(0, 2000);
             //Console.WriteLine($"TestJob {millisecondsDelay}");
             await Task.Delay(millisecondsDelay, cancellationToken);
-            throw new NullReferenceException();
+            //throw new NullReferenceException();
         }
     }
 }

@@ -27,7 +27,7 @@
             }
 
             services.AddJob<PeriodicCleanupJob>();
-            //services.AddMultipleInstanceHostedService<PeriodicCleanupJobStarter>();
+            services.AddMultipleInstanceHostedService<PeriodicCleanupJobStarter>();
 
             return services;
         }

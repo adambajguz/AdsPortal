@@ -13,5 +13,8 @@
         public int ConcurentBatchSize { get; init; }
 
         public int MaxTries { get; init; }
+
+        public int MaxAge { get; init; }
+        public int CleanupPeriod { get; init; }
     }
 }

@@ -25,7 +25,7 @@ namespace AdsPortal.WebApi.Persistence.EntityConfigurations
                    .WithOne()
                    .HasForeignKey<Job>(x => x.RunAfterId)
                    .HasPrincipalKey<Job>(x => x.Id)
-                   .OnDelete(DeleteBehavior.ClientSetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
