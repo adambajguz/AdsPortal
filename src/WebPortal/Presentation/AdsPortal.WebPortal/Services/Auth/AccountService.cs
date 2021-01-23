@@ -51,7 +51,7 @@
                 return Guid.Empty;
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("nameidentifier") || x.Type.Equals("nameid") || x.Type.Equals(ClaimTypes.NameIdentifier));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.NameId));
             Guid userId = Guid.Parse(claim?.Value!);
 
             return userId;
@@ -65,7 +65,7 @@
                 return string.Empty;
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("emailaddress") || x.Type.Equals("email") || x.Type.Equals(ClaimTypes.Email));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Email));
 
             return claim?.Value ?? string.Empty;
         }
@@ -78,7 +78,7 @@
                 return string.Empty;
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("name") || x.Type.Equals("unique_name") || x.Type.Equals(ClaimTypes.Name));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.GivenName));
 
             return claim?.Value ?? string.Empty;
         }
@@ -91,7 +91,7 @@
                 return string.Empty;
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("surname") || x.Type.Equals("family_name") || x.Type.Equals(ClaimTypes.Surname));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.FamilyName));
 
             return claim?.Value ?? string.Empty;
         }

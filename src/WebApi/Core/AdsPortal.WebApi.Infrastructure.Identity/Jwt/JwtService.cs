@@ -57,12 +57,12 @@
             }
 
             ClaimsIdentity claims = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Surname, user.Surname),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), user.Id.GetType().Name),
-                });
+                 {
+                    new Claim(JwtRegisteredClaimNames.GivenName, user.Name),
+                    new Claim(JwtRegisteredClaimNames.FamilyName, user.Surname),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString(), user.Id.GetType().Name),
+                 });
 
             //if (roles == Roles.None)
             //    throw new InvalidOperationException("None role not supported for token generation");
@@ -148,7 +148,7 @@
         public Guid GetUserIdFromToken(string token)
         {
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("nameidentifier") || x.Type.Equals(ClaimTypes.NameIdentifier));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("nameidentifier") || x.Type.Equals(JwtRegisteredClaimNames.NameId));
             Guid userId = Guid.Parse(claim?.Value!);
 
             return userId;
@@ -157,7 +157,7 @@
         public string GetUserEmailFromToken(string token)
         {
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("emailaddress") || x.Type.Equals(ClaimTypes.Email));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("emailaddress") || x.Type.Equals(JwtRegisteredClaimNames.Email));
 
             return claim?.Value ?? string.Empty;
         }
@@ -165,7 +165,7 @@
         public string GetUserNameFromToken(string token)
         {
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("name") || x.Type.Equals(ClaimTypes.Name));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("name") || x.Type.Equals(JwtRegisteredClaimNames.GivenName));
 
             return claim?.Value ?? string.Empty;
         }
@@ -173,7 +173,7 @@
         public string GetUserSurnameFromToken(string token)
         {
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
-            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("surname") || x.Type.Equals(ClaimTypes.Surname));
+            Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals("surname") || x.Type.Equals(JwtRegisteredClaimNames.FamilyName));
 
             return claim?.Value ?? string.Empty;
         }
@@ -188,7 +188,7 @@
             JwtSecurityToken jwtToken = _handler.ReadJwtToken(token);
             List<Claim> claims = jwtToken.Claims.Where(x => x.Type.Equals("role") || x.Type.Equals(ClaimTypes.Role)).ToList();
 
-            return claims.FirstOrDefault(x => x.Value.Equals(role)) != null;
+            return claims.FirstOrDefault(x => x.Value.Equals(role.ToString())) != null;
         }
 
         public bool IsAnyOfRolesInToken(string? token, Roles roles)
