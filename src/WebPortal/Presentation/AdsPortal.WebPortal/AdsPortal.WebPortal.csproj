@@ -13,10 +13,14 @@
 
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <UserSecretsId>4bf35177-2332-4ac0-8c16-8921c6f8dead</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
     <PackageReference Include="Markdig" Version="0.23.0" />
   </ItemGroup>

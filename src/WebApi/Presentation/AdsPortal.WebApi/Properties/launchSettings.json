@@ -30,6 +30,13 @@
         "ASPNETCORE_ENVIRONMENT": "Test"
       },
       "applicationUrl": "https://localhost:5002"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/index.html",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
