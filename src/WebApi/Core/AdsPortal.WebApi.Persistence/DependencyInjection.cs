@@ -6,6 +6,7 @@
     using AdsPortal.WebApi.Domain.Entities;
     using AdsPortal.WebApi.Domain.Interfaces.Repository;
     using AdsPortal.WebApi.Domain.Interfaces.UoW;
+    using AdsPortal.WebApi.Persistence.AOP;
     using AdsPortal.WebApi.Persistence.Configurations;
     using AdsPortal.WebApi.Persistence.DbContext;
     using AdsPortal.WebApi.Persistence.Extensions;
@@ -15,6 +16,7 @@
     using AdsPortal.WebApi.Persistence.Repository;
     using AdsPortal.WebApi.Persistence.Repository.Generic;
     using AdsPortal.WebApi.Persistence.UoW;
+    using Castle.DynamicProxy;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,9 @@
         /// </summary>
         public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton(new Castle.DynamicProxy.ProxyGenerator());
+            services.AddScoped<IInterceptor, LoggingInterceptor>();
+
             services.AddConfiguration<FileDiskStorageConfiguration>(configuration);
             services.AddSingleton<IFileStorageService, FileDiskStorageService>();
             services.AddSingleton<IIdentifiableFileStorageService, IdentifiableFileStorageService>();
@@ -38,7 +43,7 @@
 
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();
 
-            services.AddScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
+            services.AddProxiedScoped<IAppRelationalUnitOfWork, RelationalUnitOfWork>();
 
             services.AddRepository<Advertisement, IAdvertisementsRepository, AdvertisementsRepository>();
             services.AddRepository<Category, ICategoriesRepository, CategoriesRepository>();

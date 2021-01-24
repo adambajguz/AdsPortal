@@ -2,6 +2,7 @@
 {
     using AdsPortal.WebApi.Domain.Abstractions.Base;
     using AdsPortal.WebApi.Domain.Interfaces.Repository.Generic;
+    using AdsPortal.WebApi.Persistence.AOP;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class RepositoryRegistrationExtensions
@@ -11,13 +12,13 @@
             where TService : class
             where TImplementation : class, TService, IGenericRelationalRepository<TEntity>
         {
-            services.AddTransient<TService, TImplementation>();
+            services.AddProxiedTransient<TService, TImplementation>();
 
-            services.AddTransient<IGenericRelationalReadOnlyRepository, TImplementation>();
-            services.AddTransient<IGenericRelationalReadOnlyRepository<TEntity>, TImplementation>();
+            services.AddProxiedTransient<IGenericRelationalReadOnlyRepository, TImplementation>();
+            services.AddProxiedTransient<IGenericRelationalReadOnlyRepository<TEntity>, TImplementation>();
 
-            services.AddTransient<IGenericRelationalRepository, TImplementation>();
-            services.AddTransient<IGenericRelationalRepository<TEntity>, TImplementation>();
+            services.AddProxiedTransient<IGenericRelationalRepository, TImplementation>();
+            services.AddProxiedTransient<IGenericRelationalRepository<TEntity>, TImplementation>();
 
             return services;
         }

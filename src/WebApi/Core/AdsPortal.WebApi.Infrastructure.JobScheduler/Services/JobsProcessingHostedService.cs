@@ -117,17 +117,19 @@
                                                              orderBy: (order) => order.OrderByDescending(x => x.Priority).ThenBy(x => x.JobNo),
                                                              take: toTake,
                                                              cancellationToken: cancellationToken);
-
-                        Interlocked.Add(ref _processing, queuedJobs.Count);
-
-                        foreach (var job in queuedJobs)
+                        if (queuedJobs.Count > 0)
                         {
-                            job.Status = JobStatuses.Taken;
-                            job.Instance = InstanceId;
-                            uow.Jobs.Update(job);
-                        }
+                            Interlocked.Add(ref _processing, queuedJobs.Count);
 
-                        await uow.SaveChangesAsync(cancellationToken);
+                            foreach (var job in queuedJobs)
+                            {
+                                job.Status = JobStatuses.Taken;
+                                job.Instance = InstanceId;
+                                uow.Jobs.Update(job);
+                            }
+
+                            await uow.SaveChangesAsync(cancellationToken);
+                        }
                     }
                     finally
                     {

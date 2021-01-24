@@ -1,12 +1,9 @@
 ﻿namespace AdsPortal.CLI.Application.Commands.Tools.Test
 {
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
     using CliWrap;
-    using CliWrap.Buffered;
     using Typin;
     using Typin.Attributes;
     using Typin.Console;
