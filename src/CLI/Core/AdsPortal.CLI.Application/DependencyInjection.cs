@@ -34,7 +34,7 @@
                 }
             });
 
-            services.AddAdsPortalWebApiClient("https://localhost:5001/api/", (provider) =>
+            services.AddAdsPortalWebApiClient("https://localhost:5001/", (provider) =>
             {
                 return new HttpClient();
             });

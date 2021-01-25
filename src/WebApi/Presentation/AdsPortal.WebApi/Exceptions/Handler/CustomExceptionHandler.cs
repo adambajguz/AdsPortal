@@ -29,7 +29,7 @@
                 FluentValidation.ValidationException ex => HandleValidationException(ex, ref errorObject),
                 ValidationFailedException ex => HandleValidationFaliedException(ex, ref errorObject),
                 ForbiddenException _ => HttpStatusCode.Forbidden,
-                NotFoundException _ => HttpStatusCode.NotFound,
+                NotFoundException _ => HttpStatusCode.NotFound, //TODO: replace 404 with other code, e.g. bad request
                 _ => HandleUnknownException(context, exception)
             };
 

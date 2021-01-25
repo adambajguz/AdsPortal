@@ -1,34 +1,34 @@
 ﻿namespace AdsPortal.CLI.Application.ApiTestScenarios
 {
     using System.Net.Http;
-    using System.Net.Http.Json;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdsPortal.CLI.Application.Models;
-    using AdsPortal.CLI.Application.TestScenarios;
+    using AdsPortal.WebApi.Client;
     using FluentAssertions;
     using Typin.Console;
 
-    public sealed class InitialStateTestScenario : ITestScenario
+    public sealed class InitialStateTestScenario : BaseApiTestScenario
     {
-        public string Name => "Initial state scenario";
+        public override string Name => "Initial state scenario";
 
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConsole _console;
+        private readonly WebApiClientAggregator _webApi;
 
-        public InitialStateTestScenario(IHttpClientFactory httpClientFactory, IConsole console)
+        public InitialStateTestScenario(WebApiClientAggregator webApi, HttpClient httpClient, IConsole console) : base(httpClient, console)
         {
-            _httpClientFactory = httpClientFactory;
-            _console = console;
+            _webApi = webApi;
         }
 
-        public async Task ExecuteAsync(CancellationToken cancellationToken = default)
+        public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            HttpClient client = _httpClientFactory.CreateClient("api");
-            var response = await client.PostAsJsonAsync("user/auth", this, _console.GetCancellationToken());
+            await WaitForApiOrThrow();
 
-            AuthenticateUserResponse? model = await response.Content.ReadFromJsonAsync<AuthenticateUserResponse>();
+            var response = await _webApi.UserClient.AuthAsync(new AuthenticateUserQuery
+            {
+                Email = "admin@adsportal.com",
+                Password = "Pass123$"
+            }, cancellationToken);
 
+            _webApi.SetToken(response.Token);
 
             true.Should().BeFalse();
         }

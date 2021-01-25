@@ -9,6 +9,8 @@
     {
         public static IServiceCollection AddAdsPortalWebApiClient(this IServiceCollection services, string baseUrl)
         {
+            services.TryAddTransient<WebApiClientAggregator>();
+
             services.TryAddTransient<HttpClient>();
 
             services.AddTransient<IAdvertisementClient>((provider) => new AdvertisementClient(baseUrl, provider.GetRequiredService<HttpClient>()));
@@ -22,6 +24,8 @@
 
         public static IServiceCollection AddAdsPortalWebApiClient(this IServiceCollection services, string baseUrl, HttpClient httpClient)
         {
+            services.TryAddTransient<WebApiClientAggregator>();
+
             services.AddTransient<IAdvertisementClient>((provider) => new AdvertisementClient(baseUrl, httpClient));
             services.AddTransient<ICategoryClient>((provider) => new CategoryClient(baseUrl, httpClient));
             services.AddTransient<IEntityAuditLogClient>((provider) => new EntityAuditLogClient(baseUrl, httpClient));
@@ -33,6 +37,8 @@
 
         public static IServiceCollection AddAdsPortalWebApiClient(this IServiceCollection services, string baseUrl, Func<IServiceProvider, HttpClient> action)
         {
+            services.TryAddTransient<WebApiClientAggregator>();
+
             services.AddTransient<IAdvertisementClient>((provider) =>
             {
                 HttpClient httpClient = action(provider);

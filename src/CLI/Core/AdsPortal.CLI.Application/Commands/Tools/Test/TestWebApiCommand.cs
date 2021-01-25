@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -54,6 +55,11 @@
 
             if (!NoBuild)
             {
+                console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Starting AdsPortal.WebApi build..."));
+
+                Stopwatch stopwatch = new();
+                stopwatch.Start();
+
                 BufferedCommandResult buildResult = await Cli.Wrap("dotnet")
                                                              .WithWorkingDirectory("../../../../../../WebApi/Presentation/AdsPortal.WebApi")
                                                              .WithArguments(@$"build AdsPortal.WebApi.csproj -c Release -v m -o {current}/WebApi_Test")
@@ -62,14 +68,15 @@
                                                              .WithStandardOutputPipe(PipeTarget.ToStream(console.Output.BaseStream))
                                                              .WithStandardErrorPipe(PipeTarget.ToStream(console.Error.BaseStream))
                                                              .ExecuteBufferedAsync(cancellationToken);
+                stopwatch.Stop();
 
                 if (buildResult.ExitCode != 0)
                 {
-                    console.Error.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"AdsPortal.WebApi failed to build."));
+                    console.Error.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"AdsPortal.WebApi failed to build after {stopwatch.ElapsedMilliseconds}ms."));
                     return;
                 }
 
-                console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"AdsPortal.WebApi was build successfully."));
+                console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"AdsPortal.WebApi was build successfully after {stopwatch.ElapsedMilliseconds}ms."));
                 console.Output.WriteLine();
             }
 
@@ -85,40 +92,41 @@
                 console.Output.WithForegroundColor(ConsoleColor.Cyan, (o) => o.WriteLine($"Running test scenario {currentId}/{count} '{scenario.Name}' ({scenario.GetType().FullName})..."));
                 console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Starting AdsPortal.WebApi..."));
 
-                CancellationTokenSource cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-
-                Thread apiThread = new(async () => await StartApi(console, cancellationTokenSource.Token));
-                apiThread.Start();
-
-                await Task.Delay(15000);
-                console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Executing scenario..."));
-
-                try
+                using (CancellationTokenSource cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
                 {
-                    await scenario.ExecuteAsync(cancellationToken);
-                    console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Successfully finished test scenario {currentId}/{count}..."));
-                }
-                catch (AssertionFailedException ex)
-                {
-                    console.Output.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"Test scenario {currentId}/{count} assertion failed."));
-                    ExceptionFormatter.WriteException(console.Error, ex);
+                    Thread apiThread = new(async () => await StartApi(console, cancellationTokenSource.Token));
+                    apiThread.Start();
 
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    console.Output.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"Test scenario {currentId}/{count} failed to execute."));
-                    ExceptionFormatter.WriteException(console.Error, ex);
+                    await Task.Delay(2000);
+                    console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Executing scenario..."));
 
-                    return;
-                }
-                finally
-                {
-                    cancellationTokenSource.Cancel();
-                    await _cliCommandExecutor.ExecuteCommandAsync(@$"tools database drop -c ""{ConnectionString}"" -n ""{DatabaseName}"""); //TODO add command builder
+                    try
+                    {
+                        await scenario.ExecuteAsync(cancellationToken);
+                        console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Successfully finished test scenario {currentId}/{count}..."));
+                    }
+                    catch (AssertionFailedException ex)
+                    {
+                        console.Output.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"Test scenario {currentId}/{count} assertion failed."));
+                        ExceptionFormatter.WriteException(console.Error, ex);
 
-                    console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Disposed test scenario {currentId}/{count}..."));
-                    console.Output.WriteLine();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        console.Output.WithForegroundColor(ConsoleColor.Red, (o) => o.WriteLine($"Test scenario {currentId}/{count} failed to execute."));
+                        ExceptionFormatter.WriteException(console.Error, ex);
+
+                        return;
+                    }
+                    finally
+                    {
+                        cancellationTokenSource.Cancel();
+                        await _cliCommandExecutor.ExecuteCommandAsync(@$"tools database drop -c ""{ConnectionString}"" -n ""{DatabaseName}"""); //TODO add command builder
+
+                        console.Output.WithForegroundColor(ConsoleColor.DarkGray, (o) => o.WriteLine($"Disposed test scenario {currentId}/{count}..."));
+                        console.Output.WriteLine();
+                    }
                 }
             }
         }

@@ -2,6 +2,6 @@
 {
     public interface IBaseWebApiClient
     {
-
+        public string? JwtToken { get; set; }
     }
 }
