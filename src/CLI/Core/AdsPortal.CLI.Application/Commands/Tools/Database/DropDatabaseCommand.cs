@@ -1,4 +1,4 @@
-﻿namespace AdsPortal.CLI.Application.Commands
+namespace AdsPortal.CLI.Application.Commands
 {
     using System;
     using System.Data.SqlClient;
@@ -34,13 +34,36 @@
 
                 using (SqlConnection connection = new(ConnectionString))
                 {
+                    await connection.OpenAsync(cancellationToken);
+
                     bool dbExists = await CheckDatabaseExists(connection, cancellationToken);
 
                     if (dbExists)
                     {
-                        using (SqlCommand command = new($"ALTER DATABASE [{DatabaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{DatabaseName}];", connection))
+                        using (SqlCommand command = new($"ALTER DATABASE [{DatabaseName}] SET OFFLINE WITH ROLLBACK IMMEDIATE;", connection))
                         {
-                            await connection.OpenAsync(cancellationToken);
+                            console.Output.WithForegroundColor(ConsoleColor.Magenta, (o) => o.Write("[1/4] "));
+                            await command.ExecuteNonQueryAsync(cancellationToken);
+                            console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Database '{DatabaseName}' set offline."));
+                        }
+
+                        using (SqlCommand command = new($"ALTER DATABASE [{DatabaseName}] SET ONLINE WITH ROLLBACK IMMEDIATE;", connection))
+                        {
+                            console.Output.WithForegroundColor(ConsoleColor.Magenta, (o) => o.Write("[2/4] "));
+                            await command.ExecuteNonQueryAsync(cancellationToken);
+                            console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Database '{DatabaseName}' set online."));
+                        }
+
+                        using (SqlCommand command = new($"ALTER DATABASE [{DatabaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;", connection))
+                        {
+                            console.Output.WithForegroundColor(ConsoleColor.Magenta, (o) => o.Write("[3/4] "));
+                            await command.ExecuteNonQueryAsync(cancellationToken);
+                            console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Database '{DatabaseName}' connections closed."));
+                        }
+
+                        using (SqlCommand command = new($"DROP DATABASE [{DatabaseName}];", connection))
+                        {
+                            console.Output.WithForegroundColor(ConsoleColor.Magenta, (o) => o.Write("[4/4] "));
                             await command.ExecuteNonQueryAsync(cancellationToken);
                             console.Output.WithForegroundColor(ConsoleColor.Green, (o) => o.WriteLine($"Database '{DatabaseName}' deleted successfully."));
                         }
@@ -49,6 +72,8 @@
                     {
                         console.Error.WithForegroundColor(ConsoleColor.DarkYellow, (e) => e.WriteLine($"Database '{DatabaseName}' does not exist."));
                     }
+
+                    await connection.CloseAsync();
                 }
             }
             catch (SqlException ex)
@@ -64,7 +89,6 @@
         {
             using (SqlCommand command = new($"SELECT database_id FROM sys.databases WHERE Name = '{DatabaseName}';", connection))
             {
-                await connection.OpenAsync(cancellationToken);
                 object? result = await command.ExecuteScalarAsync(cancellationToken);
 
                 if (result is not null && int.TryParse(result.ToString(), out int databaseID))
