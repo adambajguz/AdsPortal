@@ -3,7 +3,6 @@
     using System;
     using AdsPortal.WebPortal.Models;
     using AdsPortal.WebPortal.Models.Base;
-    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Image;
     using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Selects;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;
@@ -21,7 +20,7 @@
         [RenderableProperty(DisplayName = "Visible to")]
         public DateTime VisibleTo { get; set; }
 
-        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(ImageFromNullableGuidRenderer))]
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(MediaItemSelectRenderer))]
         public Guid? CoverImageId { get; set; }
 
         [RenderableProperty(DisplayName = "Category", Renderer = typeof(CategorySelectRenderer))]

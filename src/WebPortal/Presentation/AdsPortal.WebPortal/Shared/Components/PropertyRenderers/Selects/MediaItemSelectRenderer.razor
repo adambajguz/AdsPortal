@@ -1,0 +1,46 @@
+﻿@inherits PropertyRenderer<Guid?>
+
+@if (IsWrite)
+{
+    <p>
+        <label>
+            <b>@(PropertySchema.DisplayName): </b>
+
+            @if (Items is null)
+            {
+                <span>Loading...</span>
+            }
+            else
+            {
+                <select @bind="Value">
+                    <option>Select media</option>
+                    @foreach (var item in Items.Entries)
+                    {
+                        <option value="@item.Id">@string.Concat(item.VirtualDirectory, item.FileName)</option>
+                    }
+                </select>
+            }
+        </label>
+    </p>
+}
+else
+{
+    <p>@Value</p>
+}
+
+@code
+{
+    [Inject] IMagicApiService ApiService { get; init; } = default!;
+
+    private ListResult<MediaItemsListItem>? Items { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (IsWrite)
+        {
+            Items = await ApiService.SendAsync<ListResult<MediaItemsListItem>>(HttpMethod.Get, "media/get-all");
+        }
+    }
+}

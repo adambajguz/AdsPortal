@@ -57,6 +57,12 @@ namespace AdsPortal.WebPortal
                     g.Path = "user";
                     g.DisplayName = "User";
                 });
+
+                builder.AddGroupConfiguration(OperationGroups.Media, (g) =>
+                {
+                    g.Path = "media";
+                    g.DisplayName = "Media";
+                });
             });
 
             services.AddBlazoredSessionStorage();

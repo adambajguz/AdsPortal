@@ -160,7 +160,7 @@
             return Ok(await Mediator.Send(new DeleteMediaItemCommand { Id = id }));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        //[CustomAuthorize(Roles.Admin)]
         [HttpGet("get-all")]
         [SwaggerOperation(
             Summary = "Get all media items",
@@ -172,7 +172,7 @@
             return Ok(await Mediator.Send(new GetMediaItemsListQuery()));
         }
 
-        [CustomAuthorize(Roles.Admin)]
+        //[CustomAuthorize(Roles.Admin)]
         [HttpGet("get-paged")]
         [SwaggerOperation(
             Summary = "Get all media items",

@@ -1,10 +1,7 @@
 ﻿namespace AdsPortal.WebApi.Persistence.AOP
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using Castle.DynamicProxy;
-    using Microsoft.EntityFrameworkCore.Storage;
     using Microsoft.Extensions.Logging;
 
     public class LoggingInterceptor : IInterceptor

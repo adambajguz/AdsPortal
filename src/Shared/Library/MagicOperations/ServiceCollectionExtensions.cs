@@ -1,5 +1,7 @@
 ﻿namespace MagicOperations
 {
+    using System;
+    using System.Net.Http;
     using MagicModels;
     using MagicModels.Interfaces;
     using MagicModels.Services;
@@ -8,8 +10,6 @@
     using MagicOperations.Services;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
-    using System;
-    using System.Net.Http;
 
     public static class ServiceCollectionExtensions
     {
