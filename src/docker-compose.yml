@@ -4,7 +4,7 @@ services:
         build:
           context: .
           dockerfile: ./WebPortal/Presentation/AdsPortal.WebPortal/Dockerfile
-        environment: 
+        environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - ASPNETCORE_URLS=https://+:443;http://+:80
           - ASPNETCORE_Kestrel__Certificates__Default__Password=secret
@@ -14,13 +14,14 @@ services:
             - "5003:443"
         volumes:
             - ~/.aspnet/https:/https:ro
-        depends_on: 
+            - adsportal-logs:/app/logs
+        depends_on:
             - webapi
     webapi:
         build:
           context: .
           dockerfile: ./WebApi/Presentation/AdsPortal.WebApi/Dockerfile
-        environment: 
+        environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - ASPNETCORE_URLS=https://+:443;http://+:80
           - ASPNETCORE_Kestrel__Certificates__Default__Password=secret
@@ -33,6 +34,7 @@ services:
         volumes:
           - ./https:/https:ro
           - filestorage:/app/FileStorage
+          - adsportal-logs:/app/logs
     db:
         image: microsoft/mssql-server-linux:latest
         volumes:
@@ -43,3 +45,4 @@ services:
 volumes:
   mssql-server-linux-data:
   filestorage:
+  adsportal-logs:

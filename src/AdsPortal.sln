@@ -10,8 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{FFEFBF2E-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{1C230760-E16A-4E33-97C3-4BEE54F4DBD7}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		..\.gitignore = ..\.gitignore
 		clean.ps1 = clean.ps1
+		docker-compose.yml = docker-compose.yml
 		global.json = global.json
 	EndProjectSection
 EndProject
