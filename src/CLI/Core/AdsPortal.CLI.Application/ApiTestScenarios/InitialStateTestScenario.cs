@@ -30,6 +30,12 @@
             await Test(ShouldReturnNoCategories, cancellationToken);
             await Test(ShouldReturnNoAdvertisements, cancellationToken);
             await Test(ShouldReturnNoMediaItems, cancellationToken);
+
+            await Test(ShouldAddCategory, cancellationToken);
+            await Test(ShouldReturnOneCategory, cancellationToken);
+
+            await Test(ShouldAddUser, cancellationToken);
+            await Test(ShouldReturnTwoUsers, cancellationToken);
         }
 
         private async Task Login(CancellationToken cancellationToken)
@@ -117,6 +123,76 @@
 
             response.Count.Should().Be(0);
             response.Entries.Should().NotBeNull();
+        }
+
+        private async Task ShouldAddCategory(CancellationToken cancellationToken)
+        {
+            IdResult response = default!;
+
+            Func<Task> act = async () =>
+            {
+                response = await _webApi.CategoryClient.Create2Async(new CreateCategoryCommand
+                {
+                    Name = "name",
+                    Description = "description"
+                }, cancellationToken);
+            };
+
+            await act.Should().NotThrowAsync();
+
+            response.Should().NotBeNull();
+            response.Id.Should().NotBeEmpty();
+        }
+
+        private async Task ShouldReturnOneCategory(CancellationToken cancellationToken)
+        {
+            GetCategoriesListResponseListResult response = default!;
+
+            Func<Task> act = async () =>
+            {
+                response = await _webApi.CategoryClient.GetAll2Async(cancellationToken);
+            };
+
+            await act.Should().NotThrowAsync();
+
+            response.Count.Should().Be(1);
+            response.Entries.Should().NotBeNull();
+        }
+
+        private async Task ShouldAddUser(CancellationToken cancellationToken)
+        {
+            IdResult response = default!;
+
+            Func<Task> act = async () =>
+            {
+                response = await _webApi.UserClient.Create4Async(new CreateUserCommand
+                {
+                    Email = "name@domain.com",
+                    Password = "test1234$XYZ",
+                    Name = "newuser",
+                    Role = Roles.User,
+                    Surname = "newsurname"
+                }, cancellationToken);
+            };
+
+            await act.Should().NotThrowAsync();
+
+            response.Should().NotBeNull();
+            response.Id.Should().NotBeEmpty();
+        }
+
+        private async Task ShouldReturnTwoUsers(CancellationToken cancellationToken)
+        {
+            GetUsersListResponseListResult response = default!;
+
+            Func<Task> act = async () =>
+            {
+                response = await _webApi.UserClient.GetAll5Async(cancellationToken);
+            };
+
+            await act.Should().NotThrowAsync();
+
+            response.Count.Should().Be(2);
         }
     }
 }
