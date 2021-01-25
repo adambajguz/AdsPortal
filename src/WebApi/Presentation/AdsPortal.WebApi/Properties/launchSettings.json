@@ -7,6 +7,7 @@
       "launchBrowser": true,
       "launchUrl": "https://localhost:5002/api/index.html",
       "environmentVariables": {
+        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5002"
@@ -17,6 +18,7 @@
       "launchBrowser": true,
       "launchUrl": "https://localhost:5002/api/index.html",
       "environmentVariables": {
+        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "applicationUrl": "https://localhost:5002"
@@ -27,6 +29,7 @@
       "launchBrowser": true,
       "launchUrl": "https://localhost:5002/api/index.html",
       "environmentVariables": {
+        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Test"
       },
       "applicationUrl": "https://localhost:5002"

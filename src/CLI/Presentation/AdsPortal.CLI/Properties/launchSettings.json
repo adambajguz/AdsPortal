@@ -2,7 +2,8 @@
   "profiles": {
     "AdsPortal.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "interactive"
+      "commandLineArgs": "interactive",
+      "workingDirectory": "$(TargetDir)"
     }
   }
 }

@@ -3,16 +3,20 @@
   "profiles": {
     "AdsPortal.WebPortal (Development)": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
       "environmentVariables": {
+        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001"
     },
     "AdsPortal.WebPortal (Production)": {
       "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
       "environmentVariables": {
+        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "applicationUrl": "https://localhost:5001"
