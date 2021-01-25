@@ -5,7 +5,7 @@
     using AutoMapper;
     using AutoMapper.Extensions;
 
-    public sealed record FileResponse : ICustomMapping
+    public sealed record MediaFileResponse : ICustomMapping
     {
         public Guid Id { get; init; }
         public string Path { get; init; } = string.Empty;
@@ -14,7 +14,7 @@
 
         void ICustomMapping.CreateMappings(Profile configuration)
         {
-            configuration.CreateMap<MediaItem, FileResponse>()
+            configuration.CreateMap<MediaItem, MediaFileResponse>()
                          .ForMember(dest => dest.Path, opt => opt.MapFrom(src => src.VirtualDirectory + "/" + src.FileName));
         }
     }

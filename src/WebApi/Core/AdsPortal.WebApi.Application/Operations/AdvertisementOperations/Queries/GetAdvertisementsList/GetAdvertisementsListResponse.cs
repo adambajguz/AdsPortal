@@ -17,7 +17,7 @@
         public bool IsPublished { get; init; }
         public DateTime VisibleTo { get; init; }
 
-        public FileResponse? CoverImage { get; init; }
+        public MediaFileResponse? CoverImage { get; init; }
 
         public Guid CategoryId { get; init; }
         public Guid AuthorId { get; init; }

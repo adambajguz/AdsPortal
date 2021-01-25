@@ -1,8 +1,11 @@
 ﻿namespace AdsPortal.CLI.Application
 {
     using System;
+    using System.Net.Http;
     using System.Net.Http.Headers;
     using AdsPortal.CLI.Application.Services;
+    using AdsPortal.CLI.Application.TestScenarios;
+    using AdsPortal.WebApi.Client;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using Typin;
@@ -17,6 +20,7 @@
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             services.AddSingleton<AuthTokenHolder>();
+            services.AddAllTestScenariosAsTransient();
 
             services.AddHttpClient("api", (services, cfg) =>
             {
@@ -28,6 +32,11 @@
                 {
                     cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, tokenHolder.Token);
                 }
+            });
+
+            services.AddAdsPortalWebApiClient("https://localhost:5001/api/", (provider) =>
+            {
+                return new HttpClient();
             });
 
             return services;
