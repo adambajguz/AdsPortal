@@ -1,8 +1,10 @@
 ﻿namespace AdsPortal.WebPortal
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using AdsPortal.Shared.Extensions.Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
@@ -12,7 +14,7 @@
         //private const string AspNetCoreEnvironment = "ASPNETCORE_ENVIRONMENT";
 
         /// <summary>
-        /// Adds "appsettings.json" and "appsettings.{environmentName}.json". This file sould contain core configuration, including logging configuration.
+        /// Adds "appsettings.json" and "appsettings.{environmentName}.json". This files should contain core configuration, including logging configuration.
         /// </summary>
         public static IConfigurationBuilder AddCoreConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext)
         {
@@ -41,7 +43,21 @@
         /// </summary>
         public static IConfigurationBuilder AddConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext)
         {
-            //builder.AddApplicationConfigs(hostingContext);
+            string contentDirectory = hostingContext.HostingEnvironment.ContentRootPath;
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string diffDirectory = currentDirectory.TrimStart(contentDirectory);
+
+            bool isDiffDirectoryEmpty = string.IsNullOrWhiteSpace(diffDirectory);
+            if (!isDiffDirectoryEmpty && !diffDirectory.EndsWith(Path.DirectorySeparatorChar))
+            {
+                diffDirectory += Path.DirectorySeparatorChar;
+            }
+            else if (isDiffDirectoryEmpty)
+            {
+                diffDirectory = string.Empty;
+            }
+
+            //builder.AddApplicationConfigs(hostingContext, diffDirectory);
 
             if (hostingContext.HostingEnvironment.IsDevelopment())
             {

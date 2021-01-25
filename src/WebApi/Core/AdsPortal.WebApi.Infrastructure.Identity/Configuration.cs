@@ -5,12 +5,12 @@
 
     public static class Configuration
     {
-        public static IConfigurationBuilder AddIdentityConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext)
+        public static IConfigurationBuilder AddIdentityConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext, string diffDirectory)
         {
             string environmentName = hostingContext.HostingEnvironment.EnvironmentName;
 
-            builder.AddJsonFile($"appsettings.Identity.json", optional: false, reloadOnChange: false)
-                   .AddJsonFile($"appsettings.Identity.{environmentName}.json", optional: true, reloadOnChange: false);
+            builder.AddJsonFile($"{diffDirectory}appsettings.Identity.json", optional: false, reloadOnChange: false)
+                   .AddJsonFile($"{diffDirectory}appsettings.Identity.{environmentName}.json", optional: true, reloadOnChange: false);
 
             return builder;
         }

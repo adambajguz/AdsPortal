@@ -34,7 +34,7 @@ else
             <span> </span>
             <NavLink href="@(GetPageRoute(info, CalculatePageNumber(info, -1)))"><i class="fas fa-angle-left"></i> Previous page</NavLink>
         }
-        <span> [@query.Page / @info.LastPage] </span>
+        <span> [@query.Page / @(info.LastPage < 0 ? 0 : info.LastPage)] </span>
 
         if (info.CurrentPageNumber < info.LastPage)
         {

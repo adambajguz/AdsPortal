@@ -26,7 +26,7 @@
 
         public void SetToken(string? token)
         {
-            foreach(IBaseWebApiClient client in this)
+            foreach (IBaseWebApiClient client in this)
             {
                 client.JwtToken = token;
             }
@@ -34,7 +34,7 @@
 
         public void ClearToken()
         {
-            foreach(IBaseWebApiClient client in this)
+            foreach (IBaseWebApiClient client in this)
             {
                 client.JwtToken = null;
             }
@@ -51,7 +51,7 @@
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }
