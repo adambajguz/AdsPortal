@@ -6,6 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AdsPortal.CLI.Application.TestScenarios;
+    using Microsoft.Extensions.Logging;
     using Typin.Console;
 
     public abstract class BaseApiTestScenario : BaseTestScenario
@@ -14,7 +15,7 @@
 
         private readonly HttpClient _httpClient;
 
-        public BaseApiTestScenario(HttpClient httpClient, IConsole console) : base(console)
+        protected BaseApiTestScenario(HttpClient httpClient, IConsole console, ILogger logger) : base(console, logger)
         {
             _httpClient = httpClient;
         }
