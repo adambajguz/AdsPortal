@@ -101,7 +101,7 @@ namespace AdsPortal.WebApi.Rest.Controllers
             Description = "Gets a filtered list of all advertisements")]
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ListResult<GetAdvertisementsListResponse>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetFilteredAdvertisementsList([FromQuery] GetFilteredAdvertisementsListQuery request)
+        public async Task<IActionResult> GetFilteredAdvertisementsList([FromBody] GetFilteredAdvertisementsListQuery request)
         {
             return Ok(await Mediator.Send(request));
         }
@@ -112,9 +112,9 @@ namespace AdsPortal.WebApi.Rest.Controllers
             Description = "Gets a filtered and paged list of advertisements")]
         [SwaggerResponse(StatusCodes.Status200OK, null, typeof(PagedListResult<GetAdvertisementsListResponse>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
-        public async Task<IActionResult> GetFilteredPagedAdvertisementsList([FromQuery] GetFilteredPagedAdvertisementsListQuery request)
+        public async Task<IActionResult> GetFilteredPagedAdvertisementsList([FromQuery] GetFilteredPagedAdvertisementsListQuery request, [FromBody] GetFilteredPagedAdvertisementsListQuery body)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(body with { EntiresPerPage = request.EntiresPerPage, Page = request.Page }));
         }
     }
 }

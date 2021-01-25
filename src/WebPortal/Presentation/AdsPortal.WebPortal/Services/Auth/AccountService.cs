@@ -48,7 +48,9 @@
             string? token = await _sessionStorage.GetItemAsync<string>("token");
 
             if (token is null)
+            {
                 return Guid.Empty;
+            }
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
             Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.NameId));
@@ -62,7 +64,9 @@
             string? token = await _sessionStorage.GetItemAsync<string>("token");
 
             if (token is null)
+            {
                 return string.Empty;
+            }
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
             Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Email));
@@ -75,7 +79,9 @@
             string? token = await _sessionStorage.GetItemAsync<string>("token");
 
             if (token is null)
+            {
                 return string.Empty;
+            }
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
             Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.GivenName));
@@ -88,7 +94,9 @@
             string? token = await _sessionStorage.GetItemAsync<string>("token");
 
             if (token is null)
+            {
                 return string.Empty;
+            }
 
             JwtSecurityToken secToken = _handler.ReadJwtToken(token);
             Claim? claim = secToken.Claims?.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.FamilyName));

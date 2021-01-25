@@ -34,10 +34,12 @@
                 c.BaseAddress = new Uri(cfg.Item2.BaseApiPath);
             }).ConfigurePrimaryHttpMessageHandler(() =>
             {
-                var handler = new HttpClientHandler();
-                //if (hostingEnvironment.IsDevelopment())
-                //{
-                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                var handler = new HttpClientHandler
+                {
+                    //if (hostingEnvironment.IsDevelopment())
+                    //{
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+                };
                 //}
                 return handler;
             });

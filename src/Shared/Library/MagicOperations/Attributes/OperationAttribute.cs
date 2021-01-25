@@ -25,7 +25,7 @@ namespace MagicOperations.Attributes
         /// <summary>
         /// Operation type.
         /// </summary>
-        public Type? OperationRenderer { get; protected init; }
+        public Type? OperationRenderer { get; init; }
 
         /// <summary>
         /// Operation type.

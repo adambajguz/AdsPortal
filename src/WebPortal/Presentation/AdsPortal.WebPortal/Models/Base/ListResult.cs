@@ -6,6 +6,7 @@
 
     public interface IListResult
     {
+        [RenderableProperty(Mode = PropertyMode.Read)]
         int Count { get; }
     }
 
@@ -14,7 +15,10 @@
     public class ListResult<TResultEntry> : IListResult
         where TResultEntry : class
     {
+        [RenderableProperty(Mode = PropertyMode.Read)]
         public int Count { get; init; }
+
+        [RenderableProperty(Mode = PropertyMode.Read)]
         public List<TResultEntry>? Entries { get; init; }
     }
 }
