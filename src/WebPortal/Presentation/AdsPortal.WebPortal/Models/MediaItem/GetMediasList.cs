@@ -29,7 +29,7 @@
     [RenderableClass]
     public class MediaItemsListItem
     {
-        [RenderableProperty(DisplayName = "Actions", Order = int.MaxValue, Renderer = typeof(TableManagementControlsRenderer))]
+        [RenderableProperty(DisplayName = "Actions", Order = int.MaxValue, Renderer = typeof(TableManagementControlsNoUpdateRenderer))]
         public Guid Id { get; init; }
 
         [RenderableProperty(Renderer = typeof(TableStringRenderer))]

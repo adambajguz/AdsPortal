@@ -1,0 +1,18 @@
+﻿@inherits PropertyRenderer<Guid>
+
+<td>
+    @{
+        string detailsPath = string.Empty;
+        string updatePath = string.Empty;
+        string deletePath = string.Empty;
+
+        if (Context is IOperationRenderer operationRenderer)
+        {
+            detailsPath = operationRenderer.GetRouteToRealtedOperation(typeof(DetailsOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+            deletePath = operationRenderer.GetRouteToRealtedOperation(typeof(DeleteOperationRenderer<,>), new Dictionary<string, string> { { "Id", Value.ToString() } });
+        }
+    }
+
+    <NavLink class="button outline primary is-medium icon-only" title="Details" href="@detailsPath">Details <i class="fas fa-info-circle"></i></NavLink>
+    <NavLink class="button outline error is-medium icon-only" title="Delete" href="@deletePath"><i class="fas fa-trash"></i></NavLink>
+</td>
