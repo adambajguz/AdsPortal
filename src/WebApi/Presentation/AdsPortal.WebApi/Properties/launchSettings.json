@@ -5,9 +5,9 @@
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:5002/api/index.html",
+      "launchUrl": "/api/index.html",
       "environmentVariables": {
-        "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
+        //"ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5002"
@@ -16,7 +16,7 @@
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:5002/api/index.html",
+      "launchUrl": "/api/index.html",
       "environmentVariables": {
         "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Production"
@@ -27,7 +27,7 @@
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:5002/api/index.html",
+      "launchUrl": "/api/index.html",
       "environmentVariables": {
         "ASPNETCORE_CONTENTROOT": "$(ProjectDir)",
         "ASPNETCORE_ENVIRONMENT": "Test"

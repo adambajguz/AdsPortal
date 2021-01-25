@@ -1,6 +1,6 @@
 ﻿namespace AdsPortal.Shared.Infrastructure.Logging
 {
-    using System;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Serilog;
@@ -8,8 +8,6 @@
 
     public static class SerilogConfigurationExtensions
     {
-        private const string AspNetCoreEnvironment = "ASPNETCORE_ENVIRONMENT";
-
         public static ILoggingBuilder AddSerilog(this ILoggingBuilder builder)
         {
             builder.AddSerilog(dispose: true);
@@ -17,9 +15,13 @@
             return builder;
         }
 
-        public static IConfiguration ConfigureSerilog(this IConfiguration configuration, string appName, string projectName)
+        public static void ConfigureSerilog(this WebHostBuilderContext hostingContext, IConfiguration? configuration = null)
         {
-            string environmentName = Environment.GetEnvironmentVariable(AspNetCoreEnvironment) ?? "Production";
+            configuration ??= hostingContext.Configuration;
+
+            string appName = configuration.GetValue<string>("Application:Name");
+            string environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+            string projectName = hostingContext.HostingEnvironment.ApplicationName;
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
@@ -37,8 +39,13 @@
             Log.Logger = logger;
 
             logger.Information("Starting application {project} {env} ...");
+        }
 
-            return configuration;
+        public static void ConfigureSerilog(this WebHostBuilderContext hostingContext, IConfigurationBuilder configurationBuilder)
+        {
+            IConfiguration configuration = configurationBuilder.Build();
+
+            hostingContext.ConfigureSerilog(configuration);
         }
     }
 }

@@ -1,11 +1,12 @@
 namespace AdsPortal.WebPortal
 {
     using System;
+    using System.Diagnostics;
     using AdsPortal.Shared.Infrastructure.Logging;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Serilog;
 
     public class Program
@@ -21,6 +22,11 @@ namespace AdsPortal.WebPortal
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly.");
+
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
             }
             finally
             {
@@ -37,14 +43,16 @@ namespace AdsPortal.WebPortal
                           })
                           .ConfigureAppConfiguration((hostingContext, config) =>
                           {
+                              config.AddCoreConfigs(hostingContext);
+
+                              //Initialize serilog so that it can log config.AddConfigs(hostingContext) and other initialization errors
+                              hostingContext.ConfigureSerilog(config);
+
                               config.AddConfigs(hostingContext);
                           })
                           .ConfigureLogging((hostingContext, config) =>
                           {
-                              string appName = hostingContext.Configuration.GetValue<string>("Application:Name");
-                              string projectName = typeof(Program).Assembly.GetName().Name ?? string.Empty;
-
-                              hostingContext.Configuration.ConfigureSerilog(appName, projectName);
+                              config.ClearProviders();
                               config.AddSerilog();
                           })
                           .UseStaticWebAssets()

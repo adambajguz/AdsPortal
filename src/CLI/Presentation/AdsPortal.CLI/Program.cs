@@ -2,6 +2,7 @@ namespace AdsPortal.CLI
 {
     using System;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using Serilog;
     using Serilog.Exceptions;
     using Typin;
@@ -16,6 +17,8 @@ namespace AdsPortal.CLI
                     .UseStartup<CliStartup>()
                     .ConfigureLogging((builder) =>
                     {
+                        builder.ClearProviders();
+
                         Log.Logger = new LoggerConfiguration()
                             .MinimumLevel.Verbose()
                             .Enrich.WithMachineName()

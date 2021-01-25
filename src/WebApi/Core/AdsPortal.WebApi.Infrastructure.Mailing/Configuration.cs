@@ -5,10 +5,12 @@
 
     public static class Configuration
     {
-        public static IConfigurationBuilder AddMailingConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext, string environmentName)
+        public static IConfigurationBuilder AddMailingConfigs(this IConfigurationBuilder builder, WebHostBuilderContext hostingContext)
         {
-            builder.AddJsonFile($"appsettings.Mailing.json", optional: false)
-                   .AddJsonFile($"appsettings.Mailing.{environmentName}.json", optional: true);
+            string environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+
+            builder.AddJsonFile($"appsettings.Mailing.json", optional: false, reloadOnChange: false)
+                   .AddJsonFile($"appsettings.Mailing.{environmentName}.json", optional: true, reloadOnChange: false);
 
             return builder;
         }
