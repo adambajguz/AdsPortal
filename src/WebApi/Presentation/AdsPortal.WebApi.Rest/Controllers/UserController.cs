@@ -129,7 +129,7 @@
         }
 
         [CustomAuthorize(Roles.User)]
-        [HttpGet("delete/{id:guid}")]
+        [HttpDelete("delete/{id:guid}")]
         [SwaggerOperation(
             Summary = "Delete user",
             Description = "Deletes user")]

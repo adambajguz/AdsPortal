@@ -2,6 +2,7 @@
 {
     using System;
     using AdsPortal.WebPortal.Models;
+    using AdsPortal.WebPortal.Shared.Components.PropertyRenderers.Selects;
     using MagicModels.Attributes;
     using MagicOperations.Attributes;
     using Newtonsoft.Json;
@@ -22,10 +23,10 @@
         [RenderableProperty(DisplayName = "Visible to")]
         public DateTime VisibleTo { get; set; }
 
-        [RenderableProperty(DisplayName = "Cover")]
+        [RenderableProperty(DisplayName = "Cover", Renderer = typeof(MediaItemSelectRenderer))]
         public Guid? CoverImageId { get; set; }
 
-        [RenderableProperty(DisplayName = "Category")]
+        [RenderableProperty(DisplayName = "Category", Renderer = typeof(CategorySelectRenderer))]
         public Guid CategoryId { get; set; }
 
         [RenderableProperty(DisplayName = "Author")]

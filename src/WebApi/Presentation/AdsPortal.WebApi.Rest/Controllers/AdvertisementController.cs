@@ -114,7 +114,7 @@ namespace AdsPortal.WebApi.Rest.Controllers
         [SwaggerResponse(StatusCodes.Status401Unauthorized, null, typeof(ExceptionResponse))]
         public async Task<IActionResult> GetFilteredPagedAdvertisementsList([FromQuery] GetFilteredPagedAdvertisementsListQuery request, [FromBody] GetFilteredPagedAdvertisementsListQuery body)
         {
-            return Ok(await Mediator.Send(body with { EntiresPerPage = request.EntiresPerPage, Page = request.Page }));
+            return Ok(await Mediator.Send(body with { EntiresPerPage = request.EntiresPerPage, Page = request.Page}));
         }
     }
 }

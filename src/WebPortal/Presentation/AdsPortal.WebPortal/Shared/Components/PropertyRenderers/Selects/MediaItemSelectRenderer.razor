@@ -16,7 +16,7 @@
                     <option>Select media</option>
                     @foreach (var item in Items.Entries)
                     {
-                        <option value="@item.Id">@string.Concat(item.VirtualDirectory, item.FileName)</option>
+                        <option value="@item.Id">@string.Concat(item.VirtualDirectory, "/", item.FileName)</option>
                     }
                 </select>
             }

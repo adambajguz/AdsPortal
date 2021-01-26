@@ -31,16 +31,20 @@
 
                 if (query.Title is string && query.Description is string)
                 {
-                    Filter = x => x.IsPublished && x.VisibleTo >= now && x.Title.Contains(query.Title) && x.Description.Contains(query.Description);
+                    Filter = x => x.IsPublished == query.Visible && x.VisibleTo >= now && x.Title.Contains(query.Title) && x.Description.Contains(query.Description);
                 }
                 else if (query.Title is string)
                 {
-                    Filter = x => x.IsPublished && x.VisibleTo >= now && x.Title.Contains(query.Title);
+                    Filter = x => x.IsPublished == query.Visible && x.VisibleTo >= now && x.Title.Contains(query.Title);
 
                 }
                 else if (query.Description is string)
                 {
-                    Filter = x => x.IsPublished && x.VisibleTo >= now && x.Description.Contains(query.Description);
+                    Filter = x => x.IsPublished == query.Visible && x.VisibleTo >= now && x.Description.Contains(query.Description);
+                }
+                else
+                {
+                    Filter = x => x.IsPublished == query.Visible;
                 }
 
                 return base.OnInit(query, cancellationToken);

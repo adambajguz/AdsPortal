@@ -58,6 +58,7 @@
                             UserName = smtpConfig.SmtpUsername,
                             Password = smtpConfig.SmtpPassword
                         };
+                        client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
 
                         return client;
                     });
